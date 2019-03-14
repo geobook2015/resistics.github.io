@@ -1,0 +1,516 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>calculators.calibrator module &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="calculators.decimationParameters module" href="calculators.decimationParameters.html" />
+    <link rel="prev" title="calculators.calculator module" href="calculators.calculator.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="calculators.html">calculators package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="calculators.calculator.html">calculators.calculator module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">calculators.calibrator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.decimationParameters.html">calculators.decimationParameters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.decimator.html">calculators.decimator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.maskCalculator.html">calculators.maskCalculator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.processorRemoteReference.html">calculators.processorRemoteReference module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.processorSingleSite.html">calculators.processorSingleSite module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.spectrumCalculator.html">calculators.spectrumCalculator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.statisticCalculator.html">calculators.statisticCalculator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.windowParameters.html">calculators.windowParameters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.windowSelector.html">calculators.windowSelector module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.windower.html">calculators.windower module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dataObjects.html">dataObjects package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ioHandlers.html">ioHandlers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="calculators.html">calculators package</a> &raquo;</li>
+        
+      <li>calculators.calibrator module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/calculators.calibrator.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-calculators.calibrator">
+<span id="calculators-calibrator-module"></span><h1>calculators.calibrator module<a class="headerlink" href="#module-calculators.calibrator" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="calculators.calibrator.Calibrator">
+<em class="property">class </em><code class="descclassname">calculators.calibrator.</code><code class="descname">Calibrator</code><span class="sig-paren">(</span><em>calDirectory: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/calculators/calibrator.html#Calibrator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.calibrator.Calibrator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.calculators.calculator.Calculator</span></code></p>
+<p>Class for calibrating a time dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>calExt</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">Accepted calibration extensions</p>
+</dd>
+<dt><strong>calFormats</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">The calibration file formats of the respective extensions</p>
+</dd>
+<dt><strong>calDir</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Directory path of calibration files</p>
+</dd>
+<dt><strong>calFiles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of calibration files found in calibration directory</p>
+</dd>
+<dt><strong>calTypes :</strong></dt>
+<dd><p class="first last">Types of the calibration files found in calibration directory</p>
+</dd>
+<dt><strong>numCalFiles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of found calibration files in calibration directory</p>
+</dd>
+<dt><strong>useTheoretical</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Flag to use theoretical calibration function</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="57%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>__init__(calDirectory)</strong></td>
+<td>Initialise with calibration directory</td>
+</tr>
+<tr class="row-even"><td><strong>setCalDir(calDirectory)</strong></td>
+<td>Set the calibration directory path</td>
+</tr>
+<tr class="row-odd"><td><strong>findCalFiles()</strong></td>
+<td>Find calibration files in calibration directory</td>
+</tr>
+<tr class="row-even"><td><strong>calibrate(timeData, sensor, serial, chopper)</strong></td>
+<td>Calibrate time data</td>
+</tr>
+<tr class="row-odd"><td><strong>getCalFile(sensor, serial, chopper)</strong></td>
+<td>Get index of matching calibration flile in calFiles list</td>
+</tr>
+<tr class="row-even"><td><strong>calibrateChan(data, fs, calData)</strong></td>
+<td>Calibrate an individual channel</td>
+</tr>
+<tr class="row-odd"><td><strong>interpolateCalData(calData, f, spline)</strong></td>
+<td>Interpolate calibration data to same frequencies as channel data</td>
+</tr>
+<tr class="row-even"><td><strong>getTheoreticalCalData(sensor)</strong></td>
+<td>Get theoretical calibration data</td>
+</tr>
+<tr class="row-odd"><td><strong>printList()</strong></td>
+<td>Class status returned as list of strings</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="calculators.calibrator.Calibrator.calibrate">
+<code class="descname">calibrate</code><span class="sig-paren">(</span><em>timeData: resistics.dataObjects.timeData.TimeData, sensor: Dict[str, str], serial: Dict[str, str], chopper: Dict[str, str]</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="_modules/calculators/calibrator.html#Calibrator.calibrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.calibrator.Calibrator.calibrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calibrate time data</p>
+<p>For each channel in timeData, searches for a matching calibration file based on sensor type, serial number and chopper. If a calibration file is found, the channel is calibrated using the data in the file. If useTheoretical is False and no file is found, the data is not calibrated</p>
+<p>todo:
+If no calibration file is found and the channel is a magnetic data channel, a theoretical function can be used</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>timeData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">TimeData</span></dt>
+<dd><p class="first last">TimeData object</p>
+</dd>
+<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">Dictionary of sensor information with channels as the key and sensor as the value</p>
+</dd>
+<dt><strong>serial :</strong></dt>
+<dd><p class="first last">Dictionary of serial information with channels as the key and sensor as the value</p>
+</dd>
+<dt><strong>chopper :</strong></dt>
+<dd><p class="first last">Dictionary of chopper information with channels as the key and sensor as the value</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>timeData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">TimeData</span></dt>
+<dd><p class="first last">Calibration TimeData object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.calibrator.Calibrator.calibrateChan">
+<code class="descname">calibrateChan</code><span class="sig-paren">(</span><em>data: numpy.ndarray</em>, <em>sampleFreq: float</em>, <em>calData: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/calculators/calibrator.html#Calibrator.calibrateChan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.calibrator.Calibrator.calibrateChan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calibrate a channel</p>
+<p>Perform fourier transform of channel data, deconvolve (division) sensor impulse response and inverse fourier transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Channel data</p>
+</dd>
+<dt><strong>sampleFreq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Sampling frequency Hz</p>
+</dd>
+<dt><strong>calData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Calibration data</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Calibrated channel data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.calibrator.Calibrator.findCalFiles">
+<code class="descname">findCalFiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/calculators/calibrator.html#Calibrator.findCalFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.calibrator.Calibrator.findCalFiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find calibration files in calibration directory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.calibrator.Calibrator.getCalFile">
+<code class="descname">getCalFile</code><span class="sig-paren">(</span><em>sensor</em>, <em>serial</em>, <em>chopper</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/calculators/calibrator.html#Calibrator.getCalFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.calibrator.Calibrator.getCalFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get calibration file for a sensor, serial and chopper combination</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">serial</span></dt>
+<dd><p class="first last">Channel data</p>
+</dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Sampling frequency Hz</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Calibration data</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Index of file in calFiles list or -1 if file not found</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.calibrator.Calibrator.getTheoreticalCalData">
+<code class="descname">getTheoreticalCalData</code><span class="sig-paren">(</span><em>sensor: str</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/calculators/calibrator.html#Calibrator.getTheoreticalCalData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.calibrator.Calibrator.getTheoreticalCalData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get theoretical calibration data for magnetic channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Sensor type</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Theoretical calibration information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.calibrator.Calibrator.interpolateCalData">
+<code class="descname">interpolateCalData</code><span class="sig-paren">(</span><em>calData: numpy.ndarray</em>, <em>f: numpy.ndarray</em>, <em>spline: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/calculators/calibrator.html#Calibrator.interpolateCalData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.calibrator.Calibrator.interpolateCalData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolation calibration data on to frequency points</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>calData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Calibration data</p>
+</dd>
+<dt><strong>f</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Frequency array where calibration data is defined</p>
+</dd>
+<dt><strong>spline</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool (True)</span></dt>
+<dd><p class="first last">Boolean flag to use spline interpolation</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Calibration data interpolated to the frequency array f</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.calibrator.Calibrator.printList">
+<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/calculators/calibrator.html#Calibrator.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.calibrator.Calibrator.printList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class information as a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of strings with information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.calibrator.Calibrator.setCalDir">
+<code class="descname">setCalDir</code><span class="sig-paren">(</span><em>calDirectory: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/calculators/calibrator.html#Calibrator.setCalDir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.calibrator.Calibrator.setCalDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the calibration directory and find files</p>
+<p>Calibrator will automatically find calibration files in the provided directory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>calDirectory</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Path of directory containing calibration files</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="calculators.decimationParameters.html" class="btn btn-neutral float-right" title="calculators.decimationParameters module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="calculators.calculator.html" class="btn btn-neutral float-left" title="calculators.calculator module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

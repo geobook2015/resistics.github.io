@@ -1,0 +1,708 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>project.projectTransferFunction &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>project.projectTransferFunction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for project.projectTransferFunction</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Union</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.projectData</span> <span class="k">import</span> <span class="n">ProjectData</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.siteData</span> <span class="k">import</span> <span class="n">SiteData</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.transferFunctionData</span> <span class="k">import</span> <span class="n">TransferFunctionData</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.decimator</span> <span class="k">import</span> <span class="n">Decimator</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.windowSelector</span> <span class="k">import</span> <span class="n">WindowSelector</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.processorSingleSite</span> <span class="k">import</span> <span class="n">ProcessorSingleSite</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.processorRemoteReference</span> <span class="k">import</span> <span class="n">ProcessorRemoteReference</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.spectrumReader</span> <span class="k">import</span> <span class="n">SpectrumReader</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.transferFunctionReader</span> <span class="k">import</span> <span class="n">TransferFunctionReader</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.transferFunctionWriter</span> <span class="k">import</span> <span class="n">TransferFunctionWriter</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsChecks</span> <span class="k">import</span> <span class="n">parseKeywords</span><span class="p">,</span> <span class="n">isElectric</span><span class="p">,</span> <span class="n">isMagnetic</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsIO</span> <span class="k">import</span> <span class="n">checkFilepath</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">arrayToStringInt</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">plotOptionsTransferFunction</span><span class="p">,</span>
+    <span class="n">getTransferFunctionFigSize</span><span class="p">,</span>
+    <span class="n">plotOptionsTipper</span><span class="p">,</span>
+    <span class="n">transferFunctionColours</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">projectText</span><span class="p">,</span>
+    <span class="n">projectWarning</span><span class="p">,</span>
+    <span class="n">projectError</span><span class="p">,</span>
+    <span class="n">getDecimationParameters</span><span class="p">,</span>
+    <span class="n">getWindowParameters</span><span class="p">,</span>
+    <span class="n">getSingleSiteProcessor</span><span class="p">,</span>
+    <span class="n">getRemoteReferenceProcessor</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="getTransferFunctionData"><a class="viewcode-back" href="../../project.projectTransferFunction.html#project.projectTransferFunction.getTransferFunctionData">[docs]</a><span class="k">def</span> <span class="nf">getTransferFunctionData</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="n">site</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransferFunctionData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get transfer function data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projData : projecData</span>
+<span class="sd">        The project data</span>
+<span class="sd">    site : str</span>
+<span class="sd">        Site to get the transfer functiond data for</span>
+<span class="sd">    sampleFreq : int, float</span>
+<span class="sd">        The sampling frequency for which to get the transfer function data</span>
+<span class="sd">    specdir : str, optional</span>
+<span class="sd">        The spectra directories used</span>
+<span class="sd">    postpend : str, optional</span>
+<span class="sd">        The postpend on the transfer function files</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># deal with the postpend</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">postpend</span> <span class="o">=</span> <span class="s2">&quot;_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">postpend</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span>
+
+    <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">siteData</span><span class="o">.</span><span class="n">transFuncPath</span><span class="p">,</span>
+        <span class="s2">&quot;</span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">)),</span>
+        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_fs</span><span class="si">{:d}</span><span class="s2">_</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">),</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="c1"># check path</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">checkFilepath</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="n">projectWarning</span><span class="p">(</span><span class="s2">&quot;No transfer function file with name </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">projectText</span><span class="p">(</span>
+        <span class="s2">&quot;Reading transfer function for site </span><span class="si">{}</span><span class="s2">, sample frequency </span><span class="si">{}</span><span class="s2">, file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">path</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">tfReader</span> <span class="o">=</span> <span class="n">TransferFunctionReader</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">tfReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">tfReader</span><span class="o">.</span><span class="n">tfData</span></div>
+
+
+<div class="viewcode-block" id="processProject"><a class="viewcode-back" href="../../project.projectTransferFunction.html#project.projectTransferFunction.processProject">[docs]</a><span class="k">def</span> <span class="nf">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Process a project</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projData : ProjectData</span>
+<span class="sd">        The project data instance for the project    </span>
+<span class="sd">    sites : List[str], optional</span>
+<span class="sd">        List of sites </span>
+<span class="sd">    sampleFreqs : List[float], optional</span>
+<span class="sd">        List of sample frequencies to plot</span>
+<span class="sd">    specdir : str, optional</span>
+<span class="sd">        The spectra directories to use</span>
+<span class="sd">    inchans : List[str], optional</span>
+<span class="sd">        Channels to use as the input of the linear system</span>
+<span class="sd">    inputsite : str, optional</span>
+<span class="sd">        Site from which to take the input channels. The default is to use input and output channels from the same site        </span>
+<span class="sd">    outchans : List[str], optional</span>
+<span class="sd">        Channels to use as the output of the linear system</span>
+<span class="sd">    remotesite : str, optional</span>
+<span class="sd">        The site to use as the remote site</span>
+<span class="sd">    remotechans : List[str], optional</span>
+<span class="sd">        Channels to use from the remote reference site</span>
+<span class="sd">    crosschannels : List[str], optional</span>
+<span class="sd">        List of channels to use for cross powers</span>
+<span class="sd">    masks : Dict, optional</span>
+<span class="sd">        Masks dictionary for passing mask data        </span>
+<span class="sd">    postpend : str, optional</span>
+<span class="sd">        String to postpend to the transfer function output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSites</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;outchans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotesite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotechans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;crosschannels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span>
+        <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+        <span class="n">siteFreqs</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">sampleFreq</span> <span class="ow">in</span> <span class="n">siteFreqs</span><span class="p">:</span>
+            <span class="c1"># check if not included</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="n">processSite</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="processSite"><a class="viewcode-back" href="../../project.projectTransferFunction.html#project.projectTransferFunction.processSite">[docs]</a><span class="k">def</span> <span class="nf">processSite</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="n">site</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Process a single sampling frequency for a site</span>
+
+<span class="sd">    The site passed is assumed to be the output site (the output channels will come from this site). If channels from a different site are desired to be used as the input channels, this can be done by specifying the optional inputsite argument.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Give a few different examples here</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projData : ProjectData</span>
+<span class="sd">        The project data instance for the project</span>
+<span class="sd">    site : str</span>
+<span class="sd">        Site to process </span>
+<span class="sd">    sampleFreq : float, int</span>
+<span class="sd">        Sample frequency to process</span>
+<span class="sd">    specdir : str, optional</span>
+<span class="sd">        The spectra directories to use</span>
+<span class="sd">    inchans : List[str], optional</span>
+<span class="sd">        Channels to use as the input of the linear system</span>
+<span class="sd">    inputsite : str, optional</span>
+<span class="sd">        Site from which to take the input channels. The default is to use input and output channels from the same site</span>
+<span class="sd">    outchans : List[str], optional</span>
+<span class="sd">        Channels to use as the output of the linear system</span>
+<span class="sd">    remotesite : str, optional</span>
+<span class="sd">        The site to use as the remote site</span>
+<span class="sd">    remotechans : List[str], optional</span>
+<span class="sd">        Channels to use from the remote reference site</span>
+<span class="sd">    crosschannels : List[str], optional</span>
+<span class="sd">        List of channels to use for cross powers</span>
+<span class="sd">    masks : Dict, optional</span>
+<span class="sd">        Masks dictionary for passing mask data</span>
+<span class="sd">    postpend : str, optional</span>
+<span class="sd">        String to postpend to the transfer function output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;outchans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotesite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotechans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;crosschannels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">site</span>
+
+    <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Processing site </span><span class="si">{}</span><span class="s2">, sampling frequency </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">))</span>
+    <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+
+    <span class="c1"># define decimation parameters</span>
+    <span class="n">decParams</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">decParams</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+    <span class="n">winParams</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decParams</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="c1"># window selector</span>
+    <span class="n">winSelector</span> <span class="o">=</span> <span class="n">WindowSelector</span><span class="p">(</span>
+        <span class="n">projData</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">decParams</span><span class="p">,</span> <span class="n">winParams</span><span class="p">,</span> <span class="n">specdir</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># if two sites are duplicated (e.g. input site and output site), winSelector only uses distinct sites. Hence using site and inputSite is no problem even if they are the same</span>
+    <span class="n">processSites</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotesite&quot;</span><span class="p">]:</span>
+        <span class="n">processSites</span> <span class="o">=</span> <span class="p">[</span><span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotesite&quot;</span><span class="p">]]</span>
+        <span class="n">winSelector</span><span class="o">.</span><span class="n">setSites</span><span class="p">(</span><span class="n">processSites</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># if no remote site, then single site processing</span>
+        <span class="n">processSites</span> <span class="o">=</span> <span class="p">[</span><span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]]</span>
+        <span class="n">winSelector</span><span class="o">.</span><span class="n">setSites</span><span class="p">(</span><span class="n">processSites</span><span class="p">)</span>
+
+    <span class="c1"># add window masks</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">maskSite</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">maskSite</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">processSites</span><span class="p">:</span>
+                <span class="c1"># there is a site in the masks dictionary which is of no interest</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">][</span><span class="n">maskSite</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="c1"># a single mask</span>
+                <span class="n">winSelector</span><span class="o">.</span><span class="n">addWindowMask</span><span class="p">(</span><span class="n">maskSite</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">][</span><span class="n">maskSite</span><span class="p">])</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">][</span><span class="n">maskSite</span><span class="p">]):</span>
+                <span class="c1"># list of masks for the site</span>
+                <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">][</span><span class="n">maskSite</span><span class="p">]:</span>
+                    <span class="n">winSelector</span><span class="o">.</span><span class="n">addWindowMask</span><span class="p">(</span><span class="n">maskSite</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+
+    <span class="c1"># calculate the shared windows and print info</span>
+    <span class="n">winSelector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
+    <span class="n">winSelector</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+    <span class="n">winSelector</span><span class="o">.</span><span class="n">printDatetimeConstraints</span><span class="p">()</span>
+    <span class="n">winSelector</span><span class="o">.</span><span class="n">printWindowMasks</span><span class="p">()</span>
+    <span class="n">winSelector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
+    <span class="n">winSelector</span><span class="o">.</span><span class="n">printWindowsForFrequency</span><span class="p">()</span>
+
+    <span class="c1"># now have the windows, pass the winSelector to processors</span>
+    <span class="n">outPath</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">transFuncPath</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotesite&quot;</span><span class="p">]:</span>
+        <span class="n">projectText</span><span class="p">(</span>
+            <span class="s2">&quot;Remote reference processing with sites: in = </span><span class="si">{}</span><span class="s2">, out = </span><span class="si">{}</span><span class="s2">, reference = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">],</span> <span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotesite&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">processor</span> <span class="o">=</span> <span class="n">getRemoteReferenceProcessor</span><span class="p">(</span><span class="n">winSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">processor</span><span class="o">.</span><span class="n">setRemote</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotesite&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotechans&quot;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">projectText</span><span class="p">(</span>
+            <span class="s2">&quot;Single site processing with sites: in = </span><span class="si">{}</span><span class="s2">, out = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">],</span> <span class="n">site</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">processor</span> <span class="o">=</span> <span class="n">getSingleSiteProcessor</span><span class="p">(</span><span class="n">winSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="c1"># add the input and output site</span>
+    <span class="n">processor</span><span class="o">.</span><span class="n">setInput</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">])</span>
+    <span class="n">processor</span><span class="o">.</span><span class="n">setOutput</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;outchans&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;crosschannels&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">processor</span><span class="o">.</span><span class="n">crossChannels</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;crosschannels&quot;</span><span class="p">]</span>
+    <span class="n">processor</span><span class="o">.</span><span class="n">postpend</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span>
+    <span class="n">processor</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+    <span class="n">processor</span><span class="o">.</span><span class="n">process</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="viewTransferFunction"><a class="viewcode-back" href="../../project.projectTransferFunction.html#project.projectTransferFunction.viewTransferFunction">[docs]</a><span class="k">def</span> <span class="nf">viewTransferFunction</span><span class="p">(</span><span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;View transfer function data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projData : projecData</span>
+<span class="sd">        The project data</span>
+<span class="sd">    sites : List[str], optional</span>
+<span class="sd">        List of sites to plot transfer functions for</span>
+<span class="sd">    sampleFreqs : List[float], optional </span>
+<span class="sd">        List of samples frequencies for which to plot transfer functions</span>
+<span class="sd">    polarisations : List[str], optional </span>
+<span class="sd">        A list of polarisations to plot. For example, [&quot;ExHx&quot;, &quot;ExHy&quot;, &quot;EyHx&quot;, &quot;EyHy&quot;]</span>
+<span class="sd">    specdir : str, optional</span>
+<span class="sd">        The spectra directories used</span>
+<span class="sd">    postpend : str, optional</span>
+<span class="sd">        The postpend on the transfer function files</span>
+<span class="sd">    oneplot : bool, optional</span>
+<span class="sd">        Plot the polarisation on a single plot</span>
+<span class="sd">    show : bool, optional</span>
+<span class="sd">        Show the spectra plot</span>
+<span class="sd">    save : bool, optional</span>
+<span class="sd">        Save the plot to the images directory</span>
+<span class="sd">    plotoptions : Dict</span>
+<span class="sd">        A dictionary of plot options. For example, set the resistivity y limits using res_ylim, set the phase y limits using phase_ylim and set the xlimits using xlim</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSites</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;polarisations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHy&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;oneplot&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;save&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;show&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># loop over sites</span>
+    <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span>
+        <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+        <span class="n">sampleFreqs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">siteData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">())</span>
+        <span class="c1"># find the intersection with the options[&quot;freqs&quot;]</span>
+        <span class="n">sampleFreqs</span> <span class="o">=</span> <span class="n">sampleFreqs</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">])</span>
+        <span class="n">sampleFreqs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sampleFreqs</span><span class="p">))</span>
+
+        <span class="c1"># if prepend is a string, then make it a list</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]]</span>
+
+        <span class="n">plotfonts</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">]</span>
+        <span class="c1"># now loop over the postpend options</span>
+        <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]:</span>
+            <span class="c1"># add an underscore if not empty</span>
+            <span class="n">postpend</span> <span class="o">=</span> <span class="s2">&quot;_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span> <span class="k">if</span> <span class="n">pp</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="k">else</span> <span class="n">pp</span>
+
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;figsize&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">figsize</span> <span class="o">=</span> <span class="n">getTransferFunctionFigSize</span><span class="p">(</span>
+                    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;oneplot&quot;</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;polarisations&quot;</span><span class="p">])</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">figsize</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;figsize&quot;</span><span class="p">]</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+            <span class="n">mks</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">]</span>
+            <span class="n">lstyles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;solid&quot;</span><span class="p">,</span> <span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="s2">&quot;dashdot&quot;</span><span class="p">,</span> <span class="s2">&quot;dotted&quot;</span><span class="p">]</span>
+            <span class="n">colours</span> <span class="o">=</span> <span class="n">transferFunctionColours</span><span class="p">()</span>
+
+            <span class="c1"># loop over sampling frequencies</span>
+            <span class="n">includedFreqs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">sampleFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sampleFreqs</span><span class="p">):</span>
+
+                <span class="n">tfData</span> <span class="o">=</span> <span class="n">getTransferFunctionData</span><span class="p">(</span>
+                    <span class="n">projData</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">specdir</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="n">pp</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">tfData</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">includedFreqs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">)</span>
+                <span class="n">projectText</span><span class="p">(</span>
+                    <span class="s2">&quot;Plotting transfer function for site </span><span class="si">{}</span><span class="s2">, sample frequency </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+                <span class="c1"># plot</span>
+                <span class="n">mk</span> <span class="o">=</span> <span class="n">mks</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">mks</span><span class="p">)]</span>
+                <span class="n">ls</span> <span class="o">=</span> <span class="n">lstyles</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">lstyles</span><span class="p">)]</span>
+                <span class="n">tfData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
+                    <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+                    <span class="n">polarisations</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;polarisations&quot;</span><span class="p">],</span>
+                    <span class="n">mk</span><span class="o">=</span><span class="n">mk</span><span class="p">,</span>
+                    <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span>
+                    <span class="n">colours</span><span class="o">=</span><span class="n">colours</span><span class="p">,</span>
+                    <span class="n">oneplot</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;oneplot&quot;</span><span class="p">],</span>
+                    <span class="n">res_ylim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;res_ylim&quot;</span><span class="p">],</span>
+                    <span class="n">phase_ylim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">],</span>
+                    <span class="n">xlim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;xlim&quot;</span><span class="p">],</span>
+                    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">),</span>
+                <span class="p">)</span>
+
+            <span class="c1"># check if any files found</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">includedFreqs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># sup title</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="s2">&quot;Site </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">postpend</span><span class="p">)</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">fs = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="n">arrayToStringInt</span><span class="p">(</span><span class="n">includedFreqs</span><span class="p">))</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">])</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="mf">0.99</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.92</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;save&quot;</span><span class="p">]:</span>
+                <span class="n">imPath</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">imagePath</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;transFunction_</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span> <span class="n">postpend</span>
+                <span class="p">)</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">imPath</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+                <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;show&quot;</span><span class="p">]:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;block&quot;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="viewTipper"><a class="viewcode-back" href="../../project.projectTransferFunction.html#project.projectTransferFunction.viewTipper">[docs]</a><span class="k">def</span> <span class="nf">viewTipper</span><span class="p">(</span><span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;View transfer function data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projData : projecData</span>
+<span class="sd">        The project data</span>
+<span class="sd">    sites : List[str], optional</span>
+<span class="sd">        List of sites to plot transfer functions for</span>
+<span class="sd">    sampleFreqs : List[float], optional </span>
+<span class="sd">        List of samples frequencies for which to plot transfer functions</span>
+<span class="sd">    specdir : str, optional</span>
+<span class="sd">        The spectra directories used</span>
+<span class="sd">    postpend : str, optional</span>
+<span class="sd">        The postpend on the transfer function files</span>
+<span class="sd">    cols : bool, optional</span>
+<span class="sd">        Boolean flag, True to arrange tipper plot as 1 row with 3 columns</span>
+<span class="sd">    show : bool, optional</span>
+<span class="sd">        Show the spectra plot</span>
+<span class="sd">    save : bool, optional</span>
+<span class="sd">        Save the plot to the images directory</span>
+<span class="sd">    plotoptions : Dict</span>
+<span class="sd">        A dictionary of plot options. For example, set the resistivity y limits using res_ylim, set the phase y limits using phase_ylim and set the xlimits using xlim</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSites</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;cols&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;save&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;show&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">()</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># loop over sites</span>
+    <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span>
+        <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+        <span class="n">sampleFreqs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">siteData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">())</span>
+        <span class="c1"># find the intersection with the options[&quot;freqs&quot;]</span>
+        <span class="n">sampleFreqs</span> <span class="o">=</span> <span class="n">sampleFreqs</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">])</span>
+        <span class="n">sampleFreqs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sampleFreqs</span><span class="p">))</span>
+
+        <span class="c1"># if prepend is a string, then make it a list</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]]</span>
+
+        <span class="n">plotfonts</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">]</span>
+        <span class="c1"># now loop over the postpend options</span>
+        <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]:</span>
+            <span class="c1"># add an underscore if not empty</span>
+            <span class="n">postpend</span> <span class="o">=</span> <span class="s2">&quot;_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span> <span class="k">if</span> <span class="n">pp</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="k">else</span> <span class="n">pp</span>
+
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;figsize&quot;</span><span class="p">])</span>
+            <span class="n">mks</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">]</span>
+            <span class="n">lstyles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;solid&quot;</span><span class="p">,</span> <span class="s2">&quot;dashed&quot;</span><span class="p">,</span> <span class="s2">&quot;dashdot&quot;</span><span class="p">,</span> <span class="s2">&quot;dotted&quot;</span><span class="p">]</span>
+
+            <span class="c1"># loop over sampling frequencies</span>
+            <span class="n">includedFreqs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">sampleFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sampleFreqs</span><span class="p">):</span>
+
+                <span class="n">tfData</span> <span class="o">=</span> <span class="n">getTransferFunctionData</span><span class="p">(</span>
+                    <span class="n">projData</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">specdir</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="n">pp</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">tfData</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">includedFreqs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">)</span>
+                <span class="n">projectText</span><span class="p">(</span>
+                    <span class="s2">&quot;Plotting tipper for site </span><span class="si">{}</span><span class="s2">, sample frequency </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+                <span class="n">mk</span> <span class="o">=</span> <span class="n">mks</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">mks</span><span class="p">)]</span>
+                <span class="n">ls</span> <span class="o">=</span> <span class="n">lstyles</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">lstyles</span><span class="p">)]</span>
+                <span class="n">tfData</span><span class="o">.</span><span class="n">viewTipper</span><span class="p">(</span>
+                    <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+                    <span class="n">rows</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;cols&quot;</span><span class="p">],</span>
+                    <span class="n">mk</span><span class="o">=</span><span class="n">mk</span><span class="p">,</span>
+                    <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">),</span>
+                    <span class="n">xlim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;xlim&quot;</span><span class="p">],</span>
+                    <span class="n">length_ylim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;length_ylim&quot;</span><span class="p">],</span>
+                    <span class="n">angle_ylim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;angle_ylim&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+
+            <span class="c1"># check if any files found</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">includedFreqs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># sup title</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="s2">&quot;Site </span><span class="si">{}</span><span class="s2"> tipper: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">postpend</span><span class="p">)</span>
+            <span class="n">sub</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">fs = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="n">arrayToStringInt</span><span class="p">(</span><span class="n">includedFreqs</span><span class="p">))</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">])</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="mf">0.99</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;save&quot;</span><span class="p">]:</span>
+                <span class="n">imPath</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">imagePath</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;tipper_</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span> <span class="n">postpend</span>
+                <span class="p">)</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">imPath</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+                <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;show&quot;</span><span class="p">]:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;block&quot;</span><span class="p">])</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

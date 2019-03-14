@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>calculators.decimator &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>calculators.decimator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for calculators.decimator</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">signal</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.calculator</span> <span class="k">import</span> <span class="n">Calculator</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.decimationParameters</span> <span class="k">import</span> <span class="n">DecimationParams</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsConfig</span> <span class="k">import</span> <span class="n">loadConfig</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsMath</span> <span class="k">import</span> <span class="n">intdiv</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">generalPrint</span><span class="p">,</span>
+    <span class="n">warningPrint</span><span class="p">,</span>
+    <span class="n">blockPrint</span><span class="p">,</span>
+    <span class="n">arrayToStringInt</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="k">import</span> <span class="n">downsampleData</span>
+
+
+<div class="viewcode-block" id="Decimator"><a class="viewcode-back" href="../../calculators.decimator.html#calculators.decimator.Decimator">[docs]</a><span class="k">class</span> <span class="nc">Decimator</span><span class="p">(</span><span class="n">Calculator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decimate time data</span>
+
+<span class="sd">    Decimates time data by factors until the minimum number of required samples is reached. When a downsample factor is too large, downsampling is performed in multiple steps to maintain accuracy of result.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        timeData object to decimate</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        Sampling frequency of time data in Hz</span>
+<span class="sd">    chans : List[str]</span>
+<span class="sd">        Channels in time data</span>
+<span class="sd">    numSamples : int</span>
+<span class="sd">        Number of samples in timeData</span>
+<span class="sd">    decParams : DecimationParams</span>
+<span class="sd">        A DecimationParams object holding decimation information</span>
+<span class="sd">    minSamples : int</span>
+<span class="sd">        Minimum required samples to decimate</span>
+<span class="sd">    level : int</span>
+<span class="sd">        Current decimation level</span>
+<span class="sd">    maxDownSampleFactor : int</span>
+<span class="sd">        Max allowable downsampling in one go. Downsampling becomes less accurate at large downsample factors</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(timeData, decParams)</span>
+<span class="sd">        Initialise Decimator with a TimeData object and DecimationParams object</span>
+<span class="sd">    incrementLevel()</span>
+<span class="sd">        Downsample the timeData to the next decimation level</span>
+<span class="sd">    downsample(downsampleFactor)</span>
+<span class="sd">        Do the downsampling</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class status returned as list of strings  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">decParams</span><span class="p">:</span> <span class="n">DecimationParams</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialise with timeData and decimation parameters</span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        timeData : TimeData</span>
+<span class="sd">            The time data to decimate</span>
+<span class="sd">        decParams : DecimationParams</span>
+<span class="sd">            Decimation parameters for performing the decimation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span> <span class="o">=</span> <span class="n">timeData</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">*</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">chans</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numSamples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">numSamples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="p">:</span> <span class="n">DecimationParams</span> <span class="o">=</span> <span class="n">decParams</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">loadConfig</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minSamples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Decimation&quot;</span><span class="p">][</span><span class="s2">&quot;minsamples&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxDownsampleFactor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span>
+
+    <span class="c1"># def getCurrentLevel(self):</span>
+    <span class="c1">#     return self.level</span>
+
+    <span class="c1"># def getSampleFreq(self):</span>
+    <span class="c1">#     return self.sampleFreq</span>
+
+    <span class="c1"># def getNumSamples(self):</span>
+    <span class="c1">#     return self.numSamples</span>
+
+    <span class="c1"># def getMinSamples(self):</span>
+    <span class="c1">#     return self.minSamples</span>
+
+    <span class="c1"># def getMaxDownsampleFactor(self):</span>
+    <span class="c1">#     return self.maxDownsampleFactor</span>
+
+    <span class="c1"># GET DECIMATED DATA FOR THIS LEVEL</span>
+    <span class="c1"># def getData(self):</span>
+    <span class="c1">#     return self.timeData.data</span>
+
+    <span class="c1"># def getTimeData(self):</span>
+    <span class="c1">#     return self.timeData</span>
+
+    <span class="c1"># SET MINIMUM NUMBER OF SAMPLES FOR DECIMATED DATA</span>
+    <span class="c1"># def setMinSamples(self, minSamples):</span>
+    <span class="c1">#     self.minSamples = minSamples</span>
+
+    <span class="c1"># def setMaxDownsampleFactor(self, maxFactor):</span>
+    <span class="c1">#     self.maxDownsampleFactor = maxFactor</span>
+
+<div class="viewcode-block" id="Decimator.incrementLevel"><a class="viewcode-back" href="../../calculators.decimator.html#calculators.decimator.Decimator.incrementLevel">[docs]</a>    <span class="k">def</span> <span class="nf">incrementLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Downsample to the next decimation level</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : bool</span>
+<span class="sd">            True if downsampling completed successfully. False otherwise</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        When the downsampling factor is too large, downsampling is performed in multiple steps. Downsampling will become increasingly inaccurate using the scipy routine when factor is too large        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># increment level, 0 is the first level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">downsampleFactor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getIncrementalFactor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">)</span>
+
+        <span class="c1"># if downsample factor is greater than maxDownsampleFactor, downsample in multiple steps</span>
+        <span class="n">numDownsamples</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">downsampleList</span> <span class="o">=</span> <span class="p">[</span><span class="n">downsampleFactor</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">downsampleFactor</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxDownsampleFactor</span><span class="p">:</span>
+            <span class="c1"># this should give an integer</span>
+            <span class="n">numDownsamples</span> <span class="o">=</span> <span class="n">intdiv</span><span class="p">(</span><span class="n">downsampleFactor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxDownsampleFactor</span><span class="p">)</span>
+            <span class="n">downsampleList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">maxDownsampleFactor</span><span class="p">,</span> <span class="n">numDownsamples</span><span class="p">]</span>
+            <span class="c1"># print info</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
+                <span class="s2">&quot;Downsample factor of </span><span class="si">{:d}</span><span class="s2"> greater than max decimation factor </span><span class="si">{:d}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">downsampleFactor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxDownsampleFactor</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
+                <span class="s2">&quot;Downsampling in multiple decimations given by factors: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">arrayToStringInt</span><span class="p">(</span><span class="n">downsampleList</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">iDS</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numDownsamples</span><span class="p">):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">downsampleList</span><span class="p">[</span><span class="n">iDS</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>  <span class="c1"># check outcome of decimation</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="c1"># otherwise, everything ok, update class vars and return True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">numSamples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">numSamples</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Decimator.downsample"><a class="viewcode-back" href="../../calculators.decimator.html#calculators.decimator.Decimator.downsample">[docs]</a>    <span class="k">def</span> <span class="nf">downsample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">downsampleFactor</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Downsample time data</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        downsampleFactor : int</span>
+<span class="sd">            Downsampling factor        </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : bool</span>
+<span class="sd">            True if downsampling completed successfully. False otherwise</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        When the downsampling causes number of simples to fall below minSamples, downsampling is not performed. The function returns False in this situation      </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># check to see not at max level</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;Error, number of decimation levels exceeded, returning no data&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># if downsample factor is 1, nothing to do</span>
+        <span class="k">if</span> <span class="n">downsampleFactor</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="c1"># downsampling reduces the number of samples by downsample factor</span>
+        <span class="c1"># if new number of samples is too small, return False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">numSamples</span> <span class="o">/</span> <span class="n">downsampleFactor</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">minSamples</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;Next decimation level has less than </span><span class="si">{}</span><span class="s2"> samples. Decimation is exiting.</span><span class="se">\n</span><span class="s2">Set minimum of samples required using decimator.setMinSamples().&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">minSamples</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># do the resampling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">downsampleData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">downsampleFactor</span><span class="p">)</span>
+        <span class="c1"># update the rest of the timeData object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">/</span> <span class="n">downsampleFactor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">numSamples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">size</span>
+        <span class="c1"># start time stays the same, but end time needs to change</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">stopTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">startTime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span>
+            <span class="n">seconds</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">numSamples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+            <span class="s2">&quot;Time data decimated from </span><span class="si">{}</span><span class="s2"> Hz to </span><span class="si">{}</span><span class="s2"> Hz, new start time </span><span class="si">{}</span><span class="s2">, new end time </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">startTime</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">stopTime</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Decimator.printList"><a class="viewcode-back" href="../../calculators.decimator.html#calculators.decimator.Decimator.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Current level = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;This is the initial level - no decimation has occured&quot;</span><span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Current sample freq. [Hz] = </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Current sample rate [s] = </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Current number of samples = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numSamples</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

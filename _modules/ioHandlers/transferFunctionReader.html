@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ioHandlers.transferFunctionReader &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ioHandlers.transferFunctionReader</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ioHandlers.transferFunctionReader</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">splitext</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.ioHandler</span> <span class="k">import</span> <span class="n">IOHandler</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.transferFunctionData</span> <span class="k">import</span> <span class="n">TransferFunctionData</span>
+
+
+<div class="viewcode-block" id="TransferFunctionReader"><a class="viewcode-back" href="../../ioHandlers.transferFunctionReader.html#ioHandlers.transferFunctionReader.TransferFunctionReader">[docs]</a><span class="k">class</span> <span class="nc">TransferFunctionReader</span><span class="p">(</span><span class="n">IOHandler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class for reading and writing maskData</span>
+
+<span class="sd">    Transfer function files are located in:</span>
+<span class="sd">    project -&gt; transFuncData -&gt; site -&gt; filepath</span>
+
+<span class="sd">	Attributes</span>
+<span class="sd">	----------</span>
+<span class="sd">    filepath : str </span>
+<span class="sd">        Transfer function file</span>
+<span class="sd">    headers : OrderedDict()</span>
+<span class="sd">        Transfer function file header information</span>
+
+<span class="sd">	Methods</span>
+<span class="sd">	-------</span>
+<span class="sd">	__init__(filepath=&quot;&quot;)</span>
+<span class="sd">		Initialise the transferFunctionReader file</span>
+<span class="sd">	read(filepath)</span>
+<span class="sd">        Set and read a new transfer function file</span>
+<span class="sd">    readFile()</span>
+<span class="sd">        Read the transfer function file</span>
+<span class="sd">    readInternal()</span>
+<span class="sd">        Read internally formatted transfer function files</span>
+<span class="sd">    formatHeaders()</span>
+<span class="sd">        Format header values for internally formatted transfer function files</span>
+<span class="sd">    readEdi()</span>
+<span class="sd">        Read Edi formatted tranfer function files</span>
+<span class="sd">    readNumericBlock(lines)</span>
+<span class="sd">        Read a numeric block for Edi transfer function files</span>
+<span class="sd">    constructComplex(real, imag)</span>
+<span class="sd">        Construct a complex valued array from arrays of the real and imaginary values of the complex numbers</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class status returned as list of strings     </span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialise</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : str, optional</span>
+<span class="sd">            Path to transfer function file file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="c1"># read file if given</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">readFile</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TransferFunctionReader.read"><a class="viewcode-back" href="../../ioHandlers.transferFunctionReader.html#ioHandlers.transferFunctionReader.TransferFunctionReader.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Read a new file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : str</span>
+<span class="sd">            Filepath to transfer function file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readFile</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TransferFunctionReader.readFile"><a class="viewcode-back" href="../../ioHandlers.transferFunctionReader.html#ioHandlers.transferFunctionReader.TransferFunctionReader.readFile">[docs]</a>    <span class="k">def</span> <span class="nf">readFile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransferFunctionData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Read a transfer function file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TransferFunctionData</span>
+<span class="sd">            Tranfser function data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get the extension and decide how to read it</span>
+        <span class="n">filename</span><span class="p">,</span> <span class="n">extension</span> <span class="o">=</span> <span class="n">splitext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;edi&quot;</span> <span class="ow">in</span> <span class="n">extension</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readEdi</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readInternal</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TransferFunctionReader.readInternal"><a class="viewcode-back" href="../../ioHandlers.transferFunctionReader.html#ioHandlers.transferFunctionReader.TransferFunctionReader.readInternal">[docs]</a>    <span class="k">def</span> <span class="nf">readInternal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Read an internally formatted transfer function file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TransferFunctionData</span>
+<span class="sd">            Tranfser function data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">impedances</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">variances</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">freq</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">inFile</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">inFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">numLines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="c1"># find the headers</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLines</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="s2">&quot;Evaluation frequencies&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">split</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="c1"># format headers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formatHeaders</span><span class="p">()</span>
+        <span class="c1"># read in the frequencies</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
+        <span class="c1"># read in the rest of the data</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">numLines</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;Z&quot;</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">or</span> <span class="s2">&quot;Var&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">split</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="s2">&quot;Z&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="n">impedances</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+                        <span class="n">lines</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;Var&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="n">variances</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span>
+                        <span class="n">lines</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float&quot;</span>
+                    <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tfData</span> <span class="o">=</span> <span class="n">TransferFunctionData</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">impedances</span><span class="p">,</span> <span class="n">variances</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TransferFunctionReader.formatHeaders"><a class="viewcode-back" href="../../ioHandlers.transferFunctionReader.html#ioHandlers.transferFunctionReader.TransferFunctionReader.formatHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">formatHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Format  header values for the internal transfer function file format&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="s2">&quot;sampleFreq&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sampleFreq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sampleFreq&quot;</span><span class="p">])</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;insite&quot;</span><span class="p">,</span> <span class="s2">&quot;outsite&quot;</span><span class="p">,</span> <span class="s2">&quot;remotesite&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">test</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">header</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;False&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">,</span> <span class="s2">&quot;outchans&quot;</span><span class="p">,</span> <span class="s2">&quot;remotechans&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="n">test</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">header</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;False&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="TransferFunctionReader.readEdi"><a class="viewcode-back" href="../../ioHandlers.transferFunctionReader.html#ioHandlers.transferFunctionReader.TransferFunctionReader.readEdi">[docs]</a>    <span class="k">def</span> <span class="nf">readEdi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Read an EDI transfer function file</span>
+
+<span class="sd">        EDI files have an &gt;END that signifies the end of the file. This works quite nicely to our advantage when reading an EDI file.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TransferFunctionData</span>
+<span class="sd">            Tranfser function data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">inFile</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">inFile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">numLines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="n">section</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sectionNum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">sectionBreaks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLines</span><span class="p">):</span>
+            <span class="c1"># get the starting line of the sections</span>
+            <span class="c1"># at the same time strip out all new lines characters</span>
+            <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;&gt;&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">split</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="c1"># save the section</span>
+                <span class="n">section</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sectionNum</span>
+                <span class="c1"># save the starting line of the section</span>
+                <span class="n">sectionBreaks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">sectionNum</span> <span class="o">=</span> <span class="n">sectionNum</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1">## set headers</span>
+        <span class="n">startLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="s2">&quot;HEAD&quot;</span><span class="p">]]</span>
+        <span class="n">endLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="s2">&quot;HEAD&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">startLine</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">endLine</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">split</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1">## set frequency information</span>
+        <span class="c1"># get number of frequencies</span>
+        <span class="n">startLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="s2">&quot;FREQ&quot;</span><span class="p">]]</span>
+        <span class="n">endLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="s2">&quot;FREQ&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">split</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">startLine</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">numFreq</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">split</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;NFREQ&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+                <span class="n">split2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+                <span class="n">numFreq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">split2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readNumericBlock</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">startLine</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">endLine</span><span class="p">])</span>
+
+        <span class="c1">## read impedance tensor components and variances</span>
+        <span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ZXX&quot;</span><span class="p">,</span> <span class="s2">&quot;ZYY&quot;</span><span class="p">,</span> <span class="s2">&quot;ZXY&quot;</span><span class="p">,</span> <span class="s2">&quot;ZYX&quot;</span><span class="p">]</span>
+        <span class="n">polarisations</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHy&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">]</span>
+        <span class="n">variances</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">impedances</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">comp</span><span class="p">,</span> <span class="n">pol</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">components</span><span class="p">,</span> <span class="n">polarisations</span><span class="p">):</span>
+            <span class="c1"># real</span>
+            <span class="n">realComp</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">R&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+            <span class="n">startLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="n">realComp</span><span class="p">]]</span>
+            <span class="n">endLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="n">realComp</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">real</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readNumericBlock</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">startLine</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">endLine</span><span class="p">])</span>
+            <span class="c1"># imag</span>
+            <span class="n">imagComp</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">I&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+            <span class="n">startLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="n">imagComp</span><span class="p">]]</span>
+            <span class="n">endLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="n">imagComp</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">imag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readNumericBlock</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">startLine</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">endLine</span><span class="p">])</span>
+            <span class="c1"># impedance</span>
+            <span class="n">impedances</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constructComplex</span><span class="p">(</span><span class="n">real</span><span class="p">,</span> <span class="n">imag</span><span class="p">)</span>
+            <span class="c1"># variance</span>
+            <span class="n">varComp</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.VAR&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+            <span class="n">startLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="n">varComp</span><span class="p">]]</span>
+            <span class="n">endLine</span> <span class="o">=</span> <span class="n">sectionBreaks</span><span class="p">[</span><span class="n">section</span><span class="p">[</span><span class="n">varComp</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">variances</span><span class="p">[</span><span class="n">pol</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readNumericBlock</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">startLine</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">endLine</span><span class="p">])</span>
+
+        <span class="c1"># initialise impedance tensor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tfData</span> <span class="o">=</span> <span class="n">TransferFunctionData</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">impedances</span><span class="p">,</span> <span class="n">variances</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TransferFunctionReader.readNumericBlock"><a class="viewcode-back" href="../../ioHandlers.transferFunctionReader.html#ioHandlers.transferFunctionReader.TransferFunctionReader.readNumericBlock">[docs]</a>    <span class="k">def</span> <span class="nf">readNumericBlock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;Read an EDI numeric block</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lines : List[str]</span>
+<span class="sd">            List of strings (or the lines in the file) that are a numeric block</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Numeric data as a numpy array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">split</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="c1"># add the numbers</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">split</span>
+        <span class="c1"># convert to float</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tmp</span><span class="p">):</span>
+            <span class="n">arr</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">arr</span></div>
+
+<div class="viewcode-block" id="TransferFunctionReader.constructComplex"><a class="viewcode-back" href="../../ioHandlers.transferFunctionReader.html#ioHandlers.transferFunctionReader.TransferFunctionReader.constructComplex">[docs]</a>    <span class="k">def</span> <span class="nf">constructComplex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real</span><span class="p">,</span> <span class="n">imag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Construct a complex array from separate real and imaginary arrays </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        real : np.ndarray</span>
+<span class="sd">            An array of the real part of the complex data</span>
+<span class="sd">        imag : np.ndarray</span>
+<span class="sd">            An array of the complex part of the complex data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Numpy array of complex data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">real</span><span class="p">)</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+            <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="n">real</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">imag</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">arr</span></div>
+
+<div class="viewcode-block" id="TransferFunctionReader.printList"><a class="viewcode-back" href="../../ioHandlers.transferFunctionReader.html#ioHandlers.transferFunctionReader.TransferFunctionReader.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : List[str]</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Headers in file&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{}</span><span class="s2"> = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

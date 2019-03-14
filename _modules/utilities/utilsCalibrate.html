@@ -1,0 +1,615 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>utilities.utilsCalibrate &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>utilities.utilsCalibrate</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for utilities.utilsCalibrate</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+
+<div class="viewcode-block" id="getKnownCalibrationFormats"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.getKnownCalibrationFormats">[docs]</a><span class="k">def</span> <span class="nf">getKnownCalibrationFormats</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Return list of supported calibration formats and their extensions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    extensions : List</span>
+<span class="sd">        List of calibration file extensions</span>
+<span class="sd">    formats : List</span>
+<span class="sd">        List of calibration file formats </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">calExt</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TXT&quot;</span><span class="p">,</span> <span class="s2">&quot;RSP&quot;</span><span class="p">,</span> <span class="s2">&quot;RSPX&quot;</span><span class="p">]</span>
+    <span class="n">calFormats</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;metronix&quot;</span><span class="p">,</span> <span class="s2">&quot;rsp&quot;</span><span class="p">,</span> <span class="s2">&quot;rspx&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">calExt</span><span class="p">,</span> <span class="n">calFormats</span></div>
+
+
+<div class="viewcode-block" id="getCalName"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.getCalName">[docs]</a><span class="k">def</span> <span class="nf">getCalName</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the calibration file name</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        Calibration format</span>
+<span class="sd">    ext : str</span>
+<span class="sd">        Calibration file extension</span>
+<span class="sd">    sensor : str</span>
+<span class="sd">        Sensor name</span>
+<span class="sd">    serial : </span>
+<span class="sd">    chopper :    </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Name of calibration file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;metronix&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">metronixName</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;rsp&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">rspName</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;rspx&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">rspxName</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">metronixName</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="metronixName"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.metronixName">[docs]</a><span class="k">def</span> <span class="nf">metronixName</span><span class="p">(</span><span class="n">ext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get Metronix calibration file name</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ext : str</span>
+<span class="sd">        Calibration file extension</span>
+<span class="sd">    sensor : str</span>
+<span class="sd">        Sensor name</span>
+<span class="sd">    serial : </span>
+<span class="sd">    chopper:    </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Name of calibration file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sensor</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rspName"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.rspName">[docs]</a><span class="k">def</span> <span class="nf">rspName</span><span class="p">(</span><span class="n">ext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get RSP calibration file name</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ext : str</span>
+<span class="sd">        Calibration file extension</span>
+<span class="sd">    sensor : str</span>
+<span class="sd">        Sensor name</span>
+<span class="sd">    serial : </span>
+<span class="sd">    chopper :    </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Name of calibration file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">board</span> <span class="o">=</span> <span class="s2">&quot;HF&quot;</span>
+    <span class="k">if</span> <span class="n">chopper</span><span class="p">:</span>
+        <span class="n">board</span> <span class="o">=</span> <span class="s2">&quot;LF&quot;</span>
+    <span class="n">sensorNum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sensor</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+    <span class="k">return</span> <span class="s2">&quot;Metronix_Coil-----TYPE-</span><span class="si">{:03d}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">-ID-</span><span class="si">{:06d}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">sensorNum</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rspxName"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.rspxName">[docs]</a><span class="k">def</span> <span class="nf">rspxName</span><span class="p">(</span><span class="n">ext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get RSPX calibration file name</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ext : str</span>
+<span class="sd">        Calibration file extension</span>
+<span class="sd">    sensor : str</span>
+<span class="sd">        Sensor name</span>
+<span class="sd">    serial : </span>
+<span class="sd">    chopper :    </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Name of calibration file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">board</span> <span class="o">=</span> <span class="s2">&quot;HF&quot;</span>
+    <span class="k">if</span> <span class="n">chopper</span><span class="p">:</span>
+        <span class="n">board</span> <span class="o">=</span> <span class="s2">&quot;LF&quot;</span>
+    <span class="n">sensorNum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sensor</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+    <span class="k">return</span> <span class="s2">&quot;Metronix_Coil-----TYPE-</span><span class="si">{:03d}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">-ID-</span><span class="si">{:06d}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">sensorNum</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span>
+    <span class="p">)</span></div>
+
+
+<span class="c1"># these are functions for reading calibration files</span>
+<div class="viewcode-block" id="readCalFile"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.readCalFile">[docs]</a><span class="k">def</span> <span class="nf">readCalFile</span><span class="p">(</span>
+    <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Read data from calibration file</span>
+<span class="sd">    </span>
+<span class="sd">    Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        Calibration file extension</span>
+<span class="sd">    filepath : str</span>
+<span class="sd">    sensor : str</span>
+<span class="sd">        Sensor name</span>
+<span class="sd">    serial : </span>
+<span class="sd">    chopper :    </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Name of calibration file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;metronix&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">metronixData</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;rsp&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">rspData</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">&quot;rspx&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">rspxData</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># return a unit response</span>
+        <span class="k">return</span> <span class="n">defaultCalibration</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="metronixData"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.metronixData">[docs]</a><span class="k">def</span> <span class="nf">metronixData</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Read data from calibration file</span>
+<span class="sd">    </span>
+<span class="sd">    Metronix data is in units: F [Hz], Magnitude [V/nT*Hz], Phase [deg] for both chopper on</span>
+<span class="sd">    Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    format : str</span>
+<span class="sd">        Calibration file extension</span>
+<span class="sd">    filepath : str</span>
+<span class="sd">    sensor : str</span>
+<span class="sd">        Sensor name</span>
+<span class="sd">    serial : </span>
+<span class="sd">    chopper :    </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Calibration data</span>
+<span class="sd">    staticGain : float</span>
+<span class="sd">        Static gain</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># no static gain - already included</span>
+    <span class="n">staticGain</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="c1"># open file</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">numLines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="c1"># variables to save line numbers</span>
+    <span class="n">chopperOn</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">chopperOff</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># find locations for chopperOn and chopperOff</span>
+    <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLines</span><span class="p">):</span>
+        <span class="c1"># remove whitespace and new line characters</span>
+        <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;Chopper On&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
+            <span class="n">chopperOn</span> <span class="o">=</span> <span class="n">il</span>
+        <span class="k">if</span> <span class="s2">&quot;Chopper Off&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
+            <span class="n">chopperOff</span> <span class="o">=</span> <span class="n">il</span>
+
+    <span class="c1"># get the part of the file required depending on chopper on or off</span>
+    <span class="n">dataLines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dataOn</span> <span class="o">=</span> <span class="n">chopperOff</span>
+    <span class="k">if</span> <span class="n">chopper</span><span class="p">:</span>
+        <span class="n">dataOn</span> <span class="o">=</span> <span class="n">chopperOn</span>
+    <span class="c1"># get the data - starting from the next line</span>
+    <span class="n">il</span> <span class="o">=</span> <span class="n">dataOn</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">il</span> <span class="o">&lt;</span> <span class="n">numLines</span> <span class="ow">and</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="c1"># save line then increment</span>
+        <span class="n">dataLines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">])</span>
+        <span class="n">il</span> <span class="o">=</span> <span class="n">il</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># get the data as an array</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">linesToArray</span><span class="p">(</span><span class="n">dataLines</span><span class="p">)</span>
+    <span class="c1"># sort and extend</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">sortCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">extendCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># unit manipulation</span>
+    <span class="c1"># change V/(nT*Hz) to mV/nT</span>
+    <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="c1"># change phase to radians</span>
+    <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">staticGain</span></div>
+
+
+<div class="viewcode-block" id="rspData"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.rspData">[docs]</a><span class="k">def</span> <span class="nf">rspData</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Read data from calibration file</span>
+<span class="sd">    </span>
+<span class="sd">    RSP data is in units: F [Hz], Magnitude [mv/nT], Phase [deg]</span>
+<span class="sd">    Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : str</span>
+<span class="sd">        Filepath to calibration file    </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Calibration data</span>
+<span class="sd">    staticGain : float</span>
+<span class="sd">        Static gain</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">numLines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">staticGain</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dataOn</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLines</span><span class="p">):</span>
+        <span class="c1"># remove whitespace and new line characters</span>
+        <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="c1"># find static gain value</span>
+        <span class="k">if</span> <span class="s2">&quot;StaticGain&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
+            <span class="n">staticGain</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">&quot;FREQUENCY&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
+            <span class="n">dataOn</span> <span class="o">=</span> <span class="n">il</span>
+    <span class="n">dataLines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">il</span> <span class="o">=</span> <span class="n">dataOn</span> <span class="o">+</span> <span class="mi">2</span>
+    <span class="c1"># get part of file desired</span>
+    <span class="k">while</span> <span class="n">il</span> <span class="o">&lt;</span> <span class="n">numLines</span> <span class="ow">and</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="c1"># save line then increment</span>
+        <span class="n">dataLines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">])</span>
+        <span class="n">il</span> <span class="o">=</span> <span class="n">il</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># get the data as an array</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">linesToArray</span><span class="p">(</span><span class="n">dataLines</span><span class="p">)</span>
+    <span class="c1"># change phase to radians and apply static gain</span>
+    <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">staticGain</span>
+    <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+    <span class="c1"># sort and extend</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">sortCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">extendCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">staticGain</span></div>
+
+
+<div class="viewcode-block" id="rspxData"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.rspxData">[docs]</a><span class="k">def</span> <span class="nf">rspxData</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Read data from calibration file</span>
+<span class="sd">    </span>
+<span class="sd">    RSP data is in units: F [Hz], Magnitude [mv/nT], Phase [deg]</span>
+<span class="sd">    Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : str</span>
+<span class="sd">        Filepath to calibration file   </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Calibration data</span>
+<span class="sd">    staticGain : float</span>
+<span class="sd">        Static gain</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># this is xml format - use EL tree</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="c1"># static gain</span>
+    <span class="n">staticGain</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;StaticGain&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">staticGain</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;StaticGain&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># get the calibration data</span>
+    <span class="n">dataList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;ResponseData&quot;</span><span class="p">):</span>
+        <span class="n">dataList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)),</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Magnitude&quot;</span><span class="p">)),</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Phase&quot;</span><span class="p">)),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="c1"># now create array</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataList</span><span class="p">)</span>
+    <span class="c1"># change phase to radians and apply static gain</span>
+    <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">staticGain</span>
+    <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+    <span class="c1"># sort and extend</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">sortCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">extendCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">staticGain</span></div>
+
+
+<span class="c1"># sort the calData</span>
+<div class="viewcode-block" id="sortCalData"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.sortCalData">[docs]</a><span class="k">def</span> <span class="nf">sortCalData</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Sort calibration data by frequency ascending (low to high)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Unsorted calibration data   </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Sorted calibration data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()]</span></div>
+
+
+<span class="c1"># extend the calData - the data should already be sorted</span>
+<div class="viewcode-block" id="extendCalData"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.extendCalData">[docs]</a><span class="k">def</span> <span class="nf">extendCalData</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Extend calibration data by frequency</span>
+
+<span class="sd">    Add extra points at the start and end of the calibration data to ensure complete coverage with the time data </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Calibration data   </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Extended calibration data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># add a line at the top (low frequency) extending the calibration information</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0000001</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span> <span class="n">data</span><span class="p">))</span>
+    <span class="c1"># add a line at the top (high frequency) extending the calibration information</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100000000</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])))</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="linesToArray"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.linesToArray">[docs]</a><span class="k">def</span> <span class="nf">linesToArray</span><span class="p">(</span><span class="n">dataLines</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert data lines from a file to an array</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataLines : list</span>
+<span class="sd">        Data lines read in from a file   </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Data lines converted to a float array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># data to columns</span>
+    <span class="n">numData</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataLines</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numData</span><span class="p">):</span>
+        <span class="n">dataLines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataLines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataLines</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span></div>
+
+
+<span class="c1"># default calibration if none found</span>
+<div class="viewcode-block" id="defaultCalibration"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.defaultCalibration">[docs]</a><span class="k">def</span> <span class="nf">defaultCalibration</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Default calibration data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Data lines converted to a float array</span>
+<span class="sd">    staticGain : float</span>
+<span class="sd">        Static gain    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="unitCalibration"><a class="viewcode-back" href="../../utilities.utilsCalibrate.html#utilities.utilsCalibrate.unitCalibration">[docs]</a><span class="k">def</span> <span class="nf">unitCalibration</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Unit calibration data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Unit calibration data  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">unitCal</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">100000000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">100000000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">unitCal</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

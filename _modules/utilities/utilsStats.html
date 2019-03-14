@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>utilities.utilsStats &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>utilities.utilsStats</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for utilities.utilsStats</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">errorPrint</span>
+
+
+<div class="viewcode-block" id="getStatNames"><a class="viewcode-back" href="../../utilities.utilsStats.html#utilities.utilsStats.getStatNames">[docs]</a><span class="k">def</span> <span class="nf">getStatNames</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of statistic and remotestatistic names</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    stats : List[str]</span>
+<span class="sd">        List of signal site statistics</span>
+<span class="sd">    remoteStats : List[str]</span>
+<span class="sd">        List of remote reference statistics</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">stats</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;absvalEqn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;coherence&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;powerSpectralDensity&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;polarisationDirection&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;partialCoherence&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;resPhase&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">remoteStats</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;RR_coherence&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_coherenceEqn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_absvalEqn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_transferFunction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_resPhase&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">stats</span><span class="p">,</span> <span class="n">remoteStats</span></div>
+
+
+<div class="viewcode-block" id="getStatElements"><a class="viewcode-back" href="../../utilities.utilsStats.html#utilities.utilsStats.getStatElements">[docs]</a><span class="k">def</span> <span class="nf">getStatElements</span><span class="p">(</span><span class="n">stat</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Get statistic elements for each statistic</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stat : str</span>
+<span class="sd">        The statistic for which to get the statistic elements</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Dict[str, List[str]]</span>
+<span class="sd">        Mapping from a statistic name to the elements of that statistic</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">statElements</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;absvalEqn&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;absExEx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHyEx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absExEy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHyEy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absExHx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHyHx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absExHy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHyHy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absEyEx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHxEx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absEyEy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHxEy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absEyHx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHxHx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absEyHy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHxHy&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;coherence&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;cohExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHy&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;powerSpectralDensity&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;psdEx&quot;</span><span class="p">,</span> <span class="s2">&quot;psdEy&quot;</span><span class="p">,</span> <span class="s2">&quot;psdHx&quot;</span><span class="p">,</span> <span class="s2">&quot;psdHy&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;polarisationDirection&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;polExEy&quot;</span><span class="p">,</span> <span class="s2">&quot;polHxHy&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;transferFunction&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;ExHxReal&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHxImag&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHyReal&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHyImag&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHxReal&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHxImag&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHyReal&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHyImag&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;resPhase&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;ExHxRes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHxPhase&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHyRes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHyPhase&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHxRes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHxPhase&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHyRes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHyPhase&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;partialCoherence&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;bivarEx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bivarEy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;parExHx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;parExHy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;parEyHx&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;parEyHy&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+    <span class="c1"># remote reference stat elements</span>
+    <span class="n">statElementsRR</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;RR_coherence&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;ExHxRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHyRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHxRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHyRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HxHxRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HxHyRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HyHxRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HyHyRR&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;RR_coherenceEqn&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;ExHxR-HyHxR&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyR-HyHyR&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxR-HxHxR&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHyR-HxHyR&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;RR_absvalEqn&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;absHyHxR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absExHxR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHyHyR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absExHyR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHxHxR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absEyHxR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absHxHyR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absEyHyR&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;RR_transferFunction&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;ExHxRealRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHxImagRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHyRealRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHyImagRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHxRealRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHxImagRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHyRealRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHyImagRR&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;RR_resPhase&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;ExHxResRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHxPhaseRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHyResRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ExHyPhaseRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHxResRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHxPhaseRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHyResRR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;EyHyPhaseRR&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">statElements</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">statElements</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">statElementsRR</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">statElementsRR</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span>
+    <span class="n">errorPrint</span><span class="p">(</span>
+        <span class="s2">&quot;utilsStats::getStatElements&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Statistic </span><span class="si">{}</span><span class="s2"> not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stat</span><span class="p">),</span>
+        <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<span class="c1"># Window statistics - These are not currently in use</span>
+<span class="c1"># signal to noise ratio is calculated as mean over std.</span>
+<span class="c1"># this might be more useful in spectral domain</span>
+<span class="c1"># can do this in the frequecy domain, on the amplitude</span>
+<div class="viewcode-block" id="calcSNR"><a class="viewcode-back" href="../../utilities.utilsStats.html#utilities.utilsStats.calcSNR">[docs]</a><span class="k">def</span> <span class="nf">calcSNR</span><span class="p">(</span><span class="n">specData</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">specData</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">specData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+        <span class="n">output</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<span class="c1"># The Pearson correlation coefficient measures the linear relationship</span>
+<span class="c1"># between two datasets. Strictly speaking, Pearson&#39;s correlation requires</span>
+<span class="c1"># that each dataset be normally distributed.</span>
+<div class="viewcode-block" id="pearsonCoefficient"><a class="viewcode-back" href="../../utilities.utilsStats.html#utilities.utilsStats.pearsonCoefficient">[docs]</a><span class="k">def</span> <span class="nf">pearsonCoefficient</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="c1"># construct input matrices</span>
+    <span class="c1"># this needs to be columns for observations, rows for variables</span>
+    <span class="c1"># and this needs to be output as a dictionary</span>
+    <span class="n">chans</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="n">numChans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chans</span><span class="p">)</span>  <span class="c1"># the channels</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numChans</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">numChans</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chans</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">chans</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="c1"># now calculate the pearson correlation coefficient</span>
+            <span class="n">pcc</span><span class="p">,</span> <span class="n">pval</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">chans</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">data</span><span class="p">[</span><span class="n">chans</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">pcc</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="pearsonCoefficientSpec"><a class="viewcode-back" href="../../utilities.utilsStats.html#utilities.utilsStats.pearsonCoefficientSpec">[docs]</a><span class="k">def</span> <span class="nf">pearsonCoefficientSpec</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="c1"># calcaulates the PCC for magnitude and phase separately</span>
+    <span class="n">mag</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">phase</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">mag</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+        <span class="n">phase</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">]))</span>
+    <span class="n">magPCC</span> <span class="o">=</span> <span class="n">pearsonCoefficient</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span>
+    <span class="n">phasePCC</span> <span class="o">=</span> <span class="n">pearsonCoefficient</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">magPCC</span><span class="p">,</span> <span class="n">phasePCC</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

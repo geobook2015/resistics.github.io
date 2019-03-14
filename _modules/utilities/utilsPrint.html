@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>utilities.utilsPrint &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>utilities.utilsPrint</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for utilities.utilsPrint</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span>
+
+
+<div class="viewcode-block" id="generalPrint"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.generalPrint">[docs]</a><span class="k">def</span> <span class="nf">generalPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Print to terminal</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pre : str</span>
+<span class="sd">        String describing where the information is being output from </span>
+<span class="sd">    info : str</span>
+<span class="sd">        Information string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">),</span> <span class="n">pre</span><span class="p">,</span> <span class="n">info</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="breakPrint"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.breakPrint">[docs]</a><span class="k">def</span> <span class="nf">breakPrint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Prints a break in the termainal to make things easier to read&quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="blockPrint"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.blockPrint">[docs]</a><span class="k">def</span> <span class="nf">blockPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Prints a block of information to the terminal with separators</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pre : str</span>
+<span class="sd">        String describing where the information is being output from </span>
+<span class="sd">    text : str, List</span>
+<span class="sd">        Information string or a list of strings to print out in the black</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">generalPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="s2">&quot;####################&quot;</span><span class="p">)</span>
+    <span class="n">generalPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> INFO BEGIN&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pre</span><span class="o">.</span><span class="n">upper</span><span class="p">()))</span>
+    <span class="n">generalPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="s2">&quot;####################&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">generalPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+            <span class="n">generalPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">generalPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="s2">&quot;####################&quot;</span><span class="p">)</span>
+    <span class="n">generalPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> INFO END&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pre</span><span class="o">.</span><span class="n">upper</span><span class="p">()))</span>
+    <span class="n">generalPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="s2">&quot;####################&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="warningPrint"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.warningPrint">[docs]</a><span class="k">def</span> <span class="nf">warningPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Print a warning to the terminal</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pre : str</span>
+<span class="sd">        String describing where the information is being output from </span>
+<span class="sd">    info : str</span>
+<span class="sd">        Information string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">),</span> <span class="n">pre</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">info</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="errorPrint"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.errorPrint">[docs]</a><span class="k">def</span> <span class="nf">errorPrint</span><span class="p">(</span><span class="n">pre</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">quitRun</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Print an error</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pre : str</span>
+<span class="sd">        String describing where the information is being output from </span>
+<span class="sd">    info : str</span>
+<span class="sd">        Information string</span>
+<span class="sd">    quitRun : bool, optional</span>
+<span class="sd">        Bool flag for quitting execution of the code due to the error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;ERROR: </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">),</span> <span class="n">pre</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">info</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">quitRun</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exiting...&quot;</span><span class="p">)</span>
+        <span class="n">exit</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="breakComment"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.breakComment">[docs]</a><span class="k">def</span> <span class="nf">breakComment</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns a string to show a break in data comments</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        A separator string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="s2">&quot;---------------------------------------------------&quot;</span></div>
+
+
+<div class="viewcode-block" id="arrayToString"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.arrayToString">[docs]</a><span class="k">def</span> <span class="nf">arrayToString</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tabs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert an array to a string separated by commas</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Data array</span>
+<span class="sd">    tabs : bool, optional</span>
+<span class="sd">        Bool flag for using tabs instead of commas </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Output string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">outputStr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">sep</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span>
+    <span class="k">if</span> <span class="n">tabs</span><span class="p">:</span>
+        <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span>
+
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">outputStr</span> <span class="o">=</span> <span class="n">outputStr</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{:.8f}{:s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span>
+    <span class="n">outputStr</span> <span class="o">=</span> <span class="n">outputStr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">outputStr</span> <span class="o">=</span> <span class="n">outputStr</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">outputStr</span></div>
+
+
+<span class="c1"># def arrayToStringTab(data: np.ndarray) -&gt; str:</span>
+<span class="c1">#     &quot;&quot;&quot;Convert an array to a string separated by tabs</span>
+
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     data : np.ndarray</span>
+<span class="c1">#         Data array</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     outputStr = &#39;&#39;</span>
+<span class="c1">#     for d in data:</span>
+<span class="c1">#         outputStr = outputStr + &quot;{:.8f}\t&quot;.format(d)</span>
+<span class="c1">#     outputStr = outputStr.strip()</span>
+<span class="c1">#     return outputStr</span>
+
+
+<div class="viewcode-block" id="arrayToStringSci"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.arrayToStringSci">[docs]</a><span class="k">def</span> <span class="nf">arrayToStringSci</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert an array to a string of scientific numbers separated by commas</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Data array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Output string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">outputStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">outputStr</span> <span class="o">=</span> <span class="n">outputStr</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{:.6e}</span><span class="s2">, &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">outputStr</span> <span class="o">=</span> <span class="n">outputStr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">outputStr</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="arrayToStringInt"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.arrayToStringInt">[docs]</a><span class="k">def</span> <span class="nf">arrayToStringInt</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert an array to a string of integers numbers separated by commas</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Data array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Output string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">outputStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">outputStr</span> <span class="o">=</span> <span class="n">outputStr</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{:d}</span><span class="s2">, &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">outputStr</span> <span class="o">=</span> <span class="n">outputStr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">outputStr</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="listToString"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.listToString">[docs]</a><span class="k">def</span> <span class="nf">listToString</span><span class="p">(</span><span class="n">lst</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Convert a list to a comma separated string</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lst : list</span>
+<span class="sd">        List</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Output string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">outputStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+        <span class="n">outputStr</span> <span class="o">=</span> <span class="n">outputStr</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="n">outputStr</span> <span class="o">=</span> <span class="n">outputStr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">outputStr</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="list2rangesFormatter"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.list2rangesFormatter">[docs]</a><span class="k">def</span> <span class="nf">list2rangesFormatter</span><span class="p">(</span>
+    <span class="n">start</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">end</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">step</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A string for showing a range</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start : int</span>
+<span class="sd">        Start point</span>
+<span class="sd">    end : int</span>
+<span class="sd">        End point</span>
+<span class="sd">    step : int</span>
+<span class="sd">        Step</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Output string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="list2ranges"><a class="viewcode-back" href="../../utilities.utilsPrint.html#utilities.utilsPrint.list2ranges">[docs]</a><span class="k">def</span> <span class="nf">list2ranges</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a list of numbers to a list of ranges</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : list, set</span>
+<span class="sd">        List or set of numbers</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out : str</span>
+<span class="sd">        Output string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">lst</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">set</span><span class="p">:</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">resultVals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">scan</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">-</span> <span class="n">scan</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="n">lst</span><span class="p">[</span><span class="n">scan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">lst</span><span class="p">[</span><span class="n">scan</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">lst</span><span class="p">[</span><span class="n">scan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">step</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">]))</span>
+            <span class="n">resultVals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="n">scan</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">continue</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">scan</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">lst</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">lst</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">step</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list2rangesFormatter</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="n">lst</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">step</span><span class="p">))</span>
+                <span class="n">resultVals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="n">lst</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">step</span><span class="p">])</span>
+                <span class="n">scan</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list2rangesFormatter</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="n">lst</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">step</span><span class="p">))</span>
+            <span class="n">resultVals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="n">lst</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">step</span><span class="p">])</span>
+            <span class="k">return</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">-</span> <span class="n">scan</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">]))</span>
+        <span class="n">resultVals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">-</span> <span class="n">scan</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">:])))</span>
+        <span class="n">resultVals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="n">lst</span><span class="p">[</span><span class="n">scan</span><span class="p">],</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">resultVals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">lst</span><span class="p">[</span><span class="n">scan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">lst</span><span class="p">[</span><span class="n">scan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

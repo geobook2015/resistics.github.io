@@ -1,0 +1,636 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ioHandlers.dataReaderSpam module &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ioHandlers.dataWriter module" href="ioHandlers.dataWriter.html" />
+    <link rel="prev" title="ioHandlers.dataReaderPhoenix module" href="ioHandlers.dataReaderPhoenix.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="calculators.html">calculators package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataObjects.html">dataObjects package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ioHandlers.html">ioHandlers package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReader.html">ioHandlers.dataReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderATS.html">ioHandlers.dataReaderATS module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderAscii.html">ioHandlers.dataReaderAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderInternal.html">ioHandlers.dataReaderInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderPhoenix.html">ioHandlers.dataReaderPhoenix module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ioHandlers.dataReaderSpam module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataWriter.html">ioHandlers.dataWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataWriterAscii.html">ioHandlers.dataWriterAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataWriterInternal.html">ioHandlers.dataWriterInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.ioHandler.html">ioHandlers.ioHandler module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.maskIO.html">ioHandlers.maskIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.spectrumReader.html">ioHandlers.spectrumReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.spectrumWriter.html">ioHandlers.spectrumWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.statisticIO.html">ioHandlers.statisticIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.transferFunctionReader.html">ioHandlers.transferFunctionReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.transferFunctionWriter.html">ioHandlers.transferFunctionWriter module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="ioHandlers.html">ioHandlers package</a> &raquo;</li>
+        
+      <li>ioHandlers.dataReaderSpam module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ioHandlers.dataReaderSpam.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ioHandlers.dataReaderSpam">
+<span id="iohandlers-datareaderspam-module"></span><h1>ioHandlers.dataReaderSpam module<a class="headerlink" href="#module-ioHandlers.dataReaderSpam" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM">
+<em class="property">class </em><code class="descclassname">ioHandlers.dataReaderSpam.</code><code class="descname">DataReaderSPAM</code><span class="sig-paren">(</span><em>dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.ioHandlers.dataReader.DataReader</span></code></p>
+<p>Data reader for SPAM data</p>
+<p>SPAM data has the following characteristics:
+The start time in XTR files is the time of the first sample in the data
+The end time in XTR files is the time of the last sample in the data
+SPAM data is already scaled by LSB and getting unscaled samples returns single precision float with units Volts</p>
+<p>SPAM raw data has already been multipled by the LSB and is single precision float data in Volts. Below are the calculations to convert the data into physical units:
+The data is raw voltage of sensors
+Gain needs to be removed
+this is in the scaling = 1/1000*total_gain (gain1*gain2)
+what we want here is 1000/total_gain = 1000000*scaling
+the E fields need their polarity reversed (from email with Reinhard)
+The scaling can be different for each dataset in the directory
+scaling = float(dataSplit[-2])
+if isElectric(chanH[“channel_type”]):</p>
+<blockquote>
+<div># the factor of 100000 is not entirely clear
+lsb = 1000000.0 * scaling
+lsb = -1 * lsb  # reverse polarity</div></blockquote>
+<dl class="docutils">
+<dt>else:</dt>
+<dd># the spam scaling in the xtr file for magnetic fields includes the static gain correction
+# however, a static gain correction is applied in the calibration
+# in order to avoid duplication, the scaling in the xtr is file ignored for the magnetic channels
+lsb = -1000.0  # volts to millivolts and a minus to switch polarity</dd>
+</dl>
+<p>chanH[“ts_lsb”] = lsb</p>
+<p>todo:
+Implement reading of XTRX header files
+Actually write this up properly</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>recChannels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">Channels in each data file</p>
+</dd>
+<dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.float32</span></dt>
+<dd><p class="first last">The data type</p>
+</dd>
+<dt><strong>numHeaderFiles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The number of header files</p>
+</dd>
+<dt><strong>numDataFiles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The number of data files</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="57%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>__init__(dataPath)</strong></td>
+<td>Initialise with path to the data directory</td>
+</tr>
+<tr class="row-even"><td><strong>setParameters()</strong></td>
+<td>Set parameters specific to a data format</td>
+</tr>
+<tr class="row-odd"><td><strong>getUnscaledSamples(**kwargs)</strong></td>
+<td>Get raw, unscaled data</td>
+</tr>
+<tr class="row-even"><td><strong>getPhysicalSamples(**kwargs)</strong></td>
+<td>Get data in physical units</td>
+</tr>
+<tr class="row-odd"><td><strong>spamHeaders()</strong></td>
+<td>Get sections and section headers to be read in for SPAM data</td>
+</tr>
+<tr class="row-even"><td><strong>chanDefaults()</strong></td>
+<td>Get defaults values for channel headers</td>
+</tr>
+<tr class="row-odd"><td><strong>readHeader()</strong></td>
+<td>Read SPAM header files</td>
+</tr>
+<tr class="row-even"><td><strong>readHeaderXTR(headerFile)</strong></td>
+<td>Read a XTR header file</td>
+</tr>
+<tr class="row-odd"><td><strong>readHeaderXTRX(headerFile)</strong></td>
+<td>Read a XTRX header files</td>
+</tr>
+<tr class="row-even"><td><strong>headersFromRawFile(rawFile, headers)</strong></td>
+<td>Read headers from the data files</td>
+</tr>
+<tr class="row-odd"><td><strong>mergeHeaders(headersList, chanHeadersList)</strong></td>
+<td>Merge the headers from all the data files</td>
+</tr>
+<tr class="row-even"><td><strong>printDataFileList()</strong></td>
+<td>Get data file information as a list of strings</td>
+</tr>
+<tr class="row-odd"><td><strong>printDataFiles()</strong></td>
+<td>Print data file information to terminal</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.chanDefaults">
+<code class="descname">chanDefaults</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.chanDefaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.chanDefaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get defaults for channel headers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict[str, Any]</strong></dt>
+<dd><p class="first last">Dictionary of headers for channels and default values</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.getDataFilesForSamples">
+<code class="descname">getDataFilesForSamples</code><span class="sig-paren">(</span><em>startSample</em>, <em>endSample</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[List[int]], List[float]]<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.getDataFilesForSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.getDataFilesForSamples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the data files that have to be read to cover the sample range</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Starting sample of the sample range</p>
+</dd>
+<dt><strong>endSamples</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Ending sample of the sample range</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dataFilesToRead</strong></dt>
+<dd><p class="first last">Time data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.getPhysicalSamples">
+<code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data scaled to physical values</p>
+<p>This method puts everything into field units:
+Electric field in mV/km
+Magnetic fields is mV</p>
+<p>Because the gain is removed when getting the unscaledSamples, the only calculation that has to be done is to divide by the dipole lengths (east-west spacing and north-south spacing).</p>
+<p>To get magnetic fields in nT, they have to be calibrated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of channels to return if not all are required</p>
+</dd>
+<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">First sample to return</p>
+</dd>
+<dt><strong>endSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Last sample to return</p>
+</dd>
+<dt><strong>remaverage</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove average from the data</p>
+</dd>
+<dt><strong>remzeros</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove zeroes from the data</p>
+</dd>
+<dt><strong>remnans: bool</strong></dt>
+<dd><p class="first last">Remove NanNs from the data</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TimeData</strong></dt>
+<dd><p class="first last">Time data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.getUnscaledSamples">
+<code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get raw data from data file</p>
+<p>SPAM raw data is single precision float with units Volts. Calling this method removes the gain pre-applied to the raw data as these might be different for each individual data file in the recording. Therefore, to allow fair comparisons of raw data, gains are removed at this stage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of channels to return if not all are required</p>
+</dd>
+<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">First sample to return</p>
+</dd>
+<dt><strong>endSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Last sample to return</p>
+</dd>
+<dt><strong>remaverage</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove average from the data</p>
+</dd>
+<dt><strong>remzeros</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove zeroes from the data</p>
+</dd>
+<dt><strong>remnans: bool</strong></dt>
+<dd><p class="first last">Remove NanNs from the data</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TimeData</strong></dt>
+<dd><p class="first last">Time data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>To remove the gain, scalings are calculated out when reading the header files. The scaling is calculated out as,
+scaling = 1/1000*total_gain 
+where,
+total_gain = (gain1*gain2)
+Multiplying the raw data in Volts by this scaling gives data in V</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.headersFromRawFile">
+<code class="descname">headersFromRawFile</code><span class="sig-paren">(</span><em>rawFile: str, headers: Dict[KT, VT]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.headersFromRawFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.headersFromRawFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read headers from the raw data files</p>
+<p>Read the headers from the raw file and figure out the data byte offset. 
+Open with encoding ISO-8859-1 because it has a value for all bytes unlike other encoding. In particular, want to find number of samples and the size of the header.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>rawFile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The .RAW data file</p>
+</dd>
+<dt><strong>headers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">A headers dictionary</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The extended header is ignored</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.mergeHeaders">
+<code class="descname">mergeHeaders</code><span class="sig-paren">(</span><em>headersList: List[T], chanHeadersList: List[T]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.mergeHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.mergeHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge headers from all the header files</p>
+<p>Checks all the header files to see if there are any gaps and calculates the sample ranges for each file together with the total number of samples. Sets the start and end time of the recording and class variables datetimeStart and datetimeStop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>headersList</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd><p class="first last">List of headers from each data file</p>
+</dd>
+<dt><strong>chanHeadersList :</strong></dt>
+<dd><p class="first last">List of chan headers from each data file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileInfo">
+<code class="descname">printDataFileInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.printDataFileInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a list of the data files</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileList">
+<code class="descname">printDataFileList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.printDataFileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Information about the data files as a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">List of information about the data files</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.readHeader">
+<code class="descname">readHeader</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.readHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read header files</p>
+<p>For SPAM data, the may be more than one header file as data can be split up into smaller files as it is recorded. In that case, the header information should be somehow merged.</p>
+<p>All sampling frequencies should be the same</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTR">
+<code class="descname">readHeaderXTR</code><span class="sig-paren">(</span><em>headerFile: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.readHeaderXTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a XTR header file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>headerFile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The XTR header file to read in</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTRX">
+<code class="descname">readHeaderXTRX</code><span class="sig-paren">(</span><em>headerFile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.readHeaderXTRX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTRX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a XTRX header files</p>
+<p>XTRX are newer header files and will supercede XTR</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>headerFile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The XTRX header file to read in</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.setParameters">
+<code class="descname">setParameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.setParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set some data reader parameters for reading SPAM data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReaderSpam.DataReaderSPAM.spamHeaders">
+<code class="descname">spamHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[List[str], Dict[str, str]]<a class="reference internal" href="_modules/ioHandlers/dataReaderSpam.html#DataReaderSPAM.spamHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderSpam.DataReaderSPAM.spamHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the sections in SPAM header files (XTR and XTRX)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>sections</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">The sections in the header files</p>
+</dd>
+<dt><strong>sectionHeaders</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict[str, str]</span></dt>
+<dd><p class="first last">The headers in each section to be read in</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ioHandlers.dataWriter.html" class="btn btn-neutral float-right" title="ioHandlers.dataWriter module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ioHandlers.dataReaderPhoenix.html" class="btn btn-neutral float-left" title="ioHandlers.dataReaderPhoenix module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

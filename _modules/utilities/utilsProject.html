@@ -1,0 +1,626 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>utilities.utilsProject &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>utilities.utilsProject</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for utilities.utilsProject</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.configData</span> <span class="k">import</span> <span class="n">ConfigData</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReader</span> <span class="k">import</span> <span class="n">DataReader</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.calibrator</span> <span class="k">import</span> <span class="n">Calibrator</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.decimationParameters</span> <span class="k">import</span> <span class="n">DecimationParams</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.windowParameters</span> <span class="k">import</span> <span class="n">WindowParams</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.windowSelector</span> <span class="k">import</span> <span class="n">WindowSelector</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.processorSingleSite</span> <span class="k">import</span> <span class="n">ProcessorSingleSite</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.processorRemoteReference</span> <span class="k">import</span> <span class="n">ProcessorRemoteReference</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">generalPrint</span><span class="p">,</span>
+    <span class="n">warningPrint</span><span class="p">,</span>
+    <span class="n">errorPrint</span><span class="p">,</span>
+    <span class="n">blockPrint</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">lowPass</span><span class="p">,</span>
+    <span class="n">highPass</span><span class="p">,</span>
+    <span class="n">bandPass</span><span class="p">,</span>
+    <span class="n">notchFilter</span><span class="p">,</span>
+    <span class="n">normalise</span><span class="p">,</span>
+    <span class="n">resample</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsInterp</span> <span class="k">import</span> <span class="n">interpolateToSecond</span>
+
+
+<div class="viewcode-block" id="projectText"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.projectText">[docs]</a><span class="k">def</span> <span class="nf">projectText</span><span class="p">(</span><span class="n">infoStr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;General print to terminal</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    infoStr : str</span>
+<span class="sd">        The string to print to the console</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">generalPrint</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Info&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]),</span> <span class="n">infoStr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="projectBlock"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.projectBlock">[docs]</a><span class="k">def</span> <span class="nf">projectBlock</span><span class="p">(</span><span class="n">textLst</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    textLst : list[str]</span>
+<span class="sd">        List of strings with information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">blockPrint</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">textLst</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="projectWarning"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.projectWarning">[docs]</a><span class="k">def</span> <span class="nf">projectWarning</span><span class="p">(</span><span class="n">warnStr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Warning print to terminal</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    warnStr : str</span>
+<span class="sd">        The string to print to the console</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">warningPrint</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Warning&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]),</span> <span class="n">warnStr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="projectError"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.projectError">[docs]</a><span class="k">def</span> <span class="nf">projectError</span><span class="p">(</span><span class="n">errorStr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">quitRun</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Error print to terminal and possibly quit</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    errorStr : str</span>
+<span class="sd">        The string to print to the console</span>
+<span class="sd">    quitRun : bool, optional (False)</span>
+<span class="sd">        If True, the code will exit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">errorPrint</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Warning&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]),</span> <span class="n">errorStr</span><span class="p">,</span> <span class="n">quitRun</span><span class="o">=</span><span class="n">quitRun</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getCalibrator"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.getCalibrator">[docs]</a><span class="k">def</span> <span class="nf">getCalibrator</span><span class="p">(</span><span class="n">calPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Calibrator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a Calibnator object from calibration path and configuration information</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    calPath : str</span>
+<span class="sd">        Path to calibration directory</span>
+<span class="sd">    config : ConfigData</span>
+<span class="sd">        Configuration data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Calibrator</span>
+<span class="sd">        A calibrator object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cal</span> <span class="o">=</span> <span class="n">Calibrator</span><span class="p">(</span><span class="n">calPath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cal</span>
+
+    <span class="n">cal</span><span class="o">.</span><span class="n">useTheoretical</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Calibration&quot;</span><span class="p">][</span><span class="s2">&quot;usetheoretical&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">cal</span></div>
+
+
+<div class="viewcode-block" id="getDecimationParameters"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.getDecimationParameters">[docs]</a><span class="k">def</span> <span class="nf">getDecimationParameters</span><span class="p">(</span>
+    <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecimationParams</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a DecimationParams object from sampling frequency and configuration information</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        Sampling frequency of the data</span>
+<span class="sd">    config : ConfigData</span>
+<span class="sd">        Configuration data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    DecimationParams</span>
+<span class="sd">        A decimation parameters object        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">decParams</span> <span class="o">=</span> <span class="n">DecimationParams</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">decParams</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s2">&quot;customfrequencies&quot;</span><span class="p">]:</span>
+        <span class="n">decParams</span><span class="o">.</span><span class="n">setFrequencyParams</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Frequencies&quot;</span><span class="p">][</span><span class="s2">&quot;frequencies&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Decimation&quot;</span><span class="p">][</span><span class="s2">&quot;numlevels&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Frequencies&quot;</span><span class="p">][</span><span class="s2">&quot;perlevel&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">decParams</span><span class="o">.</span><span class="n">setDecimationParams</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Decimation&quot;</span><span class="p">][</span><span class="s2">&quot;numlevels&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Frequencies&quot;</span><span class="p">][</span><span class="s2">&quot;perlevel&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">decParams</span></div>
+
+
+<div class="viewcode-block" id="getWindowParameters"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.getWindowParameters">[docs]</a><span class="k">def</span> <span class="nf">getWindowParameters</span><span class="p">(</span>
+    <span class="n">decParams</span><span class="p">:</span> <span class="n">DecimationParams</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WindowParams</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a WindowParams object from decimationParams and configuration data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    decParams : DecimationParams</span>
+<span class="sd">        DecimationParams object to hold the decimation parameters</span>
+<span class="sd">    config : ConfigData</span>
+<span class="sd">        Configuration data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    WindowParams</span>
+<span class="sd">        A window parameters object        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">winParams</span> <span class="o">=</span> <span class="n">WindowParams</span><span class="p">(</span><span class="n">decParams</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">winParams</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s2">&quot;customwindows&quot;</span><span class="p">]:</span>
+        <span class="n">winParams</span><span class="o">.</span><span class="n">setWindowParameters</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;windowsizes&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;overlapsizes&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">winParams</span><span class="o">.</span><span class="n">setMinParams</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;minwindowsize&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;minoverlapsize&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">winParams</span></div>
+
+
+<div class="viewcode-block" id="getSingleSiteProcessor"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.getSingleSiteProcessor">[docs]</a><span class="k">def</span> <span class="nf">getSingleSiteProcessor</span><span class="p">(</span>
+    <span class="n">winSelector</span><span class="p">:</span> <span class="n">WindowSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessorSingleSite</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a ProcessorSingleSite object from a windowSelector object, outPath and config data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    winSelector : WindowSelector</span>
+<span class="sd">        Window selector with sites, masks etc already specified</span>
+<span class="sd">    tfPath : str</span>
+<span class="sd">        Path to output transfer function data</span>
+<span class="sd">    config : ConfigData, optional</span>
+<span class="sd">        Configuration data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ProcessorSingleSite</span>
+<span class="sd">        A single site processor        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">processor</span> <span class="o">=</span> <span class="n">ProcessorSingleSite</span><span class="p">(</span><span class="n">winSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">processor</span>
+
+    <span class="k">return</span> <span class="n">processor</span></div>
+
+
+<div class="viewcode-block" id="getRemoteReferenceProcessor"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.getRemoteReferenceProcessor">[docs]</a><span class="k">def</span> <span class="nf">getRemoteReferenceProcessor</span><span class="p">(</span>
+    <span class="n">winSelector</span><span class="p">:</span> <span class="n">WindowSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a ProcessorRemoteReference object from a windowSelector object, outPath and config data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    winSelector : WindowSelector</span>
+<span class="sd">        Window selector with sites, masks etc already specified</span>
+<span class="sd">    outPath : str</span>
+<span class="sd">        Path to output transfer function data</span>
+<span class="sd">    config : ConfigData, optional</span>
+<span class="sd">        Configuration data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ProcessorRemoteReference</span>
+<span class="sd">        A remote reference processor        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">processor</span> <span class="o">=</span> <span class="n">ProcessorRemoteReference</span><span class="p">(</span><span class="n">winSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">processor</span>
+    
+    <span class="k">return</span> <span class="n">processor</span></div>
+
+
+<div class="viewcode-block" id="checkDateOptions"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.checkDateOptions">[docs]</a><span class="k">def</span> <span class="nf">checkDateOptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">timeStart</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timeStop</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Check to see if data contributes to user specified date range</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        Options dictionary with start and stop options specified by user (if specified at all)</span>
+<span class="sd">    timeStart : datetime</span>
+<span class="sd">        Start time of data</span>
+<span class="sd">    timeStop : datetime</span>
+<span class="sd">        Stop time of data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if data contributes to the date range</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># now check the user provided dates</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">timeStop</span><span class="p">:</span>
+        <span class="c1"># this data has nothing to contribute in the optional date range</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">timeStart</span><span class="p">:</span>
+        <span class="c1"># this data has nothing to contribute in the optional date range</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="applyCalibrationOptions"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.applyCalibrationOptions">[docs]</a><span class="k">def</span> <span class="nf">applyCalibrationOptions</span><span class="p">(</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">cal</span><span class="p">:</span> <span class="n">Calibrator</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">reader</span><span class="p">:</span> <span class="n">DataReader</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calibrate time data with user options</span>
+
+<span class="sd">    To calibrate, specify</span>
+<span class="sd">    options[&quot;calibrate&quot;] = True</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        User specified options for calibrating</span>
+<span class="sd">    cal : Calibrator</span>
+<span class="sd">        A calibrator instance</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        Time data to filter</span>
+<span class="sd">    reader: DataReader</span>
+<span class="sd">        A data reader object for the data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Calibrated time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;calibrate&quot;</span><span class="p">]:</span>
+        <span class="n">sensors</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">getSensors</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">chans</span><span class="p">)</span>
+        <span class="n">serials</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">getSerials</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">chans</span><span class="p">)</span>
+        <span class="n">choppers</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">getChoppers</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">chans</span><span class="p">)</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">cal</span><span class="o">.</span><span class="n">calibrate</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">sensors</span><span class="p">,</span> <span class="n">serials</span><span class="p">,</span> <span class="n">choppers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="applyFilterOptions"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.applyFilterOptions">[docs]</a><span class="k">def</span> <span class="nf">applyFilterOptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Filter time data</span>
+
+<span class="sd">    To low pass filter, specify</span>
+<span class="sd">    options[&quot;filter&quot;][&quot;lpfilt&quot;] = high cutoff frequency </span>
+<span class="sd">    To high pass filter, specify </span>
+<span class="sd">    options[&quot;filter&quot;][&quot;hpfilt&quot;] = low cutoff frequency</span>
+<span class="sd">    To bandass filter, specify</span>
+<span class="sd">    options[&quot;filter&quot;][&quot;bpfilt&quot;] = [low cutoff frequency, high cutoff frequency]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        User specified options for filtering</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        Time data to filter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Filtered time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="s2">&quot;lpfilt&quot;</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">lowPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">][</span><span class="s2">&quot;lpfilt&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;hpfilt&quot;</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">highPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">][</span><span class="s2">&quot;hpfilt&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s2">&quot;bpfilt&quot;</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">bandPass</span><span class="p">(</span>
+            <span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">][</span><span class="s2">&quot;bpfilt&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">][</span><span class="s2">&quot;bpfilt&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="applyNotchOptions"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.applyNotchOptions">[docs]</a><span class="k">def</span> <span class="nf">applyNotchOptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Notch filter time data</span>
+
+<span class="sd">    To notch filter, options[&quot;notch&quot;] needs to be a list of frequencies to filter out. For example, to notch filter at 16.6Hz, this would be:</span>
+<span class="sd">    options[&quot;notch&quot;] = [16.6]</span>
+<span class="sd">    For two frequencies, for example 16.6Hz and 50Hz, then:</span>
+<span class="sd">    options[&quot;notch&quot;] = [16.6, 50]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        User specified options for notching</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        Time data to filter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Notch filtered time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;notch&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;notch&quot;</span><span class="p">]:</span>
+            <span class="n">timeData</span> <span class="o">=</span> <span class="n">notchFilter</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="applyNormaliseOptions"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.applyNormaliseOptions">[docs]</a><span class="k">def</span> <span class="nf">applyNormaliseOptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Normalise time data</span>
+
+<span class="sd">    To normalise, options[&quot;normalise&quot;] needs to be set to True</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        User specified options for normalising</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        Time data to filter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Normalised time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;normalise&quot;</span><span class="p">]:</span>
+        <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Normalising data&quot;</span><span class="p">)</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">normalise</span><span class="p">(</span><span class="n">timeData</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="applyInterpolationOptions"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.applyInterpolationOptions">[docs]</a><span class="k">def</span> <span class="nf">applyInterpolationOptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Interpolate time data</span>
+
+<span class="sd">    Interpolate time data to make sure all the data starts on a full second. This is best to do before resampling.</span>
+
+<span class="sd">    To interpolate, options[&quot;interp&quot;] needs to be set to True</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        Interpolation options in a dictionary</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        Time data object</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Interpolated time data</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This will fail with longer sample periods (i.e. greater than a second)    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;interp&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">timeData</span><span class="o">.</span><span class="n">startTime</span><span class="o">.</span><span class="n">microsecond</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">timeData</span> <span class="o">=</span> <span class="n">interpolateToSecond</span><span class="p">(</span><span class="n">timeData</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="applyResampleOptions"><a class="viewcode-back" href="../../utilities.utilsProject.html#utilities.utilsProject.applyResampleOptions">[docs]</a><span class="k">def</span> <span class="nf">applyResampleOptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Resample time data</span>
+
+<span class="sd">    The resampling options in the options dictionary should be specified as:</span>
+<span class="sd">    options[&quot;resample&quot;][frequency to resample from] = frequency to resample to</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        Interpolation options in a dictionary</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        Time data object</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Resampled time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;resamp&quot;</span><span class="p">]:</span>  <span class="c1"># then need to resample this data</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;resamp&quot;</span><span class="p">][</span><span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

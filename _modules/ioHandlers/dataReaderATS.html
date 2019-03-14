@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ioHandlers.dataReaderATS &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ioHandlers.dataReaderATS</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ioHandlers.dataReaderATS</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReader</span> <span class="k">import</span> <span class="n">DataReader</span>
+
+
+<div class="viewcode-block" id="DataReaderATS"><a class="viewcode-back" href="../../ioHandlers.dataReaderATS.html#ioHandlers.dataReaderATS.DataReaderATS">[docs]</a><span class="k">class</span> <span class="nc">DataReaderATS</span><span class="p">(</span><span class="n">DataReader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Data reader for ATS formatted data</span>
+
+<span class="sd">    For ATS files, header information is written out to an XML file. </span>
+<span class="sd">    </span>
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    setParameters()</span>
+<span class="sd">        Set data format parameters</span>
+<span class="sd">    dataHeaders()</span>
+<span class="sd">        Headers to read in</span>
+<span class="sd">    readHeaders()</span>
+<span class="sd">        Specific function for reading the headers for internal format</span>
+<span class="sd">    lineToKeyAndValue(line)</span>
+<span class="sd">        Separate a line into key and value with = as a delimiter</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The end time in ATS files is actually one sample past the time of the last sample. The dataReader handles this and gives an end time corresponding to the time of the actual last sample.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DataReaderATS.setParameters"><a class="viewcode-back" href="../../ioHandlers.dataReaderATS.html#ioHandlers.dataReaderATS.DataReaderATS.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set data reader parameters for ATS files&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">headerF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.xml&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.ats&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span> <span class="o">=</span> <span class="mi">1024</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span> <span class="o">=</span> <span class="mi">4</span></div>
+
+<div class="viewcode-block" id="DataReaderATS.dataHeaders"><a class="viewcode-back" href="../../ioHandlers.dataReaderATS.html#ioHandlers.dataReaderATS.DataReaderATS.dataHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">dataHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the data headers in the internal file format</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        recordingHeaders : List[str]</span>
+<span class="sd">            Headers with information about the recording</span>
+<span class="sd">        globalHeaders : List[str]</span>
+<span class="sd">            Common headers with information about the recording</span>
+<span class="sd">        channelHeadersInput : List[str]</span>
+<span class="sd">            Channel setup headers</span>
+<span class="sd">        channelHeadersOutput : List[str]</span>
+<span class="sd">            Channel recording headers      </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">recordingHeaders</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;start_date&quot;</span><span class="p">,</span> <span class="s2">&quot;stop_time&quot;</span><span class="p">,</span> <span class="s2">&quot;stop_date&quot;</span><span class="p">]</span>
+        <span class="n">globalHeaders</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;meas_channels&quot;</span><span class="p">,</span> <span class="s2">&quot;sample_freq&quot;</span><span class="p">]</span>
+        <span class="n">channelHeadersInput</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gain_stage1&quot;</span><span class="p">,</span> <span class="s2">&quot;gain_stage2&quot;</span><span class="p">,</span> <span class="s2">&quot;hchopper&quot;</span><span class="p">,</span> <span class="s2">&quot;echopper&quot;</span><span class="p">]</span>
+        <span class="n">channelHeadersOutput</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;start_time&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;start_date&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sample_freq&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;num_samples&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ats_data_file&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sensor_type&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;channel_type&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ts_lsb&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_x1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_x2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_y1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_y2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_z1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_z2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sensor_sernum&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">recordingHeaders</span><span class="p">,</span>
+            <span class="n">globalHeaders</span><span class="p">,</span>
+            <span class="n">channelHeadersInput</span><span class="p">,</span>
+            <span class="n">channelHeadersOutput</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReaderATS.readHeader"><a class="viewcode-back" href="../../ioHandlers.dataReaderATS.html#ioHandlers.dataReaderATS.DataReaderATS.readHeader">[docs]</a>    <span class="k">def</span> <span class="nf">readHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read time data header file for internal format&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headerF</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;More xml files than expected. Using: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headerF</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="p">)</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headerF</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="c1"># get header names</span>
+        <span class="n">rHeaders</span><span class="p">,</span> <span class="n">gHeaders</span><span class="p">,</span> <span class="n">cHeadersInput</span><span class="p">,</span> <span class="n">cHeadersOutput</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataHeaders</span><span class="p">()</span>
+
+        <span class="c1"># get recording headers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">recording</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;./recording&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">rH</span> <span class="ow">in</span> <span class="n">rHeaders</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">rH</span><span class="p">]</span> <span class="o">=</span> <span class="n">recording</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">rH</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+        <span class="c1"># get global config headers</span>
+        <span class="n">globalConfig</span> <span class="o">=</span> <span class="n">recording</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;./input/ADU07Hardware/global_config&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">gH</span> <span class="ow">in</span> <span class="n">gHeaders</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">gH</span><span class="p">]</span> <span class="o">=</span> <span class="n">globalConfig</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">gH</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="c1"># get the channel headers in the input section</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span>
+            <span class="s2">&quot;./recording/input/ADU07Hardware/channel_config/channel&quot;</span>
+        <span class="p">):</span>
+            <span class="n">chanH</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">cH</span> <span class="ow">in</span> <span class="n">cHeadersInput</span><span class="p">:</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="n">cH</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">cH</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chanH</span><span class="p">)</span>
+        <span class="c1"># get the channel headers in the output section</span>
+        <span class="n">outputSec</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span>
+            <span class="s2">&quot;./recording/output/ProcessingTree1/output/ATSWriter/configuration/channel&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># check for old style xml file</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputSec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">outputSec</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span>
+                <span class="s2">&quot;./recording/output/ATSWriter/configuration/channel&quot;</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">chan</span><span class="p">,</span> <span class="n">chanH</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">outputSec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">cH</span> <span class="ow">in</span> <span class="n">cHeadersOutput</span><span class="p">:</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="n">cH</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">cH</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="c1"># a couple of things to do: add microseconds to the times</span>
+        <span class="c1"># remember, the actual end time is one sample back</span>
+        <span class="c1"># if you do a calculation with the number of samples and the start time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.000000&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_time&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.000000&quot;</span>
+        <span class="k">for</span> <span class="n">chanH</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">:</span>
+            <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.000000&quot;</span>
+
+        <span class="c1"># set the lsb applied header in chans</span>
+        <span class="c1"># for ats files, this is not applied in the raw data files</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;lsb_applied&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span>
+            <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

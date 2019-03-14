@@ -1,0 +1,571 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>calculators.decimationParameters &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>calculators.decimationParameters</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for calculators.decimationParameters</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.calculator</span> <span class="k">import</span> <span class="n">Calculator</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsConfig</span> <span class="k">import</span> <span class="n">loadConfig</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsEvalFreq</span> <span class="k">import</span> <span class="n">getEvaluationFreqSize</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">generalPrint</span><span class="p">,</span>
+    <span class="n">warningPrint</span><span class="p">,</span>
+    <span class="n">blockPrint</span><span class="p">,</span>
+    <span class="n">arrayToString</span><span class="p">,</span>
+    <span class="n">errorPrint</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="DecimationParams"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams">[docs]</a><span class="k">class</span> <span class="nc">DecimationParams</span><span class="p">(</span><span class="n">Calculator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to calculate and hold decimation parameters</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        Sampling frequency in Hz.</span>
+<span class="sd">    divFactor : int</span>
+<span class="sd">        Minimum division factor when working out decimation factors</span>
+<span class="sd">    numLevels : int</span>
+<span class="sd">        Number of decimation levels</span>
+<span class="sd">    freqPerLevel : int</span>
+<span class="sd">        Number of frequencies per decimation level</span>
+<span class="sd">    decFactors : np.ndarray</span>
+<span class="sd">        Incremental decimation factors</span>
+<span class="sd">    decFrequencies : np.ndarray</span>
+<span class="sd">        Sampling frequencies at each decimation level</span>
+<span class="sd">    evalFreq : np.ndarray </span>
+<span class="sd">        Array of evaluation frequencies</span>
+<span class="sd">    evalFreqPerLevel : np.ndarray</span>
+<span class="sd">        2-D array (numLevels,freqPerLevel) of evaluation frequencies</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(sampleFreq)</span>
+<span class="sd">        Initialise with sampling frequency</span>
+<span class="sd">    getSampleFreqLevel(decLevel)</span>
+<span class="sd">        Get the sample frequency of the level</span>
+<span class="sd">    getDecFactor(decLevel)</span>
+<span class="sd">        Get the decimation factor from level 0 to decLevel</span>
+<span class="sd">    getIncrementalFactor(decLevel)</span>
+<span class="sd">        Get the decimation factor from decLevel-1 to decLevel</span>
+<span class="sd">    getEvaluationFrequenciesPerLevel(decLevel)</span>
+<span class="sd">        Returns evaluation frequencies for decLevel</span>
+<span class="sd">    setFrequencyParams(evalFreq, freqPerLevel, maxLevel)</span>
+<span class="sd">        Set decimation parameters by evaluation frequencies and frequencies per level</span>
+<span class="sd">    setDecimationParams(numLevels, freqPerLevel)</span>
+<span class="sd">        Set decimation parameters by number of levels and frequencies per level</span>
+<span class="sd">    calcFrequencyParams(numLevels, freqPerLevel)</span>
+<span class="sd">        Calculate decimation parameters based on number of levels and frequencies per level</span>
+<span class="sd">    calcDecimationParams(evalFreq, maxLevel, freqPerLevel)</span>
+<span class="sd">        Calculate decimation paratmers based on evaluation frequencies, frequecies per level and max level</span>
+<span class="sd">    calcNearestFactor(freq)</span>
+<span class="sd">        Calculate nearest decimation factor</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class status returned as list of strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise decimation parameters with sampling frequency</span>
+
+<span class="sd">        Calculates decimation factors and evaluation frequencies based on defaults</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sampleFreq : float</span>
+<span class="sd">            Sampling frequency</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">=</span> <span class="n">sampleFreq</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">loadConfig</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">divFactor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Decimation&quot;</span><span class="p">][</span><span class="s2">&quot;numlevels&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freqPerLevel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Frequencies&quot;</span><span class="p">][</span><span class="s2">&quot;perlevel&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decFactors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decFrequencies</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evalFreqPerLevel</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+
+        <span class="c1"># calculate some initial values decimation parameters based on defaults</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcFrequencyParams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqPerLevel</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DecimationParams.getSampleFreqLevel"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.getSampleFreqLevel">[docs]</a>    <span class="k">def</span> <span class="nf">getSampleFreqLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decLevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get sampling frequency for decimation level</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        decLevel : int</span>
+<span class="sd">            Decimation level</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : float</span>
+<span class="sd">            Sample frequency for decimation level decLevel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkDecimationLevel</span><span class="p">(</span><span class="n">decLevel</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDecFactor</span><span class="p">(</span><span class="n">decLevel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DecimationParams.getDecFactor"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.getDecFactor">[docs]</a>    <span class="k">def</span> <span class="nf">getDecFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decLevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get decimation factor for decimation level</span>
+
+<span class="sd">        Returns decimation factor relative to level 0</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        decLevel : int</span>
+<span class="sd">            Decimation level</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : float</span>
+<span class="sd">            Decimation factor for level decLevel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkDecimationLevel</span><span class="p">(</span><span class="n">decLevel</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decFactors</span><span class="p">[</span><span class="n">decLevel</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="DecimationParams.getIncrementalFactor"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.getIncrementalFactor">[docs]</a>    <span class="k">def</span> <span class="nf">getIncrementalFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decLevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get decimation factor for decimation level</span>
+
+<span class="sd">        Returns decimation factor relative to decLevel - 1</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        decLevel : int</span>
+<span class="sd">            Decimation level</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : int</span>
+<span class="sd">            Incremental decimation factor from decLevel - 1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkDecimationLevel</span><span class="p">(</span><span class="n">decLevel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">decLevel</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decFactors</span><span class="p">[</span><span class="n">decLevel</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decFactors</span><span class="p">[</span><span class="n">decLevel</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">decFactors</span><span class="p">[</span><span class="n">decLevel</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="DecimationParams.getEvalFrequenciesForLevel"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.getEvalFrequenciesForLevel">[docs]</a>    <span class="k">def</span> <span class="nf">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decLevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get evaluation frequencies for level decLevel</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        decLevel : int</span>
+<span class="sd">            Decimation level</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : np.ndarray</span>
+<span class="sd">            Array of evaluation frequencies for level decLevel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkDecimationLevel</span><span class="p">(</span><span class="n">decLevel</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreqPerLevel</span><span class="p">[</span><span class="n">decLevel</span><span class="p">,</span> <span class="p">:]</span></div>
+
+<div class="viewcode-block" id="DecimationParams.checkDecimationLevel"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.checkDecimationLevel">[docs]</a>    <span class="k">def</span> <span class="nf">checkDecimationLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decLevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Checks user provided decimation levels and quits if out of bounds</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        decLevel : int</span>
+<span class="sd">            Decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">decLevel</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span><span class="s2">&quot;Decimation level must be greater than 0&quot;</span><span class="p">,</span> <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">decLevel</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                <span class="s2">&quot;Decimation level must be less than or equal to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="p">),</span>
+                <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+    <span class="c1"># def getSampleFreq(self):</span>
+    <span class="c1">#     return self.sampleFreq</span>
+
+    <span class="c1"># def getNumLevels(self):</span>
+    <span class="c1">#     return self.numLevels</span>
+
+    <span class="c1"># def getDecFactors(self):</span>
+    <span class="c1">#     return self.decFactors</span>
+
+    <span class="c1"># def getDecFrequencies(self):</span>
+    <span class="c1">#     return self.decFrequencies</span>
+
+    <span class="c1"># def getEvalFrequencies(self):</span>
+    <span class="c1">#     return self.evalFreq</span>
+
+    <span class="c1"># def getNumFreqPerLevel(self):</span>
+    <span class="c1">#     return self.freqPerLevel</span>
+
+    <span class="c1"># def getEvalFrequenciesAllLevels(self):</span>
+    <span class="c1">#     return self.evalFreqPerLevel</span>
+
+    <span class="c1"># def getData(self):</span>
+    <span class="c1">#     return self.data</span>
+
+<div class="viewcode-block" id="DecimationParams.setFrequencyParams"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.setFrequencyParams">[docs]</a>    <span class="k">def</span> <span class="nf">setFrequencyParams</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">freqPerLevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">maxLevel</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sets frequency parameters and calculates decimation paramters based on those</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        evalFreq : List</span>
+<span class="sd">            Evaluation frequencies</span>
+<span class="sd">        freqPerLevel : int</span>
+<span class="sd">            Number of evaluation frequencies per level</span>
+<span class="sd">        maxLevel : int</span>
+<span class="sd">            Maximum decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">evalFreq</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>  <span class="c1"># sort in descending order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcDecimationParams</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">,</span> <span class="n">freqPerLevel</span><span class="p">,</span> <span class="n">maxLevel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DecimationParams.setDecimationParams"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.setDecimationParams">[docs]</a>    <span class="k">def</span> <span class="nf">setDecimationParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">freqPerLevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sets number of levels and frequencies per levels to calculate decimation parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numLevels : int</span>
+<span class="sd">            Number of decimation levels</span>
+<span class="sd">        freqPerLevel : int</span>
+<span class="sd">            Number of evaluation frequencies per level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcFrequencyParams</span><span class="p">(</span><span class="n">numLevels</span><span class="p">,</span> <span class="n">freqPerLevel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DecimationParams.calcFrequencyParams"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.calcFrequencyParams">[docs]</a>    <span class="k">def</span> <span class="nf">calcFrequencyParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">freqPerLevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Calculates evaluation frequencies and decimation parameters</span>
+
+<span class="sd">        Uses number of levels and frequencies per levels to auto-calculate evaluation frequencies and then the decimation parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numLevels : int</span>
+<span class="sd">            Number of decimation levels</span>
+<span class="sd">        freqPerLevel : int</span>
+<span class="sd">            Number of evaluation frequencies per level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numFreq</span> <span class="o">=</span> <span class="n">numLevels</span> <span class="o">*</span> <span class="n">freqPerLevel</span>
+        <span class="n">evalFreq</span> <span class="o">=</span> <span class="n">getEvaluationFreqSize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">numFreq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcDecimationParams</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">,</span> <span class="n">freqPerLevel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DecimationParams.calcDecimationParams"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.calcDecimationParams">[docs]</a>    <span class="k">def</span> <span class="nf">calcDecimationParams</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">],</span> <span class="n">maxLevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">freqPerLevel</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Calculate decimation parameters from evaluation frequencies</span>
+
+<span class="sd">        Uses evaluation frequencies, number of frequencies per decimation level and max allowable decimation level to calculate decimation parameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        evalFreq : List, np.ndarray</span>
+<span class="sd">            Number of decimation levels</span>
+<span class="sd">        maxLevel : int</span>
+<span class="sd">            Maximum allowable number of decimation levels</span>
+<span class="sd">        freqPerLevel :</span>
+<span class="sd">            Number of frequencies per level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">evalFreq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">)</span>
+        <span class="c1"># calculating decimation parameters from evaluation frequencies</span>
+        <span class="n">maxf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">/</span> <span class="mi">4</span>
+        <span class="c1"># find the first evaluation frequency less than or equal to maxf</span>
+        <span class="n">fHigh</span> <span class="o">=</span> <span class="n">evalFreq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ifreq</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">evalFreq</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">evalFreq</span><span class="p">[</span><span class="n">ifreq</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">maxf</span><span class="p">:</span>
+                <span class="n">fHigh</span> <span class="o">=</span> <span class="n">evalFreq</span><span class="p">[</span><span class="n">ifreq</span><span class="p">]</span>
+                <span class="k">break</span>
+        <span class="n">iHigh</span> <span class="o">=</span> <span class="n">evalFreq</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">fHigh</span><span class="p">)</span>
+        <span class="n">evalFreqSub</span> <span class="o">=</span> <span class="n">evalFreq</span><span class="p">[</span><span class="n">iHigh</span><span class="p">:]</span>
+        <span class="c1"># calculate number of levels</span>
+        <span class="n">numLevels</span> <span class="o">=</span> <span class="n">maxLevel</span>
+        <span class="c1"># check if enough evaluation frequencies</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">evalFreqSub</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">freqPerLevel</span> <span class="o">*</span> <span class="n">maxLevel</span><span class="p">:</span>
+            <span class="c1"># numLevels = int(math.floor(len(evalFreqSub)/freqPerLevel))</span>
+            <span class="n">numLevels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">evalFreqSub</span><span class="p">)</span> <span class="o">/</span> <span class="n">freqPerLevel</span><span class="p">))</span>
+
+        <span class="c1"># do another subslice</span>
+        <span class="n">evalFreqSub</span> <span class="o">=</span> <span class="n">evalFreqSub</span><span class="p">[:</span> <span class="n">numLevels</span> <span class="o">*</span> <span class="n">freqPerLevel</span><span class="p">]</span>
+
+        <span class="c1"># now create an array of evalation frequencies per decimation level</span>
+        <span class="c1"># evalFreqPerLevel = np.ones(shape=(numLevels, freqPerLevel))</span>
+        <span class="n">evalFreqPerLevel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numLevels</span><span class="p">,</span> <span class="n">freqPerLevel</span><span class="p">))</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">ilevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ifreq</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">freqPerLevel</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">ilevel</span> <span class="o">*</span> <span class="n">freqPerLevel</span> <span class="o">+</span> <span class="n">ifreq</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">evalFreqSub</span><span class="p">):</span>
+                    <span class="k">break</span>
+                <span class="n">evalFreqPerLevel</span><span class="p">[</span><span class="n">ilevel</span><span class="p">,</span> <span class="n">ifreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">evalFreqSub</span><span class="p">[</span>
+                    <span class="n">ilevel</span> <span class="o">*</span> <span class="n">freqPerLevel</span> <span class="o">+</span> <span class="n">ifreq</span>
+                <span class="p">]</span>
+
+        <span class="c1"># now calculate decimation factors</span>
+        <span class="n">decFactors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numLevels</span><span class="p">))</span>
+        <span class="n">decFrequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numLevels</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">ilevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="n">decFactors</span><span class="p">[</span><span class="n">ilevel</span><span class="p">],</span> <span class="n">decFrequencies</span><span class="p">[</span><span class="n">ilevel</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcNearestFactor</span><span class="p">(</span>
+                <span class="n">evalFreqPerLevel</span><span class="p">[</span><span class="n">ilevel</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="c1"># finally, set all parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span> <span class="o">=</span> <span class="n">evalFreqSub</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freqPerLevel</span> <span class="o">=</span> <span class="n">freqPerLevel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span> <span class="o">=</span> <span class="n">numLevels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evalFreqPerLevel</span> <span class="o">=</span> <span class="n">evalFreqPerLevel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decFactors</span> <span class="o">=</span> <span class="n">decFactors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decFrequencies</span> <span class="o">=</span> <span class="n">decFrequencies</span></div>
+
+<div class="viewcode-block" id="DecimationParams.calcNearestFactor"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.calcNearestFactor">[docs]</a>    <span class="k">def</span> <span class="nf">calcNearestFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculates nearest decimation factor given frequency</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        freq : float</span>
+<span class="sd">            Frequency for which to calculate decimation factor</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fac : int</span>
+<span class="sd">            The decimation factor</span>
+<span class="sd">        f : float</span>
+<span class="sd">            Sampling frequency in Hz given the decimation factor (sampleFreq/decimationFactor)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># want sampling frequency to be 4 times greater than highest freq</span>
+        <span class="n">fsMin</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="c1"># set to initial sampling frequency</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">)</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">f</span> <span class="o">&gt;</span> <span class="n">fsMin</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">divFactor</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">f</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">divFactor</span>
+            <span class="n">fac</span> <span class="o">=</span> <span class="n">fac</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">divFactor</span>
+        <span class="k">return</span> <span class="n">fac</span><span class="p">,</span> <span class="n">f</span></div>
+
+<div class="viewcode-block" id="DecimationParams.printList"><a class="viewcode-back" href="../../calculators.decimationParameters.html#calculators.decimationParameters.DecimationParams.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sampling frequency = </span><span class="si">{:f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Number of decimation levels = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">))</span>
+        <span class="c1"># decimation factors</span>
+        <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Level = </span><span class="si">{:d}</span><span class="se">\t</span><span class="s2">sample freq. [Hz] = </span><span class="si">{:.6f}</span><span class="se">\t</span><span class="s2">sample rate [s] = </span><span class="si">{:.6f}</span><span class="se">\t</span><span class="s2">dec. factor = </span><span class="si">{:07d}</span><span class="se">\t</span><span class="s2">inc. factor = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">il</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">decFrequencies</span><span class="p">[</span><span class="n">il</span><span class="p">],</span>
+                    <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">decFrequencies</span><span class="p">[</span><span class="n">il</span><span class="p">],</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">decFactors</span><span class="p">[</span><span class="n">il</span><span class="p">]),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">getIncrementalFactor</span><span class="p">(</span><span class="n">il</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="c1"># evaluation frequencies</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Evaluation frequencies [Hz]&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="n">freqForLevel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">il</span><span class="p">)</span>
+            <span class="n">eFreqStr</span> <span class="o">=</span> <span class="n">arrayToString</span><span class="p">(</span><span class="n">freqForLevel</span><span class="p">)</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Level = </span><span class="si">{:d}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">il</span><span class="p">,</span> <span class="n">eFreqStr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

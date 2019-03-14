@@ -1,0 +1,1562 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ioHandlers.dataReader module &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ioHandlers.dataReaderATS module" href="ioHandlers.dataReaderATS.html" />
+    <link rel="prev" title="ioHandlers package" href="ioHandlers.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="calculators.html">calculators package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataObjects.html">dataObjects package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ioHandlers.html">ioHandlers package</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ioHandlers.dataReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderATS.html">ioHandlers.dataReaderATS module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderAscii.html">ioHandlers.dataReaderAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderInternal.html">ioHandlers.dataReaderInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderPhoenix.html">ioHandlers.dataReaderPhoenix module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderSpam.html">ioHandlers.dataReaderSpam module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataWriter.html">ioHandlers.dataWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataWriterAscii.html">ioHandlers.dataWriterAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataWriterInternal.html">ioHandlers.dataWriterInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.ioHandler.html">ioHandlers.ioHandler module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.maskIO.html">ioHandlers.maskIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.spectrumReader.html">ioHandlers.spectrumReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.spectrumWriter.html">ioHandlers.spectrumWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.statisticIO.html">ioHandlers.statisticIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.transferFunctionReader.html">ioHandlers.transferFunctionReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.transferFunctionWriter.html">ioHandlers.transferFunctionWriter module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="ioHandlers.html">ioHandlers package</a> &raquo;</li>
+        
+      <li>ioHandlers.dataReader module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ioHandlers.dataReader.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ioHandlers.dataReader">
+<span id="iohandlers-datareader-module"></span><h1>ioHandlers.dataReader module<a class="headerlink" href="#module-ioHandlers.dataReader" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ioHandlers.dataReader.DataReader">
+<em class="property">class </em><code class="descclassname">ioHandlers.dataReader.</code><code class="descname">DataReader</code><span class="sig-paren">(</span><em>dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.ioHandlers.ioHandler.IOHandler</span></code></p>
+<p>Base class for data readers</p>
+<p>DataReader is the base class for the time data readers. It implements much of the non-format dependent methods.</p>
+<p>The DataReaders for the different formats are meant to give a consistent output. Conventions used include:
+The start time is the time of the first sample
+The end time is the time of the last sample</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dataPath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><blockquote class="first">
+<div><p>Path to the data folder.</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt>headers <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">Dictionary mapping header words to values</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of channels</p>
+</dd>
+<dt><strong>numChannels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of channels</p>
+</dd>
+<dt><strong>chanHeaders</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd><p class="first last">Headers specific to channels</p>
+</dd>
+<dt><strong>chanMap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">Map from channel name to index for chanHeaders</p>
+</dd>
+<dt><strong>comments</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><blockquote class="first">
+<div><p>List of comments associated with data</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt>headerF <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of header files (with extension .hdr)</p>
+</dd>
+<dt>dataF <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of data files (with extension .npy)</p>
+</dd>
+<dt>dataByteOffset <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of bytes to offset before reading</p>
+</dd>
+<dt>dataByteSize <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Byte size of a single data value</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>__init__(dataPath)</strong></td>
+<td>Initialise with path to the data directory</td>
+</tr>
+<tr class="row-even"><td><strong>setParameters()</strong></td>
+<td>Set parameters specific to a data format</td>
+</tr>
+<tr class="row-odd"><td><strong>checkFiles()</strong></td>
+<td>Check to see header and data files found in data directory</td>
+</tr>
+<tr class="row-even"><td><strong>getComments()</strong></td>
+<td>Get a deepcopy of the comments</td>
+</tr>
+<tr class="row-odd"><td><strong>getHeaders()</strong></td>
+<td>Get copy of header dictionary</td>
+</tr>
+<tr class="row-even"><td><strong>getChannels()</strong></td>
+<td>Get a list of the channels</td>
+</tr>
+<tr class="row-odd"><td><strong>getNumChannels()</strong></td>
+<td>Get number of channels</td>
+</tr>
+<tr class="row-even"><td><strong>getSampleFreq(integer = False)</strong></td>
+<td>Get sampling frequency in Hz as float or optionally as integer</td>
+</tr>
+<tr class="row-odd"><td><strong>getSampleRate()</strong></td>
+<td>Get sample rate in s</td>
+</tr>
+<tr class="row-even"><td><strong>getNumSamples()</strong></td>
+<td>Get the number of samples</td>
+</tr>
+<tr class="row-odd"><td><strong>getStartDatetime()</strong></td>
+<td>Get the data start time as a datetime object</td>
+</tr>
+<tr class="row-even"><td><strong>getStopDatetime()</strong></td>
+<td>Get the data stop time as a datetime object</td>
+</tr>
+<tr class="row-odd"><td><strong>getGain1()</strong></td>
+<td>Get gain stage 1 for each channel in an array</td>
+</tr>
+<tr class="row-even"><td><strong>getGain2()</strong></td>
+<td>Get gain stage 2 for each channel in an array</td>
+</tr>
+<tr class="row-odd"><td><strong>getChanMap()</strong></td>
+<td>Get the channel map</td>
+</tr>
+<tr class="row-even"><td><strong>getChanHeader(chan, header)</strong></td>
+<td>Get a channel header</td>
+</tr>
+<tr class="row-odd"><td><strong>getChanType(chan)</strong></td>
+<td>Get channel type (electric, magnetic)</td>
+</tr>
+<tr class="row-even"><td><strong>getChanGain1(chan)</strong></td>
+<td>Get gain stage 1 for chan</td>
+</tr>
+<tr class="row-odd"><td><strong>getChanGain2(chan)</strong></td>
+<td>Get gain stage 2 for chan</td>
+</tr>
+<tr class="row-even"><td><strong>getChanSamples(chan)</strong></td>
+<td>Get number of samples in channel</td>
+</tr>
+<tr class="row-odd"><td><strong>getChanSampleFreq(chan)</strong></td>
+<td>Get sampling frequency for a channel</td>
+</tr>
+<tr class="row-even"><td><strong>getChanLSB(chan)</strong></td>
+<td>Get the channel least significant bit</td>
+</tr>
+<tr class="row-odd"><td><strong>getChanLSBApplied(chan)</strong></td>
+<td>Get a bool flag designating whether LSB has been applied</td>
+</tr>
+<tr class="row-even"><td><strong>getChanDataFile(chan)</strong></td>
+<td>Get the channel data file</td>
+</tr>
+<tr class="row-odd"><td><strong>getChanDx(chan)</strong></td>
+<td>Get the distance between x electrodes</td>
+</tr>
+<tr class="row-even"><td><strong>getChanDy(chan)</strong></td>
+<td>Get the distance between y electrodes</td>
+</tr>
+<tr class="row-odd"><td><strong>getChanDz(chan)</strong></td>
+<td>Get the distance between z electrodes</td>
+</tr>
+<tr class="row-even"><td><strong>getChanSensor(chan)</strong></td>
+<td>Get sensor value of a channel</td>
+</tr>
+<tr class="row-odd"><td><strong>getChanSerial(chan)</strong></td>
+<td>Get serial value of a channel</td>
+</tr>
+<tr class="row-even"><td><strong>getChanChopper(chan)</strong></td>
+<td>Get chopper value for a channel</td>
+</tr>
+<tr class="row-odd"><td><strong>getSensors(chans)</strong></td>
+<td>Get sensor values for a list of channels</td>
+</tr>
+<tr class="row-even"><td><strong>getSerials(chans)</strong></td>
+<td>Get serial values for a list of channels</td>
+</tr>
+<tr class="row-odd"><td><strong>getChoppers(chans)</strong></td>
+<td>Get chopper values for a list of channels</td>
+</tr>
+<tr class="row-even"><td><strong>setHeader(headerName, headerVal)</strong></td>
+<td>Set a header value</td>
+</tr>
+<tr class="row-odd"><td><strong>setChanHeader(chan, headerName, headerVal)</strong></td>
+<td>Set a chan header value</td>
+</tr>
+<tr class="row-even"><td><strong>getUnscaledSamples(**kwargs)</strong></td>
+<td>Get raw, unscaled data</td>
+</tr>
+<tr class="row-odd"><td><strong>getUnscaledData(startTime, endTime, **kwargs)</strong></td>
+<td>Get raw, unscaled data for a date range</td>
+</tr>
+<tr class="row-even"><td><strong>getPhysicalSamples(**kwargs)</strong></td>
+<td>Get data in physical units</td>
+</tr>
+<tr class="row-odd"><td><strong>getPhysicalData(startTime, endTime, **kwargs)</strong></td>
+<td>Get data in physical units for a date range</td>
+</tr>
+<tr class="row-even"><td><strong>parseGetDataKeywords(keywords)</strong></td>
+<td>Parse get data keywords</td>
+</tr>
+<tr class="row-odd"><td><strong>time2sample(timeStart, timeEnd)</strong></td>
+<td>Convert dates to samples</td>
+</tr>
+<tr class="row-even"><td><strong>sample2time(sampleStart, sampleEnd)</strong></td>
+<td>Convert samples to datetimes</td>
+</tr>
+<tr class="row-odd"><td><strong>getDataTimes(timeStart, timeEnd)</strong></td>
+<td>Check data times and return checked and corrected ones</td>
+</tr>
+<tr class="row-even"><td><strong>readHeader()</strong></td>
+<td>Read header data (implemented in child classes)</td>
+</tr>
+<tr class="row-odd"><td><strong>formatHeaderData()</strong></td>
+<td>Format the header data</td>
+</tr>
+<tr class="row-even"><td><strong>intHeaders()</strong></td>
+<td>Return a list of headers to be formatted as int</td>
+</tr>
+<tr class="row-odd"><td><strong>floatHeaders()</strong></td>
+<td>Return a list of headers to be formatted as float</td>
+</tr>
+<tr class="row-even"><td><strong>boolHeaders()</strong></td>
+<td>Return a list of headers to be formatted as bool</td>
+</tr>
+<tr class="row-odd"><td><strong>prepare()</strong></td>
+<td>Prepare class information after reading header files</td>
+</tr>
+<tr class="row-even"><td><strong>checkChan(chan)</strong></td>
+<td>Check channel exists in data</td>
+</tr>
+<tr class="row-odd"><td><strong>printList()</strong></td>
+<td>Class information as list of strings</td>
+</tr>
+<tr class="row-even"><td><strong>printCommentsList()</strong></td>
+<td>Comment information as list of strings</td>
+</tr>
+<tr class="row-odd"><td><strong>printComments()</strong></td>
+<td>Print comments to terminal</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.boolHeaders">
+<code class="descname">boolHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str]]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.boolHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.boolHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of headers which are expected to have boolean values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>boolGlobal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of global boolean headers</p>
+</dd>
+<dt><strong>boolChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of chan boolean headers</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.checkChan">
+<code class="descname">checkChan</code><span class="sig-paren">(</span><em>chan: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.checkChan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.checkChan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check channel exists in data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>chan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Channel to check</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.checkFiles">
+<code class="descname">checkFiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.checkFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.checkFiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to make sure data files found</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.floatHeaders">
+<code class="descname">floatHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str]]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.floatHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.floatHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of headers which are expected to have boolean values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>floatGlobal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of global float headers</p>
+</dd>
+<dt><strong>floatChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of chan float headers</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.formatHeaderData">
+<code class="descname">formatHeaderData</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.formatHeaderData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.formatHeaderData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format header data to the correct formats</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanChopper">
+<code class="descname">getChanChopper</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanChopper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanChopper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channel chopper</p>
+<p>The chopper is an amplifier present in some instruments. There might be different calibration files for chopper on or off.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>bool</strong></dt>
+<dd><p class="first last">Flag designating whether chopper is on or off</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanDataFile">
+<code class="descname">getChanDataFile</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanDataFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanDataFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the data file for the channel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>str</strong></dt>
+<dd><p class="first last">Data file for the channel</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanDx">
+<code class="descname">getChanDx</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanDx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanDx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the electric channel spacing in the x direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">Electric channel spacing in x direction in metres</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanDy">
+<code class="descname">getChanDy</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanDy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanDy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the electric channel spacing in the y direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">Electric channel spacing in y direction in metres</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanDz">
+<code class="descname">getChanDz</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanDz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanDz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the electric channel spacing in the z direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">Electric channel spacing in z direction in metres</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanGain1">
+<code class="descname">getChanGain1</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanGain1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanGain1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channel gain 1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">Channel gain 1</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanGain2">
+<code class="descname">getChanGain2</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanGain2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanGain2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channel gain 2</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">Channel gain 2</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanHeader">
+<code class="descname">getChanHeader</code><span class="sig-paren">(</span><em>chan</em>, <em>header</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanHeader" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanHeaders">
+<code class="descname">getChanHeaders</code><span class="sig-paren">(</span><em>chans: List[str] = []</em><span class="sig-paren">)</span> &#x2192; Tuple[List[T], Dict[KT, VT]]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channel headers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>chans: List[str], optional</strong></dt>
+<dd><p class="first last">List of channels for which chan headers are wanted</p>
+</dd>
+<dt><strong>Returns</strong></dt>
+<dd></dd>
+<dt><strong>——-</strong></dt>
+<dd></dd>
+<dt><strong>chanHeaders</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd><p class="first last">List of channel headers</p>
+</dd>
+<dt><strong>chanMap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">Map from channel to index for the chanHeaders</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanLSB">
+<code class="descname">getChanLSB</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanLSB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanLSB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channel least significant bit</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">Channel least significant bit</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanLSBApplied">
+<code class="descname">getChanLSBApplied</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanLSBApplied"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanLSBApplied" title="Permalink to this definition">¶</a></dt>
+<dd><p>A flag to mark whether a channel has the lsb applied</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>bool</strong></dt>
+<dd><p class="first last">Flag to designate whether channel lsb applied</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanMap">
+<code class="descname">getChanMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanMap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanSampleFreq">
+<code class="descname">getChanSampleFreq</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanSampleFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanSampleFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channel sampling frequency</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">Sampling frequency in Hz</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanSamples">
+<code class="descname">getChanSamples</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanSamples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channel number of samples</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">Channel number of samples</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanSensor">
+<code class="descname">getChanSensor</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanSensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanSensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channel sensor type</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>str</strong></dt>
+<dd><p class="first last">Channel sensor type</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanSerial">
+<code class="descname">getChanSerial</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanSerial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanSerial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channel serial number</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>str</strong></dt>
+<dd><p class="first last">Channel serial number</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChanType">
+<code class="descname">getChanType</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChanType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChanType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the channel type (electric or magnetic)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>str</strong></dt>
+<dd><p class="first last">String of channel type</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChannels">
+<code class="descname">getChannels</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChannels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChannels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get channels in data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">Data channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getChoppers">
+<code class="descname">getChoppers</code><span class="sig-paren">(</span><em>chans: List[str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, bool]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getChoppers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getChoppers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get choppers for multiple chans</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict[str, str]</strong></dt>
+<dd><p class="first last">Dictionary with channels as keys and the serials numbers as values</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getComments">
+<code class="descname">getComments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getComments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a deepcopy of the comments</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">Dataset comments as a list of strings</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getDataTimes">
+<code class="descname">getDataTimes</code><span class="sig-paren">(</span><em>timeStart</em>, <em>timeEnd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getDataTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getDataTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks and converts a date range to make sure it’s within data start and end</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>timeStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
+<dd><p class="first last">Start time of date range</p>
+</dd>
+<dt><strong>timeEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
+<dd><p class="first last">End time of date range</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>timeStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
+<dd><p class="first last">Checked and corrected start time of data range</p>
+</dd>
+<dt><strong>timeEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
+<dd><p class="first last">Checked and corrected end time of data range</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getGain1">
+<code class="descname">getGain1</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getGain1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getGain1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get value of gain 1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">Array of gains for channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getGain2">
+<code class="descname">getGain2</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getGain2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getGain2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get value of gain 2</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">Array of gains for channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getHeaders">
+<code class="descname">getHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict[KT, VT]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the data headers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict</strong></dt>
+<dd><p class="first last">Data headers</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getNumChannels">
+<code class="descname">getNumChannels</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getNumChannels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getNumChannels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of channels in the data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">Number of channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getNumSamples">
+<code class="descname">getNumSamples</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getNumSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getNumSamples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of samples</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">Number of samples</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getPhysicalData">
+<code class="descname">getPhysicalData</code><span class="sig-paren">(</span><em>startTime</em>, <em>endTime</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getPhysicalData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getPhysicalData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get physical data from data file between a start and end data</p>
+<p>Each data format is recorded in a different way.
+ATS provides unscaled data in counts (<a href="#id1"><span class="problematic" id="id2">*</span></a>lsb gives mV)
+SPAM provides unscaled data in the count data/unscaled data * lsb is assumed to give data in mV
+Phoenix
+Internal</p>
+<p>The data readers return data using field units. Therefore:
+Electric field channels are returned in mV/km
+Magnetic fields are in mV</p>
+<p>To get magnetic fields in nT, calibration needs to be performed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>startTime</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime</span></dt>
+<dd><p class="first last">Start time of data to read</p>
+</dd>
+<dt><strong>endTime</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime</span></dt>
+<dd><p class="first last">End time of data to read</p>
+</dd>
+<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of channels to return if not all are required</p>
+</dd>
+<dt><strong>remaverage</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove average from the data</p>
+</dd>
+<dt><strong>remzeros</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove zeroes from the data</p>
+</dd>
+<dt><strong>remnans: bool</strong></dt>
+<dd><p class="first last">Remove NanNs from the data</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TimeData</strong></dt>
+<dd><p class="first last">Time data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getPhysicalSamples">
+<code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data scaled to physical values</p>
+<p>Each data format is recorded in a different way.
+ATS provides unscaled data in counts (<a href="#id3"><span class="problematic" id="id4">*</span></a>lsb gives mV)
+SPAM provides unscaled data in the count data/unscaled data * lsb is assumed to give data in mV
+Phoenix
+Internal</p>
+<p>The data readers return data using field units. Therefore:
+Electric field channels are returned in mV/km
+Magnetic fields are in mV</p>
+<p>To get magnetic fields in nT, calibration needs to be performed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of channels to return if not all are required</p>
+</dd>
+<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">First sample to return</p>
+</dd>
+<dt><strong>endSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Last sample to return</p>
+</dd>
+<dt><strong>remaverage</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove average from the data</p>
+</dd>
+<dt><strong>remzeros</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove zeroes from the data</p>
+</dd>
+<dt><strong>remnans: bool</strong></dt>
+<dd><p class="first last">Remove NanNs from the data</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TimeData</strong></dt>
+<dd><p class="first last">Time data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getSampleFreq">
+<code class="descname">getSampleFreq</code><span class="sig-paren">(</span><em>integer: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getSampleFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getSampleFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data sampling frequency in Hz</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float, int</strong></dt>
+<dd><p class="first last">Sampling frequency</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getSampleRate">
+<code class="descname">getSampleRate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getSampleRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getSampleRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data sampling rate in  s</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">Sampling rate in s</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getSensors">
+<code class="descname">getSensors</code><span class="sig-paren">(</span><em>chans: List[str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, str]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getSensors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getSensors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get sensors for multiple chans</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict[str, str]</strong></dt>
+<dd><p class="first last">Dictionary with channels as keys and the sensor types as values</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getSerials">
+<code class="descname">getSerials</code><span class="sig-paren">(</span><em>chans: List[str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, str]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getSerials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getSerials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get serials for multiple chans</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict[str, str]</strong></dt>
+<dd><p class="first last">Dictionary with channels as keys and the serials numbers as values</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getStartDatetime">
+<code class="descname">getStartDatetime</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; datetime.datetime<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getStartDatetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getStartDatetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get datetime of first sample</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>datetime</strong></dt>
+<dd><p class="first last">Date and time of first sample</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getStopDatetime">
+<code class="descname">getStopDatetime</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; datetime.datetime<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getStopDatetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getStopDatetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get datetime of last sample</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>datetime</strong></dt>
+<dd><p class="first last">Date and time of last sample</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getUnscaledData">
+<code class="descname">getUnscaledData</code><span class="sig-paren">(</span><em>startTime</em>, <em>endTime</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getUnscaledData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getUnscaledData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get raw data from data file between a start and end data</p>
+<p>Depending on the data format, this could be raw counts. This method reads samples for ATS and internal format. SPAM data has its own implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>startTime</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime</span></dt>
+<dd><p class="first last">Start time of data to read</p>
+</dd>
+<dt><strong>endTime</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime</span></dt>
+<dd><p class="first last">End time of data to read</p>
+</dd>
+<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of channels to return if not all are required</p>
+</dd>
+<dt><strong>remaverage</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove average from the data</p>
+</dd>
+<dt><strong>remzeros</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove zeroes from the data</p>
+</dd>
+<dt><strong>remnans: bool</strong></dt>
+<dd><p class="first last">Remove NanNs from the data</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TimeData</strong></dt>
+<dd><p class="first last">Time data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.getUnscaledSamples">
+<code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get raw data from data file</p>
+<p>Depending on the data format, this could be raw counts. This method reads samples for ATS and internal format. SPAM data has its own implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of channels to return if not all are required</p>
+</dd>
+<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">First sample to return</p>
+</dd>
+<dt><strong>endSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Last sample to return</p>
+</dd>
+<dt><strong>remaverage</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove average from the data</p>
+</dd>
+<dt><strong>remzeros</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Remove zeroes from the data</p>
+</dd>
+<dt><strong>remnans: bool</strong></dt>
+<dd><p class="first last">Remove NanNs from the data</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TimeData</strong></dt>
+<dd><p class="first last">Time data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.intHeaders">
+<code class="descname">intHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str]]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.intHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.intHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of headers which are expected to have integer values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>intGlobal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of global integer headers</p>
+</dd>
+<dt><strong>intChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of chan integer headers</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.parseGetDataKeywords">
+<code class="descname">parseGetDataKeywords</code><span class="sig-paren">(</span><em>keywords</em><span class="sig-paren">)</span> &#x2192; Dict[KT, VT]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.parseGetDataKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.parseGetDataKeywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the get data keywords</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>keywords</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">The keywords passed to get data methods</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict</strong></dt>
+<dd><p class="first last">A dictionary of parsed keywords with defaults where nothing is provided by the user</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.prepare">
+<code class="descname">prepare</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.prepare"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set some intial values</p>
+<p>This method does some checks and prepares some of the storage for the channels.</p>
+<p class="rubric">Notes</p>
+<p>The end time of the data will be checked. Different data formats record an end time after the last sample. For example, ATS end time appears to be one sample after the number of samples. The end time is checked by using the number of samples and the sampling frequency.</p>
+<p>The internal convention is that the start and end times should reflect the times of the first and last sample</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.printComments">
+<code class="descname">printComments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.printComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.printComments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print out dataset comments</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.printCommentsList">
+<code class="descname">printCommentsList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.printCommentsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.printCommentsList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dataset comments as a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of strings with information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.printList">
+<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.printList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class information as a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of strings with information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.readHeader">
+<code class="descname">readHeader</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.readHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to read header data and populate reader information</p>
+<p>This is implemented in child classes as all header formats are different</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.sample2time">
+<code class="descname">sample2time</code><span class="sig-paren">(</span><em>sampleStart: int</em>, <em>sampleEnd: int</em><span class="sig-paren">)</span> &#x2192; Tuple[datetime.datetime, datetime.datetime]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.sample2time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.sample2time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a start and end sample to start and end times</p>
+<p>Note: The first sample is zero</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>sampleStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The starting sample for the sample range</p>
+</dd>
+<dt><strong>sampleEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The ending sample for the sample range</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>timeStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
+<dd><p class="first last">Corresponding start time of date range</p>
+</dd>
+<dt><strong>timeEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
+<dd><p class="first last">Corresponding end time of date range</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.setChanHeader">
+<code class="descname">setChanHeader</code><span class="sig-paren">(</span><em>chan: str</em>, <em>headerName: str</em>, <em>headerVal: Any</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.setChanHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.setChanHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a channel header value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>channel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The channel</p>
+</dd>
+<dt><strong>headerName</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The name of the header to set</p>
+</dd>
+<dt><strong>headerVal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Any</span></dt>
+<dd><p class="first last">Header value</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.setHeader">
+<code class="descname">setHeader</code><span class="sig-paren">(</span><em>headerName: str</em>, <em>headerVal: Any</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.setHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.setHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a header value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>headerName</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The name of the header to set</p>
+</dd>
+<dt><strong>headerVal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Any</span></dt>
+<dd><p class="first last">Header value</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.setParameters">
+<code class="descname">setParameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.setParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set data reader parameters</p>
+<p>This will vary for the different data formats. By default, setup for the internal data format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.dataReader.DataReader.time2sample">
+<code class="descname">time2sample</code><span class="sig-paren">(</span><em>timeStart: Union[str, datetime.datetime], timeEnd: Union[str, datetime.datetime]</em><span class="sig-paren">)</span> &#x2192; Tuple[int, int]<a class="reference internal" href="_modules/ioHandlers/dataReader.html#DataReader.time2sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.time2sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a start and end time to start and end samples</p>
+<p>Note: The first sample is zero</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>timeStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
+<dd><p class="first last">Start time of date range</p>
+</dd>
+<dt><strong>timeEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
+<dd><p class="first last">End time of date range</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>sampleStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The correspoding start sample for timeStart</p>
+</dd>
+<dt><strong>sampleEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The corresponding end sample for timeEnd</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ioHandlers.dataReaderATS.html" class="btn btn-neutral float-right" title="ioHandlers.dataReaderATS module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ioHandlers.html" class="btn btn-neutral float-left" title="ioHandlers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

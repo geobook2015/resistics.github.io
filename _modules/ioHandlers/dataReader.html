@@ -1,0 +1,1467 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ioHandlers.dataReader &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ioHandlers.dataReader</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ioHandlers.dataReader</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.ioHandler</span> <span class="k">import</span> <span class="n">IOHandler</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">blockPrint</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsChecks</span> <span class="k">import</span> <span class="n">isElectric</span><span class="p">,</span> <span class="n">isMagnetic</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsClean</span> <span class="k">import</span> <span class="n">removeNansSingle</span><span class="p">,</span> <span class="n">removeZerosSingle</span>
+
+
+<div class="viewcode-block" id="DataReader"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader">[docs]</a><span class="k">class</span> <span class="nc">DataReader</span><span class="p">(</span><span class="n">IOHandler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for data readers</span>
+
+<span class="sd">    DataReader is the base class for the time data readers. It implements much of the non-format dependent methods.</span>
+
+<span class="sd">    The DataReaders for the different formats are meant to give a consistent output. Conventions used include:</span>
+<span class="sd">    The start time is the time of the first sample</span>
+<span class="sd">    The end time is the time of the last sample</span>
+
+<span class="sd">	Attributes</span>
+<span class="sd">	----------</span>
+<span class="sd">	dataPath : str</span>
+<span class="sd">		Path to the data folder.</span>
+<span class="sd">	headers : Dict</span>
+<span class="sd">		Dictionary mapping header words to values</span>
+<span class="sd">    chans : List[str]</span>
+<span class="sd">        List of channels</span>
+<span class="sd">    numChannels : int</span>
+<span class="sd">        Number of channels</span>
+<span class="sd">    chanHeaders : List	</span>
+<span class="sd">        Headers specific to channels</span>
+<span class="sd">    chanMap : Dict</span>
+<span class="sd">        Map from channel name to index for chanHeaders</span>
+<span class="sd">    comments : List[str]</span>
+<span class="sd">		List of comments associated with data</span>
+<span class="sd">	headerF	: List[str]</span>
+<span class="sd">		List of header files (with extension .hdr)</span>
+<span class="sd">	dataF : List[str]</span>
+<span class="sd">		List of data files (with extension .npy)</span>
+<span class="sd">	dataByteOffset : int</span>
+<span class="sd">		Number of bytes to offset before reading</span>
+<span class="sd">	dataByteSize : int</span>
+<span class="sd">		Byte size of a single data value</span>
+
+<span class="sd">	Methods</span>
+<span class="sd">	-------</span>
+<span class="sd">	__init__(dataPath)</span>
+<span class="sd">		Initialise with path to the data directory</span>
+<span class="sd">    setParameters()</span>
+<span class="sd">        Set parameters specific to a data format</span>
+<span class="sd">    checkFiles()</span>
+<span class="sd">        Check to see header and data files found in data directory</span>
+<span class="sd">    getComments()</span>
+<span class="sd">        Get a deepcopy of the comments</span>
+<span class="sd">    getHeaders()</span>
+<span class="sd">        Get copy of header dictionary</span>
+<span class="sd">    getChannels()</span>
+<span class="sd">        Get a list of the channels</span>
+<span class="sd">    getNumChannels()   </span>
+<span class="sd">        Get number of channels</span>
+<span class="sd">    getSampleFreq(integer = False)</span>
+<span class="sd">        Get sampling frequency in Hz as float or optionally as integer</span>
+<span class="sd">    getSampleRate()</span>
+<span class="sd">        Get sample rate in s</span>
+<span class="sd">    getNumSamples()</span>
+<span class="sd">        Get the number of samples</span>
+<span class="sd">    getStartDatetime()</span>
+<span class="sd">        Get the data start time as a datetime object</span>
+<span class="sd">    getStopDatetime()</span>
+<span class="sd">        Get the data stop time as a datetime object</span>
+<span class="sd">    getGain1() </span>
+<span class="sd">        Get gain stage 1 for each channel in an array</span>
+<span class="sd">    getGain2()</span>
+<span class="sd">        Get gain stage 2 for each channel in an array</span>
+<span class="sd">    getChanMap()</span>
+<span class="sd">        Get the channel map</span>
+<span class="sd">    getChanHeader(chan, header)</span>
+<span class="sd">        Get a channel header</span>
+<span class="sd">    getChanType(chan)</span>
+<span class="sd">        Get channel type (electric, magnetic)</span>
+<span class="sd">    getChanGain1(chan)</span>
+<span class="sd">        Get gain stage 1 for chan</span>
+<span class="sd">    getChanGain2(chan)</span>
+<span class="sd">        Get gain stage 2 for chan</span>
+<span class="sd">    getChanSamples(chan)</span>
+<span class="sd">        Get number of samples in channel</span>
+<span class="sd">    getChanSampleFreq(chan)</span>
+<span class="sd">        Get sampling frequency for a channel</span>
+<span class="sd">    getChanLSB(chan)</span>
+<span class="sd">        Get the channel least significant bit</span>
+<span class="sd">    getChanLSBApplied(chan)</span>
+<span class="sd">        Get a bool flag designating whether LSB has been applied</span>
+<span class="sd">    getChanDataFile(chan)</span>
+<span class="sd">        Get the channel data file</span>
+<span class="sd">    getChanDx(chan)</span>
+<span class="sd">        Get the distance between x electrodes</span>
+<span class="sd">    getChanDy(chan)</span>
+<span class="sd">        Get the distance between y electrodes</span>
+<span class="sd">    getChanDz(chan)</span>
+<span class="sd">        Get the distance between z electrodes</span>
+<span class="sd">    getChanSensor(chan)</span>
+<span class="sd">        Get sensor value of a channel</span>
+<span class="sd">    getChanSerial(chan)</span>
+<span class="sd">        Get serial value of a channel</span>
+<span class="sd">    getChanChopper(chan)</span>
+<span class="sd">        Get chopper value for a channel</span>
+<span class="sd">    getSensors(chans)</span>
+<span class="sd">        Get sensor values for a list of channels</span>
+<span class="sd">    getSerials(chans)</span>
+<span class="sd">        Get serial values for a list of channels</span>
+<span class="sd">    getChoppers(chans)</span>
+<span class="sd">        Get chopper values for a list of channels</span>
+<span class="sd">    setHeader(headerName, headerVal) </span>
+<span class="sd">        Set a header value</span>
+<span class="sd">    setChanHeader(chan, headerName, headerVal)</span>
+<span class="sd">        Set a chan header value</span>
+<span class="sd">    getUnscaledSamples(**kwargs)</span>
+<span class="sd">        Get raw, unscaled data</span>
+<span class="sd">    getUnscaledData(startTime, endTime, **kwargs)</span>
+<span class="sd">        Get raw, unscaled data for a date range</span>
+<span class="sd">    getPhysicalSamples(**kwargs)</span>
+<span class="sd">        Get data in physical units</span>
+<span class="sd">    getPhysicalData(startTime, endTime, **kwargs)</span>
+<span class="sd">        Get data in physical units for a date range</span>
+<span class="sd">    parseGetDataKeywords(keywords)</span>
+<span class="sd">        Parse get data keywords</span>
+<span class="sd">    time2sample(timeStart, timeEnd)</span>
+<span class="sd">        Convert dates to samples</span>
+<span class="sd">    sample2time(sampleStart, sampleEnd)</span>
+<span class="sd">        Convert samples to datetimes</span>
+<span class="sd">    getDataTimes(timeStart, timeEnd)</span>
+<span class="sd">        Check data times and return checked and corrected ones</span>
+<span class="sd">    readHeader()</span>
+<span class="sd">        Read header data (implemented in child classes)</span>
+<span class="sd">    formatHeaderData()</span>
+<span class="sd">        Format the header data</span>
+<span class="sd">    intHeaders()</span>
+<span class="sd">        Return a list of headers to be formatted as int    </span>
+<span class="sd">    floatHeaders()</span>
+<span class="sd">        Return a list of headers to be formatted as float</span>
+<span class="sd">    boolHeaders()</span>
+<span class="sd">        Return a list of headers to be formatted as bool</span>
+<span class="sd">    prepare()</span>
+<span class="sd">        Prepare class information after reading header files</span>
+<span class="sd">    checkChan(chan)</span>
+<span class="sd">        Check channel exists in data</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class information as list of strings</span>
+<span class="sd">    printCommentsList()</span>
+<span class="sd">        Comment information as list of strings</span>
+<span class="sd">    printComments()</span>
+<span class="sd">        Print comments to terminal</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialise with path to data directory</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dataPath : str</span>
+<span class="sd">            Path to data directory</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">dataPath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># get a list of the xml files in the folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParameters</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkFiles</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span><span class="s2">&quot;No header or data files found...exiting&quot;</span><span class="p">,</span> <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readHeader</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formatHeaderData</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DataReader.setParameters"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set data reader parameters</span>
+
+<span class="sd">        This will vary for the different data formats. By default, setup for the internal data format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">headerF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.hdr&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.dat&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span> <span class="o">=</span> <span class="mi">4</span></div>
+
+    <span class="c1"># def getSampleFreqInt(self) -&gt; int:</span>
+    <span class="c1">#     return int(self.headers[&quot;sample_freq&quot;])</span>
+
+    <span class="c1"># def getStartDate(self) -&gt; str:</span>
+    <span class="c1">#     &quot;&quot;&quot;Get date of first sample as string</span>
+
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     str</span>
+    <span class="c1">#         Date of first sample</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+
+    <span class="c1">#     return self.headers[&quot;start_date&quot;]</span>
+
+    <span class="c1"># def getStartTime(self) -&gt; str:</span>
+    <span class="c1">#     &quot;&quot;&quot;Get time of first sample as string</span>
+
+    <span class="c1">#     Returns</span>
+    <span class="c1">#     -------</span>
+    <span class="c1">#     str</span>
+    <span class="c1">#         Time of first sample</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+
+    <span class="c1">#     return self.headers[&quot;start_time&quot;]</span>
+
+    <span class="c1"># def getStartDatetimeTuple(self):</span>
+    <span class="c1">#     return self.datetimeStart.utctimetuple()</span>
+
+    <span class="c1"># def getStartDatetimeString(self) -&gt; str:</span>
+    <span class="c1">#     return self.datetimeStart.strftime(&quot;%Y-%m-%d %H:%M:%S.%f&quot;)</span>
+
+    <span class="c1"># def getStopTime(self) -&gt; str:</span>
+    <span class="c1">#     return self.headers[&quot;stop_time&quot;]</span>
+
+    <span class="c1"># def getStopDate(self) -&gt; str:</span>
+    <span class="c1">#     return self.headers[&quot;stop_date&quot;]</span>
+
+    <span class="c1"># def getStopDatetimeTuple(self):</span>
+    <span class="c1">#     return self.datetimeStop.utctimetuple()</span>
+
+    <span class="c1"># def getStopDatetimeString(self) -&gt; str:</span>
+    <span class="c1">#     return self.datetimeStop.strftime(&quot;%Y-%m-%d %H:%M:%S.%f&quot;)</span>
+
+<div class="viewcode-block" id="DataReader.checkFiles"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.checkFiles">[docs]</a>    <span class="k">def</span> <span class="nf">checkFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Check to make sure data files found&quot;&quot;&quot;</span>
+
+        <span class="n">check</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headerF</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="n">check</span> <span class="ow">and</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;No header files found&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="n">check</span> <span class="ow">and</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;No data files found&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">check</span></div>
+
+<div class="viewcode-block" id="DataReader.getComments"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getComments">[docs]</a>    <span class="k">def</span> <span class="nf">getComments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get a deepcopy of the comments</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Dataset comments as a list of strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getHeaders"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">getHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the data headers</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict</span>
+<span class="sd">            Data headers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChannels"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChannels">[docs]</a>    <span class="k">def</span> <span class="nf">getChannels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get channels in data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Data channels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getNumChannels"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getNumChannels">[docs]</a>    <span class="k">def</span> <span class="nf">getNumChannels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get number of channels in the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Number of channels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;meas_channels&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="DataReader.getSampleFreq"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getSampleFreq">[docs]</a>    <span class="k">def</span> <span class="nf">getSampleFreq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">integer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get data sampling frequency in Hz</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float, int</span>
+<span class="sd">            Sampling frequency</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">integer</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="DataReader.getSampleRate"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getSampleRate">[docs]</a>    <span class="k">def</span> <span class="nf">getSampleRate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get data sampling rate in  s</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Sampling rate in s</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DataReader.getNumSamples"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getNumSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getNumSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get number of samples</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Number of samples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="DataReader.getStartDatetime"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getStartDatetime">[docs]</a>    <span class="k">def</span> <span class="nf">getStartDatetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get datetime of first sample</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        datetime</span>
+<span class="sd">            Date and time of first sample</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datetimeStart</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getStopDatetime"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getStopDatetime">[docs]</a>    <span class="k">def</span> <span class="nf">getStopDatetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get datetime of last sample</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        datetime</span>
+<span class="sd">            Date and time of last sample</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datetimeStop</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getGain1"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getGain1">[docs]</a>    <span class="k">def</span> <span class="nf">getGain1</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get value of gain 1</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Array of gains for channels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">gain1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">):</span>
+            <span class="n">gain1</span><span class="p">[</span><span class="n">iChan</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanGain1</span><span class="p">(</span><span class="n">iChan</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gain1</span></div>
+
+<div class="viewcode-block" id="DataReader.getGain2"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getGain2">[docs]</a>    <span class="k">def</span> <span class="nf">getGain2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get value of gain 2</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Array of gains for channels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">gain2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">):</span>
+            <span class="n">gain2</span><span class="p">[</span><span class="n">iChan</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanGain2</span><span class="p">(</span><span class="n">iChan</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gain2</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanHeaders"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">getChanHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chans</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get channel headers</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chans: List[str], optional</span>
+<span class="sd">            List of channels for which chan headers are wanted</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        chanHeaders : List</span>
+<span class="sd">            List of channel headers</span>
+<span class="sd">        chanMap : Dict</span>
+<span class="sd">            Map from channel to index for the chanHeaders</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chans</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">),</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">)</span>
+
+        <span class="n">chanHeaders</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">chanMap</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chans</span><span class="p">):</span>
+            <span class="n">chanIdx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanMap</span><span class="p">()[</span><span class="n">c</span><span class="p">]</span>
+            <span class="n">chanHeaders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">chanIdx</span><span class="p">])</span>
+            <span class="n">chanMap</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+        <span class="k">return</span> <span class="n">chanHeaders</span><span class="p">,</span> <span class="n">chanMap</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanMap"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanMap">[docs]</a>    <span class="k">def</span> <span class="nf">getChanMap</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanHeader"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanHeader">[docs]</a>    <span class="k">def</span> <span class="nf">getChanHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">,</span> <span class="n">header</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkChan</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+        <span class="n">iChan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">header</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanType"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanType">[docs]</a>    <span class="k">def</span> <span class="nf">getChanType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the channel type (electric or magnetic)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            String of channel type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;channel_type&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanGain1"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanGain1">[docs]</a>    <span class="k">def</span> <span class="nf">getChanGain1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get channel gain 1 </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Channel gain 1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;gain_stage1&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanGain2"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanGain2">[docs]</a>    <span class="k">def</span> <span class="nf">getChanGain2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get channel gain 2</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Channel gain 2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;gain_stage2&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanSamples"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getChanSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get channel number of samples</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Channel number of samples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;num_samples&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanSampleFreq"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanSampleFreq">[docs]</a>    <span class="k">def</span> <span class="nf">getChanSampleFreq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get channel sampling frequency </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Sampling frequency in Hz</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;sample_freq&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanLSB"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanLSB">[docs]</a>    <span class="k">def</span> <span class="nf">getChanLSB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get channel least significant bit </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Channel least significant bit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;ts_lsb&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanLSBApplied"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanLSBApplied">[docs]</a>    <span class="k">def</span> <span class="nf">getChanLSBApplied</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A flag to mark whether a channel has the lsb applied</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            Flag to designate whether channel lsb applied</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;lsb_applied&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanDataFile"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanDataFile">[docs]</a>    <span class="k">def</span> <span class="nf">getChanDataFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the data file for the channel </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Data file for the channel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;ats_data_file&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanDx"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanDx">[docs]</a>    <span class="k">def</span> <span class="nf">getChanDx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the electric channel spacing in the x direction </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Electric channel spacing in x direction in metres</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;pos_x1&quot;</span><span class="p">))</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;pos_x2&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">x2</span> <span class="o">+</span> <span class="n">x1</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanDy"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanDy">[docs]</a>    <span class="k">def</span> <span class="nf">getChanDy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the electric channel spacing in the y direction </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Electric channel spacing in y direction in metres</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">y1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;pos_y1&quot;</span><span class="p">))</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;pos_y2&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">y1</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanDz"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanDz">[docs]</a>    <span class="k">def</span> <span class="nf">getChanDz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the electric channel spacing in the z direction </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            Electric channel spacing in z direction in metres</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">z1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;pos_z1&quot;</span><span class="p">))</span>
+        <span class="n">z2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;pos_z2&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">z2</span> <span class="o">+</span> <span class="n">z1</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanSensor"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanSensor">[docs]</a>    <span class="k">def</span> <span class="nf">getChanSensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get channel sensor type</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Channel sensor type</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;sensor_type&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanSerial"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanSerial">[docs]</a>    <span class="k">def</span> <span class="nf">getChanSerial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get channel serial number</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Channel serial number</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;sensor_sernum&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getChanChopper"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChanChopper">[docs]</a>    <span class="k">def</span> <span class="nf">getChanChopper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get channel chopper</span>
+<span class="sd">        </span>
+<span class="sd">        The chopper is an amplifier present in some instruments. There might be different calibration files for chopper on or off.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            Flag designating whether chopper is on or off</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">echopper</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;echopper&quot;</span><span class="p">)</span>
+        <span class="n">hchopper</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanHeader</span><span class="p">(</span><span class="n">chan</span><span class="p">,</span> <span class="s2">&quot;hchopper&quot;</span><span class="p">)</span>
+        <span class="c1"># return true if the chopper amplifier was on</span>
+        <span class="k">if</span> <span class="n">isElectric</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span> <span class="ow">and</span> <span class="n">echopper</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">isMagnetic</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span> <span class="ow">and</span> <span class="n">hchopper</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="DataReader.getSensors"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getSensors">[docs]</a>    <span class="k">def</span> <span class="nf">getSensors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chans</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get sensors for multiple chans</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict[str, str]</span>
+<span class="sd">            Dictionary with channels as keys and the sensor types as values </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sensors</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">:</span>
+            <span class="n">sensors</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanSensor</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sensors</span></div>
+
+<div class="viewcode-block" id="DataReader.getSerials"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getSerials">[docs]</a>    <span class="k">def</span> <span class="nf">getSerials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chans</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get serials for multiple chans</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict[str, str]</span>
+<span class="sd">            Dictionary with channels as keys and the serials numbers as values </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">serials</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">:</span>
+            <span class="n">serials</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanSerial</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">serials</span></div>
+
+<div class="viewcode-block" id="DataReader.getChoppers"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getChoppers">[docs]</a>    <span class="k">def</span> <span class="nf">getChoppers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chans</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get choppers for multiple chans</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict[str, str]</span>
+<span class="sd">            Dictionary with channels as keys and the serials numbers as values </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">choppers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">:</span>
+            <span class="n">choppers</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanChopper</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">choppers</span></div>
+
+<div class="viewcode-block" id="DataReader.setHeader"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.setHeader">[docs]</a>    <span class="k">def</span> <span class="nf">setHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headerName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">headerVal</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set a header value</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        headerName : str</span>
+<span class="sd">            The name of the header to set</span>
+<span class="sd">        headerVal : Any</span>
+<span class="sd">            Header value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">headerName</span> <span class="o">=</span> <span class="n">headerVal</span></div>
+
+<div class="viewcode-block" id="DataReader.setChanHeader"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.setChanHeader">[docs]</a>    <span class="k">def</span> <span class="nf">setChanHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">headerName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">headerVal</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set a channel header value</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        channel : str</span>
+<span class="sd">            The channel</span>
+<span class="sd">        headerName : str</span>
+<span class="sd">            The name of the header to set</span>
+<span class="sd">        headerVal : Any</span>
+<span class="sd">            Header value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">chanIndex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">chanIndex</span><span class="p">][</span><span class="n">headerName</span><span class="p">]</span> <span class="o">=</span> <span class="n">headerVal</span></div>
+
+<div class="viewcode-block" id="DataReader.getUnscaledSamples"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getUnscaledSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getUnscaledSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get raw data from data file</span>
+
+<span class="sd">        Depending on the data format, this could be raw counts. This method reads samples for ATS and internal format. SPAM data has its own implementation.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chans : List[str]</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        startSample : int</span>
+<span class="sd">            First sample to return</span>
+<span class="sd">        endSample : int</span>
+<span class="sd">            Last sample to return</span>
+<span class="sd">        remaverage : bool</span>
+<span class="sd">            Remove average from the data</span>
+<span class="sd">        remzeros : bool</span>
+<span class="sd">            Remove zeroes from the data</span>
+<span class="sd">        remnans: bool</span>
+<span class="sd">            Remove NanNs from the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># initialise chans, startSample and endSample with the whole dataset</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># get samples - this is inclusive</span>
+        <span class="n">dSamples</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># loop through chans and get data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+            <span class="c1"># check to make sure channel exists</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">checkChan</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+            <span class="c1"># get data file</span>
+            <span class="n">dFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDataFile</span><span class="p">(</span><span class="n">chan</span><span class="p">))</span>
+            <span class="c1"># get the data</span>
+            <span class="n">byteOff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span> <span class="o">+</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span>
+            <span class="c1"># now check if lsb applied or not and read data as float32 or int32 accordingly</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanLSBApplied</span><span class="p">(</span><span class="n">chan</span><span class="p">):</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
+                    <span class="n">dFile</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">byteOff</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">dSamples</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
+                    <span class="n">dFile</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int32&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">byteOff</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">dSamples</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="c1"># get data start and stop time</span>
+        <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample2time</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="c1"># dataset comments</span>
+        <span class="n">comments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Unscaled data </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2"> read in from measurement </span><span class="si">{}</span><span class="s2">, samples </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">startTime</span><span class="p">,</span>
+                <span class="n">stopTime</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sampling frequency </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">comments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span> <span class="o">+</span> <span class="n">comments</span>
+        <span class="k">return</span> <span class="n">TimeData</span><span class="p">(</span>
+            <span class="n">sampleFreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">(),</span>
+            <span class="n">startTime</span><span class="o">=</span><span class="n">startTime</span><span class="p">,</span>
+            <span class="n">stopTime</span><span class="o">=</span><span class="n">stopTime</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="n">comments</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getUnscaledData"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getUnscaledData">[docs]</a>    <span class="k">def</span> <span class="nf">getUnscaledData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get raw data from data file between a start and end data</span>
+
+<span class="sd">        Depending on the data format, this could be raw counts. This method reads samples for ATS and internal format. SPAM data has its own implementation.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        startTime : datetime</span>
+<span class="sd">            Start time of data to read</span>
+<span class="sd">        endTime : datetime</span>
+<span class="sd">            End time of data to read       </span>
+<span class="sd">        chans : List[str]</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        remaverage : bool</span>
+<span class="sd">            Remove average from the data</span>
+<span class="sd">        remzeros : bool</span>
+<span class="sd">            Remove zeroes from the data</span>
+<span class="sd">        remnans: bool</span>
+<span class="sd">            Remove NanNs from the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time2sample</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
+            <span class="n">chans</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">],</span> <span class="n">startSample</span><span class="o">=</span><span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="n">endSample</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.getPhysicalSamples"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getPhysicalSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getPhysicalSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get data scaled to physical values</span>
+
+<span class="sd">        Each data format is recorded in a different way.</span>
+<span class="sd">        ATS provides unscaled data in counts (*lsb gives mV)</span>
+<span class="sd">        SPAM provides unscaled data in the count data/unscaled data * lsb is assumed to give data in mV</span>
+<span class="sd">        Phoenix</span>
+<span class="sd">        Internal</span>
+<span class="sd">        </span>
+<span class="sd">        The data readers return data using field units. Therefore:</span>
+<span class="sd">        Electric field channels are returned in mV/km</span>
+<span class="sd">        Magnetic fields are in mV </span>
+<span class="sd">        </span>
+<span class="sd">        To get magnetic fields in nT, calibration needs to be performed</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chans : List[str]</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        startSample : int</span>
+<span class="sd">            First sample to return</span>
+<span class="sd">        endSample : int</span>
+<span class="sd">            Last sample to return</span>
+<span class="sd">        remaverage : bool</span>
+<span class="sd">            Remove average from the data</span>
+<span class="sd">        remzeros : bool</span>
+<span class="sd">            Remove zeroes from the data</span>
+<span class="sd">        remnans: bool</span>
+<span class="sd">            Remove NanNs from the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
+            <span class="n">chans</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">],</span>
+            <span class="n">startSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span>
+            <span class="n">endSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="c1"># multiply each chan by least significant bit of chan</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanLSBApplied</span><span class="p">(</span><span class="n">chan</span><span class="p">):</span>
+                <span class="c1"># apply LSB to give data in mV</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanLSB</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                <span class="c1"># divide by the distance - this should only be for the electric channels</span>
+                <span class="c1"># again, this might already be applied</span>
+                <span class="k">if</span> <span class="n">chan</span> <span class="o">==</span> <span class="s2">&quot;Ex&quot;</span><span class="p">:</span>
+                    <span class="c1"># multiply by 1000/self.getChanDx same as dividing by dist in km</span>
+                    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="mi">1000</span> <span class="o">*</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDx</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="n">chan</span> <span class="o">==</span> <span class="s2">&quot;Ey&quot;</span><span class="p">:</span>
+                    <span class="c1"># multiply by 1000/self.getChanDy same as dividing by dist in km</span>
+                    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="mi">1000</span> <span class="o">*</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDy</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+            <span class="c1"># if remove zeros - False by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">removeZerosSingle</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
+            <span class="c1"># if remove nans - False by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">removeNansSingle</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
+            <span class="c1"># remove the average from the data - True by default</span>
+            <span class="c1"># do this after all scaling and removing nans and zeros</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
+                    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="c1"># add comments</span>
+        <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Removing gain and scaling electric channels to mV/km&quot;</span><span class="p">)</span>
+        <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+            <span class="s2">&quot;Remove zeros: </span><span class="si">{}</span><span class="s2">, remove nans: </span><span class="si">{}</span><span class="s2">, remove average: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">timeData</span></div>
+
+<div class="viewcode-block" id="DataReader.getPhysicalData"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getPhysicalData">[docs]</a>    <span class="k">def</span> <span class="nf">getPhysicalData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get physical data from data file between a start and end data</span>
+
+<span class="sd">        Each data format is recorded in a different way.</span>
+<span class="sd">        ATS provides unscaled data in counts (*lsb gives mV)</span>
+<span class="sd">        SPAM provides unscaled data in the count data/unscaled data * lsb is assumed to give data in mV</span>
+<span class="sd">        Phoenix</span>
+<span class="sd">        Internal</span>
+<span class="sd">        </span>
+<span class="sd">        The data readers return data using field units. Therefore:</span>
+<span class="sd">        Electric field channels are returned in mV/km</span>
+<span class="sd">        Magnetic fields are in mV </span>
+<span class="sd">        </span>
+<span class="sd">        To get magnetic fields in nT, calibration needs to be performed</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        startTime : datetime</span>
+<span class="sd">            Start time of data to read</span>
+<span class="sd">        endTime : datetime</span>
+<span class="sd">            End time of data to read       </span>
+<span class="sd">        chans : List[str]</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        remaverage : bool</span>
+<span class="sd">            Remove average from the data</span>
+<span class="sd">        remzeros : bool</span>
+<span class="sd">            Remove zeroes from the data</span>
+<span class="sd">        remnans: bool</span>
+<span class="sd">            Remove NanNs from the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time2sample</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">(</span>
+            <span class="n">chans</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">],</span> <span class="n">startSample</span><span class="o">=</span><span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="n">endSample</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.parseGetDataKeywords"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.parseGetDataKeywords">[docs]</a>    <span class="k">def</span> <span class="nf">parseGetDataKeywords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keywords</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Parse the get data keywords</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        keywords : Dict</span>
+<span class="sd">            The keywords passed to get data methods</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict</span>
+<span class="sd">            A dictionary of parsed keywords with defaults where nothing is provided by the user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># defaults</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChannels</span><span class="p">()</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumSamples</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStartDatetime</span><span class="p">()</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStopDatetime</span><span class="p">()</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># now take the options from the keywords</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+                <span class="n">options</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="n">w</span><span class="p">]</span>
+        <span class="c1"># do some checks</span>
+        <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumSamples</span><span class="p">():</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumSamples</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;End sample greater than number of samples. Adjusted to </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]:</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">100</span>
+            <span class="p">)</span>  <span class="c1"># let&#39;s give 100 samples</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;Start sample greater than end sample. Adjusted to </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;Start sample &lt; 0. Adjusted to </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">options</span></div>
+
+<div class="viewcode-block" id="DataReader.time2sample"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.time2sample">[docs]</a>    <span class="k">def</span> <span class="nf">time2sample</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">timeStart</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">],</span> <span class="n">timeEnd</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Converts a start and end time to start and end samples</span>
+<span class="sd">        </span>
+<span class="sd">        Note: The first sample is zero</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        timeStart : datetime, str</span>
+<span class="sd">            Start time of date range</span>
+<span class="sd">        timeEnd : datetime, str</span>
+<span class="sd">            End time of date range       </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sampleStart : int</span>
+<span class="sd">            The correspoding start sample for timeStart</span>
+<span class="sd">        sampleEnd : int</span>
+<span class="sd">            The corresponding end sample for timeEnd</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># if timeStart and timeEnd are strings, then convert them to datetime objects</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timeStart</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">timeStart</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">timeStart</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timeEnd</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">timeEnd</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">timeEnd</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+        <span class="c1"># check to see times within range</span>
+        <span class="n">timeStart</span><span class="p">,</span> <span class="n">timeEnd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataTimes</span><span class="p">(</span><span class="n">timeStart</span><span class="p">,</span> <span class="n">timeEnd</span><span class="p">)</span>
+        <span class="c1"># start sample</span>
+        <span class="n">deltaStart</span> <span class="o">=</span> <span class="n">timeStart</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStartDatetime</span><span class="p">()</span>
+        <span class="n">sampleStart</span> <span class="o">=</span> <span class="n">deltaStart</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">()</span>
+        <span class="n">sampleStart</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">sampleStart</span><span class="p">)</span>
+        <span class="p">)</span>  <span class="c1"># this will hopefully deal with fractional sampling</span>
+        <span class="c1"># end sample</span>
+        <span class="n">deltaEnd</span> <span class="o">=</span> <span class="n">timeEnd</span> <span class="o">-</span> <span class="n">timeStart</span>
+        <span class="n">deltaSamples</span> <span class="o">=</span> <span class="n">deltaEnd</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSampleRate</span><span class="p">()</span>
+        <span class="n">deltaSamples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">deltaSamples</span><span class="p">))</span>
+        <span class="n">sampleEnd</span> <span class="o">=</span> <span class="n">sampleStart</span> <span class="o">+</span> <span class="n">deltaSamples</span>
+        <span class="c1"># return samples</span>
+        <span class="k">return</span> <span class="n">sampleStart</span><span class="p">,</span> <span class="n">sampleEnd</span></div>
+
+<div class="viewcode-block" id="DataReader.sample2time"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.sample2time">[docs]</a>    <span class="k">def</span> <span class="nf">sample2time</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">sampleStart</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sampleEnd</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">datetime</span><span class="p">,</span> <span class="n">datetime</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Converts a start and end sample to start and end times</span>
+<span class="sd">        </span>
+<span class="sd">        Note: The first sample is zero</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sampleStart : int</span>
+<span class="sd">            The starting sample for the sample range</span>
+<span class="sd">        sampleEnd : int</span>
+<span class="sd">            The ending sample for the sample range   </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        timeStart : datetime, str</span>
+<span class="sd">            Corresponding start time of date range</span>
+<span class="sd">        timeEnd : datetime, str</span>
+<span class="sd">            Corresponding end time of date range            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># convert samples to some data format</span>
+        <span class="n">deltaStart</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleRate</span><span class="p">()</span> <span class="o">*</span> <span class="n">sampleStart</span><span class="p">)</span>
+        <span class="c1"># delta end is inclusive</span>
+        <span class="n">deltaEnd</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleRate</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">sampleEnd</span> <span class="o">-</span> <span class="n">sampleStart</span><span class="p">))</span>
+        <span class="n">timeStart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStartDatetime</span><span class="p">()</span> <span class="o">+</span> <span class="n">deltaStart</span>
+        <span class="n">timeEnd</span> <span class="o">=</span> <span class="n">timeStart</span> <span class="o">+</span> <span class="n">deltaEnd</span>
+        <span class="k">return</span> <span class="n">timeStart</span><span class="p">,</span> <span class="n">timeEnd</span></div>
+
+<div class="viewcode-block" id="DataReader.getDataTimes"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getDataTimes">[docs]</a>    <span class="k">def</span> <span class="nf">getDataTimes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeStart</span><span class="p">,</span> <span class="n">timeEnd</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks and converts a date range to make sure it&#39;s within data start and end</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        timeStart : datetime, str</span>
+<span class="sd">            Start time of date range</span>
+<span class="sd">        timeEnd : datetime, str</span>
+<span class="sd">            End time of date range     </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        timeStart : datetime, str</span>
+<span class="sd">            Checked and corrected start time of data range</span>
+<span class="sd">        timeEnd : datetime, str</span>
+<span class="sd">            Checked and corrected end time of data range        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">deltaStart</span> <span class="o">=</span> <span class="n">timeStart</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStartDatetime</span><span class="p">()</span>
+        <span class="n">deltaEnd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStopDatetime</span><span class="p">()</span> <span class="o">-</span> <span class="n">timeEnd</span>
+        <span class="k">if</span> <span class="n">deltaStart</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
+                <span class="s2">&quot;Date </span><span class="si">{}</span><span class="s2"> before start of recording. Start date adjusted to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">timeStart</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStartDatetime</span><span class="p">()</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">timeStart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStartDatetime</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">deltaEnd</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
+                <span class="s2">&quot;Date </span><span class="si">{}</span><span class="s2"> after end of recording. Stop date adjusted to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">timeEnd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStopDatetime</span><span class="p">()</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">timeEnd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStopDatetime</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">timeStart</span><span class="p">,</span> <span class="n">timeEnd</span></div>
+
+<div class="viewcode-block" id="DataReader.readHeader"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.readHeader">[docs]</a>    <span class="k">def</span> <span class="nf">readHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Function to read header data and populate reader information</span>
+<span class="sd">        </span>
+<span class="sd">        This is implemented in child classes as all header formats are different</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Read header not implemented in parent class. Only child classes should ever be instantiated.&quot;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.formatHeaderData"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.formatHeaderData">[docs]</a>    <span class="k">def</span> <span class="nf">formatHeaderData</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Format header data to the correct formats&quot;&quot;&quot;</span>
+
+        <span class="c1"># do the int formatting</span>
+        <span class="n">intGlobal</span><span class="p">,</span> <span class="n">intChan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intHeaders</span><span class="p">()</span>
+        <span class="n">floatGlobal</span><span class="p">,</span> <span class="n">floatChan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">floatHeaders</span><span class="p">()</span>
+        <span class="n">boolGlobal</span><span class="p">,</span> <span class="n">boolChan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boolHeaders</span><span class="p">()</span>
+        <span class="c1"># deal with the global headers</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">intGlobal</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">h</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">h</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">floatGlobal</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">h</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">h</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">boolGlobal</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">h</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">h</span><span class="p">])</span>
+        <span class="c1"># deal with the channel headers</span>
+        <span class="n">numChans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numChans</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">cH</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">cH</span> <span class="ow">in</span> <span class="n">intChan</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">cH</span> <span class="ow">in</span> <span class="n">floatChan</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">cH</span> <span class="ow">in</span> <span class="n">boolChan</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">],</span> <span class="nb">str</span>
+                    <span class="p">):</span>  <span class="c1"># if string, parse true and false</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;True&quot;</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>  <span class="c1"># a bool or an integer</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="n">cH</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="DataReader.intHeaders"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.intHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">intHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;List of headers which are expected to have integer values</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        intGlobal : List[str]</span>
+<span class="sd">            List of global integer headers</span>
+<span class="sd">        intChan : List[str]</span>
+<span class="sd">            List of chan integer headers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">intGlobal</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;meas_channels&quot;</span><span class="p">]</span>
+        <span class="n">intChan</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;gain_stage1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;gain_stage2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;hchopper&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;echopper&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;num_samples&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sensor_sernum&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">intGlobal</span><span class="p">,</span> <span class="n">intChan</span></div>
+
+<div class="viewcode-block" id="DataReader.floatHeaders"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.floatHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">floatHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;List of headers which are expected to have boolean values</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        floatGlobal : List[str]</span>
+<span class="sd">            List of global float headers</span>
+<span class="sd">        floatChan : List[str]</span>
+<span class="sd">            List of chan float headers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">floatGlobal</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">]</span>
+        <span class="n">floatChan</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;sample_freq&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ts_lsb&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_x1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_x2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_y1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_y2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_z1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pos_z2&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">floatGlobal</span><span class="p">,</span> <span class="n">floatChan</span></div>
+
+<div class="viewcode-block" id="DataReader.boolHeaders"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.boolHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">boolHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;List of headers which are expected to have boolean values</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        boolGlobal : List[str]</span>
+<span class="sd">            List of global boolean headers</span>
+<span class="sd">        boolChan : List[str]</span>
+<span class="sd">            List of chan boolean headers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">boolGlobal</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">boolChan</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;lsb_applied&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">boolGlobal</span><span class="p">,</span> <span class="n">boolChan</span></div>
+
+<div class="viewcode-block" id="DataReader.prepare"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.prepare">[docs]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set some intial values</span>
+<span class="sd">        </span>
+<span class="sd">        This method does some checks and prepares some of the storage for the channels.                 </span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The end time of the data will be checked. Different data formats record an end time after the last sample. For example, ATS end time appears to be one sample after the number of samples. The end time is checked by using the number of samples and the sampling frequency. </span>
+<span class="sd">        </span>
+<span class="sd">        The internal convention is that the start and end times should reflect the times of the first and last sample</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># create the type - index map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumChannels</span><span class="p">()):</span>
+            <span class="n">chanType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">[</span><span class="n">chanType</span><span class="p">]</span> <span class="o">=</span> <span class="n">iChan</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chanType</span><span class="p">)</span>
+
+        <span class="c1"># check the number of samples of each channel</span>
+        <span class="n">numSamples</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span>
+            <span class="n">numSamples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getChanSamples</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">numSamples</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">,</span> <span class="n">numSamples</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumSamples</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;Not all channels have the same number of samples&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> has </span><span class="si">{:d}</span><span class="s2"> samples more than the minimum&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">c</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumSamples</span><span class="p">()</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="c1"># create datetime objects</span>
+        <span class="n">datetimeStart</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;start_date&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">datetimeStop</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_date&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_time&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datetimeStart</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">datetimeStart</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datetimeStop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">datetimeStop</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># check the stop time</span>
+        <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample2time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumSamples</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">endTime</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datetimeStop</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datetimeStop</span> <span class="o">=</span> <span class="n">endTime</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">chan</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;stop_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+                    <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="s2">&quot;stop_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+                    <span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+                <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.checkChan"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.checkChan">[docs]</a>    <span class="k">def</span> <span class="nf">checkChan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chan</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Check channel exists in data</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chan : str</span>
+<span class="sd">            Channel to check</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">chan</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span><span class="s2">&quot;Error - Channel </span><span class="si">{}</span><span class="s2"> does not exist&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">),</span> <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.printList"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : List[str]</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Data Path = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Global Headers&quot;</span><span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Channels found:&quot;</span><span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Channel Map&quot;</span><span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Channel Headers&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">[</span><span class="n">c</span><span class="p">]])</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Note: Field units used. Physical data has units mV/km for electric fields and mV for magnetic fields&quot;</span>
+        <span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Note: To get magnetic field in nT, please calibrate&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReader.printCommentsList"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.printCommentsList">[docs]</a>    <span class="k">def</span> <span class="nf">printCommentsList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Dataset comments as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : List[str]</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Dataset Comments&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No comments&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">comment</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">):</span>
+                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:02d}</span><span class="s2"> : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">comment</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="DataReader.printComments"><a class="viewcode-back" href="../../ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.printComments">[docs]</a>    <span class="k">def</span> <span class="nf">printComments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Print out dataset comments&quot;&quot;&quot;</span>
+
+        <span class="n">blockPrint</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Comments&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">printCommentsList</span><span class="p">()</span>
+        <span class="p">)</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

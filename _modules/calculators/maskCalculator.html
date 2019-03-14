@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>calculators.maskCalculator &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>calculators.maskCalculator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for calculators.maskCalculator</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.calculator</span> <span class="k">import</span> <span class="n">Calculator</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.projectData</span> <span class="k">import</span> <span class="n">ProjectData</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.spectrumReader</span> <span class="k">import</span> <span class="n">SpectrumReader</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.statisticData</span> <span class="k">import</span> <span class="n">StatisticData</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.statisticIO</span> <span class="k">import</span> <span class="n">StatisticIO</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.maskData</span> <span class="k">import</span> <span class="n">MaskData</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">blockPrint</span><span class="p">,</span> <span class="n">generalPrint</span><span class="p">,</span> <span class="n">warningPrint</span>
+
+
+<div class="viewcode-block" id="MaskCalculator"><a class="viewcode-back" href="../../calculators.maskCalculator.html#calculators.maskCalculator.MaskCalculator">[docs]</a><span class="k">class</span> <span class="nc">MaskCalculator</span><span class="p">(</span><span class="n">Calculator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate window masking given constraints</span>
+
+<span class="sd">    Calculate masks for time windows. The window masker reads in statistics and writes out a file with windows which match the given constraints for each statistic. The masked file will then go into the window WindowSelector, which passes on shared windows to the processor.    </span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    proj : Project</span>
+<span class="sd">        A Project object</span>
+<span class="sd">    maskData : MaskData</span>
+<span class="sd">        A MaskData object</span>
+<span class="sd">    specDir : str</span>
+<span class="sd">        The spectra directory</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(proj, maskData)</span>
+<span class="sd">        Initialise with a Project instance and MaskData instance</span>
+<span class="sd">    clearMaskWindows()</span>
+<span class="sd">        Clear calculated masks</span>
+<span class="sd">    applyConstraints(site)</span>
+<span class="sd">        Apply masking constraints</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class status returned as list of strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">:</span> <span class="n">MaskData</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialise with project and maskData</span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        proj : ProjectData</span>
+<span class="sd">            The project to which masking should be applied</span>
+<span class="sd">        maskData : MaskData</span>
+<span class="sd">            A MaskData instance </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">projData</span> <span class="o">=</span> <span class="n">projData</span>
+        <span class="c1"># stats is the stat to use</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span> <span class="o">=</span> <span class="n">maskData</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">sampleFreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">specdir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;spectra&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;specdir&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">specdir</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+
+    <span class="c1"># def getMaskData(self):</span>
+    <span class="c1">#     return self.maskData</span>
+
+<div class="viewcode-block" id="MaskCalculator.clearMaskWindows"><a class="viewcode-back" href="../../calculators.maskCalculator.html#calculators.maskCalculator.MaskCalculator.clearMaskWindows">[docs]</a>    <span class="k">def</span> <span class="nf">clearMaskWindows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Clear mask windows in maskData object &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">maskWindows</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">resetMaskWindows</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MaskCalculator.applyConstraints"><a class="viewcode-back" href="../../calculators.maskCalculator.html#calculators.maskCalculator.MaskCalculator.applyConstraints">[docs]</a>    <span class="k">def</span> <span class="nf">applyConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Apply the masking constraints to find windows to be excluded</span>
+<span class="sd">    </span>
+<span class="sd">        WindowsSelector will later exclude the masked windows before processing</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        site : str</span>
+<span class="sd">            The site in the project to mask</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># run through all the statfiles listed</span>
+        <span class="n">siteData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+        <span class="n">measurements</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurements</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">)</span>
+        <span class="n">evalFreqs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">evalFreq</span>
+        <span class="c1"># create a single statisticIO instance to do the reading</span>
+        <span class="n">statIO</span> <span class="o">=</span> <span class="n">StatisticIO</span><span class="p">()</span>
+        <span class="c1"># loop over stats</span>
+        <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">stats</span><span class="p">:</span>
+            <span class="c1"># loop over decimation levels</span>
+            <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+                <span class="c1"># loop over measurement folders</span>
+                <span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">measurements</span><span class="p">:</span>
+                    <span class="c1"># try and open the file</span>
+                    <span class="n">statIO</span><span class="o">.</span><span class="n">setDatapath</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                            <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurementStatPath</span><span class="p">(</span><span class="n">meas</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">specdir</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">statData</span> <span class="o">=</span> <span class="n">statIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">iDec</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">statData</span><span class="p">:</span>
+                        <span class="c1"># to next measurement</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                            <span class="s2">&quot;No statistic data found for </span><span class="si">{}</span><span class="s2">, measurement </span><span class="si">{}</span><span class="s2"> and decimation level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="n">site</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="n">iDec</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="k">continue</span> 
+                    <span class="n">numWindows</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">numWindows</span>
+                    <span class="n">winStats</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">winStats</span>
+                    <span class="k">for</span> <span class="n">iW</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numWindows</span><span class="p">):</span>
+                        <span class="c1"># now check each window</span>
+                        <span class="n">winVals</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">getStatLocal</span><span class="p">(</span><span class="n">iW</span><span class="p">)</span>
+                        <span class="c1"># now loop over evaluation frequencies</span>
+                        <span class="k">for</span> <span class="n">eIdx</span><span class="p">,</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evalFreqs</span><span class="p">[</span><span class="n">iDec</span><span class="p">]):</span>
+                            <span class="n">constraintCheck</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="n">freqVal</span> <span class="o">=</span> <span class="n">winVals</span><span class="p">[</span><span class="n">eIdx</span><span class="p">]</span>
+                            <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">]:</span>
+                                <span class="n">index</span> <span class="o">=</span> <span class="n">winStats</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
+                                <span class="n">componentVal</span> <span class="o">=</span> <span class="n">freqVal</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                                <span class="n">test</span> <span class="o">=</span> <span class="p">(</span>
+                                    <span class="n">componentVal</span>
+                                    <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">][</span>
+                                        <span class="mi">0</span>
+                                    <span class="p">]</span>
+                                    <span class="ow">and</span> <span class="n">componentVal</span>
+                                    <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">][</span>
+                                        <span class="mi">1</span>
+                                    <span class="p">]</span>
+                                <span class="p">)</span>
+                                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">insideOut</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">]:</span>
+                                    <span class="n">test</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">test</span>
+                                <span class="n">constraintCheck</span> <span class="o">=</span> <span class="n">constraintCheck</span> <span class="ow">and</span> <span class="n">test</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">constraintCheck</span><span class="p">:</span>
+                                <span class="c1"># if the stat fails, add it - this is a list of windows to exclude</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                                    <span class="n">statData</span><span class="o">.</span><span class="n">getGlobalIndex</span><span class="p">(</span><span class="n">iW</span><span class="p">)</span>
+                                <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaskCalculator.printList"><a class="viewcode-back" href="../../calculators.maskCalculator.html#calculators.maskCalculator.MaskCalculator.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sample Frequency [Hz] = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Spectra directory = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">specdir</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Mask Data information&quot;</span><span class="p">)</span>
+        <span class="n">textLst</span> <span class="o">=</span> <span class="n">textLst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">printList</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>calculators.spectrumCalculator &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>calculators.spectrumCalculator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for calculators.spectrumCalculator</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">signal</span>
+<span class="kn">import</span> <span class="nn">pyfftw</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.calculator</span> <span class="k">import</span> <span class="n">Calculator</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.spectrumData</span> <span class="k">import</span> <span class="n">SpectrumData</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsConfig</span> <span class="k">import</span> <span class="n">loadConfig</span>
+
+
+<div class="viewcode-block" id="SpectrumCalculator"><a class="viewcode-back" href="../../calculators.spectrumCalculator.html#calculators.spectrumCalculator.SpectrumCalculator">[docs]</a><span class="k">class</span> <span class="nc">SpectrumCalculator</span><span class="p">(</span><span class="n">Calculator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class for calculating spectra from time data windows</span>
+
+<span class="sd">    The class requires the pyfftw and FFTW3 libraries, which allow for fast fourier transforms for spectra calculations</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        Sample frequency of the data</span>
+<span class="sd">    numSamples : int</span>
+<span class="sd">        The number of samples in each window</span>
+<span class="sd">    window : bool (true)</span>
+<span class="sd">        Flag for applying a window function before fourier transform</span>
+<span class="sd">    windowFunc : np.ndarray</span>
+<span class="sd">        Window function to apply to time data before fourier transform</span>
+<span class="sd">    dataArray : np.ndarray</span>
+<span class="sd">        numpy array to copy data into before performing fourier transform</span>
+<span class="sd">    ffotObj : pyfftw.FFTW</span>
+<span class="sd">        fourier transform object</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(sampleFreq, winSamples)</span>
+<span class="sd">        Initialise with time data sampling frequency and the number of samples in a window</span>
+<span class="sd">    calcFourierTransform(timeData)</span>
+<span class="sd">        Perform fourier transform for timeData and return specData object</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class status returned as list of strings        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">winSamples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialise </span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sampleFreq : float</span>
+<span class="sd">            Sampling frequency of time data</span>
+<span class="sd">        winSamples : int</span>
+<span class="sd">            Number of samples in a window </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">sampleFreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numSamples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">winSamples</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">loadConfig</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;applywindow&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">windowFunc</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">get_window</span><span class="p">(</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;windowfunc&quot;</span><span class="p">],</span> <span class="n">winSamples</span>
+        <span class="p">)</span>
+        <span class="c1"># create an pyfftw plan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataArray</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">pyfftw</span><span class="o">.</span><span class="n">empty_aligned</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">numSamples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fftObj</span><span class="p">:</span> <span class="n">pyfftw</span><span class="o">.</span><span class="n">FFTW</span> <span class="o">=</span> <span class="n">pyfftw</span><span class="o">.</span><span class="n">builders</span><span class="o">.</span><span class="n">rfft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataArray</span><span class="p">)</span>
+
+    <span class="c1"># def getSampleFreq(self):</span>
+    <span class="c1">#     return self.sampleFreq</span>
+
+    <span class="c1"># def getNumSamples(self):</span>
+    <span class="c1">#     return self.numSamples</span>
+
+    <span class="c1"># def getWindow(self):</span>
+    <span class="c1">#     return self.window</span>
+
+    <span class="c1"># def getWindowFunc(self):</span>
+    <span class="c1">#     return self.windowFunc</span>
+
+    <span class="c1"># def setWindow(self, window):</span>
+    <span class="c1">#     self.window = window</span>
+
+    <span class="c1"># def setWindowFunc(self, windowFunc):</span>
+    <span class="c1">#     self.windowFunc = windowFunc</span>
+
+<div class="viewcode-block" id="SpectrumCalculator.calcFourierCoeff"><a class="viewcode-back" href="../../calculators.spectrumCalculator.html#calculators.spectrumCalculator.SpectrumCalculator.calcFourierCoeff">[docs]</a>    <span class="k">def</span> <span class="nf">calcFourierCoeff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpectrumData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Fast fourier transform of timeData</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        timeData : TimeData</span>
+<span class="sd">            A TimeData object</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        specData : SpectrumData</span>
+<span class="sd">            A SpectrumData object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">fftData</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">timeData</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span>
+            <span class="c1"># first copy data into dataArray</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataArray</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">][:]</span>
+            <span class="c1"># no need to pad, these are usually multiples of two</span>
+            <span class="c1"># remove mean and window if set</span>
+            <span class="c1"># detrend</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataArray</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">detrend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataArray</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dataArray</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataArray</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">windowFunc</span>
+            <span class="c1"># use pytfftw here</span>
+            <span class="n">fftData</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fftObj</span><span class="p">())</span>
+        <span class="c1"># calculate frequency array</span>
+        <span class="n">dataSize</span> <span class="o">=</span> <span class="n">fftData</span><span class="p">[</span><span class="n">timeData</span><span class="o">.</span><span class="n">chans</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">return</span> <span class="n">SpectrumData</span><span class="p">(</span>
+            <span class="n">windowSize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">numSamples</span><span class="p">,</span>
+            <span class="n">dataSize</span><span class="o">=</span><span class="n">dataSize</span><span class="p">,</span>
+            <span class="n">sampleFreq</span><span class="o">=</span><span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span>
+            <span class="n">startTime</span><span class="o">=</span><span class="n">timeData</span><span class="o">.</span><span class="n">startTime</span><span class="p">,</span>
+            <span class="n">stopTime</span><span class="o">=</span><span class="n">timeData</span><span class="o">.</span><span class="n">stopTime</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">fftData</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="n">timeData</span><span class="o">.</span><span class="n">comments</span>
+            <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;Fourier transform performed using a hamming window&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpectrumCalculator.printList"><a class="viewcode-back" href="../../calculators.spectrumCalculator.html#calculators.spectrumCalculator.SpectrumCalculator.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Sample frequency = </span><span class="si">{:f}</span><span class="s2"> [Hz]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

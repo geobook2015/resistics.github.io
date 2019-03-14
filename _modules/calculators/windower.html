@@ -1,0 +1,557 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>calculators.windower &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>calculators.windower</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for calculators.windower</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.calculator</span> <span class="k">import</span> <span class="n">Calculator</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsConfig</span> <span class="k">import</span> <span class="n">loadConfig</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">blockPrint</span>
+
+
+<div class="viewcode-block" id="Windower"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower">[docs]</a><span class="k">class</span> <span class="nc">Windower</span><span class="p">(</span><span class="n">Calculator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class for windowing time data with overlaps </span>
+
+<span class="sd">    Given time data for a decimation level and a reference time, the windower calculates the number of windows and returns them.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        TimeData object to window</span>
+<span class="sd">    numSamples : int</span>
+<span class="sd">        The number of samples in each window</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        Sampling frequency of data in Hz</span>
+<span class="sd">    winSize : int</span>
+<span class="sd">        Number of samples in a window</span>
+<span class="sd">    winDuration : float</span>
+<span class="sd">        Duration of a window in seconds</span>
+<span class="sd">    winOlap : np.ndarray</span>
+<span class="sd">        Number of overlap samples</span>
+<span class="sd">    chans : List[str]</span>
+<span class="sd">        List of chans in timeData</span>
+<span class="sd">    refTime : datetime</span>
+<span class="sd">        Project reference time</span>
+<span class="sd">    dataTime : datetime</span>
+<span class="sd">        Time of timeData first sample</span>
+<span class="sd">    minWindows : int</span>
+<span class="sd">        Minimum number of windows required</span>
+<span class="sd">    winOffset : int</span>
+<span class="sd">        Offset between local and global window indexing</span>
+<span class="sd">    firstWindowTime: datetime</span>
+<span class="sd">        Time of the first window in the TimeData</span>
+<span class="sd">    winSamples : np.ndarray[int]</span>
+<span class="sd">        Two dimensional, the sample start and end for each window</span>
+<span class="sd">    winTimes : </span>
+<span class="sd">    winActive : np.ndarray[bool]</span>
+<span class="sd">        Boolean flagging whether window is active or not</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(refTime, timeData, winSize, winOlap)</span>
+<span class="sd">        Initialise windower</span>
+<span class="sd">    getWindowActive(iW)</span>
+
+<span class="sd">    getGlobalIndex(iW)</span>
+<span class="sd">        Return the global index (relative to reference time) given local window index</span>
+<span class="sd">    getData(iWindow)</span>
+<span class="sd">        Get timeData for local window iWindow</span>
+<span class="sd">    getDataGlobal(iGlobal)</span>
+<span class="sd">        Get timeData for glonal index iGlobal</span>
+<span class="sd">    initialiseWindows()</span>
+<span class="sd">        Calculate number of windows, local to global index mapping and local window offset from global</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class status returned as list of strings  </span>
+<span class="sd">    printWindowTimes()</span>
+<span class="sd">        Print window times  </span>
+<span class="sd">    printWindowTimeList()</span>
+<span class="sd">        Window time information returned as List of strings               </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">refTime</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">winSize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">winOlap</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span> <span class="o">=</span> <span class="n">timeData</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numSamples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">numSamples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winSize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">winSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winDuration</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">winSize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winOlap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">winOlap</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">chans</span>
+        <span class="c1"># refTime and dataTime are already datetime objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refTime</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">refTime</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataTime</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">startTime</span>
+        <span class="c1"># min window warning setting</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">loadConfig</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minWindows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;minwindows&quot;</span><span class="p">]</span>
+        <span class="c1"># initialise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialiseWindows</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcWindowTimes</span><span class="p">()</span>
+
+    <span class="c1"># def getWindowSize(self):</span>
+    <span class="c1">#     return self.winSize</span>
+
+    <span class="c1"># def getWindowDuration(self):</span>
+    <span class="c1">#     return self.winDuration</span>
+
+    <span class="c1"># def getOverlap(self):</span>
+    <span class="c1">#     return self.winOlap</span>
+
+    <span class="c1"># def getNumWindows(self):</span>
+    <span class="c1">#     return self.numWindows</span>
+
+    <span class="c1"># def getGlobalWindowOffset(self):</span>
+    <span class="c1">#     return self.winOffset</span>
+
+    <span class="c1"># def getFirstWindowTime(self):</span>
+    <span class="c1">#     return self.firstWindowTime</span>
+
+    <span class="c1"># def getSampleFreq(self):</span>
+    <span class="c1">#     return self.sampleFreq</span>
+
+    <span class="c1"># def getNumSamples(self):</span>
+    <span class="c1">#     return self.numSamples</span>
+
+    <span class="c1"># def getRefTime(self):</span>
+    <span class="c1">#     return self.refTime</span>
+
+    <span class="c1"># def getDataTime(self):</span>
+    <span class="c1">#     return self.dataTime</span>
+
+    <span class="c1"># def getWindowSamples(self):</span>
+    <span class="c1">#     return self.winSamples</span>
+
+    <span class="c1"># def getWindowTimes(self):</span>
+    <span class="c1">#     return self.winTimes</span>
+
+    <span class="c1"># def getActiveWindows(self):</span>
+    <span class="c1">#     return self.winActive</span>
+
+    <span class="c1"># def getMinWindows(self):</span>
+    <span class="c1">#     return self.minWindows</span>
+
+    <span class="c1"># def setActiveWindows(self, winActive):</span>
+    <span class="c1">#     self.winActive = winActive</span>
+
+    <span class="c1"># def setMinWindows(self, minWindows):</span>
+    <span class="c1">#     self.minWindows = minWindows</span>
+
+    <span class="c1"># def getChans(self):</span>
+    <span class="c1">#     return self.chans</span>
+
+<div class="viewcode-block" id="Windower.getWindowActive"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower.getWindowActive">[docs]</a>    <span class="k">def</span> <span class="nf">getWindowActive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iWindow</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns active status of local index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iWindow : int</span>
+<span class="sd">            Local index of window</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        active : bool</span>
+<span class="sd">            True if active, false if not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">winActive</span><span class="p">[</span><span class="n">iWindow</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Windower.getGlobalIndex"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower.getGlobalIndex">[docs]</a>    <span class="k">def</span> <span class="nf">getGlobalIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iWindow</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns global index for local index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iWindow : int</span>
+<span class="sd">            Local index of window</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        iGlobal : int</span>
+<span class="sd">            Global index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">iWindow</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">winOffset</span></div>
+
+<div class="viewcode-block" id="Windower.getData"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower.getData">[docs]</a>    <span class="k">def</span> <span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iWindow</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns time window data for local index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iWindow : int</span>
+<span class="sd">            Local index of window</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        windowData : TimeData</span>
+<span class="sd">            TimeData object with the window data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">winSamples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSamples</span><span class="p">[</span><span class="n">iWindow</span><span class="p">]</span>
+        <span class="n">winData</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span>
+            <span class="n">winData</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">][</span>
+                <span class="n">winSamples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">winSamples</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="p">]</span>  <span class="c1"># add 1 because numpy indexing like this is not inclusive</span>
+        <span class="n">globalWindow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winTimes</span><span class="p">[</span><span class="n">iWindow</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">winStartTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winTimes</span><span class="p">[</span><span class="n">iWindow</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">winStopTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winTimes</span><span class="p">[</span><span class="n">iWindow</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">TimeData</span><span class="p">(</span>
+            <span class="n">sampleFreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span>
+            <span class="n">startTime</span><span class="o">=</span><span class="n">winStartTime</span><span class="p">,</span>
+            <span class="n">stopTime</span><span class="o">=</span><span class="n">winStopTime</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">winData</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeData</span><span class="o">.</span><span class="n">comments</span>
+            <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;Local window iW, global window </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">globalWindow</span><span class="p">)],</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Windower.getDataGlobal"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower.getDataGlobal">[docs]</a>    <span class="k">def</span> <span class="nf">getDataGlobal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iGlobal</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns time window data for global index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iGlobal : int</span>
+<span class="sd">            Global index of window</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        windowData : TimeData</span>
+<span class="sd">            TimeData object with the window data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">iWindow</span> <span class="o">=</span> <span class="n">iGlobal</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">winOffset</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="n">iWindow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Windower.initialiseWindows"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower.initialiseWindows">[docs]</a>    <span class="k">def</span> <span class="nf">initialiseWindows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate all the window information</span>
+
+<span class="sd">        For timeData and referenceTime, initialiseWindows calculates the number of windows (after the reference time) and the global indices of the windows relative to the reference time</span>
+<span class="sd">        Stores the offset between local indices and the global indices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># have a reference time</span>
+        <span class="c1"># the first window starts there</span>
+        <span class="n">deltaRefStart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataTime</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">refTime</span>
+        <span class="k">if</span> <span class="n">deltaRefStart</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;Reference time is after start of recording. Stuff may go wrong!&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># increment of window start times</span>
+        <span class="c1"># -1 because inclusive of sample at start</span>
+        <span class="n">winStartIncrement</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winSize</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">winOlap</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span>
+        <span class="c1"># calculate number of windows started before reference time</span>
+        <span class="c1"># and then by taking the ceiling, find the global index of the first window in the data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winOffset</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">deltaRefStart</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="n">winStartIncrement</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># calculate start time of first global window</span>
+        <span class="n">offsetSeconds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winOffset</span> <span class="o">*</span> <span class="n">winStartIncrement</span>
+        <span class="c1"># calculate the first window time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">firstWindowTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refTime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">offsetSeconds</span><span class="p">)</span>
+        <span class="c1"># calculate first sample</span>
+        <span class="n">deltaStart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">firstWindowTime</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataTime</span>
+        <span class="n">sampleStart</span> <span class="o">=</span> <span class="n">deltaStart</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span>
+        <span class="c1"># next calculate number of windows</span>
+        <span class="c1"># sample start is the first sample</span>
+        <span class="c1"># window size is window size inclusive of first sample</span>
+        <span class="n">winStart</span> <span class="o">=</span> <span class="n">sampleStart</span>
+        <span class="n">winEnd</span> <span class="o">=</span> <span class="n">sampleStart</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSize</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">winStartOff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSize</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">winOlap</span>
+        <span class="n">winSamples</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">winEnd</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">numSamples</span><span class="p">:</span>
+            <span class="n">winSamples</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">winStart</span><span class="p">,</span> <span class="n">winEnd</span><span class="p">])</span>
+            <span class="n">winStart</span> <span class="o">=</span> <span class="n">winStart</span> <span class="o">+</span> <span class="n">winStartOff</span>
+            <span class="n">winEnd</span> <span class="o">=</span> <span class="n">winStart</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSize</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">winSamples</span><span class="p">)</span>
+        <span class="c1"># warn if number of windows is small</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">minWindows</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;Number of windows in data is small - consider stopping decimation&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># save winSamples as numpy list in class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winSamples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">winSamples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="c1"># set all windows initially to active</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winActive</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Windower.calcWindowTimes"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower.calcWindowTimes">[docs]</a>    <span class="k">def</span> <span class="nf">calcWindowTimes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Calculate start and stop times for each window&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">winTimes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">iW</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">samples</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSamples</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">win</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># global index</span>
+            <span class="n">win</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winOffset</span> <span class="o">+</span> <span class="n">iW</span><span class="p">)</span>
+            <span class="c1"># start time</span>
+            <span class="n">deltaStart</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">start</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">)</span>
+            <span class="n">timeStart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataTime</span> <span class="o">+</span> <span class="n">deltaStart</span>
+            <span class="n">deltaEnd</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">stop</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">)</span>
+            <span class="n">timeEnd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataTime</span> <span class="o">+</span> <span class="n">deltaEnd</span>
+            <span class="c1"># samples2end = self.winSize - 1 # need to remove initial sample</span>
+            <span class="c1"># timeEnd = timeStart + timedelta(seconds=samples2end/self.sampleFreq)</span>
+            <span class="n">win</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timeStart</span><span class="p">)</span>
+            <span class="n">win</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timeEnd</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">winTimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
+            <span class="n">iW</span> <span class="o">=</span> <span class="n">iW</span> <span class="o">+</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="Windower.printList"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sample freq. [Hz] = </span><span class="si">{:f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Window size = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winSize</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Overlap size = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winOlap</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Window duration [s] = </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winDuration</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Reference time </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">refTime</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Data start time </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataTime</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Number of complete windows in data = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">minWindows</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Number of windows in data is small - consider stopping decimation&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Global index of first window from reference time = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">winOffset</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;First window starts at time </span><span class="si">{}</span><span class="s2">, sample </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">firstWindowTime</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSamples</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="Windower.printWindowTimes"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower.printWindowTimes">[docs]</a>    <span class="k">def</span> <span class="nf">printWindowTimes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Print the times of the windows&quot;&quot;&quot;</span>
+
+        <span class="n">blockPrint</span><span class="p">(</span><span class="s2">&quot;Windower::window times&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">printWindowTimeList</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Windower.printWindowTimeList"><a class="viewcode-back" href="../../calculators.windower.html#calculators.windower.Windower.printWindowTimeList">[docs]</a>    <span class="k">def</span> <span class="nf">printWindowTimeList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Window time information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">winTimes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winTimes</span>
+        <span class="n">winSamples</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSamples</span>
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;NOTE: Sample ranges are inclusive, to get number of samples, use: sample end - sample start + 1&quot;</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">win</span><span class="p">,</span> <span class="n">winS</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">winTimes</span><span class="p">,</span> <span class="n">winSamples</span><span class="p">):</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;Global index = </span><span class="si">{:d}</span><span class="s2">, start time = </span><span class="si">{}</span><span class="s2">, end time = </span><span class="si">{}</span><span class="s2">, start sample = </span><span class="si">{:d}</span><span class="s2">, end sample = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">win</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">win</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">win</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">winS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">winS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

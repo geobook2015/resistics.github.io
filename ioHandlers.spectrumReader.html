@@ -1,0 +1,823 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ioHandlers.spectrumReader module &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ioHandlers.spectrumWriter module" href="ioHandlers.spectrumWriter.html" />
+    <link rel="prev" title="ioHandlers.maskIO module" href="ioHandlers.maskIO.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maindoc/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/reference.html">Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="calculators.html">calculators package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataObjects.html">dataObjects package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ioHandlers.html">ioHandlers package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReader.html">ioHandlers.dataReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderATS.html">ioHandlers.dataReaderATS module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderAscii.html">ioHandlers.dataReaderAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderInternal.html">ioHandlers.dataReaderInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderPhoenix.html">ioHandlers.dataReaderPhoenix module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataReaderSpam.html">ioHandlers.dataReaderSpam module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataWriter.html">ioHandlers.dataWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataWriterAscii.html">ioHandlers.dataWriterAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.dataWriterInternal.html">ioHandlers.dataWriterInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.ioHandler.html">ioHandlers.ioHandler module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.maskIO.html">ioHandlers.maskIO module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ioHandlers.spectrumReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.spectrumWriter.html">ioHandlers.spectrumWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.statisticIO.html">ioHandlers.statisticIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.transferFunctionReader.html">ioHandlers.transferFunctionReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ioHandlers.transferFunctionWriter.html">ioHandlers.transferFunctionWriter module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maindoc/cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="ioHandlers.html">ioHandlers package</a> &raquo;</li>
+        
+      <li>ioHandlers.spectrumReader module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ioHandlers.spectrumReader.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ioHandlers.spectrumReader">
+<span id="iohandlers-spectrumreader-module"></span><h1>ioHandlers.spectrumReader module<a class="headerlink" href="#module-ioHandlers.spectrumReader" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ioHandlers.spectrumReader.SpectrumReader">
+<em class="property">class </em><code class="descclassname">ioHandlers.spectrumReader.</code><code class="descname">SpectrumReader</code><span class="sig-paren">(</span><em>datapath: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.ioHandlers.ioHandler.IOHandler</span></code></p>
+<p>Reads in spectra data for measurements</p>
+<p>Spectrum reader reads in the info file for the spectra data and .dat files (for ascii formatted spectra data) and .bin files (for binary formatted data).</p>
+<p>Spectra files are located in:
+project -&gt; specData -&gt; site -&gt; datapath -&gt; spectra data files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>datapath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Data root for spectra data</p>
+</dd>
+<dt><strong>headerKeys :</strong></dt>
+<dd><p class="first last">Spectra file header keys</p>
+</dd>
+<dt><strong>headers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">Spectra file header values</p>
+</dd>
+<dt><strong>comments: List[str]</strong></dt>
+<dd><p class="first last">Spectra file comments</p>
+</dd>
+<dt><strong>dataType :</strong></dt>
+<dd><p class="first last">Data type of spectra data</p>
+</dd>
+<dt><strong>dataByteSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Byte size of a single data point</p>
+</dd>
+<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Filepath for spectra files</p>
+</dd>
+<dt><strong>file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">The data file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>__init__(datapath)</strong></td>
+<td>Initialise the SpectrumReader getReferenceTime() Get the reference time used for the spectrum calculation</td>
+</tr>
+<tr class="row-even"><td><strong>def getChannels()</strong></td>
+<td>Get the channels in the spectra data</td>
+</tr>
+<tr class="row-odd"><td><strong>getNumChannels()</strong></td>
+<td>Get the number of channels</td>
+</tr>
+<tr class="row-even"><td><strong>getSampleFreq()</strong></td>
+<td>Get the sampling frequency of the data</td>
+</tr>
+<tr class="row-odd"><td><strong>getNumWindows()</strong></td>
+<td>Get the number of windows in the spectra file</td>
+</tr>
+<tr class="row-even"><td><strong>getWindowSize()</strong></td>
+<td>Get the window size used for the data</td>
+</tr>
+<tr class="row-odd"><td><strong>getWindowOverlap()</strong></td>
+<td>Get the window overlap size</td>
+</tr>
+<tr class="row-even"><td><strong>def getDataSize()</strong></td>
+<td>Get the number of samples in a spectra window</td>
+</tr>
+<tr class="row-odd"><td><strong>getGlobalOffset()</strong></td>
+<td>Get the window global offset</td>
+</tr>
+<tr class="row-even"><td><strong>getGlobalRange()</strong></td>
+<td>Get the window global indices range</td>
+</tr>
+<tr class="row-odd"><td><strong>getFrequencyArray()</strong></td>
+<td>Get the frequency array of the frequencies of the spectra data points</td>
+</tr>
+<tr class="row-even"><td><strong>getComments()</strong></td>
+<td>Get a deepcopy of the comments</td>
+</tr>
+<tr class="row-odd"><td><strong>openBinaryForReading(filename, fileInc):</strong></td>
+<td>Open a binary spectra file given by filename and fileInc (the decimation level)</td>
+</tr>
+<tr class="row-even"><td><strong>readBinaryWindowLocal(localIndex)</strong></td>
+<td>Read a spectra window given by a local index in binary format</td>
+</tr>
+<tr class="row-odd"><td><strong>readBinaryWindowGlobal(globalIndex)</strong></td>
+<td>Read a spectra window given by a global index (relative to reference time) in binary format</td>
+</tr>
+<tr class="row-even"><td><strong>openAsciiForReading(filename, fileInc):</strong></td>
+<td>Open a ascii spectra file given by filename and fileInc (the decimation level)</td>
+</tr>
+<tr class="row-odd"><td><strong>readAsciiWindowLocal(localIndex)</strong></td>
+<td>Read a spectra window given by a local index in ascii format</td>
+</tr>
+<tr class="row-even"><td><strong>readAsciiWindowGlobal(globalIndex)</strong></td>
+<td>Read a spectra window given by a global index (relative to reference time) in ascii format</td>
+</tr>
+<tr class="row-odd"><td><strong>readInfoFile(filepath)</strong></td>
+<td>Read the spectra information file given by filepath</td>
+</tr>
+<tr class="row-even"><td><strong>getInfoValue(header, line)</strong></td>
+<td>Put header value in the correct format for header and line</td>
+</tr>
+<tr class="row-odd"><td><strong>readCommentsFile(filepath):</strong></td>
+<td>Read the comments file given by filepath</td>
+</tr>
+<tr class="row-even"><td><strong>getFileBase(filename, fileInc):</strong></td>
+<td>Get the spectra file name</td>
+</tr>
+<tr class="row-odd"><td><strong>closeFile()</strong></td>
+<td>Close spectra data file</td>
+</tr>
+<tr class="row-even"><td><strong>printList()</strong></td>
+<td>Class status returned as list of strings</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.closeFile">
+<code class="descname">closeFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.closeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.closeFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close spectra file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getChannels">
+<code class="descname">getChannels</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getChannels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getChannels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the channels in the spectra data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">List of channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getComments">
+<code class="descname">getComments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getComments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a deepcopy of the comments</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">Dataset comments as a list of strings</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getDataSize">
+<code class="descname">getDataSize</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getDataSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getDataSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of the corresponding spectrum data for a window</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">Number of samples in one spectrum window</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getFileBase">
+<code class="descname">getFileBase</code><span class="sig-paren">(</span><em>filename: str</em>, <em>fileInc: int</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getFileBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getFileBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read comments file from filepath</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename: str</strong></dt>
+<dd><p class="first last">Filename of spectra files</p>
+</dd>
+<dt><strong>fileInc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The decimation level</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getFrequencyArray">
+<code class="descname">getFrequencyArray</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getFrequencyArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getFrequencyArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the frequency array</p>
+<p>Frequency array are the frequency points in the spectra</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">Frequency array</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getGlobalOffset">
+<code class="descname">getGlobalOffset</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getGlobalOffset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getGlobalOffset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get global window offset</p>
+<p>The global window offset references windows to the reference time rather than the start time of the time data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">Global window offset</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getGlobalRange">
+<code class="descname">getGlobalRange</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[int]<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getGlobalRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getGlobalRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the range of window global indices</p>
+<p>The first global index is given by getGlobalOffset() as the counting starts from zero. The last global index is self.getGlobalOffset() + self.getNumWindows() - 1.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[int]</strong></dt>
+<dd><p class="first last">List with two elements, the first being the global index of the first spectrum window and the second, the global index of the last spectrum window</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getInfoValue">
+<code class="descname">getInfoValue</code><span class="sig-paren">(</span><em>header: str</em>, <em>line: str</em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getInfoValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getInfoValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format some of the info file values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>header</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The header</p>
+</dd>
+<dt><strong>line</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The line from the info file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getNumChannels">
+<code class="descname">getNumChannels</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getNumChannels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getNumChannels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">The number of channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getNumWindows">
+<code class="descname">getNumWindows</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getNumWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getNumWindows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of windows for which spectra have been calculated</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">The number of windows</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getReferenceTime">
+<code class="descname">getReferenceTime</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; datetime.datetime<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getReferenceTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getReferenceTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get reference time for spectra calculation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>datetime</strong></dt>
+<dd><p class="first last">The reference time used for the spectra calculation</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getSampleFreq">
+<code class="descname">getSampleFreq</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getSampleFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getSampleFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get sampling frequency of time data used for spectra calculation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">Sampling frequency of the time data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getWindowOverlap">
+<code class="descname">getWindowOverlap</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getWindowOverlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getWindowOverlap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of the time data overlap in samples</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">Size of time data overlap in samples</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.getWindowSize">
+<code class="descname">getWindowSize</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.getWindowSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.getWindowSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of the time data window in samples</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>int</strong></dt>
+<dd><p class="first last">Size of time data window in samples</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.openAsciiForReading">
+<code class="descname">openAsciiForReading</code><span class="sig-paren">(</span><em>filename: str</em>, <em>fileInc: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.openAsciiForReading"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.openAsciiForReading" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a ascii data file for reading</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename: str</strong></dt>
+<dd><p class="first last">Filename of spectra files</p>
+</dd>
+<dt><strong>fileInc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The decimation level</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.openBinaryForReading">
+<code class="descname">openBinaryForReading</code><span class="sig-paren">(</span><em>filename: str</em>, <em>fileInc: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.openBinaryForReading"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.openBinaryForReading" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a binary data file for reading</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename: str</strong></dt>
+<dd><p class="first last">Filename of spectra files</p>
+</dd>
+<dt><strong>fileInc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The decimation level</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.printList">
+<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.printList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class information as a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of strings with information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.readAsciiWindowGlobal">
+<code class="descname">readAsciiWindowGlobal</code><span class="sig-paren">(</span><em>globalIndex: int</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.spectrumData.SpectrumData<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.readAsciiWindowGlobal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.readAsciiWindowGlobal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get spectrum data for a window defined by a global index (for ascii formatted data)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>globalIndex: int</strong></dt>
+<dd><p class="first last">The global index</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.readAsciiWindowLocal">
+<code class="descname">readAsciiWindowLocal</code><span class="sig-paren">(</span><em>localIndex: int</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.spectrumData.SpectrumData<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.readAsciiWindowLocal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.readAsciiWindowLocal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get spectrum data for a window defined by a local index (for ascii formatted data)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>localIndex: int</strong></dt>
+<dd><p class="first last">The local index</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.readBinaryWindowGlobal">
+<code class="descname">readBinaryWindowGlobal</code><span class="sig-paren">(</span><em>globalIndex: int</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.spectrumData.SpectrumData<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.readBinaryWindowGlobal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.readBinaryWindowGlobal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get spectrum data for a window defined by a global index (for binary formatted data)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>globalIndex: int</strong></dt>
+<dd><p class="first last">The global index</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.readBinaryWindowLocal">
+<code class="descname">readBinaryWindowLocal</code><span class="sig-paren">(</span><em>localIndex: int</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.spectrumData.SpectrumData<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.readBinaryWindowLocal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.readBinaryWindowLocal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get spectrum data for a window defined by a local index (for binary formatted data)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>localIndex: int</strong></dt>
+<dd><p class="first last">The local index</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.readCommentsFile">
+<code class="descname">readCommentsFile</code><span class="sig-paren">(</span><em>filepath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.readCommentsFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.readCommentsFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read comments file from filepath</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Comments file path</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ioHandlers.spectrumReader.SpectrumReader.readInfoFile">
+<code class="descname">readInfoFile</code><span class="sig-paren">(</span><em>filepath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="_modules/ioHandlers/spectrumReader.html#SpectrumReader.readInfoFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.spectrumReader.SpectrumReader.readInfoFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the info file for the spectra</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Info file path</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ioHandlers.spectrumWriter.html" class="btn btn-neutral float-right" title="ioHandlers.spectrumWriter module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ioHandlers.maskIO.html" class="btn btn-neutral float-left" title="ioHandlers.maskIO module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
