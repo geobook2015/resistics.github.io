@@ -1,0 +1,568 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>dataObjects.transferFunctionData module &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ioHandlers package" href="ioHandlers.html" />
+    <link rel="prev" title="dataObjects.timeData module" href="dataObjects.timeData.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="calculators.html">calculators package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="dataObjects.html">dataObjects package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="dataObjects.configData.html">dataObjects.configData module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataObjects.dataObject.html">dataObjects.dataObject module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataObjects.maskData.html">dataObjects.maskData module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataObjects.projectData.html">dataObjects.projectData module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataObjects.siteData.html">dataObjects.siteData module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataObjects.spectrumData.html">dataObjects.spectrumData module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataObjects.statisticData.html">dataObjects.statisticData module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataObjects.timeData.html">dataObjects.timeData module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">dataObjects.transferFunctionData module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ioHandlers.html">ioHandlers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="dataObjects.html">dataObjects package</a> &raquo;</li>
+        
+      <li>dataObjects.transferFunctionData module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/dataObjects.transferFunctionData.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-dataObjects.transferFunctionData">
+<span id="dataobjects-transferfunctiondata-module"></span><h1>dataObjects.transferFunctionData module<a class="headerlink" href="#module-dataObjects.transferFunctionData" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="dataObjects.transferFunctionData.TransferFunctionData">
+<em class="property">class </em><code class="descclassname">dataObjects.transferFunctionData.</code><code class="descname">TransferFunctionData</code><span class="sig-paren">(</span><em>freq: numpy.ndarray, data: Dict[KT, VT], variances: Dict[KT, VT]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataObjects/transferFunctionData.html#TransferFunctionData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataObjects.transferFunctionData.TransferFunctionData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.dataObjects.dataObject.DataObject</span></code></p>
+<p>Class for holding information time data</p>
+<p class="rubric">Notes</p>
+<p>Information about data units
+Magnetic permeability in nT . m / A
+Electric (E) data is in mV/m 
+Magnetic (H) data is in nT
+Z = E/H is in mV / m . nT
+Units of resistance = Ohm = V / A        
+T = H/H is dimensionless</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>freq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The evaluation frequencies for which transfer functions were estimated</p>
+</dd>
+<dt><strong>period</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The evaluation periods for which the transfer functions were estimated (1/freq)</p>
+</dd>
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">The transfer function data keyed by polarisations. Data is in the units E = mV, H = nT</p>
+</dd>
+<dt><strong>polarisations</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of polarisations in the data</p>
+</dd>
+<dt><strong>variances</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">The variances of the estimates to give an idea of uncertainty</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>__init__(freq, data, variances)</strong></td>
+<td>Initialise the transfer function data</td>
+</tr>
+<tr class="row-even"><td><strong>getComponent(component)</strong></td>
+<td>Set data with parameters</td>
+</tr>
+<tr class="row-odd"><td><strong>getVariance(component)</strong></td>
+<td>Add a comment to the dataset</td>
+</tr>
+<tr class="row-even"><td><strong>getResAndPhase(component)</strong></td>
+<td>A datetime array of the sample times</td>
+</tr>
+<tr class="row-odd"><td><strong>getResAndPhaseErrors(component)</strong></td>
+<td>View the spectra data</td>
+</tr>
+<tr class="row-even"><td><strong>view()</strong></td>
+<td>View the impedance tensor components</td>
+</tr>
+<tr class="row-odd"><td><strong>viewTipper()</strong></td>
+<td>View the tipper</td>
+</tr>
+<tr class="row-even"><td><strong>printList()</strong></td>
+<td>Class status returned as list of strings</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="dataObjects.transferFunctionData.TransferFunctionData.getComponent">
+<code class="descname">getComponent</code><span class="sig-paren">(</span><em>component: str</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/dataObjects/transferFunctionData.html#TransferFunctionData.getComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataObjects.transferFunctionData.TransferFunctionData.getComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data for a polarisation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>component</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The polarisation to return the data for</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">The data for the polarisation component</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataObjects.transferFunctionData.TransferFunctionData.getResAndPhase">
+<code class="descname">getResAndPhase</code><span class="sig-paren">(</span><em>component: str</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, numpy.ndarray]<a class="reference internal" href="../_modules/dataObjects/transferFunctionData.html#TransferFunctionData.getResAndPhase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataObjects.transferFunctionData.TransferFunctionData.getResAndPhase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the resistivity and phase for a component</p>
+<p>The raw data is expected to be units E = mV, H = nT
+Resisitivity is calculated as 0.2 * period * (abs(data))^2
+Phase is calculated as the complex angle, unwrapped and then shifted for components ExHx and ExHy to put them in 0-90 degree quadrant</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>component</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The polarisation to return the data for</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>res</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The resistivity for the evaluation frequencies</p>
+</dd>
+<dt><strong>phase</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The phase for the evaluation frequencies</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataObjects.transferFunctionData.TransferFunctionData.getResAndPhaseErrors">
+<code class="descname">getResAndPhaseErrors</code><span class="sig-paren">(</span><em>component: str</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, numpy.ndarray]<a class="reference internal" href="../_modules/dataObjects/transferFunctionData.html#TransferFunctionData.getResAndPhaseErrors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataObjects.transferFunctionData.TransferFunctionData.getResAndPhaseErrors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the resistivity and phase errors for a component</p>
+<p>The raw data is expected to be units E = mV, H = nT
+Errors are calculated parameterically (for confidence intervals)
+Error in resistivity is given by 1.96 * sqrt(2 * period * res * var / 5.0)
+Error in phase is given by 1.96 * (180 / pi) * (sqrt(var / 2.0) / abs(data))</p>
+<p>todo: Is there are better way to calculate errors</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>component</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The polarisation to return the data for</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>resError</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The errors in resistivity data for the evaluation frequencies</p>
+</dd>
+<dt><strong>phaseError</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The errors in phase data for the evaluation frequencies</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataObjects.transferFunctionData.TransferFunctionData.getTipper">
+<code class="descname">getTipper</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataObjects/transferFunctionData.html#TransferFunctionData.getTipper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataObjects.transferFunctionData.TransferFunctionData.getTipper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return tipper length and angle</p>
+<p>The tipper are the Tx = HzHx and Ty = HzHy components
+The tipper length is sqrt(Re(Tx)^2 + Re(Ty)^2)
+The tipper angle is arctan (Re(Ty)/Re(Tx))</p>
+<p>This needs HzHx and HzHy to be components of the transfer function</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tipperLength</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The tipper length</p>
+</dd>
+<dt><strong>tipperAngle</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The tipper angle</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataObjects.transferFunctionData.TransferFunctionData.getVariance">
+<code class="descname">getVariance</code><span class="sig-paren">(</span><em>component: str</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/dataObjects/transferFunctionData.html#TransferFunctionData.getVariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataObjects.transferFunctionData.TransferFunctionData.getVariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the variance for a component</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>component</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The polarisation to return the data for</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">The data for the polarisation component</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataObjects.transferFunctionData.TransferFunctionData.printList">
+<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/dataObjects/transferFunctionData.html#TransferFunctionData.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataObjects.transferFunctionData.TransferFunctionData.printList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class information as a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of strings with information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataObjects.transferFunctionData.TransferFunctionData.view">
+<code class="descname">view</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/dataObjects/transferFunctionData.html#TransferFunctionData.view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataObjects.transferFunctionData.TransferFunctionData.view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the transfer function data</p>
+<p>For resistivity data, both axes are log scale (period and resistivity). For phase data, period is in log scale and phase is linear scale.
+Units, x axis is seconds, resistivity is Ohm m and phase is degrees.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>polarisations</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str], optional</span></dt>
+<dd><p class="first last">Polarisations to plot</p>
+</dd>
+<dt><strong>fig</strong> <span class="classifier-delimiter">:</span> <span class="classifier">matplotlib.pyplot.figure, optional</span></dt>
+<dd><p class="first last">A figure object</p>
+</dd>
+<dt><strong>oneplot</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Boolean flag for plotting all polarisations on one plot rather than separate plots</p>
+</dd>
+<dt><strong>colours</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict[str, str], optional</span></dt>
+<dd><p class="first last">Colours dictionary for plotting impedance components</p>
+</dd>
+<dt><strong>mk</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Plot marker type</p>
+</dd>
+<dt><strong>ls</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Line style</p>
+</dd>
+<dt><strong>plotfonts</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict, optional</span></dt>
+<dd><p class="first last">A dictionary of plot fonts</p>
+</dd>
+<dt><strong>label</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Label for the plots</p>
+</dd>
+<dt><strong>xlim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List, optional</span></dt>
+<dd><p class="first last">Limits for the x axis</p>
+</dd>
+<dt><strong>res_ylim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List, optional</span></dt>
+<dd><p class="first last">Limits for the resistivity y axis</p>
+</dd>
+<dt><strong>phase_ylim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List, optional</span></dt>
+<dd><p class="first last">Limits for the phase y axis</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataObjects.transferFunctionData.TransferFunctionData.viewTipper">
+<code class="descname">viewTipper</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dataObjects/transferFunctionData.html#TransferFunctionData.viewTipper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataObjects.transferFunctionData.TransferFunctionData.viewTipper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots tipper data where available</p>
+<p>For length data, both axes are log scale (period and length). For angle data, period is in log scale and phase is linear scale.
+Units, x axis is seconds, length is dimensionless and angle is degrees.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>fig</strong> <span class="classifier-delimiter">:</span> <span class="classifier">matplotlib.pyplot.figure, optional</span></dt>
+<dd><p class="first last">A figure object</p>
+</dd>
+<dt><strong>cols</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">There are three tipper plots: tipper length, tipper real angle, tipper imaginary angle. These can either be plotted in rows or columns. Set to True to plot in with one row and three columns.</p>
+</dd>
+<dt><strong>colours</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Colour of plot</p>
+</dd>
+<dt><strong>mk</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Plot marker type</p>
+</dd>
+<dt><strong>ls</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Line style</p>
+</dd>
+<dt><strong>plotfonts</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict, optional</span></dt>
+<dd><p class="first last">A dictionary of plot fonts</p>
+</dd>
+<dt><strong>label</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Label for the plots</p>
+</dd>
+<dt><strong>xlim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List, optional</span></dt>
+<dd><p class="first last">Limits for the x axis</p>
+</dd>
+<dt><strong>length_ylim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List, optional</span></dt>
+<dd><p class="first last">Limits for the length y axis</p>
+</dd>
+<dt><strong>angle_ylim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List, optional</span></dt>
+<dd><p class="first last">Limits for the angle y axis</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ioHandlers.html" class="btn btn-neutral float-right" title="ioHandlers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dataObjects.timeData.html" class="btn btn-neutral float-left" title="dataObjects.timeData module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

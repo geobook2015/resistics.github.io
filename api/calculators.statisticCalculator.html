@@ -1,0 +1,1430 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>calculators.statisticCalculator module &mdash; Resistics 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="calculators.windowParameters module" href="calculators.windowParameters.html" />
+    <link rel="prev" title="calculators.spectrumCalculator module" href="calculators.spectrumCalculator.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Resistics
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="calculators.html">calculators package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="calculators.calculator.html">calculators.calculator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.calibrator.html">calculators.calibrator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.decimationParameters.html">calculators.decimationParameters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.decimator.html">calculators.decimator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.maskCalculator.html">calculators.maskCalculator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.processorRemoteReference.html">calculators.processorRemoteReference module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.processorSingleSite.html">calculators.processorSingleSite module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.spectrumCalculator.html">calculators.spectrumCalculator module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">calculators.statisticCalculator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.windowParameters.html">calculators.windowParameters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.windowSelector.html">calculators.windowSelector module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calculators.windower.html">calculators.windower module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dataObjects.html">dataObjects package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ioHandlers.html">ioHandlers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="project.html">project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html">utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="calculators.html">calculators package</a> &raquo;</li>
+        
+      <li>calculators.statisticCalculator module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/calculators.statisticCalculator.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-calculators.statisticCalculator">
+<span id="calculators-statisticcalculator-module"></span><h1>calculators.statisticCalculator module<a class="headerlink" href="#module-calculators.statisticCalculator" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="calculators.statisticCalculator.StatisticCalculator">
+<em class="property">class </em><code class="descclassname">calculators.statisticCalculator.</code><code class="descname">StatisticCalculator</code><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.calculators.calculator.Calculator</span></code></p>
+<p>Calculate statistics for data restriction</p>
+<p>Statistics are calculated out for each evaluation frequency in each window. Therefore, there are nwindow*nfreq statistics in total.</p>
+<p>This class was written to speed up statistic calculations. Many statistics need the same data, for example power spectra. This class calculates and reuses some common values amongst the various statistics to improve calculation speed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>evalFreq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd><p class="first last">List of evaluation frequencies</p>
+</dd>
+<dt><strong>winLen</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Window length for spectra calculations</p>
+</dd>
+<dt><strong>winType</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Window function to apply to time data before fourier transform</p>
+</dd>
+<dt><strong>inChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Input channels</p>
+</dd>
+<dt><strong>inSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of input channels</p>
+</dd>
+<dt><strong>outChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Output channels</p>
+</dd>
+<dt><strong>outSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Number of output channels</p>
+</dd>
+<dt><strong>specChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">The channels for which to calculate auto and cross power spectra</p>
+</dd>
+<dt><strong>remoteChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Remote reference channels</p>
+</dd>
+<dt><strong>psdChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Power spectral density channels</p>
+</dd>
+<dt><strong>cohPairs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List[str]]</span></dt>
+<dd><p class="first last">Pairs of channels for coherence calculations</p>
+</dd>
+<dt><strong>polDirs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List[str]]</span></dt>
+<dd><p class="first last">Pairs of channels of polarisation direction calculation</p>
+</dd>
+<dt><strong>spec: Dict = {}</strong></dt>
+<dd></dd>
+<dt><strong>tfCalculated</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag to show that the transfer function has been calculated for a window</p>
+</dd>
+<dt><strong>remoteCalculated</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag to show…</p>
+</dd>
+<dt><strong>intercept</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag to include an intercept into the</p>
+</dd>
+<dt><strong>outData: Dict = {}</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="56%" />
+<col width="44%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>__init__()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getEvalFreq()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>getInChans()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getOutChans()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>getSpecChans()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getRemoteChans()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>getPSDChans()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getCohPairs()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>getPolDirs()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getAutoPower(chan)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>getAutoPowerEval(chan, eIdx)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getCrossPower(chan1, chan2)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>getCrossPowerEval(chan1, chan2, eIdx)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getOutData()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>setInChans(inChans)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>setOutChans(outChans)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>setSpectra(freq, winData, evalFreq)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>setIntercept(intercept)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>calculateSpectralMatrix()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>calculateEvalMatrix()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>addRemoteSpec(remoteData, **kwargs)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>calculateRemoteSpectralMatrix()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>calculateRemoteEvalMatrix()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>calculateReferenceSpectralMatrix()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>calculateReferenceEvalMatrix()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getRemoteAutoPower(chan)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>getRemoteAutoPowerEval(chan, eIdx)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getRemoteCrossPower(chan1, chan2)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>getRemoteCrossPowerEval(chan1, chan2, eIdx)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getReferenceCrossPower(dataChan, remoteChan)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>getReferenceCrossPowerEval(dataChan, remoteChan, eIdx)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>interpolateToEvalFreq(data)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>prepareOutDict()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>getDataForStatName(statName)</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>winPSD()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>winCoherence()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>winPolarisations()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>winPartials()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>winTransferFunction()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>winRemoteCoherence()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>winRemoteEqnCoherence()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>winRemoteAbsVal()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>winRemoteTransferFunction()</strong></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><strong>printList()</strong></td>
+<td>Class information returned as list of strings</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.addRemoteSpec">
+<code class="descname">addRemoteSpec</code><span class="sig-paren">(</span><em>remoteData: resistics.dataObjects.spectrumData.SpectrumData</em>, <em>remoteChans: List[str] = []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.addRemoteSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.addRemoteSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add coincident remote reference spectrum data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>remoteData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">SpectrumData</span></dt>
+<dd><p class="first last">Spectrum data (i.e. spectrum data for a window)</p>
+</dd>
+<dt><strong>remoteChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">The channels to use from remote reference data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.calculateEvalMatrix">
+<code class="descname">calculateEvalMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.calculateEvalMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.calculateEvalMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate out the cross power spectral matrix at the evaluation frequencies</p>
+<p>The method calculates out the cross powers which will then be used in the other statistic calculations at the evaluation frequencies</p>
+<p>The cross powers spectral matrix for evaluation frequencies is a 3-D matrix of size:
+numChans * numChans * numEvaluationFrequencies
+The elements of this are calculated by taking the cross powers spectral matrix and using the result there to interpolate the values at the evaluation frequencies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.calculateReferenceEvalMatrix">
+<code class="descname">calculateReferenceEvalMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.calculateReferenceEvalMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.calculateReferenceEvalMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate the remote and site cross powers spectral matrix to the evaluation frequencies.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.calculateReferenceSpectralMatrix">
+<code class="descname">calculateReferenceSpectralMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.calculateReferenceSpectralMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.calculateReferenceSpectralMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate out the cross power spectral matrix between the site spectral data and the remote reference spectral data</p>
+<p>The reference cross powers spectral matrix is a 3-D matrix of size:
+numChans * numRemoteChans * numFrequencies
+The elements of this are calculated by multiplying a channel of the site spectral data by the complex conjugate of a channel from the remote reference.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.calculateRemoteEvalMatrix">
+<code class="descname">calculateRemoteEvalMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.calculateRemoteEvalMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.calculateRemoteEvalMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate out the cross power spectral matrix for the remote reference data at the evaluation frequencies</p>
+<p>Takes the cross power spectral data calculate for the remote reference channels and interpoaltes it to the evaluation frequencies</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.calculateRemoteSpectralMatrix">
+<code class="descname">calculateRemoteSpectralMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.calculateRemoteSpectralMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.calculateRemoteSpectralMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate out the cross power spectral matrix for the remote reference data</p>
+<p>The method calculates out the cross powers for the remote reference channels which will then be used in the other statistic calculations.</p>
+<p>The remote reference cross powers spectral matrix is a 3-D matrix of size:
+numRemoteChans * numRemoteChans * numFrequencies
+The elements of this are calculated by multiplying the spectra of one channel by the complex conjugate of the spectra of another channel.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.calculateSpectralMatrix">
+<code class="descname">calculateSpectralMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.calculateSpectralMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.calculateSpectralMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate out the cross power spectral matrix</p>
+<p>The method calculates out the cross powers which will then be used in the other statistic calculations.</p>
+<p>The cross powers spectral matrix is a 3-D matrix of size:
+numChans * numChans * numFrequencies
+The elements of this are calculated by multiplying the spectra of one channel by the complex conjugate of the spectra of another channel.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getAutoPower">
+<code class="descname">getAutoPower</code><span class="sig-paren">(</span><em>chan: str</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getAutoPower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getAutoPower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the auto power for a channel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The channel for which to get the autopower</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">The auto power for the channel</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getAutoPowerEval">
+<code class="descname">getAutoPowerEval</code><span class="sig-paren">(</span><em>chan: str</em>, <em>eIdx: int</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getAutoPowerEval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getAutoPowerEval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the auto power value for an particular evaluation frequency</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The channel for which to get the autopower</p>
+</dd>
+<dt><strong>eIdx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The index for the evaluation frequency</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">The auto power for the channel</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getCohPairs">
+<code class="descname">getCohPairs</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[List[str]]<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getCohPairs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getCohPairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of coherence channel pairs to calculate out</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[List[str]]</strong></dt>
+<dd><p class="first last">List of coherence pairs</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getCrossPower">
+<code class="descname">getCrossPower</code><span class="sig-paren">(</span><em>chan1: str</em>, <em>chan2: str</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getCrossPower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getCrossPower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cross power between two channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chan1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The first channel for the cross channels</p>
+</dd>
+<dt><strong>chan2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The second channl for the cross channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">The cross power spectral density</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getCrossPowerEval">
+<code class="descname">getCrossPowerEval</code><span class="sig-paren">(</span><em>chan1: str</em>, <em>chan2: str</em>, <em>eIdx: int</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getCrossPowerEval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getCrossPowerEval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cross power between two channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chan1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The first channel for the cross channels</p>
+</dd>
+<dt><strong>chan2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The second channl for the cross channels</p>
+</dd>
+<dt><strong>eIdex</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The index of the evaluation frequency</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">The cross power spectral density</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getDataForStatName">
+<code class="descname">getDataForStatName</code><span class="sig-paren">(</span><em>statName: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getDataForStatName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getDataForStatName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the data for a statistic</p>
+<p>Given a statitic name, this method returns data from the correct internal method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>statName</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The name of the statistic to calculate out</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict</strong></dt>
+<dd><p class="first last">The output dictionary</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getEvalFreq">
+<code class="descname">getEvalFreq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getEvalFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getEvalFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the evaluation frequency</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[float]</strong></dt>
+<dd><p class="first last">List of evaluation frequencies</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getInChans">
+<code class="descname">getInChans</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getInChans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getInChans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the input channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">List of input channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getOutChans">
+<code class="descname">getOutChans</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getOutChans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getOutChans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the output channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">List of output channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getOutData">
+<code class="descname">getOutData</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict[KT, VT]<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getOutData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getOutData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the output data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict</strong></dt>
+<dd><p class="first last">The statistic output data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getPSDChans">
+<code class="descname">getPSDChans</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getPSDChans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getPSDChans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the channels to include power spectral density</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">List of power spectral density channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getPolDirs">
+<code class="descname">getPolDirs</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[List[str]]<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getPolDirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getPolDirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of polarisation direction pairs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[List[str]]</strong></dt>
+<dd><p class="first last">List of polarisation direction pairs</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getReferenceCrossPower">
+<code class="descname">getReferenceCrossPower</code><span class="sig-paren">(</span><em>dataChan: str</em>, <em>remoteChan: str</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getReferenceCrossPower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getReferenceCrossPower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cross power of a data channel and a remote reference channel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>dataChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The data channel</p>
+</dd>
+<dt><strong>remoteChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The remote reference channel</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">The cross power array</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getReferenceCrossPowerEval">
+<code class="descname">getReferenceCrossPowerEval</code><span class="sig-paren">(</span><em>dataChan: str</em>, <em>remoteChan: str</em>, <em>eIdx: int</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getReferenceCrossPowerEval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getReferenceCrossPowerEval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cross power of a data channel and a remote reference channel at a single evaluation frequency</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>dataChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The data channel</p>
+</dd>
+<dt><strong>remoteChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The remote reference channel</p>
+</dd>
+<dt><strong>eIdx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The evaluation frequency index</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">The value of the cross power at the evaluation frequency</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getRemoteAutoPower">
+<code class="descname">getRemoteAutoPower</code><span class="sig-paren">(</span><em>chan: str</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getRemoteAutoPower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getRemoteAutoPower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the auto power of a remote reference channel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The channel for which to get the autopower</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">The autopower array (real for autopowers)</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getRemoteAutoPowerEval">
+<code class="descname">getRemoteAutoPowerEval</code><span class="sig-paren">(</span><em>chan: str</em>, <em>eIdx: int</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getRemoteAutoPowerEval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getRemoteAutoPowerEval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the auto power of a remote reference channel at an evaluation frequency</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The channel for which to get the autopower</p>
+</dd>
+<dt><strong>eIdx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The evaluation frequency index</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">The autopower of the channel at the evaluation frequency</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getRemoteChans">
+<code class="descname">getRemoteChans</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getRemoteChans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getRemoteChans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the remote reference channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">List of remote reference channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getRemoteCrossPower">
+<code class="descname">getRemoteCrossPower</code><span class="sig-paren">(</span><em>chan1: str</em>, <em>chan2: str</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getRemoteCrossPower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getRemoteCrossPower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cross power of two remote reference channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chan1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The first channel for the cross power</p>
+</dd>
+<dt><strong>chan2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The second channel for the cross power</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">The cross power array</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getRemoteCrossPowerEval">
+<code class="descname">getRemoteCrossPowerEval</code><span class="sig-paren">(</span><em>chan1: str</em>, <em>chan2: str</em>, <em>eIdx: int</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getRemoteCrossPowerEval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getRemoteCrossPowerEval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cross power of two remote reference channels at a single evaluation frequency</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chan1</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The first channel for the cross power</p>
+</dd>
+<dt><strong>chan2</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The second channel for the cross power</p>
+</dd>
+<dt><strong>eIdx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The evaluation frequency index</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>float</strong></dt>
+<dd><p class="first last">The value of the cross power at the evaluation frequency</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.getSpecChans">
+<code class="descname">getSpecChans</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.getSpecChans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.getSpecChans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the channels for which to calculate spectra</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>List[str]</strong></dt>
+<dd><p class="first last">List of spectra channels</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.interpolateToEvalFreq">
+<code class="descname">interpolateToEvalFreq</code><span class="sig-paren">(</span><em>data: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.interpolateToEvalFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.interpolateToEvalFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate data on to the evaluation frequency</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Power spectral data defined at frequency points given in the freqs array</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">Data interpolated to evaluation frequencies</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.prepareOutDict">
+<code class="descname">prepareOutDict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.prepareOutDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.prepareOutDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare output statistic output dictionary</p>
+<p>The outData dictionary is indexed in the following way:
+outData[evaluation frequency][statistic component] = value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.printList">
+<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.printList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class information as a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd><p class="first last">List of strings with information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.setCohPairs">
+<code class="descname">setCohPairs</code><span class="sig-paren">(</span><em>cohPairs: List[List[str]]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.setCohPairs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.setCohPairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the power spectral density channels</p>
+<p>If cohPairs of [[“Ex”, “Hx”], [“Ex”, “Hy”], [“Ey”, “Hx”], [“Ey”, “Hy”]] are set, the following coherences will be calculated:
+ExHx
+ExHy
+EyHx
+EyHy</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>cohPairs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List[str]]</span></dt>
+<dd><p class="first last">Set the coherence pairs using a list of channel pairs, for example: [[“Ex”, “Hx”], [“Ex”, “Hy”], [“Ey”, “Hx”], [“Ey”, “Hy”]]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.setInChans">
+<code class="descname">setInChans</code><span class="sig-paren">(</span><em>inChans: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.setInChans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.setInChans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the input channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>inChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Input channels for the magnetotelluric linear system</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.setIntercept">
+<code class="descname">setIntercept</code><span class="sig-paren">(</span><em>intercept: bool</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.setIntercept"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.setIntercept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the intercept boolean</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>intercept</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for having an intercept in the transfer function calculation</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.setOutChans">
+<code class="descname">setOutChans</code><span class="sig-paren">(</span><em>outChans: List[str]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.setOutChans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.setOutChans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the output channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>inChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Output channels for the magnetotelluric linear system</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.setPSDChans">
+<code class="descname">setPSDChans</code><span class="sig-paren">(</span><em>psdChans: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.setPSDChans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.setPSDChans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the power spectral density channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>psdChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Power spectral density channels. An example input would be: [“Ex”, “Ey”, “Hx”, “Hy”]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.setPolDirs">
+<code class="descname">setPolDirs</code><span class="sig-paren">(</span><em>polDirs: List[List[str]]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.setPolDirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.setPolDirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the polarisation direction pairs to calculate</p>
+<p>If polDirs of [[“Ex”, “Ey”], [“Hx”, “Hy”]] are set, the following polarisation directions will be calculated:
+Ex Ey
+Hx Hy</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>polDirs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[List[str]]</span></dt>
+<dd><p class="first last">Set polarisation direction channel pairs, for example: [[“Ex”, “Ey”], [“Hx”, “Hy”]]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.setRemoteChans">
+<code class="descname">setRemoteChans</code><span class="sig-paren">(</span><em>remoteChans</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.setRemoteChans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.setRemoteChans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the input channels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>inChans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Input channels for the magnetotelluric linear system</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.setSpectra">
+<code class="descname">setSpectra</code><span class="sig-paren">(</span><em>freq: numpy.ndarray</em>, <em>specData: resistics.dataObjects.spectrumData.SpectrumData</em>, <em>evalFreq: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.setSpectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.setSpectra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the spectra data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>freq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The frequency points in the spectra data</p>
+</dd>
+<dt><strong>specData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">SpectrumData</span></dt>
+<dd><p class="first last">Spectrum data (i.e. spectrum data for a window)</p>
+</dd>
+<dt><strong>evalFreq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Evaluation frequency array</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winAbsVal">
+<code class="descname">winAbsVal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winAbsVal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winAbsVal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Absolute values of the cross power spectral matrix</p>
+<p>This data is often useful for cross plotting</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winCoherence">
+<code class="descname">winCoherence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winCoherence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winCoherence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate spectral coherence pairs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winPSD">
+<code class="descname">winPSD</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winPSD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winPSD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate power spectral densities</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winPartials">
+<code class="descname">winPartials</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winPartials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winPartials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate partial coherencies</p>
+<p>Based on paper Weckmann, Magunia Ritter 2005.
+e.g. coherence Ex, Hx w.r.t Hy
+This currently only works for impedance tensor calculations and higher power partial coherencies are not supported.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Based on paper by Weckmann, Magunia Ritter 2005.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winPolarisations">
+<code class="descname">winPolarisations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winPolarisations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winPolarisations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate polarisation directions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winRemoteAbsVal">
+<code class="descname">winRemoteAbsVal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winRemoteAbsVal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winRemoteAbsVal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Absolute values of cross power spectral densities between remote refence channels and data channels</p>
+<p>This data can be useful for cross plotting</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winRemoteCoherence">
+<code class="descname">winRemoteCoherence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winRemoteCoherence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winRemoteCoherence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calulate coherence between data channels and remote channels</p>
+<p>For example, this is the coherence of Ex-HxR, Ex-HyR, Ey-HxR, Ey-HyR, Hx-HxR, Hx-HyR, Hy-HxR, Hy-HyR</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winRemoteEqnCoherence">
+<code class="descname">winRemoteEqnCoherence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winRemoteEqnCoherence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winRemoteEqnCoherence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calulates coherences for the remote reference solver equations</p>
+<p>For example, this is the coherence of Ex-HxR, Ex-HyR, Ey-HxR, Ey-HyR, Hx-HxR, Hx-HyR, Hy-HxR, Hy-HyR</p>
+<p>todo:
+Write more information in these comments</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winRemoteTransferFunction">
+<code class="descname">winRemoteTransferFunction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winRemoteTransferFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winRemoteTransferFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate transfer function for the spectral data when remote reference is included too</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calculators.statisticCalculator.StatisticCalculator.winTransferFunction">
+<code class="descname">winTransferFunction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/calculators/statisticCalculator.html#StatisticCalculator.winTransferFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calculators.statisticCalculator.StatisticCalculator.winTransferFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate transfer function for the spectral data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Dict :</strong></dt>
+<dd><p class="first last">Dictionary with statistic values, indexed by [evaluation frequency][statistic component]</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="calculators.windowParameters.html" class="btn btn-neutral float-right" title="calculators.windowParameters module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="calculators.spectrumCalculator.html" class="btn btn-neutral float-left" title="calculators.spectrumCalculator module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
