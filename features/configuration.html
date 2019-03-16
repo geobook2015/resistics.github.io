@@ -13,6 +13,8 @@
 
   
   
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
   
   
 
@@ -33,6 +35,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Configuration Parameters" href="configuration/parameters.html" />
@@ -53,6 +56,9 @@
             <a href="../index.html" class="icon icon-home"> Resistics
           
 
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -96,10 +102,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
 
             
@@ -169,9 +175,45 @@
   <div class="section" id="configuration-files">
 <h1>Configuration files<a class="headerlink" href="#configuration-files" title="Permalink to this headline">¶</a></h1>
 <p>Resistics allows users to set various parameters through configuration files. The package itself comes with its default configuration. Users can change certain parameters by specifying them in a configuration file. Below is the default configuration:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>name = global copy
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span>name = global copy
 
 [Calibration]
+extend = True
 usetheoretical = False
 
 [Decimation]
@@ -205,10 +247,31 @@ intercept = False
 boostrap = True
 windowfunc = hamming
 </pre></div>
-</div>
-<p>Configuration files are separated into several sections which describe which part of the process the parameters affect. The first thing to note is that all configuration files have a name. This is to help traceability. Configuration names are always entered into dataset comments.</p>
+</td></tr></table></div>
+<p>Configuration files are separated into several sections which describe which part of the process the parameters affect. The parameters are detailed in the <a class="reference internal" href="configuration/parameters.html"><span class="doc">configuration parameters</span></a> section. The first thing to note is that all configuration files have a name. This is to help traceability. Configuration names are always entered into dataset comments.</p>
+<p>A good way to begin creating a custom configuration file is to copy the default parameterisation. This can be done by using inbuilt functionality:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># copy the default configuration file</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsConfig</span> <span class="kn">import</span> <span class="n">copyDefaultConfig</span>
+<span class="n">copyDefaultConfig</span><span class="p">(</span><span class="s2">&quot;resisticsDefaultConfig.ini&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
 <p>When providing a custom configuration file, only the settings which will be changed need to be entered. Below is an example of a user specified configuration file</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>name = dec8_5
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span>name = dec8_5
 
 [Spectra]
 specdir = &quot;dec8_5&quot;
@@ -223,8 +286,8 @@ perlevel = 5
 minwindowsize = 256
 minoverlapsize = 64
 </pre></div>
-</div>
-<p>When using Resistics, information about the configuraiton being used can be printed to the terminal. This will detail which parameters have been specified by the user and which ones are being defaulted.</p>
+</td></tr></table></div>
+<p>When using resistics, information about the configuraiton being used can be printed to the terminal. This will detail which parameters have been specified by the user and which ones are being defaulted.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>21:02:15 ConfigData: Configuration Parameters:
 21:02:15 ConfigData: Name = dec8_5
 21:02:15 ConfigData: Calibration:
@@ -263,7 +326,6 @@ minoverlapsize = 64
 21:02:15 ConfigData:    Defaulted options = intercept, boostrap, windowfunc
 </pre></div>
 </div>
-<p>A more detailed explanation of each parameter is provided in the next section.</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>

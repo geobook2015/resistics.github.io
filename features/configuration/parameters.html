@@ -13,6 +13,8 @@
 
   
   
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
   
   
 
@@ -33,6 +35,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css\custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Comments" href="../comments.html" />
@@ -53,6 +56,9 @@
             <a href="../../index.html" class="icon icon-home"> Resistics
           
 
+          
+            
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -96,10 +102,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advanced.html">Advanced</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../reference.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
 </ul>
 
             
@@ -170,148 +176,353 @@
             
   <div class="section" id="configuration-parameters">
 <h1>Configuration Parameters<a class="headerlink" href="#configuration-parameters" title="Permalink to this headline">¶</a></h1>
-<p>A detailed explanation of the configuration parameters is given below:</p>
+<p>A detailed explanation of parameters available for configuration is given below.</p>
 <div class="section" id="general">
 <h2>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h2>
-<p>These parameters are general and not tied to any specific section</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>name
-type: string
-default: &quot;default&quot;
-A name for the configuration. This will be saved in comment files.
-</pre></div>
+<p>These parameters are general and not tied to any specific section.</p>
+<div class="topic">
+<p class="topic-title first">Parameter: name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“default”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">A name for the configuration. This will be saved in comment files.</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section" id="calibration">
 <h2>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h2>
-<p>Parameters related to calibration.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>useTheoretical
-type: bool (True or False)
-default: False
-Theoretical calibration for magnetic channels when a matching calibration file is not found
-</pre></div>
+<p>Parameters related to calibration data and calibrating of time data.</p>
+<div class="topic">
+<p class="topic-title first">Parameter: extend</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool (True or False)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">True</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Extrapolate out calibration data to cover a greater range of frequencies.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: useTheoretical</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool (True or False)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Theoretical calibration for magnetic channels when a matching calibration file is not found.</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section" id="decimation">
 <h2>Decimation<a class="headerlink" href="#decimation" title="Permalink to this headline">¶</a></h2>
-<p>Parameters the determine the decimation schemes.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>numlevels
-type: int
-default: 7 (min=1, max=10)
-Number of decimation levels
-
-minsamples
-type: int
-default: 100 (min=50)
-Minimum number of samples required to continue decimation
-</pre></div>
+<p>Parameters to define the decimation scheme. Note that depending on the length of timeseries recording, not all decimation levels may be calculated.</p>
+<div class="topic">
+<p class="topic-title first">Parameter: numlevels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">7 (min=1, max=10)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Number of decimation levels.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: minsamples</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">100 (min=50)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Minimum number of samples required to continue decimation.</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section" id="frequencies">
 <h2>Frequencies<a class="headerlink" href="#frequencies" title="Permalink to this headline">¶</a></h2>
-<p>Evaluation frequency related parameters.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>frequencies
-type: List[float]
-default: None
-Evaluation frequencies specified as a comma separated list of floats.
-
-perlevel
-type: int
-default: 7 (min=1, max=10)
-Frequencies per decimation level
-</pre></div>
+<p>Evaluation frequency related parameters. If evaluation frequencies are not explicitly supplied, then they are automatically selected internally.</p>
+<div class="topic">
+<p class="topic-title first">Parameter: frequencies</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[float] (comma separated list of floats)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Evaluation frequencies specified as a comma separated list of floats.</td>
+</tr>
+</tbody>
+</table>
 </div>
-<p>If evaluation frequencies are not explicitly suppled, then they are automatically selected internally.</p>
+<div class="topic">
+<p class="topic-title first">Parameter: perlevel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">7 (min=1, max=10)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Number of evaluation frequencies per decimation level.</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section" id="window">
 <h2>Window<a class="headerlink" href="#window" title="Permalink to this headline">¶</a></h2>
-<p>Time series windowing parameters.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>minwindows
-type: int
-default: 5 (min=1)
-Minimum windows required for a decimation level before decimation is ended.
-
-windowfactor
-type: int
-default: 2 (min=1)
-The factor which defines window size
-
-minwindowsize
-type: int
-default: 512 (min=32)
-The minimum allowable size of a window in samples
-
-minoverlapsize
-type: int
-default: 128 (min=128)
-The minimum allowable overlap size
-
-overlapfraction
-type: float
-default: 0.25 (min=0, max=0.5)
-The fraction of the windowsize to use as overlap size
-
-windowsizes
-type: List[int] of size equal to number of decimation levels
-default: None
-Explicitly specify the window sizes as a comma separated list
-
-overlapsizes
-type: List[int] of size equal to number of decimation levels
-default: None
-Explicitly specify the overlap sizes as a comma separated list
-</pre></div>
-</div>
-<p>Resistics will automatically calculate window sizes using windowfactor and overlapfraction. If for any decimation level, the calculation results in a window size less than minwindowsize or overlap lower the minoverlapsize, the window and overlap sizes will be set to their minimum allowable values.</p>
+<p>timeseries windowing parameters. This defines how the timeseries data will be windowed and the overlap between windows. Resistics will automatically calculate window sizes using windowfactor and overlapfraction. If for any decimation level, the calculation results in a window size less than minwindowsize or overlap lower the minoverlapsize, the window and overlap sizes will be set to their minimum allowable values.</p>
 <p>Window and overlap sizes can be set explicitly using the windowsizes and overlap sizes. If windowsizes are explicitly set, overlapsizes needs to be set too.</p>
+<div class="topic">
+<p class="topic-title first">Parameter: minwindows</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">5 (min=1)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Minimum windows required for a decimation level before decimation is ended.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: windowfactor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">2 (min=1)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The factor which defines window size. The window size is calculated as: sampling frequency at decimation level / windowfactor.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: minwindowsize</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">512 (min=32)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The minimum allowable size of a window in samples.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: minoverlapsize</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">128 (min=8)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The minimum allowable overlap size.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: overlapfraction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">0.25 (min=0, max=0.5)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The fraction of the windowsize to use as overlap size.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: windowsizes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[int] of size equal to number of decimation levels</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Explicitly specify the window sizes as a comma separated list.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: overlapsizes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[int] of size equal to number of decimation levels</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Explicitly specify the overlap sizes as a comma separated list.</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div class="section" id="spectra">
 <h2>Spectra<a class="headerlink" href="#spectra" title="Permalink to this headline">¶</a></h2>
-<p>Parameters related to calculating time series fourier spectra.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>specdir
-type: string
-default: spectra
-The spectra directory to write out to. This allows each configuration file to be related to a different run of the data.
-
-applywindow
-type: bool (True or False)
-default: True
-Window the data before performing the fourier transform
-
-windowfunction
-type: string
-default: hamming
-One of &quot;barthann&quot;, &quot;bartlett&quot;, &quot;blackman&quot;, &quot;blackmanharis&quot;, &quot;bohman&quot;, &quot;chebwin&quot;, &quot;hamming&quot;, &quot;hann&quot;, &quot;nuttall&quot;, &quot;parzen&quot;.
-</pre></div>
+<p>Parameters related to calculating timeseries fourier spectra.</p>
+<div class="topic">
+<p class="topic-title first">Parameter: specdir</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“spectra”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The spectra directory to write out to. This allows each configuration file to be related to a different run of the data.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: applywindow</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool (True or False)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">True</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Window the data before performing the fourier transform.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: windowfunction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">string. One of “barthann”, “bartlett”, “blackman”, “blackmanharis”, “bohman”, “chebwin”, “hamming”, “hann”, “nuttall”, “parzen”.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“hamming”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Window function to apply before doing the fourier transform</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section" id="statistics">
 <h2>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h2>
-<p>Parameters related to calculating time series fourier spectra.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>stats
-type: List[str]
-default: &quot;coherence&quot;, &quot;transferFunction&quot;
-Comma separated list of statistics to calculate
-
-remotestats
-type: List[str]
-default: &quot;coherence&quot;, &quot;transferFunction&quot;
-Comma separated list of remote reference statistics to calculate
-</pre></div>
+<p>Parameters related to calculating timeseries fourier spectra.</p>
+<div class="topic">
+<p class="topic-title first">Parameter: stats</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[str]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“coherence”, “transferFunction”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Comma separated list of statistics to calculate.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: remotestats</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[str]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“RR_coherence” , “RR_transferFunction”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Comma separated list of remote reference statistics to calculate</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section" id="solver">
 <h2>Solver<a class="headerlink" href="#solver" title="Permalink to this headline">¶</a></h2>
 <p>Solution parameters</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>stats
-type: List[str]
-default: &quot;coherence&quot;, &quot;transferFunction&quot;
-Comma separated list of statistics to calculate
-
-remotestats
-type: List[str]
-default: &quot;coherence&quot;, &quot;transferFunction&quot;
-Comma separated list of remote reference statistics to calculate
-</pre></div>
+<div class="topic">
+<p class="topic-title first">Parameter: intercept</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool (True or False)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Boolean flag for including an intercept in the least squares problem.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">Parameter: windowfunc</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str. One of “barthann”, “bartlett”, “blackman”, “blackmanharis”, “bohman”, “chebwin”, “hamming”, “hann”, “nuttall”, “parzen”.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“hamming”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Window function used for</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>

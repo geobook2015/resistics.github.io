@@ -13,6 +13,8 @@
 
   
   
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
   
   
 
@@ -33,6 +35,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css\custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -51,6 +54,9 @@
             <a href="../../index.html" class="icon icon-home"> Resistics
           
 
+          
+            
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -85,10 +91,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advanced.html">Advanced</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../reference.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
 </ul>
 
             
@@ -160,15 +166,12 @@
 
 <span class="c1"># import from package</span>
 <span class="kn">from</span> <span class="nn">resistics.calculators.calculator</span> <span class="k">import</span> <span class="n">Calculator</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.calibrationData</span> <span class="k">import</span> <span class="n">CalibrationData</span>
 <span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="k">import</span> <span class="n">CalibrationIO</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsChecks</span> <span class="k">import</span> <span class="n">isMagnetic</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsConfig</span> <span class="k">import</span> <span class="n">loadConfig</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsCalibrate</span> <span class="k">import</span> <span class="p">(</span>
-    <span class="n">getKnownCalibrationFormats</span><span class="p">,</span>
-    <span class="n">readCalFile</span><span class="p">,</span>
-    <span class="n">getCalName</span><span class="p">,</span>
-    <span class="n">unitCalibration</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsCalibrate</span> <span class="k">import</span> <span class="n">getKnownCalibrationFormats</span><span class="p">,</span> <span class="n">getCalName</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsFreq</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">forwardFFT</span><span class="p">,</span>
     <span class="n">inverseFFT</span><span class="p">,</span>
@@ -189,10 +192,8 @@
 <span class="sd">        The calibration file formats of the respective extensions</span>
 <span class="sd">    calDir : str</span>
 <span class="sd">        Directory path of calibration files</span>
-<span class="sd">    calFiles : list</span>
+<span class="sd">    calFiles : list[str]</span>
 <span class="sd">        List of calibration files found in calibration directory</span>
-<span class="sd">    calTypes :</span>
-<span class="sd">        Types of the calibration files found in calibration directory</span>
 <span class="sd">    numCalFiles : int</span>
 <span class="sd">        Number of found calibration files in calibration directory</span>
 <span class="sd">    useTheoretical : bool</span>
@@ -232,12 +233,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">calExt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFormats</span> <span class="o">=</span> <span class="n">getKnownCalibrationFormats</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calTypes</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numCalFiles</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calDir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">calDirectory</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">findCalFiles</span><span class="p">()</span>
         <span class="c1"># set whether to use theoretical calibration functions</span>
         <span class="n">conf</span> <span class="o">=</span> <span class="n">loadConfig</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;Calibration&quot;</span><span class="p">][</span><span class="s2">&quot;extend&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">useTheoretical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;Calibration&quot;</span><span class="p">][</span><span class="s2">&quot;usetheoretical&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Calibrator.setCalDir"><a class="viewcode-back" href="../../api/calculators.calibrator.html#calculators.calibrator.Calibrator.setCalDir">[docs]</a>    <span class="k">def</span> <span class="nf">setCalDir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calDirectory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -258,21 +260,19 @@
         <span class="sd">&quot;&quot;&quot;Find calibration files in calibration directory&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">calTypes</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">cE</span><span class="p">,</span> <span class="n">cF</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calExt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFormats</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">cE</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calExt</span><span class="p">:</span>
             <span class="c1"># get all files of format cE</span>
-            <span class="n">tmp1</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calDir</span><span class="p">,</span> <span class="s2">&quot;*.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cE</span><span class="p">)))</span>
-            <span class="n">tmp2</span> <span class="o">=</span> <span class="p">[</span><span class="n">cF</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp1</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span> <span class="o">+</span> <span class="n">tmp1</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">calTypes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calTypes</span> <span class="o">+</span> <span class="n">tmp2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span> <span class="o">+</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calDir</span><span class="p">,</span> <span class="s2">&quot;*.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cE</span><span class="p">))</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numCalFiles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Calibrator.calibrate"><a class="viewcode-back" href="../../api/calculators.calibrator.html#calculators.calibrator.Calibrator.calibrate">[docs]</a>    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span>
         <span class="n">sensor</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">serial</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">chopper</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">serial</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+        <span class="n">chopper</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Calibrate time data</span>
 
@@ -286,11 +286,11 @@
 <span class="sd">        timeData : TimeData</span>
 <span class="sd">            TimeData object</span>
 <span class="sd">        sensor : Dict</span>
-<span class="sd">            Dictionary of sensor information with channels as the key and sensor as the value</span>
+<span class="sd">            Dictionary of sensor information with channels as the key and sensor as the value (sensor is a string)</span>
 <span class="sd">        serial :</span>
-<span class="sd">            Dictionary of serial information with channels as the key and sensor as the value</span>
+<span class="sd">            Dictionary of serial information with channels as the key and sensor as the value (serial is a number)</span>
 <span class="sd">        chopper :</span>
-<span class="sd">            Dictionary of chopper information with channels as the key and sensor as the value</span>
+<span class="sd">            Dictionary of chopper information with channels as the key and sensor as the value (chopper is a bool)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -298,13 +298,16 @@
 <span class="sd">            Calibration TimeData object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="n">calIO</span> <span class="o">=</span> <span class="n">CalibrationIO</span><span class="p">()</span>
         <span class="c1"># iterate over data</span>
         <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">timeData</span><span class="o">.</span><span class="n">chans</span><span class="p">:</span>
             <span class="c1"># output some info</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span><span class="s2">&quot;Calibrating channel </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">))</span>
             <span class="c1"># try and find calibration file</span>
-            <span class="n">calIndex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCalFile</span><span class="p">(</span><span class="n">sensor</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">serial</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">chopper</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">calIndex</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">calFile</span><span class="p">,</span> <span class="n">calFormat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCalFile</span><span class="p">(</span>
+                <span class="n">sensor</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">serial</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">chopper</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">calFile</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
                 <span class="c1"># no file found</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">useTheoretical</span> <span class="ow">and</span> <span class="n">isMagnetic</span><span class="p">(</span><span class="n">chan</span><span class="p">):</span>
                     <span class="c1"># use theoretical</span>
@@ -324,35 +327,32 @@
                     <span class="p">)</span>
                     <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Channel </span><span class="si">{}</span><span class="s2"> not calibrated&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">))</span>
                     <span class="k">continue</span>  <span class="c1"># nothing to do</span>
+
             <span class="c1"># else file found</span>
             <span class="c1"># no need to separately apply static gain, already included in cal data</span>
-            <span class="n">calData</span><span class="p">,</span> <span class="n">staticGain</span> <span class="o">=</span> <span class="n">readCalFile</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">calTypes</span><span class="p">[</span><span class="n">calIndex</span><span class="p">],</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">[</span><span class="n">calIndex</span><span class="p">],</span>
-                <span class="n">sensor</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span>
-                <span class="n">serial</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span>
-                <span class="n">chopper</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span>
-            <span class="p">)</span>
+            <span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">calFile</span><span class="p">,</span> <span class="n">calFormat</span><span class="p">,</span> <span class="n">chopper</span><span class="o">=</span><span class="n">chopper</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">extend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">)</span>
+            <span class="n">calData</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
                 <span class="s2">&quot;Calibration file found for sensor </span><span class="si">{}</span><span class="s2">, serial number </span><span class="si">{}</span><span class="s2">, chopper </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">sensor</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">serial</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">chopper</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">[</span><span class="n">calIndex</span><span class="p">]</span>
+                    <span class="n">sensor</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">serial</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">chopper</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">calFile</span>
                 <span class="p">)</span>
             <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span><span class="s2">&quot;Format: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">calFormat</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
                 <span class="s2">&quot;Static gain correction of </span><span class="si">{}</span><span class="s2"> applied to calibration data&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">staticGain</span>
+                    <span class="n">calData</span><span class="o">.</span><span class="n">staticGain</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span><span class="s2">&quot;Format: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calTypes</span><span class="p">[</span><span class="n">calIndex</span><span class="p">]))</span>
+            <span class="c1"># calibrate time data</span>
             <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibrateChan</span><span class="p">(</span>
                 <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">],</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">calData</span>
             <span class="p">)</span>
             <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
                 <span class="s2">&quot;Channel </span><span class="si">{}</span><span class="s2"> calibrated with calibration data from file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">chan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">[</span><span class="n">calIndex</span><span class="p">]</span>
+                    <span class="n">chan</span><span class="p">,</span> <span class="n">calFile</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-        <span class="c1"># return timeData at the end</span>
+        <span class="c1"># return calibrated time data</span>
         <span class="k">return</span> <span class="n">timeData</span></div>
 
 <div class="viewcode-block" id="Calibrator.getCalFile"><a class="viewcode-back" href="../../api/calculators.calibrator.html#calculators.calibrator.Calibrator.getCalFile">[docs]</a>    <span class="k">def</span> <span class="nf">getCalFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -360,36 +360,33 @@
 <span class="sd">    </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        sensor : serial</span>
+<span class="sd">        sensor : str</span>
 <span class="sd">            Channel data</span>
-<span class="sd">        serial : float</span>
+<span class="sd">        serial : int</span>
 <span class="sd">            Sampling frequency Hz</span>
-<span class="sd">        chopper : np.ndarray</span>
+<span class="sd">        chopper : bool</span>
 <span class="sd">            Calibration data</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        out : int</span>
-<span class="sd">            Index of file in calFiles list or -1 if file not found</span>
+<span class="sd">        calFile : str</span>
+<span class="sd">            The mathing calibration file</span>
+<span class="sd">        calFormat : str</span>
+<span class="sd">            The calibration format</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="k">for</span> <span class="n">calE</span><span class="p">,</span> <span class="n">calF</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calExt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFormats</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">extension</span><span class="p">,</span> <span class="n">fileformat</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calExt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFormats</span><span class="p">):</span>
             <span class="c1"># get the name for this format</span>
-            <span class="n">calName</span> <span class="o">=</span> <span class="n">getCalName</span><span class="p">(</span><span class="n">calF</span><span class="p">,</span> <span class="n">calE</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span>
-            <span class="c1"># search to find a calibration file with that name</span>
-            <span class="c1"># take the first encountered</span>
-            <span class="k">for</span> <span class="n">iF</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numCalFiles</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">calName</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">[</span><span class="n">iF</span><span class="p">]:</span>
-                    <span class="n">index</span> <span class="o">=</span> <span class="n">iF</span>
-            <span class="c1"># break out of calfile found</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-                <span class="k">break</span>
-        <span class="c1"># return the index to the calibration file</span>
-        <span class="k">return</span> <span class="n">index</span></div>
+            <span class="n">calName</span> <span class="o">=</span> <span class="n">getCalName</span><span class="p">(</span><span class="n">fileformat</span><span class="p">,</span> <span class="n">extension</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">chopper</span><span class="p">)</span>
+            <span class="c1"># search to find a calibration file with that name and take the first encountered</span>
+            <span class="k">for</span> <span class="n">calFile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">calName</span> <span class="ow">in</span> <span class="n">calFile</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">calFile</span><span class="p">,</span> <span class="n">fileformat</span>
+        <span class="c1"># else return empty strings</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="Calibrator.calibrateChan"><a class="viewcode-back" href="../../api/calculators.calibrator.html#calculators.calibrator.Calibrator.calibrateChan">[docs]</a>    <span class="k">def</span> <span class="nf">calibrateChan</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">calData</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">calData</span><span class="p">:</span> <span class="n">CalibrationData</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Calibrate a channel</span>
 
@@ -401,7 +398,7 @@
 <span class="sd">            Channel data</span>
 <span class="sd">        sampleFreq : float</span>
 <span class="sd">            Sampling frequency Hz</span>
-<span class="sd">        calData : np.ndarray</span>
+<span class="sd">        calData : CalibrationData</span>
 <span class="sd">            Calibration data</span>
 
 <span class="sd">        Returns</span>
@@ -425,19 +422,15 @@
         <span class="c1"># return the non padded part of the array</span>
         <span class="k">return</span> <span class="n">inverseFFT</span><span class="p">(</span><span class="n">fftData</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">)[:</span><span class="n">dataSize</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Calibrator.interpolateCalData"><a class="viewcode-back" href="../../api/calculators.calibrator.html#calculators.calibrator.Calibrator.interpolateCalData">[docs]</a>    <span class="k">def</span> <span class="nf">interpolateCalData</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">calData</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">spline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Calibrator.interpolateCalData"><a class="viewcode-back" href="../../api/calculators.calibrator.html#calculators.calibrator.Calibrator.interpolateCalData">[docs]</a>    <span class="k">def</span> <span class="nf">interpolateCalData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calData</span><span class="p">:</span> <span class="n">CalibrationData</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Interpolation calibration data on to frequency points</span>
 <span class="sd">    </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        calData : np.ndarray</span>
+<span class="sd">        calData : CalibrationData</span>
 <span class="sd">            Calibration data</span>
 <span class="sd">        f : np.ndarray</span>
 <span class="sd">            Frequency array where calibration data is defined</span>
-<span class="sd">        spline : bool (True)</span>
-<span class="sd">            Boolean flag to use spline interpolation</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -445,19 +438,9 @@
 <span class="sd">            Calibration data interpolated to the frequency array f</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="n">spline</span><span class="p">:</span>
-            <span class="c1"># spline interpolation</span>
-            <span class="n">interpFuncMag</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">InterpolatedUnivariateSpline</span><span class="p">(</span>
-                <span class="n">calData</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">calData</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="p">)</span>
-            <span class="n">interpFuncPhase</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">InterpolatedUnivariateSpline</span><span class="p">(</span>
-                <span class="n">calData</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">calData</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># linear interpolate</span>
-            <span class="n">interpFuncMag</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">calData</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">calData</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-            <span class="n">interpFuncPhase</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">calData</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">calData</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
-
+        <span class="c1"># linear interpolate</span>
+        <span class="n">interpFuncMag</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">calData</span><span class="o">.</span><span class="n">freqs</span><span class="p">,</span> <span class="n">calData</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+        <span class="n">interpFuncPhase</span> <span class="o">=</span> <span class="n">interp</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">calData</span><span class="o">.</span><span class="n">freqs</span><span class="p">,</span> <span class="n">calData</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">interpFuncMag</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">interpFuncPhase</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span></div>
 
 <div class="viewcode-block" id="Calibrator.getTheoreticalCalData"><a class="viewcode-back" href="../../api/calculators.calibrator.html#calculators.calibrator.Calibrator.getTheoreticalCalData">[docs]</a>    <span class="k">def</span> <span class="nf">getTheoreticalCalData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -476,7 +459,7 @@
 
         <span class="c1"># should use the sensor to figure out what calibration func</span>
         <span class="k">if</span> <span class="s2">&quot;mfs06&quot;</span> <span class="ow">in</span> <span class="n">sensor</span> <span class="ow">or</span> <span class="s2">&quot;MFS06&quot;</span> <span class="ow">in</span> <span class="n">sensor</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">unitCalibration</span><span class="p">()</span></div>
+            <span class="k">return</span> <span class="n">CalibrationIO</span><span class="p">()</span><span class="o">.</span><span class="n">unitCalibration</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Calibrator.printList"><a class="viewcode-back" href="../../api/calculators.calibrator.html#calculators.calibrator.Calibrator.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
@@ -494,12 +477,12 @@
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Associated formats&quot;</span><span class="p">)</span>
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calFormats</span><span class="p">))</span>
         <span class="c1"># now print the actual calibration files</span>
-        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Calibration files found:&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> calibration files found:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numCalFiles</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">numCalFiles</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="s2">No calibration files found&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">cE</span><span class="p">,</span> <span class="n">cT</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calTypes</span><span class="p">):</span>
-                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\t\t</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cT</span><span class="p">,</span> <span class="n">cE</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">calFile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calFiles</span><span class="p">:</span>
+                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t\t</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">calFile</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">textLst</span></div></div>
 </pre></div>
 

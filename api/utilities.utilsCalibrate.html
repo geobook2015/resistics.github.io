@@ -13,6 +13,8 @@
 
   
   
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
   
   
 
@@ -33,6 +35,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="utilities.utilsChecks module" href="utilities.utilsChecks.html" />
@@ -53,6 +56,9 @@
             <a href="../index.html" class="icon icon-home"> Resistics
           
 
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -87,8 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../reference.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="calculators.html">calculators package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dataObjects.html">dataObjects package</a></li>
@@ -117,7 +122,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
 
             
@@ -211,33 +217,6 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="utilities.utilsCalibrate.extendCalData">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">extendCalData</code><span class="sig-paren">(</span><em>data: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#extendCalData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.extendCalData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extend calibration data by frequency</p>
-<p>Add extra points at the start and end of the calibration data to ensure complete coverage with the time data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Calibration data</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Extended calibration data</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
 <dt id="utilities.utilsCalibrate.getCalName">
 <code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">getCalName</code><span class="sig-paren">(</span><em>format</em>, <em>ext: str</em>, <em>sensor: str</em>, <em>serial</em>, <em>chopper</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#getCalName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.getCalName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the calibration file name</p>
@@ -255,10 +234,12 @@
 <dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Sensor name</p>
 </dd>
-<dt><strong>serial :</strong></dt>
-<dd></dd>
-<dt><strong>chopper :</strong></dt>
-<dd></dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -296,63 +277,32 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="utilities.utilsCalibrate.linesToArray">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">linesToArray</code><span class="sig-paren">(</span><em>dataLines: List[T]</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#linesToArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.linesToArray" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert data lines from a file to an array</p>
+<dt id="utilities.utilsCalibrate.inductionName">
+<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">inductionName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial</em>, <em>chopper: bool</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#inductionName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.inductionName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get internal format induction coil calibration file name</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>dataLines</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd><p class="first last">Data lines read in from a file</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Data lines converted to a float array</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="utilities.utilsCalibrate.metronixData">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">metronixData</code><span class="sig-paren">(</span><em>filepath: str</em>, <em>chopper</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, float]<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#metronixData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.metronixData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read data from calibration file</p>
-<p>Metronix data is in units: F [Hz], Magnitude [V/nT*Hz], Phase [deg] for both chopper on
-Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>format</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dt><strong>ext</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Calibration file extension</p>
 </dd>
-<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd></dd>
 <dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Sensor name</p>
 </dd>
-<dt><strong>serial :</strong></dt>
-<dd></dd>
-<dt><strong>chopper :</strong></dt>
-<dd></dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Calibration data</p>
-</dd>
-<dt><strong>staticGain</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Static gain</p>
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of calibration file</p>
 </dd>
 </dl>
 </td>
@@ -363,7 +313,7 @@ Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
 
 <dl class="function">
 <dt id="utilities.utilsCalibrate.metronixName">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">metronixName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial</em>, <em>chopper</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#metronixName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.metronixName" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">metronixName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial</em>, <em>chopper: bool</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#metronixName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.metronixName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get Metronix calibration file name</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -376,83 +326,18 @@ Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
 <dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Sensor name</p>
 </dd>
-<dt><strong>serial :</strong></dt>
-<dd></dd>
-<dt><strong>chopper:</strong></dt>
-<dd></dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Name of calibration file</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="utilities.utilsCalibrate.readCalFile">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">readCalFile</code><span class="sig-paren">(</span><em>format: str</em>, <em>filepath: str</em>, <em>sensor: str</em>, <em>serial</em>, <em>chopper</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, float]<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#readCalFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.readCalFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read data from calibration file</p>
-<p>Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>format</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Calibration file extension</p>
-</dd>
-<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd></dd>
-<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Sensor name</p>
-</dd>
-<dt><strong>serial :</strong></dt>
-<dd></dd>
-<dt><strong>chopper :</strong></dt>
-<dd></dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of calibration file</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="utilities.utilsCalibrate.rspData">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">rspData</code><span class="sig-paren">(</span><em>filepath: str</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, float]<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#rspData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.rspData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read data from calibration file</p>
-<p>RSP data is in units: F [Hz], Magnitude [mv/nT], Phase [deg]
-Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Filepath to calibration file</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Calibration data</p>
-</dd>
-<dt><strong>staticGain</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Static gain</p>
 </dd>
 </dl>
 </td>
@@ -463,7 +348,7 @@ Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
 
 <dl class="function">
 <dt id="utilities.utilsCalibrate.rspName">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">rspName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial</em>, <em>chopper</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#rspName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.rspName" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">rspName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial</em>, <em>chopper: bool</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#rspName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.rspName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get RSP calibration file name</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -476,10 +361,12 @@ Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
 <dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Sensor name</p>
 </dd>
-<dt><strong>serial :</strong></dt>
-<dd></dd>
-<dt><strong>chopper :</strong></dt>
-<dd></dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -495,39 +382,8 @@ Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="utilities.utilsCalibrate.rspxData">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">rspxData</code><span class="sig-paren">(</span><em>filepath: str</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, float]<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#rspxData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.rspxData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read data from calibration file</p>
-<p>RSP data is in units: F [Hz], Magnitude [mv/nT], Phase [deg]
-Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Filepath to calibration file</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Calibration data</p>
-</dd>
-<dt><strong>staticGain</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Static gain</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
 <dt id="utilities.utilsCalibrate.rspxName">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">rspxName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial</em>, <em>chopper</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#rspxName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.rspxName" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">rspxName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial</em>, <em>chopper: bool</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#rspxName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.rspxName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get RSPX calibration file name</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -540,61 +396,18 @@ Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
 <dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Sensor name</p>
 </dd>
-<dt><strong>serial :</strong></dt>
-<dd></dd>
-<dt><strong>chopper :</strong></dt>
-<dd></dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Name of calibration file</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="utilities.utilsCalibrate.sortCalData">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">sortCalData</code><span class="sig-paren">(</span><em>data: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#sortCalData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.sortCalData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sort calibration data by frequency ascending (low to high)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Unsorted calibration data</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Sorted calibration data</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="utilities.utilsCalibrate.unitCalibration">
-<code class="descclassname">utilities.utilsCalibrate.</code><code class="descname">unitCalibration</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/utilities/utilsCalibrate.html#unitCalibration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utilities.utilsCalibrate.unitCalibration" title="Permalink to this definition">¶</a></dt>
-<dd><p>Unit calibration data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Unit calibration data</p>
 </dd>
 </dl>
 </td>

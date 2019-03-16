@@ -13,6 +13,8 @@
 
   
   
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+  
   
   
 
@@ -33,9 +35,10 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css\custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="next" title="Timeseries data" href="conventions/timeseries.html" />
     <link rel="prev" title="Statistics calculated with a remote reference" href="features/remoteStatistics.html" /> 
 </head>
 
@@ -53,6 +56,9 @@
             <a href="index.html" class="icon icon-home"> Resistics
           
 
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -84,13 +90,17 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Conventions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Conventions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="conventions/timeseries.html">Timeseries data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conventions/calibration.html">Calibration data</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
 
             
@@ -159,32 +169,25 @@
 <h1>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h1>
 <p>Resistics adopts a number of conventions which are outlined below:</p>
 <ul>
-<li><p class="first">Resistics assumes that data is sampled on the second.</p>
+<li><p class="first">Data is assumed to be sampled on the second. Whilst this is generally the case with ATS timeseries data files, SPAM and other formats do not necessarily follow this convention. There is functionality available to interpolate data on to the second built into resistics. An example of interpolation to the second can be found <a class="reference internal" href="advanced/preProcess.html"><span class="doc">here</span></a></p>
 </li>
 <li><p class="first">Magnetic channels are named H<sub>x</sub>, H<sub>y</sub> and H<sub>z</sub></p>
 </li>
 <li><p class="first">Electric channels are named E<sub>x</sub>, E<sub>y</sub></p>
 </li>
-<li><p class="first">All physical measurements are given in field units</p>
+<li><p class="first">Resistics operates with field units. When timeseries data is read in, it is automatically converted to the following units:</p>
 <blockquote>
 <div><ul class="simple">
 <li>Electric channels E<sub>x</sub>, E<sub>y</sub> are in mV/m</li>
-<li>Magnetic channels are in V</li>
+<li>Magnetic channels H<sub>x</sub>, H<sub>y</sub> and H<sub>z</sub> are in mV</li>
 <li>Calibrated magnetic channels are in nT</li>
 </ul>
 </div></blockquote>
 </li>
-<li><p class="first">Resistics automatically identifies time data folders which are named appropriately and makes the following associations:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Directories of the format meas_xxx_xxx are interpreted as ATS data Directories</li>
-<li>Directories</li>
 </ul>
-</div></blockquote>
-</li>
-<li><p class="first">Resistics will automatically locate a calibration file for the data. The following calibration file conventions are used</p>
-</li>
-</ul>
+<p>The <a class="reference internal" href="conventions/timeseries.html"><span class="doc">timeseries data</span></a> and <a class="reference internal" href="conventions/calibration.html"><span class="doc">calibration data</span></a> sections cover those respective topics in more detail. Ensuring that timeseries data is appropriate read in and calibrated can be tricky when there are multiple file formats to support. If you are having any trouble with reading in timeseries data or calibrating it, please submit a request on the <a class="reference external" href="https://github.com/resistics/resistics">GitHub repository</a>.</p>
+<div class="toctree-wrapper compound">
+</div>
 </div>
 
 
@@ -195,7 +198,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="conventions/timeseries.html" class="btn btn-neutral float-right" title="Timeseries data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="features/remoteStatistics.html" class="btn btn-neutral float-left" title="Statistics calculated with a remote reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
