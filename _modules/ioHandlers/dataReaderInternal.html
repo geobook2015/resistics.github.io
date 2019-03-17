@@ -172,7 +172,13 @@
 <div class="viewcode-block" id="DataReaderInternal"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderInternal.html#ioHandlers.dataReaderInternal.DataReaderInternal">[docs]</a><span class="k">class</span> <span class="nc">DataReaderInternal</span><span class="p">(</span><span class="n">DataReader</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Data reader for internal formatted data</span>
 
-<span class="sd">    Internal formatted data is straightforward. Header information is read in from a separate ascii formatted file. Each channel has its own data file written out using numpy&#39;s binary write function and with a .dat extension.</span>
+<span class="sd">    Internal formatted data is straightforward. Header information is read in from a global header file and header files for each channel, all of them ascii formatted file. Each channel has its own data file written out using numpy&#39;s binary write function and with a .dat extension.</span>
+
+<span class="sd">    As raw data is not usually in the internal data format, to avoid any problems, the following workflow is suggested:</span>
+
+<span class="sd">    - Get physical data from the raw data files (ATS, SPAM, Phoenix)</span>
+<span class="sd">    - Perform any pre-processing required</span>
+<span class="sd">    - Save as internal format, ensuring to set the lsb_applied channel header for every channel to True. This will avoid any further scaling when the data is read in again.</span>
 <span class="sd">    </span>
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>

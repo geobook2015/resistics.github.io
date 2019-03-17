@@ -172,7 +172,11 @@
 <span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="k">import</span> <span class="n">DataWriterInternal</span>
 <span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsChecks</span> <span class="k">import</span> <span class="n">consistentChans</span><span class="p">,</span> <span class="n">isMagnetic</span><span class="p">,</span> <span class="n">isElectric</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsClean</span> <span class="k">import</span> <span class="n">removeZeros</span><span class="p">,</span> <span class="n">removeZerosSingle</span><span class="p">,</span> <span class="n">removeNansSingle</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsClean</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">removeZeros</span><span class="p">,</span>
+    <span class="n">removeZerosSingle</span><span class="p">,</span>
+    <span class="n">removeNansSingle</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsMath</span> <span class="k">import</span> <span class="n">intdiv</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">blockPrint</span>
 
@@ -180,12 +184,22 @@
 <div class="viewcode-block" id="DataReaderPhoenix"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix">[docs]</a><span class="k">class</span> <span class="nc">DataReaderPhoenix</span><span class="p">(</span><span class="n">DataReader</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Data reader for Phoenix data</span>
 
-<span class="sd">	The Phoenix data and recording format is different. There are three frequencies recorded consecutively (e.g. 2400Hz, 150Hz, 15Hz). The lowest sampling frequency is continuous whilst the others record small bits at regular intervals. There is no issue with the continous sampling frequency. However, with the others, this is going to lead to lots of small data folders if converted to internal data format because high frequencies are recorded in small chunks of time. </span>
+<span class="sd">    The Phoenix data and recording format is different and does not nicely fit with the way resistics tries to model data.</span>
+<span class="sd">    </span>
+<span class="sd">    There are three frequencies recorded concurrently (e.g. 2400Hz, 150Hz, 15Hz). The lowest sampling frequency is continuous whilst the others record data files at regular intervals. There is no issue with the continous sampling frequency. </span>
+<span class="sd">    </span>
+<span class="sd">    However, as resistics separates out data into continuous recordings, the consistent gaps for the higher frequencies will lead to lots of small data folders if converted to internal data format.</span>
 
 <span class="sd">    This class returns the lowest frequency recording (the continuous one) when time series data is requested. However, higher frequencies can be converted to the internal data format using the methods available here.</span>
 
-<span class="sd">	Attributes</span>
-<span class="sd">	----------</span>
+<span class="sd">    Warnings</span>
+<span class="sd">    --------</span>
+<span class="sd">    The appropriate scaling for Phoenix data to return field units has not yet been verified.</span>
+
+<span class="sd">    It is not actually recommended to reformat the high frequency recordings as this will lead to potentially thousands of data folders. There is currently no straight-forward way to support the high-frequency Phoenix recordings.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
 <span class="sd">    recChannels : Dict</span>
 <span class="sd">        Channels in each data file</span>
 <span class="sd">    dtype : np.float32</span>
@@ -195,41 +209,65 @@
 <span class="sd">    numDataFiles : int</span>
 <span class="sd">        The number of data files</span>
 
-<span class="sd">	Methods</span>
-<span class="sd">	-------</span>
-<span class="sd">	__init__(dataPath)</span>
-<span class="sd">		Initialise with path to the data directory</span>
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
 <span class="sd">    setParameters()</span>
-<span class="sd">        Set parameters specific to a data format</span>
+<span class="sd">        Set data reader parameters for Phoenix files</span>
+<span class="sd">    getSamplesRatesTS()</span>
+<span class="sd">        Get the sampling frequencies of the time series data</span>
+<span class="sd">    getNumberSamplesTS()</span>
+<span class="sd">        Get the number of samples for each time series file</span>
 <span class="sd">    getUnscaledSamples(**kwargs)</span>
-<span class="sd">        Get raw, unscaled data</span>
+<span class="sd">        Get raw data from data file</span>
+<span class="sd">    getRecordsForSamples(startSample, endSample)</span>
+<span class="sd">        Get the records to read for a sample range</span>
+<span class="sd">    readTag(dataFile)</span>
+<span class="sd">        Read the tag from a data file</span>
+<span class="sd">    readRecord(dataFile, numChans, numScans)</span>
+<span class="sd">        Read numScans from a record</span>
+<span class="sd">    twosComplement(dataBytes)</span>
+<span class="sd">        Read the two&#39;s complement data from the file</span>
 <span class="sd">    getPhysicalSamples(**kwargs)</span>
-<span class="sd">        Get data in physical units</span>
-<span class="sd">    spamHeaders()</span>
-<span class="sd">        Get sections and section headers to be read in for SPAM data</span>
+<span class="sd">        Get data scaled to physical values</span>
 <span class="sd">    chanDefaults()</span>
-<span class="sd">        Get defaults values for channel headers</span>
+<span class="sd">        Get defaults for channel headers</span>
 <span class="sd">    readHeader()</span>
-<span class="sd">        Read SPAM header files</span>
-<span class="sd">    readHeaderXTR(headerFile)</span>
-<span class="sd">        Read a XTR header file</span>
-<span class="sd">    readHeaderXTRX(headerFile)</span>
-<span class="sd">        Read a XTRX header files</span>
-<span class="sd">    headersFromRawFile(rawFile, headers)</span>
-<span class="sd">        Read headers from the data files</span>
-<span class="sd">    mergeHeaders(headersList, chanHeadersList)</span>
-<span class="sd">        Merge the headers from all the data files</span>
-<span class="sd">    printDataFileList()</span>
-<span class="sd">        Get data file information as a list of strings</span>
-<span class="sd">    printDataFiles()</span>
-<span class="sd">        Print data file information to terminal</span>
+<span class="sd">        Read header file</span>
+<span class="sd">    readTable()</span>
+<span class="sd">        Read table file</span>
+<span class="sd">    removeControl(inBytes)</span>
+<span class="sd">        Remove control characters from a byte string</span>
+<span class="sd">    headersFromTable(tableData)</span>
+<span class="sd">        Parse the information in the table file to get headers</span>
+<span class="sd">    getDates(tableData)</span>
+<span class="sd">        Get recording dates (start and end time)</span>
+<span class="sd">    checkSamples()</span>
+<span class="sd">        Check the number of samples for all the timeseries (ts) files</span>
+<span class="sd">    reformatHigh(path, **kwargs)</span>
+<span class="sd">        Write out high frequency time series in internal format</span>
+<span class="sd">    reformatContinuous(path)</span>
+<span class="sd">        Write out the continuous time series in internal format</span>
+<span class="sd">    reformat(path)</span>
+<span class="sd">        Write out all recorded time series to internal format</span>
+<span class="sd">    printDataFileList()  </span>
+<span class="sd">        Information about the data files as a list of strings</span>
+<span class="sd">    printDataFileInfo()</span>
+<span class="sd">        Print a list of the data files</span>
+<span class="sd">    printTableFileList()</span>
+<span class="sd">        Information about the table file as a list of strings</span>
+<span class="sd">    printTableFileInfo()</span>
+<span class="sd">        Print table file info</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Phoenix data is stored in 3 bytes two&#39;s-complement format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DataReaderPhoenix.setParameters"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set data reader parameters for Phoenix files</span>
 <span class="sd">        </span>
 <span class="sd">        Phoenix time series data is not contiguous in the file and is separated into records. There are multiple time series data files, one for the continuous recording and two others for the other frequencies. Therefore, there are a few other class variables defined here than in the parent DataReader class.</span>
-<span class="sd">        &quot;&quot;&quot;</span>        
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># get a list of the header and data files in the folder</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headerF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.TBL&quot;</span><span class="p">))</span>
@@ -250,7 +288,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Dict</span>
 <span class="sd">            Dictionary with the time series file number as keys and their sampling frequencies in Hz as values</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">info</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">sr</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tsNums</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tsSampleFreqs</span><span class="p">):</span>
@@ -264,7 +302,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        Dict</span>
 <span class="sd">            Dictionary with the time series file number as keys and their number of samples as values</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">ns</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tsNums</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tsNumSamples</span><span class="p">):</span>
@@ -371,7 +409,9 @@
             <span class="n">comments</span><span class="o">=</span><span class="n">comment</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataReaderPhoenix.getRecordsForSamples"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix.getRecordsForSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getRecordsForSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startSample</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">endSample</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
+<div class="viewcode-block" id="DataReaderPhoenix.getRecordsForSamples"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix.getRecordsForSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getRecordsForSamples</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">startSample</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">endSample</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Get the records to read for a sample range</span>
 
 <span class="sd">        Parameters</span>
@@ -472,7 +512,7 @@
         <span class="k">return</span> <span class="n">numScans</span><span class="p">,</span> <span class="n">numChans</span><span class="p">,</span> <span class="n">dateString</span></div>
 
 <div class="viewcode-block" id="DataReaderPhoenix.readRecord"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix.readRecord">[docs]</a>    <span class="k">def</span> <span class="nf">readRecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataFile</span><span class="p">,</span> <span class="n">numChans</span><span class="p">,</span> <span class="n">numScans</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Read the tag from a data file</span>
+        <span class="sd">&quot;&quot;&quot;Read numScans from a record</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -514,10 +554,11 @@
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataBytes</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleByteSize</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
-                <span class="s2">&quot;The number of bytes divided by the sample byte size does not give an exact number&quot;</span><span class="p">,</span> <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span>
+                <span class="s2">&quot;The number of bytes divided by the sample byte size does not give an exact number&quot;</span><span class="p">,</span>
+                <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="c1"># calculate num samples, this should be exact    </span>
-        <span class="n">numSamples</span> <span class="o">=</span> <span class="n">intdiv</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataBytes</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleByteSize</span><span class="p">)</span> 
+        <span class="c1"># calculate num samples, this should be exact</span>
+        <span class="n">numSamples</span> <span class="o">=</span> <span class="n">intdiv</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataBytes</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleByteSize</span><span class="p">)</span>
         <span class="n">dataRead</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numSamples</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numSamples</span><span class="p">):</span>
             <span class="n">sampleBytes</span> <span class="o">=</span> <span class="n">dataBytes</span><span class="p">[</span>
@@ -528,20 +569,8 @@
             <span class="n">dataRead</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">signed</span>
         <span class="k">return</span> <span class="n">dataRead</span></div>
 
-
 <div class="viewcode-block" id="DataReaderPhoenix.getPhysicalSamples"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix.getPhysicalSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getPhysicalSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get data scaled to physical values</span>
-
-<span class="sd">        Each data format is recorded in a different way.</span>
-<span class="sd">        ATS provides unscaled data in counts (*lsb gives mV)</span>
-<span class="sd">        SPAM provides unscaled data in the count data/unscaled data * lsb is assumed to give data in mV</span>
-<span class="sd">        Phoenix</span>
-<span class="sd">        Internal</span>
-<span class="sd">        </span>
-<span class="sd">        The data readers return data using field units. Therefore:</span>
-<span class="sd">        Electric field channels are returned in mV/km</span>
-<span class="sd">        Magnetic fields are in mV </span>
-<span class="sd">        To get magnetic fields in nT, calibration needs to be performed</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -625,8 +654,6 @@
         <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;sensor_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="c1"># the lsb/scaling is not applied. data is raw voltage which needs to be scaled</span>
-        <span class="c1"># an lsb is constructed from the scaling in the XTR/XTRX file to take the data to mV</span>
         <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;lsb_applied&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># check this</span>
         <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_x1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_x2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -637,15 +664,10 @@
         <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;sensor_sernum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">chanH</span></div>
 
-    <span class="c1"># extend a method in the base class</span>
-    <span class="c1"># read in header (table) file</span>
-    <span class="c1"># this is binary</span>
 <div class="viewcode-block" id="DataReaderPhoenix.readHeader"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix.readHeader">[docs]</a>    <span class="k">def</span> <span class="nf">readHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Read header files</span>
+        <span class="sd">&quot;&quot;&quot;Read header file</span>
 
-<span class="sd">        For SPAM data, the may be more than one header file as data can be split up into smaller files as it is recorded. In that case, the header information should be somehow merged.</span>
-<span class="sd">    </span>
-<span class="sd">        All sampling frequencies should be the same</span>
+<span class="sd">        For phoenix data, the header file is the table file and it is binary formatted.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># first, find which ts files are available (2,3,4,5)</span>
@@ -841,7 +863,7 @@
         <span class="k">return</span> <span class="n">tableData</span></div>
 
 <div class="viewcode-block" id="DataReaderPhoenix.removeControl"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix.removeControl">[docs]</a>    <span class="k">def</span> <span class="nf">removeControl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inBytes</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Remove control characters</span>
+        <span class="sd">&quot;&quot;&quot;Remove control characters from byte strings</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -853,9 +875,10 @@
 <span class="sd">        str :</span>
 <span class="sd">            Decodes bytes object with control character removed</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">inBytes</span> <span class="o">=</span> <span class="n">inBytes</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">inBytes</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span></div>
- 
+
 <div class="viewcode-block" id="DataReaderPhoenix.headersFromTable"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix.headersFromTable">[docs]</a>    <span class="k">def</span> <span class="nf">headersFromTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tableData</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Populate the headers from the table values</span>
 <span class="sd">        </span>
@@ -870,7 +893,7 @@
 <span class="sd">            Dictionary of general headers</span>
 <span class="sd">        chanHeaders : Dict</span>
 <span class="sd">            List of channel headers</span>
-<span class="sd">        &quot;&quot;&quot;</span>        
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># initialise storage</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
@@ -975,7 +998,7 @@
 <span class="sd">            Date of last sample as string</span>
 <span class="sd">        lastTime : str</span>
 <span class="sd">            Time of last sample as string</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">firstSecond</span> <span class="o">=</span> <span class="n">tableData</span><span class="p">[</span><span class="s2">&quot;FTIM&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">firstMinute</span> <span class="o">=</span> <span class="n">tableData</span><span class="p">[</span><span class="s2">&quot;FTIM&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
@@ -1033,7 +1056,7 @@
             <span class="n">dFile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dFileName</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
             <span class="k">while</span> <span class="n">bytesread</span> <span class="o">&lt;</span> <span class="n">numBytes</span><span class="p">:</span>
                 <span class="c1"># read 32 bytes tag</span>
-                <span class="n">numScans</span><span class="p">,</span> <span class="n">numChans</span><span class="p">,</span> <span class="n">dateString</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readTag</span><span class="p">(</span><span class="n">dFile</span><span class="p">)</span>  
+                <span class="n">numScans</span><span class="p">,</span> <span class="n">numChans</span><span class="p">,</span> <span class="n">dateString</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readTag</span><span class="p">(</span><span class="n">dFile</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">recordBytes</span><span class="p">[</span><span class="n">ts</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bytesread</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagByteSize</span><span class="p">)</span>
                 <span class="n">dataBytes</span> <span class="o">=</span> <span class="n">numScans</span> <span class="o">*</span> <span class="n">numChans</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleByteSize</span>
                 <span class="n">dFile</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">dataBytes</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1078,18 +1101,7 @@
 <span class="sd">            Directory to write out the reformatted time series</span>
 <span class="sd">        ts : List[int], optional</span>
 <span class="sd">            A list of the high frequency ts files to reformat. By default, all of the higher frequency recordings are reformatted</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        firstDate : str</span>
-<span class="sd">            Date of first sample as string</span>
-<span class="sd">        firstTime : str</span>
-<span class="sd">            Time of first sample as string</span>
-<span class="sd">        lastDate : str</span>
-<span class="sd">            Date of last sample as string</span>
-<span class="sd">        lastTime : str</span>
-<span class="sd">            Time of last sample as string</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ts</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tsNums</span><span class="p">):</span>
@@ -1240,14 +1252,14 @@
 <span class="sd">        -------</span>
 <span class="sd">        List[str]</span>
 <span class="sd">            List of information about the data files</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;TS File</span><span class="se">\t\t</span><span class="s2">Sampling frequency (Hz)</span><span class="se">\t\t</span><span class="s2">Num Samples&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">dF</span><span class="p">,</span> <span class="n">tsF</span><span class="p">,</span> <span class="n">tsN</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tsSampleFreqs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tsNumSamples</span><span class="p">):</span>
             <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\t\t</span><span class="si">{}</span><span class="se">\t\t</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">dF</span><span class="p">),</span> <span class="n">tsF</span><span class="p">,</span> <span class="n">tsN</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">textLst</span></div>
-    
+
 <div class="viewcode-block" id="DataReaderPhoenix.printDataFileInfo"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderPhoenix.html#ioHandlers.dataReaderPhoenix.DataReaderPhoenix.printDataFileInfo">[docs]</a>    <span class="k">def</span> <span class="nf">printDataFileInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print a list of the data files&quot;&quot;&quot;</span>
 
@@ -1276,7 +1288,7 @@
         <span class="n">blockPrint</span><span class="p">(</span>
             <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Table File Info&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printTableFileList</span><span class="p">(),</span>
-        <span class="p">)</span>        </div></div>
+        <span class="p">)</span></div></div>
 </pre></div>
 
            </div>

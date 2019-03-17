@@ -198,7 +198,13 @@
 <em class="property">class </em><code class="descclassname">ioHandlers.dataReaderInternal.</code><code class="descname">DataReaderInternal</code><span class="sig-paren">(</span><em>dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ioHandlers/dataReaderInternal.html#DataReaderInternal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderInternal.DataReaderInternal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.ioHandlers.dataReader.DataReader</span></code></p>
 <p>Data reader for internal formatted data</p>
-<p>Internal formatted data is straightforward. Header information is read in from a separate ascii formatted file. Each channel has its own data file written out using numpy’s binary write function and with a .dat extension.</p>
+<p>Internal formatted data is straightforward. Header information is read in from a global header file and header files for each channel, all of them ascii formatted file. Each channel has its own data file written out using numpy’s binary write function and with a .dat extension.</p>
+<p>As raw data is not usually in the internal data format, to avoid any problems, the following workflow is suggested:</p>
+<ul class="simple">
+<li>Get physical data from the raw data files (ATS, SPAM, Phoenix)</li>
+<li>Perform any pre-processing required</li>
+<li>Save as internal format, ensuring to set the lsb_applied channel header for every channel to True. This will avoid any further scaling when the data is read in again.</li>
+</ul>
 <p class="rubric">Methods</p>
 <table border="1" class="docutils">
 <colgroup>

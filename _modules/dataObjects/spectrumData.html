@@ -205,6 +205,8 @@
 <span class="sd">        Get a deepcopy of the comments        </span>
 <span class="sd">    addComment(comment)</span>
 <span class="sd">        Add a comment to the dataset</span>
+<span class="sd">    copy()</span>
+<span class="sd">        Get a copy of the spectrum data</span>
 <span class="sd">    view(kwargs)</span>
 <span class="sd">        View the spectra data </span>
 <span class="sd">    printList()</span>
@@ -339,7 +341,26 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SpectrumData.view"><a class="viewcode-back" href="../../api/dataObjects.spectrumData.html#dataObjects.spectrumData.SpectrumData.view">[docs]</a>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SpectrumData.copy"><a class="viewcode-back" href="../../api/dataObjects.spectrumData.html#dataObjects.spectrumData.SpectrumData.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a copy of the time data object</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            A copy of the time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">return</span> <span class="n">SpectrumData</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">windowSize</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataSize</span><span class="p">,</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">startTime</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stopTime</span><span class="p">,</span>
+            <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getComments</span><span class="p">(),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpectrumData.view"><a class="viewcode-back" href="../../api/dataObjects.spectrumData.html#dataObjects.spectrumData.SpectrumData.view">[docs]</a>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Plot spectra data</span>
 
 <span class="sd">        Parameters</span>
@@ -354,6 +375,13 @@
 <span class="sd">            Label for the plots</span>
 <span class="sd">        xlim : List, optional</span>
 <span class="sd">            Limits for the x axis</span>
+<span class="sd">        legend : bool</span>
+<span class="sd">            Boolean flag for adding a legend</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt.figure</span>
+<span class="sd">            Matplotlib figure object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">freqArray</span>
@@ -394,10 +422,16 @@
             <span class="c1"># set tick sizes</span>
             <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
                 <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">plotFonts</span><span class="p">[</span><span class="s2">&quot;axisTicks&quot;</span><span class="p">])</span>
+            <span class="c1"># legend</span>
+            <span class="k">if</span> <span class="s2">&quot;legend&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
         <span class="c1"># show if the figure is not in keywords</span>
         <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">fig</span></div>
 
 <div class="viewcode-block" id="SpectrumData.printList"><a class="viewcode-back" href="../../api/dataObjects.spectrumData.html#dataObjects.spectrumData.SpectrumData.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>

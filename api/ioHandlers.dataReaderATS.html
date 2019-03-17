@@ -198,9 +198,18 @@
 <em class="property">class </em><code class="descclassname">ioHandlers.dataReaderATS.</code><code class="descname">DataReaderATS</code><span class="sig-paren">(</span><em>dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ioHandlers/dataReaderATS.html#DataReaderATS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderATS.DataReaderATS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.ioHandlers.dataReader.DataReader</span></code></p>
 <p>Data reader for ATS formatted data</p>
-<p>For ATS files, header information is written out to an XML file.</p>
+<p>For ATS files, header information is XML formatted. The end time in ATS header files is actually one sample past the time of the last sample. The dataReader handles this and gives an end time corresponding to the actual time of the last sample.</p>
 <p class="rubric">Notes</p>
-<p>The end time in ATS files is actually one sample past the time of the last sample. The dataReader handles this and gives an end time corresponding to the time of the actual last sample.</p>
+<p>The raw data units for ATS data are in counts. To get data in field units, ATS data is first multipled by the least significat bit (lsb) defined in the header files,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>data = data * leastSignificantBit,
+</pre></div>
+</div>
+<p>giving data in mV. The lsb includes the gain removal, so no separate gain removal needs to be performed.</p>
+<p>For electrical channels, there is additional step of dividing by the electrode spacing, which is provided in metres. The extra factor of a 1000 is to convert this to km to give mV/km for electric channels</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>data = (1000 * data)/electrodeSpacing
+</pre></div>
+</div>
+<p>Finally, to get magnetic channels in nT, the magnetic channels need to be calibrated.</p>
 <p class="rubric">Methods</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -253,7 +262,8 @@
 <dl class="method">
 <dt id="ioHandlers.dataReaderATS.DataReaderATS.readHeader">
 <code class="descname">readHeader</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ioHandlers/dataReaderATS.html#DataReaderATS.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReaderATS.DataReaderATS.readHeader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read time data header file for internal format</p>
+<dd><p>Read time data header file for ATS format</p>
+<p>Headers for ATS files are XML formatted.</p>
 </dd></dl>
 
 <dl class="method">

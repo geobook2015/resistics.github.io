@@ -199,23 +199,27 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.ioHandlers.ioHandler.IOHandler</span></code></p>
 <p>Base class for data readers</p>
 <p>DataReader is the base class for the time data readers. It implements much of the non-format dependent methods.</p>
-<p>The DataReaders for the different formats are meant to give a consistent output. Conventions used include:
-The start time is the time of the first sample
-The end time is the time of the last sample</p>
+<p>The DataReaders for the different formats are meant to give a consistent output. Conventions used include:</p>
+<ul class="simple">
+<li>The start time is the time of the first sample</li>
+<li>The end time is the time of the last sample</li>
+</ul>
+<p>Physical data is always returned in:</p>
+<ul class="simple">
+<li>Electrical channels in mV/km</li>
+<li>Magnetic channels in mV</li>
+<li>To get magnetic fields in nT, calibration needs to be performed</li>
+</ul>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>dataPath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><blockquote class="first">
-<div><p>Path to the data folder.</p>
-</div></blockquote>
-<dl class="last docutils">
-<dt>headers <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
-<dd><p class="first last">Dictionary mapping header words to values</p>
+<dd><p class="first last">Path to the data folder.</p>
 </dd>
-</dl>
+<dt><strong>headers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
+<dd><p class="first last">Dictionary mapping header words to values</p>
 </dd>
 <dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
 <dd><p class="first last">List of channels</p>
@@ -230,23 +234,19 @@ The end time is the time of the last sample</p>
 <dd><p class="first last">Map from channel name to index for chanHeaders</p>
 </dd>
 <dt><strong>comments</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><blockquote class="first">
-<div><p>List of comments associated with data</p>
-</div></blockquote>
-<dl class="last docutils">
-<dt>headerF <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of comments associated with data</p>
+</dd>
+<dt><strong>headerF</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
 <dd><p class="first last">List of header files (with extension .hdr)</p>
 </dd>
-<dt>dataF <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dt><strong>dataF</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
 <dd><p class="first last">List of data files (with extension .npy)</p>
 </dd>
-<dt>dataByteOffset <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dt><strong>dataByteOffset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd><p class="first last">Number of bytes to offset before reading</p>
 </dd>
-<dt>dataByteSize <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dt><strong>dataByteSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd><p class="first last">Byte size of a single data value</p>
-</dd>
-</dl>
 </dd>
 </dl>
 </td>
@@ -990,15 +990,7 @@ The end time is the time of the last sample</p>
 <dt id="ioHandlers.dataReader.DataReader.getPhysicalData">
 <code class="descname">getPhysicalData</code><span class="sig-paren">(</span><em>startTime</em>, <em>endTime</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ioHandlers/dataReader.html#DataReader.getPhysicalData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getPhysicalData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get physical data from data file between a start and end data</p>
-<p>Each data format is recorded in a different way.
-ATS provides unscaled data in counts (<a href="#id1"><span class="problematic" id="id2">*</span></a>lsb gives mV)
-SPAM provides unscaled data in the count data/unscaled data * lsb is assumed to give data in mV
-Phoenix
-Internal</p>
-<p>The data readers return data using field units. Therefore:
-Electric field channels are returned in mV/km
-Magnetic fields are in mV</p>
-<p>To get magnetic fields in nT, calibration needs to be performed</p>
+<p>Calculates the start and end sample given the data range and returns getPhysicalSamples for that sample range.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1040,15 +1032,14 @@ Magnetic fields are in mV</p>
 <dt id="ioHandlers.dataReader.DataReader.getPhysicalSamples">
 <code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ioHandlers/dataReader.html#DataReader.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data scaled to physical values</p>
-<p>Each data format is recorded in a different way.
-ATS provides unscaled data in counts (<a href="#id3"><span class="problematic" id="id4">*</span></a>lsb gives mV)
-SPAM provides unscaled data in the count data/unscaled data * lsb is assumed to give data in mV
-Phoenix
-Internal</p>
-<p>The data readers return data using field units. Therefore:
-Electric field channels are returned in mV/km
-Magnetic fields are in mV</p>
-<p>To get magnetic fields in nT, calibration needs to be performed</p>
+<p>Depending on the data format, the scalings required to convert to field physical units is different. The method in the base DataReader class covers ATS and internal file format.</p>
+<p>resistics will always provide physical samples in field units. That means</p>
+<ul class="simple">
+<li>Electrical channels in mV/km</li>
+<li>Magnetic channels in mV</li>
+<li>To get magnetic fields in nT, calibration needs to be performed</li>
+</ul>
+<p>If the channel header lsb_applied is set to True, no scaling of the unscaled data is done. This is to cover the internal data format where all scalings may already have been applied.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1084,6 +1075,17 @@ Magnetic fields are in mV</p>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<p>The raw data units for ATS data are in counts. To get data in field units, ATS data is first multipled by the least significat bit (lsb) defined in the header files,</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>data = data * leastSignificantBit,
+</pre></div>
+</div>
+<p>giving data in mV. The lsb includes the gain removal, so no separate gain removal needs to be performed.</p>
+<p>For electrical channels, there is additional step of dividing by the electrode spacing, which is provided in metres. The extra factor of a 1000 is to convert this to km to give mV/km for electric channels</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>data = (1000 * data)/electrodeSpacing
+</pre></div>
+</div>
+<p>Finally, to get magnetic channels in nT, the magnetic channels need to be calibrated.</p>
 </dd></dl>
 
 <dl class="method">
@@ -1203,8 +1205,8 @@ Magnetic fields are in mV</p>
 <dl class="method">
 <dt id="ioHandlers.dataReader.DataReader.getUnscaledData">
 <code class="descname">getUnscaledData</code><span class="sig-paren">(</span><em>startTime</em>, <em>endTime</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="../_modules/ioHandlers/dataReader.html#DataReader.getUnscaledData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getUnscaledData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get raw data from data file between a start and end data</p>
-<p>Depending on the data format, this could be raw counts. This method reads samples for ATS and internal format. SPAM data has its own implementation.</p>
+<dd><p>Get raw data from data file between a start and end date</p>
+<p>Calculates the start and end sample given the data range and returns getUnscaledSamples for that sample range.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1246,7 +1248,12 @@ Magnetic fields are in mV</p>
 <dt id="ioHandlers.dataReader.DataReader.getUnscaledSamples">
 <code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="../_modules/ioHandlers/dataReader.html#DataReader.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ioHandlers.dataReader.DataReader.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw data from data file</p>
-<p>Depending on the data format, this could be raw counts. This method reads samples for ATS and internal format. SPAM data has its own implementation.</p>
+<p>Depending on the data format, this could be raw counts or in some physical unit. The method implemented in the base DataReader can read from ATS and internal files. SPAM and Phoenix data readers have their own implementations.</p>
+<p>The raw data units for ATS and internal data formats are as follows:</p>
+<ul class="simple">
+<li>ATS data format has raw data in counts.</li>
+<li>The raw data unit of the internal format is dependent on what happened to the data before writing it out in the internal format. If the channel header lsb_applied is set to True, no scaling happens in either getUnscaledSamples or getPhysicalSamples. However, if the channel header lsb_applied is set to False, the internal format data will be treated like ATS data, meaning raw data in counts.</li>
+</ul>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

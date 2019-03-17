@@ -552,7 +552,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="StatisticData.view"><a class="viewcode-back" href="../../api/dataObjects.statisticData.html#dataObjects.statisticData.StatisticData.view">[docs]</a>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="StatisticData.view"><a class="viewcode-back" href="../../api/dataObjects.statisticData.html#dataObjects.statisticData.StatisticData.view">[docs]</a>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Plot statistics for evaluation frequency index</span>
 
 <span class="sd">        Plots a simple scatter of each statistic with datetime on the xaxis (datetime of the window start dates). Number of subplots is equal to numStaStatPerWindow.</span>
@@ -577,6 +577,13 @@
 <span class="sd">            Limits for the y axis</span>
 <span class="sd">        colortitle : str, optional</span>
 <span class="sd">            Title for the colourbar</span>
+<span class="sd">        legened : bool</span>
+<span class="sd">            Boolean flag for adding a legend</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt.figure</span>
+<span class="sd">            Matplotlib figure object        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># get windows to plot and global dates</span>
@@ -662,6 +669,9 @@
             <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
                 <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisTicks&quot;</span><span class="p">])</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+            <span class="c1"># legend</span>
+            <span class="k">if</span> <span class="s2">&quot;legend&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
         <span class="c1"># show if the figure is not in keywords</span>
         <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -674,9 +684,11 @@
                     <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;colortitle&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;colortitle&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="s2">&quot;Value&quot;</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">addColourbar</span><span class="p">(</span><span class="n">scat</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">colourtitle</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<div class="viewcode-block" id="StatisticData.histogram"><a class="viewcode-back" href="../../api/dataObjects.statisticData.html#dataObjects.statisticData.StatisticData.histogram">[docs]</a>    <span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="StatisticData.histogram"><a class="viewcode-back" href="../../api/dataObjects.statisticData.html#dataObjects.statisticData.StatisticData.histogram">[docs]</a>    <span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Plot statistics for evaluation frequency index</span>
 
 <span class="sd">        Plots a histogram of each statistic with bins on the xaxis and count on the yaxis. Ideal for exploring the distribution of statistic values over the windows.</span>
@@ -697,6 +709,13 @@
 <span class="sd">            Label for the plots</span>
 <span class="sd">        xlim : List, optional</span>
 <span class="sd">            Limits for the x axis</span>
+<span class="sd">        legened : bool</span>
+<span class="sd">            Boolean flag for adding a legend</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt.figure</span>
+<span class="sd">            Matplotlib figure object            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># deal with maskwindows, which are global indices</span>
@@ -749,14 +768,19 @@
             <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
                 <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisTicks&quot;</span><span class="p">])</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+            <span class="c1"># legend</span>
+            <span class="k">if</span> <span class="s2">&quot;legend&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
         <span class="c1"># show if the figure is not in keywords</span>
         <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.88</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<div class="viewcode-block" id="StatisticData.crossplot"><a class="viewcode-back" href="../../api/dataObjects.statisticData.html#dataObjects.statisticData.StatisticData.crossplot">[docs]</a>    <span class="k">def</span> <span class="nf">crossplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="StatisticData.crossplot"><a class="viewcode-back" href="../../api/dataObjects.statisticData.html#dataObjects.statisticData.StatisticData.crossplot">[docs]</a>    <span class="k">def</span> <span class="nf">crossplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Plots crossplots of statistic components for evaluation frequency index</span>
 
 <span class="sd">        Notes</span>
@@ -792,6 +816,13 @@
 <span class="sd">            Limits for the y axis</span>
 <span class="sd">        colortitle : str, optional</span>
 <span class="sd">            Title for the colourbar</span>
+<span class="sd">        legened : bool</span>
+<span class="sd">            Boolean flag for adding a legend</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt.figure</span>
+<span class="sd">            Matplotlib figure object            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># deal with maskwindows, which are global indices</span>
@@ -872,6 +903,9 @@
             <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
                 <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisTicks&quot;</span><span class="p">])</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+            <span class="c1"># legend</span>
+            <span class="k">if</span> <span class="s2">&quot;legend&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
         <span class="c1"># show if the figure is not in keywords</span>
         <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -885,7 +919,9 @@
                     <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;colortitle&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;colortitle&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="s2">&quot;Value&quot;</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">addColourbar</span><span class="p">(</span><span class="n">scat</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">colourtitle</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
 
 <div class="viewcode-block" id="StatisticData.addColourbar"><a class="viewcode-back" href="../../api/dataObjects.statisticData.html#dataObjects.statisticData.StatisticData.addColourbar">[docs]</a>    <span class="k">def</span> <span class="nf">addColourbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Add a colourbar to a plot</span>

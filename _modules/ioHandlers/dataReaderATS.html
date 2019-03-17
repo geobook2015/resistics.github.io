@@ -170,9 +170,9 @@
 
 <div class="viewcode-block" id="DataReaderATS"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderATS.html#ioHandlers.dataReaderATS.DataReaderATS">[docs]</a><span class="k">class</span> <span class="nc">DataReaderATS</span><span class="p">(</span><span class="n">DataReader</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Data reader for ATS formatted data</span>
-
-<span class="sd">    For ATS files, header information is written out to an XML file. </span>
 <span class="sd">    </span>
+<span class="sd">    For ATS files, header information is XML formatted. The end time in ATS header files is actually one sample past the time of the last sample. The dataReader handles this and gives an end time corresponding to the actual time of the last sample.</span>
+
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
 <span class="sd">    setParameters()</span>
@@ -186,7 +186,21 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The end time in ATS files is actually one sample past the time of the last sample. The dataReader handles this and gives an end time corresponding to the time of the actual last sample.</span>
+<span class="sd">    The raw data units for ATS data are in counts. To get data in field units, ATS data is first multipled by the least significat bit (lsb) defined in the header files,</span>
+
+<span class="sd">    .. code-block:: text  </span>
+<span class="sd">    </span>
+<span class="sd">        data = data * leastSignificantBit,</span>
+<span class="sd">    </span>
+<span class="sd">    giving data in mV. The lsb includes the gain removal, so no separate gain removal needs to be performed.</span>
+<span class="sd">    </span>
+<span class="sd">    For electrical channels, there is additional step of dividing by the electrode spacing, which is provided in metres. The extra factor of a 1000 is to convert this to km to give mV/km for electric channels</span>
+<span class="sd">    </span>
+<span class="sd">    .. code-block:: text  </span>
+<span class="sd">        </span>
+<span class="sd">        data = (1000 * data)/electrodeSpacing</span>
+<span class="sd">    </span>
+<span class="sd">    Finally, to get magnetic channels in nT, the magnetic channels need to be calibrated.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DataReaderATS.setParameters"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderATS.html#ioHandlers.dataReaderATS.DataReaderATS.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -240,7 +254,10 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataReaderATS.readHeader"><a class="viewcode-back" href="../../api/ioHandlers.dataReaderATS.html#ioHandlers.dataReaderATS.DataReaderATS.readHeader">[docs]</a>    <span class="k">def</span> <span class="nf">readHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Read time data header file for internal format&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Read time data header file for ATS format</span>
+<span class="sd">        </span>
+<span class="sd">        Headers for ATS files are XML formatted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headerF</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>

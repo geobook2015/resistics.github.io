@@ -179,15 +179,22 @@
 <span class="sd">    DataReader is the base class for the time data readers. It implements much of the non-format dependent methods.</span>
 
 <span class="sd">    The DataReaders for the different formats are meant to give a consistent output. Conventions used include:</span>
-<span class="sd">    The start time is the time of the first sample</span>
-<span class="sd">    The end time is the time of the last sample</span>
 
-<span class="sd">	Attributes</span>
-<span class="sd">	----------</span>
-<span class="sd">	dataPath : str</span>
-<span class="sd">		Path to the data folder.</span>
-<span class="sd">	headers : Dict</span>
-<span class="sd">		Dictionary mapping header words to values</span>
+<span class="sd">    - The start time is the time of the first sample</span>
+<span class="sd">    - The end time is the time of the last sample</span>
+
+<span class="sd">    Physical data is always returned in:</span>
+
+<span class="sd">    - Electrical channels in mV/km</span>
+<span class="sd">    - Magnetic channels in mV</span>
+<span class="sd">    - To get magnetic fields in nT, calibration needs to be performed    </span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataPath : str</span>
+<span class="sd">        Path to the data folder.</span>
+<span class="sd">    headers : Dict</span>
+<span class="sd">        Dictionary mapping header words to values</span>
 <span class="sd">    chans : List[str]</span>
 <span class="sd">        List of channels</span>
 <span class="sd">    numChannels : int</span>
@@ -197,20 +204,20 @@
 <span class="sd">    chanMap : Dict</span>
 <span class="sd">        Map from channel name to index for chanHeaders</span>
 <span class="sd">    comments : List[str]</span>
-<span class="sd">		List of comments associated with data</span>
-<span class="sd">	headerF	: List[str]</span>
-<span class="sd">		List of header files (with extension .hdr)</span>
-<span class="sd">	dataF : List[str]</span>
-<span class="sd">		List of data files (with extension .npy)</span>
-<span class="sd">	dataByteOffset : int</span>
-<span class="sd">		Number of bytes to offset before reading</span>
-<span class="sd">	dataByteSize : int</span>
-<span class="sd">		Byte size of a single data value</span>
+<span class="sd">        List of comments associated with data</span>
+<span class="sd">    headerF	: List[str]</span>
+<span class="sd">        List of header files (with extension .hdr)</span>
+<span class="sd">    dataF : List[str]</span>
+<span class="sd">        List of data files (with extension .npy)</span>
+<span class="sd">    dataByteOffset : int</span>
+<span class="sd">        Number of bytes to offset before reading</span>
+<span class="sd">    dataByteSize : int</span>
+<span class="sd">        Byte size of a single data value</span>
 
-<span class="sd">	Methods</span>
-<span class="sd">	-------</span>
-<span class="sd">	__init__(dataPath)</span>
-<span class="sd">		Initialise with path to the data directory</span>
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(dataPath)</span>
+<span class="sd">        Initialise with path to the data directory</span>
 <span class="sd">    setParameters()</span>
 <span class="sd">        Set parameters specific to a data format</span>
 <span class="sd">    checkFiles()</span>
@@ -315,7 +322,7 @@
 <span class="sd">        Comment information as list of strings</span>
 <span class="sd">    printComments()</span>
 <span class="sd">        Print comments to terminal</span>
-<span class="sd">	&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Initialise with path to data directory</span>
@@ -351,49 +358,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dataF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.dat&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span> <span class="o">=</span> <span class="mi">4</span></div>
-
-    <span class="c1"># def getSampleFreqInt(self) -&gt; int:</span>
-    <span class="c1">#     return int(self.headers[&quot;sample_freq&quot;])</span>
-
-    <span class="c1"># def getStartDate(self) -&gt; str:</span>
-    <span class="c1">#     &quot;&quot;&quot;Get date of first sample as string</span>
-
-    <span class="c1">#     Returns</span>
-    <span class="c1">#     -------</span>
-    <span class="c1">#     str</span>
-    <span class="c1">#         Date of first sample</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-
-    <span class="c1">#     return self.headers[&quot;start_date&quot;]</span>
-
-    <span class="c1"># def getStartTime(self) -&gt; str:</span>
-    <span class="c1">#     &quot;&quot;&quot;Get time of first sample as string</span>
-
-    <span class="c1">#     Returns</span>
-    <span class="c1">#     -------</span>
-    <span class="c1">#     str</span>
-    <span class="c1">#         Time of first sample</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-
-    <span class="c1">#     return self.headers[&quot;start_time&quot;]</span>
-
-    <span class="c1"># def getStartDatetimeTuple(self):</span>
-    <span class="c1">#     return self.datetimeStart.utctimetuple()</span>
-
-    <span class="c1"># def getStartDatetimeString(self) -&gt; str:</span>
-    <span class="c1">#     return self.datetimeStart.strftime(&quot;%Y-%m-%d %H:%M:%S.%f&quot;)</span>
-
-    <span class="c1"># def getStopTime(self) -&gt; str:</span>
-    <span class="c1">#     return self.headers[&quot;stop_time&quot;]</span>
-
-    <span class="c1"># def getStopDate(self) -&gt; str:</span>
-    <span class="c1">#     return self.headers[&quot;stop_date&quot;]</span>
-
-    <span class="c1"># def getStopDatetimeTuple(self):</span>
-    <span class="c1">#     return self.datetimeStop.utctimetuple()</span>
-
-    <span class="c1"># def getStopDatetimeString(self) -&gt; str:</span>
-    <span class="c1">#     return self.datetimeStop.strftime(&quot;%Y-%m-%d %H:%M:%S.%f&quot;)</span>
 
 <div class="viewcode-block" id="DataReader.checkFiles"><a class="viewcode-back" href="../../api/ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.checkFiles">[docs]</a>    <span class="k">def</span> <span class="nf">checkFiles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Check to make sure data files found&quot;&quot;&quot;</span>
@@ -813,7 +777,12 @@
 <div class="viewcode-block" id="DataReader.getUnscaledSamples"><a class="viewcode-back" href="../../api/ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getUnscaledSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getUnscaledSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get raw data from data file</span>
 
-<span class="sd">        Depending on the data format, this could be raw counts. This method reads samples for ATS and internal format. SPAM data has its own implementation.</span>
+<span class="sd">        Depending on the data format, this could be raw counts or in some physical unit. The method implemented in the base DataReader can read from ATS and internal files. SPAM and Phoenix data readers have their own implementations.</span>
+
+<span class="sd">        The raw data units for ATS and internal data formats are as follows: </span>
+
+<span class="sd">        - ATS data format has raw data in counts.</span>
+<span class="sd">        - The raw data unit of the internal format is dependent on what happened to the data before writing it out in the internal format. If the channel header lsb_applied is set to True, no scaling happens in either getUnscaledSamples or getPhysicalSamples. However, if the channel header lsb_applied is set to False, the internal format data will be treated like ATS data, meaning raw data in counts.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -887,10 +856,10 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataReader.getUnscaledData"><a class="viewcode-back" href="../../api/ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getUnscaledData">[docs]</a>    <span class="k">def</span> <span class="nf">getUnscaledData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get raw data from data file between a start and end data</span>
+        <span class="sd">&quot;&quot;&quot;Get raw data from data file between a start and end date</span>
 
-<span class="sd">        Depending on the data format, this could be raw counts. This method reads samples for ATS and internal format. SPAM data has its own implementation.</span>
-<span class="sd">        </span>
+<span class="sd">        Calculates the start and end sample given the data range and returns getUnscaledSamples for that sample range.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        startTime : datetime</span>
@@ -920,18 +889,34 @@
 
 <div class="viewcode-block" id="DataReader.getPhysicalSamples"><a class="viewcode-back" href="../../api/ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getPhysicalSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getPhysicalSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get data scaled to physical values</span>
+<span class="sd">        </span>
+<span class="sd">        Depending on the data format, the scalings required to convert to field physical units is different. The method in the base DataReader class covers ATS and internal file format.</span>
 
-<span class="sd">        Each data format is recorded in a different way.</span>
-<span class="sd">        ATS provides unscaled data in counts (*lsb gives mV)</span>
-<span class="sd">        SPAM provides unscaled data in the count data/unscaled data * lsb is assumed to give data in mV</span>
-<span class="sd">        Phoenix</span>
-<span class="sd">        Internal</span>
+<span class="sd">        resistics will always provide physical samples in field units. That means</span>
+
+<span class="sd">        - Electrical channels in mV/km</span>
+<span class="sd">        - Magnetic channels in mV</span>
+<span class="sd">        - To get magnetic fields in nT, calibration needs to be performed</span>
 <span class="sd">        </span>
-<span class="sd">        The data readers return data using field units. Therefore:</span>
-<span class="sd">        Electric field channels are returned in mV/km</span>
-<span class="sd">        Magnetic fields are in mV </span>
+<span class="sd">        If the channel header lsb_applied is set to True, no scaling of the unscaled data is done. This is to cover the internal data format where all scalings may already have been applied.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The raw data units for ATS data are in counts. To get data in field units, ATS data is first multipled by the least significat bit (lsb) defined in the header files,</span>
+
+<span class="sd">        .. code-block:: text  </span>
 <span class="sd">        </span>
-<span class="sd">        To get magnetic fields in nT, calibration needs to be performed</span>
+<span class="sd">            data = data * leastSignificantBit,</span>
+<span class="sd">        </span>
+<span class="sd">        giving data in mV. The lsb includes the gain removal, so no separate gain removal needs to be performed.</span>
+<span class="sd">        </span>
+<span class="sd">        For electrical channels, there is additional step of dividing by the electrode spacing, which is provided in metres. The extra factor of a 1000 is to convert this to km to give mV/km for electric channels</span>
+<span class="sd">        </span>
+<span class="sd">        .. code-block:: text  </span>
+<span class="sd">            </span>
+<span class="sd">            data = (1000 * data)/electrodeSpacing</span>
+<span class="sd">        </span>
+<span class="sd">        Finally, to get magnetic channels in nT, the magnetic channels need to be calibrated.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1003,17 +988,7 @@
 <div class="viewcode-block" id="DataReader.getPhysicalData"><a class="viewcode-back" href="../../api/ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.getPhysicalData">[docs]</a>    <span class="k">def</span> <span class="nf">getPhysicalData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get physical data from data file between a start and end data</span>
 
-<span class="sd">        Each data format is recorded in a different way.</span>
-<span class="sd">        ATS provides unscaled data in counts (*lsb gives mV)</span>
-<span class="sd">        SPAM provides unscaled data in the count data/unscaled data * lsb is assumed to give data in mV</span>
-<span class="sd">        Phoenix</span>
-<span class="sd">        Internal</span>
-<span class="sd">        </span>
-<span class="sd">        The data readers return data using field units. Therefore:</span>
-<span class="sd">        Electric field channels are returned in mV/km</span>
-<span class="sd">        Magnetic fields are in mV </span>
-<span class="sd">        </span>
-<span class="sd">        To get magnetic fields in nT, calibration needs to be performed</span>
+<span class="sd">        Calculates the start and end sample given the data range and returns getPhysicalSamples for that sample range.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1402,7 +1377,8 @@
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="s2">&quot;Note: Field units used. Physical data has units mV/km for electric fields and mV for magnetic fields&quot;</span>
         <span class="p">)</span>
-        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Note: To get magnetic field in nT, please calibrate&quot;</span><span class="p">)</span></div>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Note: To get magnetic field in nT, please calibrate&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
 
 <div class="viewcode-block" id="DataReader.printCommentsList"><a class="viewcode-back" href="../../api/ioHandlers.dataReader.html#ioHandlers.dataReader.DataReader.printCommentsList">[docs]</a>    <span class="k">def</span> <span class="nf">printCommentsList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Dataset comments as a list of strings</span>
@@ -1413,7 +1389,7 @@
 <span class="sd">            List of strings with information</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Dataset Comments&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No comments&quot;</span><span class="p">)</span>

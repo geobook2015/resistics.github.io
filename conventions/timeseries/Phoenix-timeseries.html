@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="../../_static/css\custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="resistics timeseries" href="Resistics-timeseries.html" />
+    <link rel="next" title="resistics timeseries" href="resistics-timeseries.html" />
     <link rel="prev" title="SPAM timeseries" href="SPAM-timeseries.html" /> 
 </head>
 
@@ -95,7 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="ATS-timeseries.html">ATS timeseries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="SPAM-timeseries.html">SPAM timeseries</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Phoenix timeseries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Resistics-timeseries.html">resistics timeseries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics-timeseries.html">resistics timeseries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Interpolating-to-second.html">Interpolating to second</a></li>
 </ul>
 </li>
@@ -178,6 +178,148 @@
             
   <div class="section" id="phoenix-timeseries">
 <h1>Phoenix timeseries<a class="headerlink" href="#phoenix-timeseries" title="Permalink to this headline">¶</a></h1>
+<p>ATS format is a one of the more straight-forward formats to support. Header files come in XML format and the data is stored in binary format with a single file for each channel. The data files have extension .ats. An example data folder for ATS is shown below.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>meas_2012-02-10_11-05-00
+├── 059_V01_2012-02-10_11-05-00_0.xml
+├── 059_V01_C00_R000_TEx_BL_4096H.ats
+├── 059_V01_C01_R000_TEy_BL_4096H.ats
+├── 059_V01_C02_R000_THx_BL_4096H.ats
+├── 059_V01_C02_R000_THy_BL_4096H.ats
+└── 059_V01_C02_R000_THz_BL_4096H.ats
+</pre></div>
+</div>
+<p>ATS files are opened in resistics using the <a class="reference internal" href="../../api/ioHandlers.dataReaderATS.html"><span class="doc">DataReaderATS</span></a>. An example is shown below:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderATS</span> <span class="kn">import</span> <span class="n">DataReaderATS</span>
+<span class="c1"># read ats data</span>
+<span class="n">atsPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;testData&quot;</span><span class="p">,</span> <span class="s2">&quot;ats&quot;</span><span class="p">)</span>
+<span class="n">atsReader</span> <span class="o">=</span> <span class="n">DataReaderATS</span><span class="p">(</span><span class="n">atsPath</span><span class="p">)</span>
+<span class="n">atsReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p><code class="code python docutils literal notranslate"><span class="name"><span class="pre">atsReader</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">printInfo</span></span><span class="punctuation"><span class="pre">()</span></span></code> prints information out to the terminal:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>14:18:00 DataReaderATS: ####################
+14:18:00 DataReaderATS: DATAREADERATS INFO BEGIN
+14:18:00 DataReaderATS: ####################
+14:18:00 DataReaderATS: Data Path = testData\ats
+14:18:00 DataReaderATS: Global Headers
+14:18:00 DataReaderATS: {&#39;start_time&#39;: &#39;02:35:00.000000&#39;, &#39;start_date&#39;: &#39;2016-02-21&#39;, &#39;stop_time&#39;: &#39;06:27:12.375000&#39;, &#39;stop_date&#39;: &#39;2016-02-21&#39;, &#39;meas_channels&#39;: 5, &#39;sample_freq&#39;: 128.0, &#39;num_samples&#39;: 1783345}
+14:18:00 DataReaderATS: Channels found:
+14:18:00 DataReaderATS: [&#39;Ex&#39;, &#39;Ey&#39;, &#39;Hx&#39;, &#39;Hy&#39;, &#39;Hz&#39;]
+14:18:00 DataReaderATS: Channel Map
+14:18:00 DataReaderATS: {&#39;Ex&#39;: 0, &#39;Ey&#39;: 1, &#39;Hx&#39;: 2, &#39;Hy&#39;: 3, &#39;Hz&#39;: 4}
+14:18:00 DataReaderATS: Channel Headers
+14:18:00 DataReaderATS: Ex
+14:18:00 DataReaderATS: {&#39;gain_stage1&#39;: 16, &#39;gain_stage2&#39;: 1, &#39;hchopper&#39;: 0, &#39;echopper&#39;: 0, &#39;start_time&#39;: &#39;02:35:00.000000&#39;, &#39;start_date&#39;: &#39;2016-02-21&#39;, &#39;sample_freq&#39;: 128.0, &#39;num_samples&#39;: 1783345, &#39;ats_data_file&#39;: &#39;443_V01_C00_R001_TEx_BL_128H.ats&#39;, &#39;sensor_type&#39;: &#39;EFP06&#39;, &#39;channel_type&#39;: &#39;Ex&#39;, &#39;ts_lsb&#39;: -1.76666e-06, &#39;pos_x1&#39;: -45.0, &#39;pos_x2&#39;: 41.0, &#39;pos_y1&#39;: 0.0, &#39;pos_y2&#39;: 0.0, &#39;pos_z1&#39;: 0.0, &#39;pos_z2&#39;: 0.0, &#39;sensor_sernum&#39;: 0, &#39;lsb_applied&#39;: False, &#39;stop_date&#39;: &#39;2016-02-21&#39;, &#39;stop_time&#39;: &#39;06:27:12.375000&#39;}
+14:18:00 DataReaderATS: Ey
+14:18:00 DataReaderATS: {&#39;gain_stage1&#39;: 16, &#39;gain_stage2&#39;: 1, &#39;hchopper&#39;: 0, &#39;echopper&#39;: 0, &#39;start_time&#39;: &#39;02:35:00.000000&#39;, &#39;start_date&#39;: &#39;2016-02-21&#39;, &#39;sample_freq&#39;: 128.0, &#39;num_samples&#39;: 1783345, &#39;ats_data_file&#39;: &#39;443_V01_C01_R001_TEy_BL_128H.ats&#39;, &#39;sensor_type&#39;: &#39;EFP06&#39;, &#39;channel_type&#39;: &#39;Ey&#39;, &#39;ts_lsb&#39;: -1.76514e-06, &#39;pos_x1&#39;: 0.0, &#39;pos_x2&#39;: 0.0, &#39;pos_y1&#39;: -45.0, &#39;pos_y2&#39;: 41.1, &#39;pos_z1&#39;: 0.0, &#39;pos_z2&#39;: 0.0, &#39;sensor_sernum&#39;: 0, &#39;lsb_applied&#39;: False, &#39;stop_date&#39;: &#39;2016-02-21&#39;, &#39;stop_time&#39;: &#39;06:27:12.375000&#39;}
+14:18:00 DataReaderATS: Hx
+14:18:00 DataReaderATS: {&#39;gain_stage1&#39;: 2, &#39;gain_stage2&#39;: 1, &#39;hchopper&#39;: 1, &#39;echopper&#39;: 0, &#39;start_time&#39;: &#39;02:35:00.000000&#39;, &#39;start_date&#39;: &#39;2016-02-21&#39;, &#39;sample_freq&#39;: 128.0, &#39;num_samples&#39;: 1783345, &#39;ats_data_file&#39;: &#39;443_V01_C02_R001_THx_BL_128H.ats&#39;, &#39;sensor_type&#39;: &#39;MFS06e&#39;, &#39;channel_type&#39;: &#39;Hx&#39;, &#39;ts_lsb&#39;: -0.000112802, &#39;pos_x1&#39;: 0.0, &#39;pos_x2&#39;: 0.0, &#39;pos_y1&#39;: 0.0, &#39;pos_y2&#39;: 0.0, &#39;pos_z1&#39;: 0.0, &#39;pos_z2&#39;: 0.0, &#39;sensor_sernum&#39;: 612, &#39;lsb_applied&#39;: False, &#39;stop_date&#39;: &#39;2016-02-21&#39;, &#39;stop_time&#39;: &#39;06:27:12.375000&#39;}
+14:18:00 DataReaderATS: Hy
+14:18:00 DataReaderATS: {&#39;gain_stage1&#39;: 1, &#39;gain_stage2&#39;: 1, &#39;hchopper&#39;: 1, &#39;echopper&#39;: 0, &#39;start_time&#39;: &#39;02:35:00.000000&#39;, &#39;start_date&#39;: &#39;2016-02-21&#39;, &#39;sample_freq&#39;: 128.0, &#39;num_samples&#39;: 1783345, &#39;ats_data_file&#39;: &#39;443_V01_C03_R001_THy_BL_128H.ats&#39;, &#39;sensor_type&#39;: &#39;MFS06e&#39;, &#39;channel_type&#39;: &#39;Hy&#39;, &#39;ts_lsb&#39;: -0.000225735, &#39;pos_x1&#39;: 0.0, &#39;pos_x2&#39;: 0.0, &#39;pos_y1&#39;: 0.0, &#39;pos_y2&#39;: 0.0, &#39;pos_z1&#39;: 0.0, &#39;pos_z2&#39;: 0.0, &#39;sensor_sernum&#39;: 613, &#39;lsb_applied&#39;: False, &#39;stop_date&#39;: &#39;2016-02-21&#39;, &#39;stop_time&#39;: &#39;06:27:12.375000&#39;}
+14:18:00 DataReaderATS: Hz
+14:18:00 DataReaderATS: {&#39;gain_stage1&#39;: 16, &#39;gain_stage2&#39;: 1, &#39;hchopper&#39;: 1, &#39;echopper&#39;: 0, &#39;start_time&#39;: &#39;02:35:00.000000&#39;, &#39;start_date&#39;: &#39;2016-02-21&#39;, &#39;sample_freq&#39;: 128.0, &#39;num_samples&#39;: 1783345, &#39;ats_data_file&#39;: &#39;443_V01_C04_R001_THz_BL_128H.ats&#39;, &#39;sensor_type&#39;: &#39;MFS06e&#39;, &#39;channel_type&#39;: &#39;Hz&#39;, &#39;ts_lsb&#39;: -1.41103e-05, &#39;pos_x1&#39;: 0.0, &#39;pos_x2&#39;: 0.0, &#39;pos_y1&#39;: 0.0, &#39;pos_y2&#39;: 0.0, &#39;pos_z1&#39;: 0.0, &#39;pos_z2&#39;: 0.0, &#39;sensor_sernum&#39;: 0, &#39;lsb_applied&#39;: False, &#39;stop_date&#39;: &#39;2016-02-21&#39;, &#39;stop_time&#39;: &#39;06:27:12.375000&#39;}
+14:18:00 DataReaderATS: Note: Field units used. Physical data has units mV/km for electric fields and mV for magnetic fields
+14:18:00 DataReaderATS: Note: To get magnetic field in nT, please calibrate
+14:18:00 DataReaderATS: ####################
+14:18:00 DataReaderATS: DATAREADERATS INFO END
+14:18:00 DataReaderATS: ####################
+</pre></div>
+</div>
+<p>This shows the headers read in by resistics and their values. There are both global headers which apply to all the channels and also channel specific headers.</p>
+<p>After reading in some data, it is natural to want to view it. This can be achieved in the following way:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get unscaled data</span>
+<span class="n">startTime</span> <span class="o">=</span> <span class="s2">&quot;2016-02-21 03:00:00&quot;</span>
+<span class="n">stopTime</span> <span class="o">=</span> <span class="s2">&quot;2016-02-21 04:00:00&quot;</span>
+<span class="n">unscaledData</span> <span class="o">=</span> <span class="n">atsReader</span><span class="o">.</span><span class="n">getUnscaledData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
+<span class="n">unscaledData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p><code class="code python docutils literal notranslate"><span class="name"><span class="pre">atsReader</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">getUnscaledData</span></span><span class="punctuation"><span class="pre">()</span></span></code> returns a <a class="reference internal" href="../../api/dataObjects.timeData.html"><span class="doc">TimeData</span></a> object. Unscaled data is the raw data without any conversion to field units. The units for unscaled data are not consistent between data formats. Time data can be viewed using the view method.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view unscaled data</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">unscaledData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">sampleStop</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_unscaledData.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="../../_images/ats_unscaledData.png" />
+<p class="caption"><span class="caption-text">Viewing unscaled data</span></p>
+</div>
+<p>Physical data, which is converted to field units, can be returned and viewed as below:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get physical data, which is converted to field units </span>
+<span class="n">physicalData</span> <span class="o">=</span> <span class="n">atsReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
+<span class="n">physicalData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">physicalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">sampleStop</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_physicalData.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="../../_images/ats_physicalData.png" />
+<p class="caption"><span class="caption-text">Viewing data scaled to field units</span></p>
+</div>
+<p>There are a few helpful methods built in to resistics for manipulating timeseries data. These are generally in :doc:<a href="#id1"><span class="problematic" id="id2">`</span></a>resitics.utilities &lt;../api/utilities&gt;. In the example below, a the time data is low pass filtered at 4Hz to remove any powerline or rail noise that might be in the data.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>23
+24
+25
+26
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># all we see is 50Hz and 16Hz noise - apply low pass filter</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="kn">import</span> <span class="n">lowPass</span>
+<span class="n">filteredData</span> <span class="o">=</span> <span class="n">lowPass</span><span class="p">(</span><span class="n">physicalData</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">filteredData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">sampleStop</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_filteredData.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id5">
+<img alt="alternate text" src="../../_images/ats_filteredData.png" />
+<p class="caption"><span class="caption-text">Viewing physical data low pass filtered to 4Hz</span></p>
+</div>
+<p>Resistics supports the writing out of data in an :doc:’internal &lt;resistics-timeseries&gt;` format. An examples of converting a whole dataset from ATS format to internal format is shown below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>29
+30
+31
+32
+33
+34</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># now write out as internal format</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+<span class="n">ats_2intenrnal</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;testData&quot;</span><span class="p">,</span> <span class="s2">&quot;atsInternal&quot;</span><span class="p">)</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">ats_2intenrnal</span><span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">atsReader</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Additionally, resistics can write out data in ASCII format, which allows users to view the data values, plot them in other software or otherwise transport the data for external analysis. An example is shown below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>36
+37
+38
+39
+40
+41</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># now write out as ascii format</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterAscii</span> <span class="kn">import</span> <span class="n">DataWriterAscii</span>
+<span class="n">ats_2ascii</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;testData&quot;</span><span class="p">,</span> <span class="s2">&quot;atsAscii&quot;</span><span class="p">)</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterAscii</span><span class="p">()</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">ats_2ascii</span><span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">atsReader</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ASCII data is not an efficient way of storing data as it requires much more space than binary data. Further, opening up large ASCII files in text readers will generally not be pleasant depending on the text reader being used. Therefore, this is only recommended when there is a specific reason to have ASCII data.</p>
+</div>
 </div>
 
 
@@ -188,7 +330,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Resistics-timeseries.html" class="btn btn-neutral float-right" title="resistics timeseries" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="resistics-timeseries.html" class="btn btn-neutral float-right" title="resistics timeseries" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="SPAM-timeseries.html" class="btn btn-neutral float-left" title="SPAM timeseries" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
