@@ -169,13 +169,15 @@
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsMath</span> <span class="k">import</span> <span class="n">intdiv</span>
 
 
-<div class="viewcode-block" id="normalise"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.normalise">[docs]</a><span class="k">def</span> <span class="nf">normalise</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+<div class="viewcode-block" id="normalise"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.normalise">[docs]</a><span class="k">def</span> <span class="nf">normalise</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Normalise time data</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    timeData : TimeData</span>
 <span class="sd">        timeData to normalise</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -183,7 +185,8 @@
 <span class="sd">        Normalised time data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">normaliseData</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Data normalised&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">timeData</span></div>
@@ -210,7 +213,7 @@
     <span class="k">return</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="lowPass"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.lowPass">[docs]</a><span class="k">def</span> <span class="nf">lowPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+<div class="viewcode-block" id="lowPass"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.lowPass">[docs]</a><span class="k">def</span> <span class="nf">lowPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Lowpass butterworth filter for time data</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -219,6 +222,8 @@
 <span class="sd">        timeData to filter</span>
 <span class="sd">    cutoff : float</span>
 <span class="sd">        Cutoff frequency in Hz</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -226,7 +231,8 @@
 <span class="sd">        Filtered time data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">lowPassData</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">)</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Low pass filter applied with cutoff </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cutoff</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">timeData</span></div>
@@ -257,7 +263,7 @@
     <span class="k">return</span> <span class="n">filterData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="highPass"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.highPass">[docs]</a><span class="k">def</span> <span class="nf">highPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+<div class="viewcode-block" id="highPass"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.highPass">[docs]</a><span class="k">def</span> <span class="nf">highPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Highpass butterworth filter for time data</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -266,6 +272,8 @@
 <span class="sd">        timeData to filter</span>
 <span class="sd">    cutoff : float</span>
 <span class="sd">        Cutoff frequency in Hz</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace        </span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -273,7 +281,8 @@
 <span class="sd">        Filtered time data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">highPassData</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">)</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;High pass filter applied with cutoff </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cutoff</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">timeData</span></div>
@@ -303,7 +312,7 @@
     <span class="k">return</span> <span class="n">filterData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="bandPass"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.bandPass">[docs]</a><span class="k">def</span> <span class="nf">bandPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">cutoffLow</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cutoffHigh</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+<div class="viewcode-block" id="bandPass"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.bandPass">[docs]</a><span class="k">def</span> <span class="nf">bandPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">cutoffLow</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cutoffHigh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Bandpass butterworth filter for time data</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -312,6 +321,8 @@
 <span class="sd">        timeData to filter</span>
 <span class="sd">    cutoff : float</span>
 <span class="sd">        Cutoff frequency in Hz</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace        </span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -319,7 +330,8 @@
 <span class="sd">        Filtered time data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">bandPassData</span><span class="p">(</span>
         <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">cutoffLow</span><span class="p">,</span> <span class="n">cutoffHigh</span>
     <span class="p">)</span>
@@ -389,7 +401,7 @@
     <span class="k">return</span> <span class="n">filteredData</span></div>
 
 
-<div class="viewcode-block" id="notchFilter"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.notchFilter">[docs]</a><span class="k">def</span> <span class="nf">notchFilter</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">notch</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+<div class="viewcode-block" id="notchFilter"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.notchFilter">[docs]</a><span class="k">def</span> <span class="nf">notchFilter</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">notch</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Bandpass butterworth filter for time data</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -398,6 +410,8 @@
 <span class="sd">        timeData to filter</span>
 <span class="sd">    notch : float</span>
 <span class="sd">        Frequency to notch filter in Hz</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace        </span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -405,7 +419,8 @@
 <span class="sd">        Filtered time data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">notchFilterData</span><span class="p">(</span>
         <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">notch</span><span class="p">,</span> <span class="n">notch</span> <span class="o">/</span> <span class="mf">5.0</span>
     <span class="p">)</span>
@@ -453,7 +468,7 @@
     <span class="k">return</span> <span class="n">filteredData</span></div>
 
 
-<div class="viewcode-block" id="resample"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.resample">[docs]</a><span class="k">def</span> <span class="nf">resample</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">resampFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+<div class="viewcode-block" id="resample"><a class="viewcode-back" href="../../api/utilities.utilsFilter.html#utilities.utilsFilter.resample">[docs]</a><span class="k">def</span> <span class="nf">resample</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">resampFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Resample time data</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -462,6 +477,8 @@
 <span class="sd">        timeData to filter</span>
 <span class="sd">    resampFreq : float</span>
 <span class="sd">        The frequency to resample to</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace        </span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -469,7 +486,8 @@
 <span class="sd">        Filtered time data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">resampleData</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">resampFreq</span><span class="p">)</span>
     <span class="c1"># update the time info</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">=</span> <span class="n">resampFreq</span>

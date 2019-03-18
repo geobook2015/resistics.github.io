@@ -177,10 +177,9 @@
 <span class="sd">        Path to global config file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># globalConfigFile = os.path.join(&quot;..&quot;, &quot;config.ini&quot;)</span>
-    <span class="n">globalConfigFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-        <span class="s2">&quot;e:/&quot;</span><span class="p">,</span> <span class="s2">&quot;magnetotellurics&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="s2">&quot;resistics&quot;</span><span class="p">,</span> <span class="s2">&quot;resistics&quot;</span><span class="p">,</span> <span class="s2">&quot;resisticsConfig.ini&quot;</span>
-    <span class="p">)</span>
+    <span class="c1"># use relative path from here</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">globalConfigFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;resisticsConfig.ini&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">checkFilepath</span><span class="p">(</span><span class="n">globalConfigFile</span><span class="p">):</span>
         <span class="n">errorPrint</span><span class="p">(</span>
             <span class="s2">&quot;getDefaultConfig&quot;</span><span class="p">,</span>
