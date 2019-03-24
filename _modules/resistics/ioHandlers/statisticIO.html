@@ -1,0 +1,481 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.ioHandlers.statisticIO &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.ioHandlers.statisticIO</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.ioHandlers.statisticIO</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.ioHandler</span> <span class="k">import</span> <span class="n">IOHandler</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.statisticData</span> <span class="k">import</span> <span class="n">StatisticData</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsIO</span> <span class="k">import</span> <span class="n">checkAndMakeDir</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">arrayToString</span>
+
+
+<div class="viewcode-block" id="StatisticIO"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.statisticIO.html#resistics.ioHandlers.statisticIO.StatisticIO">[docs]</a><span class="k">class</span> <span class="nc">StatisticIO</span><span class="p">(</span><span class="n">IOHandler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class for reading and writing statistic data</span>
+
+<span class="sd">    Statistics are calculated out for measurement directories and are located in:</span>
+<span class="sd">    project -&gt; statData -&gt; site -&gt; meas -&gt; specdir -&gt; statdir</span>
+
+<span class="sd">	Attributes</span>
+<span class="sd">	----------</span>
+<span class="sd">	dataPath : str</span>
+<span class="sd">		Path to mask file directory</span>
+
+<span class="sd">	Methods</span>
+<span class="sd">	-------</span>
+<span class="sd">	__init__(datapath)</span>
+<span class="sd">		Initialise the statisticIO handler.</span>
+<span class="sd">	read(statName, inc)</span>
+<span class="sd">		Read in statistic statName at decimation level inc</span>
+<span class="sd">	write(statData: StatisticData, inc: int)</span>
+<span class="sd">		Write out statistic data at decimation level inc</span>
+<span class="sd">	getFileNames(datapath, filename, inc)</span>
+<span class="sd">		Get the filenames of the statistic data, the statistic info file and the statistic comments file in location datapath, with base name filename and decimation level inc</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class status returned as list of strings       </span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datapath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialise</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        datapath : str, optional</span>
+<span class="sd">            The path to the statistic data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">datapath</span>
+
+<div class="viewcode-block" id="StatisticIO.setDatapath"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.statisticIO.html#resistics.ioHandlers.statisticIO.StatisticIO.setDatapath">[docs]</a>    <span class="k">def</span> <span class="nf">setDatapath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datapath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set the datapath</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        datapath : str</span>
+<span class="sd">            The path to the statistic data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span> <span class="o">=</span> <span class="n">datapath</span></div>
+
+<div class="viewcode-block" id="StatisticIO.read"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.statisticIO.html#resistics.ioHandlers.statisticIO.StatisticIO.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">inc</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatisticData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Read a statistic file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        statName : str</span>
+<span class="sd">            The statistic name</span>
+<span class="sd">        inc : int</span>
+<span class="sd">            The increment, usually the decimation level</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        StatisticData</span>
+<span class="sd">            A statistic data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">statFile</span><span class="p">,</span> <span class="n">infoFile</span><span class="p">,</span> <span class="n">commentFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFileNames</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">,</span> <span class="n">statName</span><span class="p">,</span> <span class="n">inc</span>
+        <span class="p">)</span>
+        <span class="n">statFile</span> <span class="o">=</span> <span class="n">statFile</span> <span class="o">+</span> <span class="s2">&quot;.npy&quot;</span>
+        <span class="c1"># want a channel ordering</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">infoFile</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">statFile</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to find info file </span><span class="si">{}</span><span class="s2"> or stat file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">infoFile</span><span class="p">,</span> <span class="n">statFile</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">infoFile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">refTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">sampleFreq</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">winSize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">winOlap</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">numWindows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">winStats</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">evalFreq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="c1"># now deal with the global indices</span>
+        <span class="n">indexInformation</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span>
+            <span class="mi">9</span><span class="p">:</span>
+        <span class="p">]</span>  <span class="c1"># this is the information about local to global map</span>
+        <span class="n">globalIndicesAll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numWindows</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">localIndices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">globalIndices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">inInfo</span> <span class="ow">in</span> <span class="n">indexInformation</span><span class="p">:</span>
+            <span class="n">inInfo</span> <span class="o">=</span> <span class="n">inInfo</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">inInfo</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># now get the local and global indices</span>
+            <span class="n">split</span> <span class="o">=</span> <span class="n">inInfo</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+            <span class="n">localIndices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+            <span class="n">globalIndices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
+        <span class="c1"># now fill the global indices array</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">localI</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">localIndices</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">localIndices</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">numWindowsFromLocal</span> <span class="o">=</span> <span class="n">numWindows</span> <span class="o">-</span> <span class="n">localI</span>
+                <span class="n">globalIndicesAll</span><span class="p">[</span><span class="n">localI</span><span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                    <span class="n">globalIndices</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">globalIndices</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">numWindowsFromLocal</span>
+                <span class="p">)</span>
+                <span class="k">break</span>
+            <span class="n">numWindowsFromLocal</span> <span class="o">=</span> <span class="n">localIndices</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">localI</span>
+            <span class="n">globalIndicesAll</span><span class="p">[</span><span class="n">localI</span> <span class="p">:</span> <span class="n">localI</span> <span class="o">+</span> <span class="n">numWindowsFromLocal</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                <span class="n">globalIndices</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">globalIndices</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">numWindowsFromLocal</span>
+            <span class="p">)</span>
+
+        <span class="c1"># load the statistics</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">statFile</span><span class="p">)</span>
+
+        <span class="c1"># finally, read the comments file</span>
+        <span class="n">comments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">commentFile</span><span class="p">):</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commentFile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+            <span class="n">comments</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">comments</span><span class="p">):</span>
+                <span class="n">comments</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1"># now return a statisticData object</span>
+        <span class="k">return</span> <span class="n">StatisticData</span><span class="p">(</span>
+            <span class="n">statName</span><span class="p">,</span>
+            <span class="n">refTime</span><span class="p">,</span>
+            <span class="n">sampleFreq</span><span class="p">,</span>
+            <span class="n">winSize</span><span class="p">,</span>
+            <span class="n">winOlap</span><span class="p">,</span>
+            <span class="n">numWindows</span><span class="o">=</span><span class="n">numWindows</span><span class="p">,</span>
+            <span class="n">winStats</span><span class="o">=</span><span class="n">winStats</span><span class="p">,</span>
+            <span class="n">evalFreq</span><span class="o">=</span><span class="n">evalFreq</span><span class="p">,</span>
+            <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">,</span>
+            <span class="n">globalIndices</span><span class="o">=</span><span class="n">globalIndicesAll</span><span class="p">,</span>
+            <span class="n">comment</span><span class="o">=</span><span class="n">comments</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="StatisticIO.write"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.statisticIO.html#resistics.ioHandlers.statisticIO.StatisticIO.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statData</span><span class="p">:</span> <span class="n">StatisticData</span><span class="p">,</span> <span class="n">inc</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write a statistic file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        statData : StatisticData</span>
+<span class="sd">            The statistic data to write out</span>
+<span class="sd">        inc : int</span>
+<span class="sd">            The increment, usually the decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># write the info file - numWindows and channel ordering</span>
+        <span class="n">checkAndMakeDir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">statName</span><span class="p">)))</span>
+        <span class="n">statFile</span><span class="p">,</span> <span class="n">infoFile</span><span class="p">,</span> <span class="n">commentFile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFileNames</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">,</span> <span class="n">statData</span><span class="o">.</span><span class="n">statName</span><span class="p">,</span> <span class="n">inc</span>
+        <span class="p">)</span>
+
+        <span class="c1"># info file</span>
+        <span class="c1"># want a channel ordering</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">infoFile</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">refTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)))</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">winSize</span><span class="p">))</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">winOlap</span><span class="p">))</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">numWindows</span><span class="p">))</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">winStats</span><span class="p">)))</span>
+        <span class="c1"># now write out the evaluation frequencies</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arrayToString</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">)))</span>
+        <span class="c1"># finally, write out the datatype</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+        <span class="c1"># write out the window information</span>
+        <span class="c1"># only write out when not consecutive</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Window map: localIndex - globalIndex</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">prevI</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">gIndex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">gIndex</span> <span class="o">!=</span> <span class="n">prevI</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:d}</span><span class="s2"> - </span><span class="si">{:d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">gIndex</span><span class="p">))</span>
+            <span class="n">prevI</span> <span class="o">=</span> <span class="n">gIndex</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1"># check to save comments</span>
+        <span class="c1"># only want this on the first increment - no need to rewrite after the others</span>
+        <span class="k">if</span> <span class="n">inc</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">comments</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">comments</span> <span class="o">+</span> <span class="p">[</span>
+                <span class="s2">&quot;Statistic data for statistic </span><span class="si">{}</span><span class="s2"> written to </span><span class="si">{}</span><span class="s2"> on </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">statData</span><span class="o">.</span><span class="n">statName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+                <span class="p">)</span>
+            <span class="p">]</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commentFile</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">comments</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1"># save binary stat file</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">statFile</span><span class="p">,</span> <span class="n">statData</span><span class="o">.</span><span class="n">stats</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StatisticIO.getFileNames"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.statisticIO.html#resistics.ioHandlers.statisticIO.StatisticIO.getFileNames">[docs]</a>    <span class="k">def</span> <span class="nf">getFileNames</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">datapath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">inc</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+
+        <span class="sd">&quot;&quot;&quot;Get the statistic file name</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        datapath : str</span>
+<span class="sd">            The datapath to the statistics data</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            The filename of the statistics data</span>
+<span class="sd">        inc : int</span>
+<span class="sd">            The increment level, usually the decimation level</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        statFile : str</span>
+<span class="sd">            Name of the statistics data file</span>
+<span class="sd">        infoFile : str</span>
+<span class="sd">            Name of the statistics info file</span>
+<span class="sd">        commentFile : str</span>
+<span class="sd">            Name of the statistics comments file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># inc is meant to be the decimation parameter</span>
+        <span class="c1"># exclude extension on statfile because .npy added by numpy</span>
+        <span class="n">statFile</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">infoFile</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">inc</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">statFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">datapath</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">infoFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">datapath</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.info&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">statFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">datapath</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">{}{:02d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">inc</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">infoFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">datapath</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;</span><span class="si">{}{:02d}</span><span class="s2">.info&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">inc</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="c1"># name of the comment file</span>
+        <span class="n">commentFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">datapath</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;comments.txt&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">statFile</span><span class="p">,</span> <span class="n">infoFile</span><span class="p">,</span> <span class="n">commentFile</span></div>
+
+<div class="viewcode-block" id="StatisticIO.printList"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.statisticIO.html#resistics.ioHandlers.statisticIO.StatisticIO.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>  <span class="c1">#</span>
+        <span class="sd">&quot;&quot;&quot;Get class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Class information as a list of strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;No datapath given. Set the datapath using the setDatapath function&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Datapath = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datapath</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

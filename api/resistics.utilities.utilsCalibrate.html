@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.utilities.utilsCalibrate module &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="resistics.utilities.utilsChecks module" href="resistics.utilities.utilsChecks.html" />
+    <link rel="prev" title="resistics.utilities package" href="resistics.utilities.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="resistics.calculators.html">resistics.calculators package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.dataObjects.html">resistics.dataObjects package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.ioHandlers.html">resistics.ioHandlers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.project.html">resistics.project package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="resistics.utilities.html">resistics.utilities package</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">resistics.utilities.utilsCalibrate module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsChecks.html">resistics.utilities.utilsChecks module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsClean.html">resistics.utilities.utilsClean module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsConfig.html">resistics.utilities.utilsConfig module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsEvalFreq.html">resistics.utilities.utilsEvalFreq module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsFilter.html">resistics.utilities.utilsFilter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsFreq.html">resistics.utilities.utilsFreq module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsIO.html">resistics.utilities.utilsIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsInterp.html">resistics.utilities.utilsInterp module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsMath.html">resistics.utilities.utilsMath module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsPlotter.html">resistics.utilities.utilsPlotter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsPrint.html">resistics.utilities.utilsPrint module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsProject.html">resistics.utilities.utilsProject module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsReader.html">resistics.utilities.utilsReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsRobust.html">resistics.utilities.utilsRobust module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsSmooth.html">resistics.utilities.utilsSmooth module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsStats.html">resistics.utilities.utilsStats module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.utilities.utilsWindow.html">resistics.utilities.utilsWindow module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="resistics.utilities.html">resistics.utilities package</a> &raquo;</li>
+        
+      <li>resistics.utilities.utilsCalibrate module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/resistics.utilities.utilsCalibrate.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-resistics.utilities.utilsCalibrate">
+<span id="resistics-utilities-utilscalibrate-module"></span><h1>resistics.utilities.utilsCalibrate module<a class="headerlink" href="#module-resistics.utilities.utilsCalibrate" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="resistics.utilities.utilsCalibrate.defaultCalibration">
+<code class="descclassname">resistics.utilities.utilsCalibrate.</code><code class="descname">defaultCalibration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsCalibrate.html#defaultCalibration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsCalibrate.defaultCalibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default calibration data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Data lines converted to a float array</p>
+</dd>
+<dt><strong>staticGain</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Static gain</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.utilities.utilsCalibrate.getCalName">
+<code class="descclassname">resistics.utilities.utilsCalibrate.</code><code class="descname">getCalName</code><span class="sig-paren">(</span><em>format</em>, <em>ext: str</em>, <em>sensor: str</em>, <em>serial: int</em>, <em>chopper</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/utilities/utilsCalibrate.html#getCalName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsCalibrate.getCalName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the calibration file name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>format</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Calibration format</p>
+</dd>
+<dt><strong>ext</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Calibration file extension</p>
+</dd>
+<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Sensor name</p>
+</dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of calibration file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.utilities.utilsCalibrate.getKnownCalibrationFormats">
+<code class="descclassname">resistics.utilities.utilsCalibrate.</code><code class="descname">getKnownCalibrationFormats</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[List[T], List[T]]<a class="reference internal" href="../_modules/resistics/utilities/utilsCalibrate.html#getKnownCalibrationFormats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsCalibrate.getKnownCalibrationFormats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of supported calibration formats and their extensions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>extensions</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd><p class="first last">List of calibration file extensions</p>
+</dd>
+<dt><strong>formats</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
+<dd><p class="first last">List of calibration file formats</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.utilities.utilsCalibrate.inductionName">
+<code class="descclassname">resistics.utilities.utilsCalibrate.</code><code class="descname">inductionName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial: int</em>, <em>chopper: bool</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/utilities/utilsCalibrate.html#inductionName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsCalibrate.inductionName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get internal format induction coil calibration file name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ext</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Calibration file extension</p>
+</dd>
+<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Sensor name</p>
+</dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of calibration file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.utilities.utilsCalibrate.metronixName">
+<code class="descclassname">resistics.utilities.utilsCalibrate.</code><code class="descname">metronixName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial: int</em>, <em>chopper: bool</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/utilities/utilsCalibrate.html#metronixName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsCalibrate.metronixName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Metronix calibration file name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ext</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Calibration file extension</p>
+</dd>
+<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Sensor name</p>
+</dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of calibration file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.utilities.utilsCalibrate.rspName">
+<code class="descclassname">resistics.utilities.utilsCalibrate.</code><code class="descname">rspName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial: int</em>, <em>chopper: bool</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/utilities/utilsCalibrate.html#rspName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsCalibrate.rspName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get RSP calibration file name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ext</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Calibration file extension</p>
+</dd>
+<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Sensor name</p>
+</dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of calibration file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.utilities.utilsCalibrate.rspxName">
+<code class="descclassname">resistics.utilities.utilsCalibrate.</code><code class="descname">rspxName</code><span class="sig-paren">(</span><em>ext: str</em>, <em>sensor: str</em>, <em>serial: int</em>, <em>chopper: bool</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/utilities/utilsCalibrate.html#rspxName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsCalibrate.rspxName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get RSPX calibration file name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ext</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Calibration file extension</p>
+</dd>
+<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Sensor name</p>
+</dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The sensor serial number</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for chopper on or off</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Name of calibration file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="resistics.utilities.utilsChecks.html" class="btn btn-neutral float-right" title="resistics.utilities.utilsChecks module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="resistics.utilities.html" class="btn btn-neutral float-left" title="resistics.utilities package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

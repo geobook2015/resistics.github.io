@@ -1,0 +1,1087 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.dataObjects.statisticData &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.dataObjects.statisticData</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.dataObjects.statisticData</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span>
+<span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">colors</span>
+<span class="kn">from</span> <span class="nn">matplotlib.dates</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">DateFormatter</span><span class="p">,</span>
+    <span class="n">DayLocator</span><span class="p">,</span>
+    <span class="n">AutoDateLocator</span><span class="p">,</span>
+    <span class="n">AutoDateFormatter</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.dataObject</span> <span class="k">import</span> <span class="n">DataObject</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">arrayToString</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsWindow</span> <span class="k">import</span> <span class="n">gArray2datetime</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">getPlotRowsAndCols</span><span class="p">,</span>
+    <span class="n">getViewFonts</span><span class="p">,</span>
+    <span class="n">colorbar2dOther</span><span class="p">,</span>
+    <span class="n">colorbar2dTime</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="StatisticData"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData">[docs]</a><span class="k">class</span> <span class="nc">StatisticData</span><span class="p">(</span><span class="n">DataObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class for holding information about a statistic</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    statName : str</span>
+<span class="sd">        The name of the statistic</span>
+<span class="sd">    refTime : datetime.datetime</span>
+<span class="sd">        The reference time of the project</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        The sampling frequency of the data</span>
+<span class="sd">    winSize : int</span>
+<span class="sd">        Window size in samples</span>
+<span class="sd">    winOlap : int</span>
+<span class="sd">        Window overlap in samples</span>
+<span class="sd">    numWindows : int</span>
+<span class="sd">        Number of windows</span>
+<span class="sd">    winStats : List[str]</span>
+<span class="sd">        Values calculated for the statistic</span>
+<span class="sd">    numStatsPerWindow : int</span>
+<span class="sd">        The number of statistics per window (length of winStats)</span>
+<span class="sd">    evalFreq : List, np.ndarray</span>
+<span class="sd">        The evaluation frequencies for the statistic data</span>
+<span class="sd">    freq2index : Dict</span>
+<span class="sd">        Mapping from evaluation frequency to index</span>
+<span class="sd">    globalIndices : List, np.ndarray</span>
+<span class="sd">        Array of global indices. Allows local -&gt; global conversion</span>
+<span class="sd">    global2localMap : Dict</span>
+<span class="sd">        Dictionary which maps global indices to local. Allows global -&gt; local conversion</span>
+<span class="sd">    comments : List[str]</span>
+<span class="sd">        Statistic comments</span>
+<span class="sd">    dtype : str (default &quot;float&quot;)</span>
+<span class="sd">        The data type of the statistic values</span>
+<span class="sd">    maxcols : int (default 4)</span>
+<span class="sd">        The number of columns in plots</span>
+<span class="sd">    globalDatesStart : List, np.ndarray</span>
+<span class="sd">        Global window start datetimes</span>
+<span class="sd">    globalDatesStop : List, np.ndarray</span>
+<span class="sd">        Global window stop datetimes</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(sampleFreq, numLevels, evalFreq, kwargs)</span>
+<span class="sd">        Initialise maskData</span>
+<span class="sd">    getStats(includewindows, maskwindows)</span>
+<span class="sd">        Get the statistics array and choose to either include some windows or mask some windows</span>
+<span class="sd">    getMaskedWindows(maskwindows)</span>
+<span class="sd">        Return the local indices to use given a set of global indices to exclude</span>
+<span class="sd">    getStatLocal(localIndex)</span>
+<span class="sd">        Get statistic values for a local window index</span>
+<span class="sd">    getStatGlobal(globalIndex)</span>
+<span class="sd">        Get statistic values for a global window index</span>
+<span class="sd">    getGlobalIndex(localIndex)</span>
+<span class="sd">        Get the global window index for a local window index</span>
+<span class="sd">    getGlobalDates()</span>
+<span class="sd">        Get the global index dates for all the windows</span>
+<span class="sd">    setStatParams(numWindows, winStats, evalFreq)</span>
+<span class="sd">        Set the statistic parameters and prepare the data arrays</span>
+<span class="sd">    addStat(localIndex, globalIndex, stat)</span>
+<span class="sd">        Add a statistic, providing the local index, the corresponding global index and the statististic values</span>
+<span class="sd">    getComments()</span>
+<span class="sd">        Get a deepcopy of the comments    </span>
+<span class="sd">    addComment(comment)</span>
+<span class="sd">        Add a comment to the comments</span>
+<span class="sd">    view(eFreqI, **kwargs) </span>
+<span class="sd">        View statistic values for a evaluation frequency (time on x axis, statistic values on y axis)</span>
+<span class="sd">    histogram(eFreqI, **kwargs)</span>
+<span class="sd">        View a histogram of the statistic values for each statistic component for a single evaluation frequency</span>
+<span class="sd">    crossplot(eFreqI, **kwargs)   </span>
+<span class="sd">        View a crossplot of the data</span>
+<span class="sd">    addColourbar(plot, cax, title, plotfonts)</span>
+<span class="sd">        Add a colourbar to a plot    </span>
+<span class="sd">    addColourbarDates(plot, cax, title, plotfonts)</span>
+<span class="sd">        Add a coloubar the represents dates to the plot   </span>
+<span class="sd">    dateTicks(gIndices, dates, timeNum)</span>
+<span class="sd">        Deal with the dateTicks of the plot</span>
+<span class="sd">    calcColourData(plotData, val, eFreqI, keywords)</span>
+<span class="sd">        Calculate colours </span>
+<span class="sd">    getRowsCols(maxcols, numStats)</span>
+<span class="sd">        Get the number of rows and columns for a plot</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class status returned as list of strings   </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">statName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">refTime</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+        <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">winSize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">winOlap</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise statistic data </span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        statName : str</span>
+<span class="sd">            Name of the statistic</span>
+<span class="sd">        refTime : datetime.datetime</span>
+<span class="sd">            Reference time for the project</span>
+<span class="sd">        sampleFreq : float</span>
+<span class="sd">            Sample frequency of the data in Hz </span>
+<span class="sd">        winSize : int</span>
+<span class="sd">            The window size in samples</span>
+<span class="sd">        winOlap : int</span>
+<span class="sd">            The window overlap in samples</span>
+<span class="sd">        kwargs : Dict</span>
+<span class="sd">            Two optional arguments: &quot;name&quot; for statistic name and &quot;stats&quot; for the statistics to use</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">statName</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">statName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refTime</span> <span class="o">=</span> <span class="n">refTime</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">refTime</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">refTime</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">sampleFreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winSize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">winSize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winOlap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">winOlap</span>
+        <span class="c1"># defaults from keywords</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numStatsPerWindow</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq2index</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">global2localMap</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;float&quot;</span>
+        <span class="c1"># global dates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">globalDatesStarts</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">globalDatesStops</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># plot params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxcols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="c1"># parse keywords</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialiseFromKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="StatisticData.initialiseFromKeywords"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.initialiseFromKeywords">[docs]</a>    <span class="k">def</span> <span class="nf">initialiseFromKeywords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keywords</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;numWindows&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;numWindows&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;winStats&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;winStats&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numStatsPerWindow</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;evalFreq&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;evalFreq&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">freq2index</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+        <span class="k">if</span> <span class="s2">&quot;stats&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;globalIndices&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;globalIndices&quot;</span><span class="p">]</span>
+            <span class="c1"># make the global 2 local map</span>
+            <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">global2localMap</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">[</span><span class="n">ii</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ii</span>
+        <span class="k">if</span> <span class="s2">&quot;comment&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;dtype&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;dtype&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="StatisticData.getStats"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.getStats">[docs]</a>    <span class="k">def</span> <span class="nf">getStats</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">includewindows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">maskwindows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get statistics when either selecting a set of indices or wanting to mask a set of indices</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        includewindows : List, np.ndarray, optional</span>
+<span class="sd">            Windows to get</span>
+<span class="sd">        maskwindows : List, np.ndarray, optional</span>
+<span class="sd">            Windows to exclude</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Statistics limited by the window selection options</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">includewindows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">includewindows</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">maskwindows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">includewindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskwindows</span><span class="p">)</span>
+            <span class="c1"># if this is false, then want to return all the statistics</span>
+            <span class="k">if</span> <span class="n">includewindows</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">includewindows</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span></div>
+
+<div class="viewcode-block" id="StatisticData.getMaskedIndices"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.getMaskedIndices">[docs]</a>    <span class="k">def</span> <span class="nf">getMaskedIndices</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">maskWindows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Given a list of global windows to mask, returns the set of indices to include in the plot</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        maskWindows : List, np.ndarray</span>
+<span class="sd">            Global indices of windows to mask</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List</span>
+<span class="sd">            List of indices to include</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">includeWindows</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">includeWindows</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">:</span>
+            <span class="c1"># nothing to mask</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">win</span> <span class="ow">in</span> <span class="n">includeWindows</span><span class="p">:</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">global2localMap</span><span class="p">[</span><span class="n">win</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">indices</span></div>
+
+<div class="viewcode-block" id="StatisticData.getStatLocal"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.getStatLocal">[docs]</a>    <span class="k">def</span> <span class="nf">getStatLocal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localIndex</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get statistics for a local window index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        localIndex : int</span>
+<span class="sd">            Local index of the window</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : np.ndarray</span>
+<span class="sd">            Statistics for the local window</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">localIndex</span><span class="p">,</span> <span class="p">:]</span></div>
+
+<div class="viewcode-block" id="StatisticData.getStatGlobal"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.getStatGlobal">[docs]</a>    <span class="k">def</span> <span class="nf">getStatGlobal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">globalIndex</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get statistics for a local window index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        globalIndex : int</span>
+<span class="sd">            Global index of the window</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : np.ndarray</span>
+<span class="sd">            Statistics for the local window</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">globalIndex</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">global2localMap</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                <span class="s2">&quot;There are two statistics with the same global window index&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span><span class="s2">&quot;This should never happen&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span><span class="s2">&quot;Exiting&quot;</span><span class="p">,</span> <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">localIndex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">global2localMap</span><span class="p">[</span><span class="n">globalIndex</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">localIndex</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="StatisticData.getGlobalIndex"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.getGlobalIndex">[docs]</a>    <span class="k">def</span> <span class="nf">getGlobalIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localIndex</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get global index for local index</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        localIndex : int</span>
+<span class="sd">            Local index of the window</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        globalIndex : int</span>
+<span class="sd">            Global index for local index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">[</span><span class="n">localIndex</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="StatisticData.getGlobalDates"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.getGlobalDates">[docs]</a>    <span class="k">def</span> <span class="nf">getGlobalDates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the global start dates and end dates for each window</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            The global window start times</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># want to get the start date for each window here</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">globalDatesStarts</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">globalDatesStarts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">globalDatesStops</span> <span class="o">=</span> <span class="n">gArray2datetime</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">refTime</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">winSize</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">winOlap</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">globalDatesStarts</span></div>
+
+<div class="viewcode-block" id="StatisticData.setStatParams"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.setStatParams">[docs]</a>    <span class="k">def</span> <span class="nf">setStatParams</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">numWindows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">winStats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">evalFreq</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the statistic parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numWindows : int</span>
+<span class="sd">            Number of windows for which the statistic has been or will be calculated</span>
+<span class="sd">        winStats : int</span>
+<span class="sd">            The parameters in the statistic</span>
+<span class="sd">        evalFreq : List</span>
+<span class="sd">            A list of evaluation frequencies</span>
+<span class="sd">        dtype : str, optional</span>
+<span class="sd">            The datatype of the statistic values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span> <span class="o">=</span> <span class="n">numWindows</span>
+        <span class="c1"># details about the statistics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span> <span class="o">=</span> <span class="n">winStats</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numStatsPerWindow</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">winStats</span><span class="p">)</span>
+        <span class="c1"># details about the evaluation frequencies</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span> <span class="o">=</span> <span class="n">evalFreq</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">freq2index</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+        <span class="c1"># data type</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numStatsPerWindow</span><span class="p">),</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># an array to hold global indices and a dictionary to map them back to local indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">global2localMap</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="StatisticData.addStat"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.addStat">[docs]</a>    <span class="k">def</span> <span class="nf">addStat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localIndex</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">globalIndex</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stat</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add statistic values for a window for all evaluation frequencies</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        localIndex : int</span>
+<span class="sd">            Local index of the window</span>
+<span class="sd">        globalIndex : int</span>
+<span class="sd">            Global index of the window</span>
+<span class="sd">        stat : Dict</span>
+<span class="sd">            An dictionary of dictionaries. First set of key, values are evaluationFrequencies and dictionaries, second set of key, values are statistic names in winStats and their corresponding value for the window</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># add the data - the data is in the format [eFreq][key][val]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">):</span>
+            <span class="c1"># do it in this order because sorted</span>
+            <span class="k">for</span> <span class="n">ist</span><span class="p">,</span> <span class="n">st</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">localIndex</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ist</span><span class="p">]</span> <span class="o">=</span> <span class="n">stat</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">st</span><span class="p">]</span>
+        <span class="c1"># then add the global index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">[</span><span class="n">localIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">globalIndex</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">global2localMap</span><span class="p">[</span><span class="n">globalIndex</span><span class="p">]</span> <span class="o">=</span> <span class="n">localIndex</span></div>
+
+<div class="viewcode-block" id="StatisticData.getComments"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.getComments">[docs]</a>    <span class="k">def</span> <span class="nf">getComments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get a deepcopy of the comments</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Dataset comments as a list of strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StatisticData.addComment"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.addComment">[docs]</a>    <span class="k">def</span> <span class="nf">addComment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a new comment</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comment : float</span>
+<span class="sd">            A new comment</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StatisticData.view"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.view">[docs]</a>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Plot statistics for evaluation frequency index</span>
+
+<span class="sd">        Plots a simple scatter of each statistic with datetime on the xaxis (datetime of the window start dates). Number of subplots is equal to numStaStatPerWindow.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eFreqI : int</span>
+<span class="sd">            Evaluation frequency index</span>
+<span class="sd">        maskwindows : List, np.ndarray</span>
+<span class="sd">            Global windows to exclude</span>
+<span class="sd">        fig : matplotlib.pyplot.figure, optional</span>
+<span class="sd">            A figure object</span>
+<span class="sd">        plotfonts : Dict, optional</span>
+<span class="sd">            A dictionary of plot fonts</span>
+<span class="sd">        label : str, optional</span>
+<span class="sd">            Label for the plots</span>
+<span class="sd">        clim : List, optional</span>
+<span class="sd">            Limits for colourbar axis</span>
+<span class="sd">        xlim : List, optional</span>
+<span class="sd">            Limits for the x axis</span>
+<span class="sd">        ylim : List, optional</span>
+<span class="sd">            Limits for the y axis</span>
+<span class="sd">        colortitle : str, optional</span>
+<span class="sd">            Title for the colourbar</span>
+<span class="sd">        legened : bool</span>
+<span class="sd">            Boolean flag for adding a legend</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt.figure</span>
+<span class="sd">            Matplotlib figure object        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># get windows to plot and global dates</span>
+        <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;maskwindows&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;maskwindows&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+        <span class="n">globalDates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlobalDates</span><span class="p">()</span>
+        <span class="n">eFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">eFreqI</span><span class="p">]</span>
+
+        <span class="c1"># plot params</span>
+        <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRowsCols</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxcols</span><span class="p">)</span>
+        <span class="n">plotfonts</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;plotfonts&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">getViewFonts</span><span class="p">()</span>
+
+        <span class="n">fig</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fig&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
+            <span class="k">else</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> data for evaluation frequency: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statName</span><span class="p">,</span> <span class="n">eFreq</span><span class="p">),</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="mf">0.98</span><span class="p">)</span>
+
+        <span class="c1"># plot the data</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">):</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">])</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;label&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">eFreq</span>
+
+            <span class="c1"># limit the data by plotIndices if not False</span>
+            <span class="n">plotData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">idx</span><span class="p">])</span>
+            <span class="n">plotDates</span> <span class="o">=</span> <span class="n">globalDates</span>
+            <span class="k">if</span> <span class="n">plotIndices</span><span class="p">:</span>
+                <span class="n">plotData</span> <span class="o">=</span> <span class="n">plotData</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
+                <span class="n">plotDates</span> <span class="o">=</span> <span class="n">plotDates</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
+
+            <span class="c1"># the colourdata</span>
+            <span class="n">colourbool</span><span class="p">,</span> <span class="n">colourdata</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcColourData</span><span class="p">(</span>
+                <span class="n">plotData</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">kwargs</span>
+            <span class="p">)</span>
+            <span class="c1"># scatter plot</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">colourbool</span><span class="p">:</span>
+                <span class="n">scat</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                    <span class="n">plotDates</span><span class="p">,</span>
+                    <span class="n">plotData</span><span class="p">,</span>
+                    <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                    <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                    <span class="n">s</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">scat</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                    <span class="n">plotDates</span><span class="p">,</span>
+                    <span class="n">plotData</span><span class="p">,</span>
+                    <span class="n">c</span><span class="o">=</span><span class="n">colourdata</span><span class="p">,</span>
+                    <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                    <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                    <span class="n">s</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                    <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">clim</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;clim&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="k">else</span> <span class="p">[</span><span class="n">colourdata</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">colourdata</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+                <span class="p">)</span>
+                <span class="n">scat</span><span class="o">.</span><span class="n">set_clim</span><span class="p">(</span><span class="n">clim</span><span class="p">)</span>
+            <span class="c1"># x axis options</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisLabel&quot;</span><span class="p">])</span>
+            <span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;xlim&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">else</span> <span class="p">[</span><span class="n">globalDates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">globalDates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">format_xdata</span> <span class="o">=</span> <span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;%H-%M-%S&quot;</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>
+            <span class="c1"># y axis options</span>
+            <span class="k">if</span> <span class="s2">&quot;ylim&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ylim&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ylim&quot;</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisLabel&quot;</span><span class="p">])</span>
+            <span class="c1"># set tick sizes</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisTicks&quot;</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+            <span class="c1"># legend</span>
+            <span class="k">if</span> <span class="s2">&quot;legend&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="c1"># show if the figure is not in keywords</span>
+        <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.88</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">colourbool</span><span class="p">:</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.88</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+                <span class="n">cax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.88</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.83</span><span class="p">])</span>
+                <span class="n">colourtitle</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;colortitle&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;colortitle&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="s2">&quot;Value&quot;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">addColourbar</span><span class="p">(</span><span class="n">scat</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">colourtitle</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="StatisticData.histogram"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.histogram">[docs]</a>    <span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Plot statistics for evaluation frequency index</span>
+
+<span class="sd">        Plots a histogram of each statistic with bins on the xaxis and count on the yaxis. Ideal for exploring the distribution of statistic values over the windows.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eFreqI : int</span>
+<span class="sd">            Evaluation frequency index</span>
+<span class="sd">        maskwindows : List, np.ndarray</span>
+<span class="sd">            Global windows to exclude            </span>
+<span class="sd">        numbins : int</span>
+<span class="sd">            The number of bins for the histogram data binning</span>
+<span class="sd">        fig : matplotlib.pyplot.figure, optional</span>
+<span class="sd">            A figure object</span>
+<span class="sd">        plotfonts : Dict, optional</span>
+<span class="sd">            A dictionary of plot fonts</span>
+<span class="sd">        label : str, optional</span>
+<span class="sd">            Label for the plots</span>
+<span class="sd">        xlim : List, optional</span>
+<span class="sd">            Limits for the x axis</span>
+<span class="sd">        legened : bool</span>
+<span class="sd">            Boolean flag for adding a legend</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt.figure</span>
+<span class="sd">            Matplotlib figure object            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># deal with maskwindows, which are global indices</span>
+        <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;maskwindows&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;maskwindows&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+        <span class="n">eFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">eFreqI</span><span class="p">]</span>
+
+        <span class="c1"># plot options</span>
+        <span class="n">numbins</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;numbins&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;numbins&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="mi">40</span>
+        <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRowsCols</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxcols</span><span class="p">)</span>
+
+        <span class="n">plotfonts</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;plotfonts&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">getViewFonts</span><span class="p">()</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fig&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
+            <span class="k">else</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> data for evaluation frequency: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statName</span><span class="p">,</span> <span class="n">eFreq</span><span class="p">),</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="mf">0.98</span><span class="p">)</span>
+
+        <span class="c1"># plot the data</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">):</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">])</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;label&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">eFreq</span>
+
+            <span class="c1"># data</span>
+            <span class="n">plotData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">idx</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">plotIndices</span><span class="p">:</span>
+                <span class="n">plotData</span> <span class="o">=</span> <span class="n">plotData</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
+            <span class="c1"># remove infinities and nans</span>
+            <span class="n">plotData</span> <span class="o">=</span> <span class="n">plotData</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">plotData</span><span class="p">)]</span>
+
+            <span class="c1"># x axis options</span>
+            <span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;xlim&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
+                <span class="k">else</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">plotData</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">plotData</span><span class="p">)]</span>
+            <span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisLabel&quot;</span><span class="p">])</span>
+            <span class="c1"># now plot with xlim in mind</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">plotData</span><span class="p">,</span> <span class="n">numbins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+            <span class="c1"># y axis options</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisLabel&quot;</span><span class="p">])</span>
+            <span class="c1"># set tick sizes</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisTicks&quot;</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+            <span class="c1"># legend</span>
+            <span class="k">if</span> <span class="s2">&quot;legend&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="c1"># show if the figure is not in keywords</span>
+        <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.88</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="StatisticData.crossplot"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot">[docs]</a>    <span class="k">def</span> <span class="nf">crossplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Plots crossplots of statistic components for evaluation frequency index</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        By default, the crossplots plotted are</span>
+<span class="sd">        statistic component 1 vs statistic component 2</span>
+<span class="sd">        statistic component 3 vs statistic component 4</span>
+<span class="sd">        etc</span>
+
+<span class="sd">        But crossplots can be explicity set by using the crossplots keyword. They should be specified as a list of a list of strings</span>
+<span class="sd">        e.g.</span>
+<span class="sd">        crossplots = [[component2, component3], [component1, component4]]</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eFreqI : int</span>
+<span class="sd">            Evaluation frequency index</span>
+<span class="sd">        maskwindows : List, np.ndarray</span>
+<span class="sd">            Global windows to exclude              </span>
+<span class="sd">        crossplots : List[List[str]], optional</span>
+<span class="sd">            The parameters to crossplot</span>
+<span class="sd">        fig : matplotlib.pyplot.figure, optional</span>
+<span class="sd">            A figure object</span>
+<span class="sd">        plotfonts : Dict, optional</span>
+<span class="sd">            A dictionary of plot fonts</span>
+<span class="sd">        label : str, optional</span>
+<span class="sd">            Label for the plots</span>
+<span class="sd">        clim : List, optional</span>
+<span class="sd">            Limits for colourbar axis</span>
+<span class="sd">        xlim : List, optional</span>
+<span class="sd">            Limits for the x axis</span>
+<span class="sd">        ylim : List, optional</span>
+<span class="sd">            Limits for the y axis</span>
+<span class="sd">        colortitle : str, optional</span>
+<span class="sd">            Title for the colourbar</span>
+<span class="sd">        legened : bool</span>
+<span class="sd">            Boolean flag for adding a legend</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt.figure</span>
+<span class="sd">            Matplotlib figure object            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># deal with maskwindows, which are global indices</span>
+        <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;maskwindows&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;maskwindows&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+
+        <span class="c1"># figure out the crossplots</span>
+        <span class="k">if</span> <span class="s2">&quot;crossplots&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">crossplots</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;crossplots&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">crossplots</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+
+        <span class="c1"># plot parameters</span>
+        <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRowsCols</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxcols</span><span class="p">,</span> <span class="n">numStats</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">crossplots</span><span class="p">))</span>
+        <span class="n">eFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">eFreqI</span><span class="p">]</span>
+
+        <span class="n">plotfonts</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;plotfonts&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">getViewFonts</span><span class="p">()</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fig&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
+            <span class="k">else</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> crossplots for evaluation frequency: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statName</span><span class="p">,</span> <span class="n">eFreq</span><span class="p">),</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="mf">0.98</span><span class="p">)</span>
+
+        <span class="c1"># now plot the data</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">cplot</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">crossplots</span><span class="p">):</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> vs. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cplot</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;label&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">eFreq</span>
+
+            <span class="c1"># the colourdata</span>
+            <span class="n">colourbool</span><span class="p">,</span> <span class="n">colourdata</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcColourData</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">,</span> <span class="n">cplot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">kwargs</span>
+            <span class="p">)</span>
+
+            <span class="c1"># get plot data</span>
+            <span class="n">plotI1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">plotData1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">plotI1</span><span class="p">])</span>
+            <span class="n">plotI2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">plotData2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">plotI2</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">plotIndices</span><span class="p">:</span>
+                <span class="n">plotData1</span> <span class="o">=</span> <span class="n">plotData1</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
+                <span class="n">plotData2</span> <span class="o">=</span> <span class="n">plotData2</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
+                <span class="n">colourdata</span> <span class="o">=</span> <span class="n">colourdata</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
+
+            <span class="c1"># scatter plot</span>
+            <span class="n">scat</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                <span class="n">plotData1</span><span class="p">,</span>
+                <span class="n">plotData2</span><span class="p">,</span>
+                <span class="n">c</span><span class="o">=</span><span class="n">colourdata</span><span class="p">,</span>
+                <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                <span class="n">s</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">clim</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;clim&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
+                <span class="k">else</span> <span class="p">[</span><span class="n">colourdata</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">colourdata</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+            <span class="p">)</span>
+            <span class="n">scat</span><span class="o">.</span><span class="n">set_clim</span><span class="p">(</span><span class="n">clim</span><span class="p">)</span>
+            <span class="c1"># x axis options</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisLabel&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;xlim&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">])</span>
+            <span class="c1"># y axis options</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisLabel&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;ylim&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ylim&quot;</span><span class="p">])</span>
+            <span class="c1"># set tick sizes</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisTicks&quot;</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+            <span class="c1"># legend</span>
+            <span class="k">if</span> <span class="s2">&quot;legend&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="c1"># show if the figure is not in keywords</span>
+        <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.88</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+            <span class="n">cax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.88</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.83</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">colourbool</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">addColourbarDates</span><span class="p">(</span><span class="n">scat</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">colourtitle</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;colortitle&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;colortitle&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="s2">&quot;Value&quot;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">addColourbar</span><span class="p">(</span><span class="n">scat</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">colourtitle</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="StatisticData.addColourbar"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.addColourbar">[docs]</a>    <span class="k">def</span> <span class="nf">addColourbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a colourbar to a plot</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        plot : plt.plot</span>
+<span class="sd">            Evaluation frequency index</span>
+<span class="sd">        cax : </span>
+<span class="sd">            Colourbar axis</span>
+<span class="sd">        title : str</span>
+<span class="sd">            The tital for the colourbar</span>
+<span class="sd">        plotfonts : Dict</span>
+<span class="sd">            A dictionary with font types as keys and sizes as values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">)</span>
+        <span class="n">cax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="StatisticData.addColourbarDates"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.addColourbarDates">[docs]</a>    <span class="k">def</span> <span class="nf">addColourbarDates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make the colourbar show dates for identifying window times where there is not date axis</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        plot : plt.plot</span>
+<span class="sd">            Evaluation frequency index</span>
+<span class="sd">        cax : </span>
+<span class="sd">            Colourbar axis</span>
+<span class="sd">        title : str</span>
+<span class="sd">            The tital for the colourbar</span>
+<span class="sd">        plotfonts : Dict</span>
+<span class="sd">            A dictionary with font types as keys and sizes as values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ticks</span><span class="p">,</span> <span class="n">tickLabels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dateTicks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlobalDates</span><span class="p">(),</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">)</span>
+        <span class="n">cb</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">(</span><span class="n">ticks</span><span class="p">)</span>
+        <span class="n">cb</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span><span class="n">tickLabels</span><span class="p">)</span>
+        <span class="n">cax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="StatisticData.dateTicks"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.dateTicks">[docs]</a>    <span class="k">def</span> <span class="nf">dateTicks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gIndices</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">timeNum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;TODO: Write the documentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numVals</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">gIndices</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">timeNum</span> <span class="o">&gt;=</span> <span class="n">numVals</span><span class="p">:</span>
+            <span class="n">timeNum</span> <span class="o">=</span> <span class="n">numVals</span>
+        <span class="n">plotIndices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">timeNum</span><span class="p">):</span>
+            <span class="n">plotIndices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">numVals</span> <span class="o">*</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">timeNum</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="n">plotIndices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">numVals</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">ticks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tickLabels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">plotIndices</span><span class="p">:</span>
+            <span class="n">ticks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gIndices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">tickLabels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">ticks</span><span class="p">,</span> <span class="n">tickLabels</span></div>
+
+<div class="viewcode-block" id="StatisticData.calcColourData"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.calcColourData">[docs]</a>    <span class="k">def</span> <span class="nf">calcColourData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plotData</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">keywords</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;todo: Write the documentation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="s2">&quot;colorstat&quot;</span> <span class="ow">in</span> <span class="n">keywords</span> <span class="ow">and</span> <span class="s2">&quot;colormap&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+            <span class="n">colourVal</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;colormap&quot;</span><span class="p">][</span><span class="n">val</span><span class="p">]</span>
+            <span class="n">colourIndex</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;colorstat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">winStats</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">colourVal</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="kc">True</span><span class="p">,</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;colorstat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">colourIndex</span><span class="p">]),</span>
+                <span class="n">colorbar2dOther</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">plotData</span><span class="p">,</span> <span class="n">colorbar2dTime</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StatisticData.getRowsCols"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.getRowsCols">[docs]</a>    <span class="k">def</span> <span class="nf">getRowsCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxcols</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">numStats</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get the numbers of rows and columns for the plots</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        maxcols : int</span>
+<span class="sd">            The maximum number of columns</span>
+<span class="sd">        numStats : int</span>
+<span class="sd">            The number of statistics to plot (in case this is not all of the winStats)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">numStats</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">numStats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">numStatsPerWindow</span>
+        <span class="k">return</span> <span class="n">getPlotRowsAndCols</span><span class="p">(</span><span class="n">maxcols</span><span class="p">,</span> <span class="n">numStats</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StatisticData.printList"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : List[str]</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Statistic Name = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statName</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Reference time = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">refTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sample freq [Hz] = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Window size = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winSize</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Window overlap = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winOlap</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Number of windows = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Statistics per Window = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">)))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Evalutation frequencies = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arrayToString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="c1"># comments</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Comments...&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No comments&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">comment</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">:</span>
+                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">comment</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

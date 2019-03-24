@@ -1,0 +1,1032 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.calculators.windowSelector &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.calculators.windowSelector</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.calculators.windowSelector</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Set</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.calculator</span> <span class="k">import</span> <span class="n">Calculator</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.decimationParameters</span> <span class="k">import</span> <span class="n">DecimationParams</span>
+<span class="kn">from</span> <span class="nn">resistics.calculators.windowParameters</span> <span class="k">import</span> <span class="n">WindowParams</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.projectData</span> <span class="k">import</span> <span class="n">ProjectData</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.siteData</span> <span class="k">import</span> <span class="n">SiteData</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.maskData</span> <span class="k">import</span> <span class="n">MaskData</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.spectrumReader</span> <span class="k">import</span> <span class="n">SpectrumReader</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.maskIO</span> <span class="k">import</span> <span class="n">MaskIO</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">list2ranges</span><span class="p">,</span> <span class="n">blockPrint</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsWindow</span> <span class="k">import</span> <span class="n">datetime2gIndex</span><span class="p">,</span> <span class="n">gIndex2datetime</span>
+
+
+<div class="viewcode-block" id="WindowSelector"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector">[docs]</a><span class="k">class</span> <span class="nc">WindowSelector</span><span class="p">(</span><span class="n">Calculator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Select windows for further processing</span>
+
+<span class="sd">    Finds windows for further processing. Given more than one site, WindowSelector will find the shared windows. For example, when processing with a remote reference, WindowSelector will find the shared global windows (i.e. referenced to the project reference time) of the local site and the remote site.</span>
+
+<span class="sd">    Shared windows will accept maskData when constraints are to be used. Further, datetime constraints can be added to the selection process, in the case where, for example, only night time data is to be processed.</span>
+
+<span class="sd">    For datetime constraints, the order of priorities are:</span>
+<span class="sd">    1. datetime constraints</span>
+<span class="sd">    2. date constraints</span>
+<span class="sd">    3. time constraints </span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projData : ProjectData</span>
+<span class="sd">        A ProjectData instance</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        Sampling frequency of the data</span>
+<span class="sd">    decParams : DecimationParameters</span>
+<span class="sd">        A DecimationParameters instance detailing the decimation schemes</span>
+<span class="sd">    winParams : WindowParameters</span>
+<span class="sd">        A WindowParameters instance detailing the windowing information </span>
+<span class="sd">    sites : List[str]</span>
+<span class="sd">        List of sites for which to calculate shared windows</span>
+<span class="sd">    sharedWindows : Dict</span>
+<span class="sd">        Dictionary to store shared window information between sites. The keys of the dictionary are the decimation levels.</span>
+<span class="sd">    siteMasks : Dict</span>
+<span class="sd">        Masks to use for each site</span>
+<span class="sd">    siteSpecFolders : Dict</span>
+<span class="sd">        Spectra folders for each site at sampleFreq</span>
+<span class="sd">    siteSpecReaders : Dict</span>
+<span class="sd">        SpectraReaders for each site at sampleFreq</span>
+<span class="sd">    siteSpecRanges : Dict</span>
+<span class="sd">        Global window ranges for all the spectra files for the sites at sampleFreq</span>
+<span class="sd">    siteGlobalIndices : Dict</span>
+<span class="sd">        Global window sets for all the spectra files for the sites at sampleFreq</span>
+<span class="sd">    specdir : str</span>
+<span class="sd">        The spectra data to use for calculating shared windows and the subsequent processing</span>
+<span class="sd">    prepend : str</span>
+<span class="sd">        The string prepending the spectra data files. This is usually &quot;spectra&quot; and not expected to change</span>
+<span class="sd">    datetimes : Dict</span>
+<span class="sd">        User supplied datetime constraints. These are the highest priority in the time constraints. This is a list of constraints for each decimation level.</span>
+<span class="sd">    dates : Dict</span>
+<span class="sd">        User supplied date constraints. These are the second highest priority in the time constraints. This is a list of constraints for each decimation level.</span>
+<span class="sd">    times : Dict</span>
+<span class="sd">        User supplied time constraints. These are the last priority in the time constraints. This is a list of constraints for each decimation level.</span>
+<span class="sd">    datetimeConstraints : Dict</span>
+<span class="sd">        Final combined date and time constraints. This is a list of constraints for each decimation level</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(decParams)</span>
+<span class="sd">        Initialise window selector with information about the decimation parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span>
+        <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">decParams</span><span class="p">:</span> <span class="n">DecimationParams</span><span class="p">,</span>
+        <span class="n">winParams</span><span class="p">:</span> <span class="n">WindowParams</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialise window selector</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        projData : ProjectData</span>
+<span class="sd">            A ProjectData instance</span>
+<span class="sd">        sampleFreq : float</span>
+<span class="sd">            The sampling frequency of the raw time data</span>
+<span class="sd">        decParams : DecimationParams</span>
+<span class="sd">            A decimation parameters instance detailing decimaion scheme</span>
+<span class="sd">        winParams : WindowParams</span>
+<span class="sd">            A window parameters instance detailing window schemes</span>
+<span class="sd">        specdir : str, optional</span>
+<span class="sd">            The spectra directories to use </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span> <span class="o">=</span> <span class="n">projData</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">sampleFreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span> <span class="o">=</span> <span class="n">decParams</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winParams</span> <span class="o">=</span> <span class="n">winParams</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># shared indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sharedWindows</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># the masks to use for each site</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># the spec files for each site at fs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecFolders</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecReaders</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># global indices (ranges and sets)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecRanges</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">siteGlobalIndices</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># spectra directory information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">specdir</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;specdir&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="s2">&quot;spectra&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prepend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;spectra&quot;</span>
+        <span class="c1"># time constraints: priority is datetimes &gt; dates &gt; times</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datetimes</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># final constraints saved in</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># add a list for each decimation level</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datetimes</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="WindowSelector.getSharedWindowsLevel"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getSharedWindowsLevel">[docs]</a>    <span class="k">def</span> <span class="nf">getSharedWindowsLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the shared windows for a decimation level</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iDec : int</span>
+<span class="sd">            The decimation level (0 is the first level)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        set</span>
+<span class="sd">            The shared windows for the decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sharedWindows</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="WindowSelector.getNumSharedWindows"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getNumSharedWindows">[docs]</a>    <span class="k">def</span> <span class="nf">getNumSharedWindows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the number of shared windows for a decimation level</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iDec : int</span>
+<span class="sd">            The decimation level (0 is the first level)</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The number of shared windows for the decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sharedWindows</span><span class="p">[</span><span class="n">iDec</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="WindowSelector.getWindowsForFreq"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getWindowsForFreq">[docs]</a>    <span class="k">def</span> <span class="nf">getWindowsForFreq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the number of shared windows for a decimation level and evaluation frequency</span>
+
+
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iDec : int</span>
+<span class="sd">            The decimation level (0 is the first level)</span>
+<span class="sd">        eIdx : int</span>
+<span class="sd">            The evaluation frequency index</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        set</span>
+<span class="sd">            The shared windows for evaluation frequency eIdx at decimation level iDec</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sharedWindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSharedWindowsLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
+        <span class="c1"># now mask for the particular frequency - mask for each given site</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+                <span class="c1"># remove the masked windows from shared indices</span>
+                <span class="n">sharedWindows</span> <span class="o">=</span> <span class="n">sharedWindows</span> <span class="o">-</span> <span class="n">mask</span><span class="o">.</span><span class="n">getMaskWindowsFreq</span><span class="p">(</span><span class="n">iDec</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sharedWindows</span></div>
+
+<div class="viewcode-block" id="WindowSelector.getUnmaskedWindowsLevel"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getUnmaskedWindowsLevel">[docs]</a>    <span class="k">def</span> <span class="nf">getUnmaskedWindowsLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get unmasked windows for a decimation level</span>
+
+<span class="sd">        Calculate the number of non masked windows for the decimation level. This should speed up processing when constraints are applied.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iDec : int</span>
+<span class="sd">            The decimation level</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        set</span>
+<span class="sd">            Unmasked windows for the decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">evalFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">eIdx</span><span class="p">,</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">):</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getWindowsForFreq</span><span class="p">(</span><span class="n">iDec</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">indices</span></div>
+
+<div class="viewcode-block" id="WindowSelector.getDatetimeConstraints"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getDatetimeConstraints">[docs]</a>    <span class="k">def</span> <span class="nf">getDatetimeConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the datetime constraints</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcDatetimeConstraints</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span></div>
+
+<div class="viewcode-block" id="WindowSelector.getLevelDatetimeConstraints"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getLevelDatetimeConstraints">[docs]</a>    <span class="k">def</span> <span class="nf">getLevelDatetimeConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the datetime constraints</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcDatetimeConstraints</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="WindowSelector.getMasks"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getMasks">[docs]</a>    <span class="k">def</span> <span class="nf">getMasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the datetime constraints</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span></div>
+
+<div class="viewcode-block" id="WindowSelector.getSpecReaderForWindow"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getSpecReaderForWindow">[docs]</a>    <span class="k">def</span> <span class="nf">getSpecReaderForWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">iWin</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the spectrum reader for a window</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        site : str</span>
+<span class="sd">            The name of the site to get the spectrum reader for</span>
+<span class="sd">        iDec : int</span>
+<span class="sd">            The decimation level</span>
+<span class="sd">        iWin : int</span>
+<span class="sd">            The window index</span>
+<span class="sd">        </span>
+<span class="sd">        Returns </span>
+<span class="sd">        -------</span>
+<span class="sd">        specFile : str, bool</span>
+<span class="sd">            The name of the spectra file or False if the window is not found in any spectra file</span>
+<span class="sd">        specReader : SpectrumReader, bool</span>
+<span class="sd">            The spectrum reader or False if the window is not found in any spectra file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">specRanges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecRanges</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span>
+        <span class="n">specReaders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecReaders</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">specFile</span> <span class="ow">in</span> <span class="n">specRanges</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">iWin</span> <span class="o">&gt;=</span> <span class="n">specRanges</span><span class="p">[</span><span class="n">specFile</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">iWin</span> <span class="o">&lt;=</span> <span class="n">specRanges</span><span class="p">[</span><span class="n">specFile</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">specFile</span><span class="p">,</span> <span class="n">specReaders</span><span class="p">[</span><span class="n">specFile</span><span class="p">]</span>
+
+        <span class="c1"># if here, no window found</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+            <span class="s2">&quot;Shared window </span><span class="si">{}</span><span class="s2">, decimation level </span><span class="si">{}</span><span class="s2"> does not appear in any files given the constraints applied&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">iWin</span><span class="p">,</span> <span class="n">iDec</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="WindowSelector.getDataSize"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getDataSize">[docs]</a>    <span class="k">def</span> <span class="nf">getDataSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the spectrum reader for a window</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iDec : str</span>
+<span class="sd">            The decimation level</span>
+
+<span class="sd">        Returns </span>
+<span class="sd">        -------</span>
+<span class="sd">        int </span>
+<span class="sd">            The data size (number of points in the spectrum) at the decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># return data size of first file</span>
+        <span class="n">site</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">specReaders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecReaders</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">sF</span> <span class="ow">in</span> <span class="n">specReaders</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">specReaders</span><span class="p">[</span><span class="n">sF</span><span class="p">]</span><span class="o">.</span><span class="n">getDataSize</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WindowSelector.setSites"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.setSites">[docs]</a>    <span class="k">def</span> <span class="nf">setSites</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sites</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set the sites for which to find the shared windows</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sites : List[str]</span>
+<span class="sd">            List of sites</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># first remove repeated sites</span>
+        <span class="n">sitesSet</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">sites</span><span class="p">)</span>
+        <span class="n">sites</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sitesSet</span><span class="p">)</span>
+        <span class="c1"># now continue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sites</span> <span class="o">=</span> <span class="n">sites</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecFolders</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecReaders</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecRanges</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="c1"># use sets to hold gIndices</span>
+            <span class="c1"># optimised to find intersections</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">siteGlobalIndices</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># at the end, calculate global indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcGlobalIndices</span><span class="p">()</span></div>
+
+    <span class="c1"># # this is the spectra director</span>
+    <span class="c1"># def setSpecDir(self, specdir):</span>
+    <span class="c1">#     specDir = specdir</span>
+
+    <span class="c1"># # this is the prepend for the spectra files</span>
+    <span class="c1"># def setPrepend(self, prepend):</span>
+    <span class="c1">#     self.prepend = prepend</span>
+
+<div class="viewcode-block" id="WindowSelector.addDatetimeConstraint"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addDatetimeConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addDatetimeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a datetime constraint</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start : str</span>
+<span class="sd">            Datetime constraint start in format %Y-%m-%d %H:%M:%S</span>
+<span class="sd">        stop : str</span>
+<span class="sd">            Datetime constraint end in format %Y-%m-%d %H:%M:%S</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addLevelDatetimeConstraint</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">iDec</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WindowSelector.addLevelDatetimeConstraint"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addLevelDatetimeConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addLevelDatetimeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a datetime constraint</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start : str</span>
+<span class="sd">            Datetime constraint start in format %Y-%m-%d %H:%M:%S</span>
+<span class="sd">        stop : str</span>
+<span class="sd">            Datetime constraint end in format %Y-%m-%d %H:%M:%S</span>
+<span class="sd">        iDec : int</span>
+<span class="sd">            The decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">datetimeStart</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+        <span class="n">datetimeStop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datetimes</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">datetimeStart</span><span class="p">,</span> <span class="n">datetimeStop</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="WindowSelector.addDateConstraint"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addDateConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addDateConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dateC</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a date constraint</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dateC : str</span>
+<span class="sd">            Datetime constraint in format %Y-%m-%d</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addLevelDateConstraint</span><span class="p">(</span><span class="n">dateC</span><span class="p">,</span> <span class="n">iDec</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WindowSelector.addLevelDateConstraint"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addLevelDateConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addLevelDateConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dateC</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a date constraint for a decimation level</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dateC : str</span>
+<span class="sd">            Datetime constraint in format %Y-%m-%d</span>
+<span class="sd">        iDec : int</span>
+<span class="sd">            The decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">datetimeC</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">dateC</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datetimeC</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WindowSelector.addTimeConstraint"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addTimeConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addTimeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a time constraint. This will recur on every day of recording.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start : str</span>
+<span class="sd">            Time constraint start in format %H:%M:%S</span>
+<span class="sd">        stop : str</span>
+<span class="sd">            Time constraint end in format %H:%M:%S</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addLevelTimeConstraint</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">iDec</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WindowSelector.addLevelTimeConstraint"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addLevelTimeConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addLevelTimeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">iDec</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a time constraint for a decimation level. This will recur on every day of recording.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start : str</span>
+<span class="sd">            Time constraint start in format %H:%M:%S</span>
+<span class="sd">        stop : str</span>
+<span class="sd">            Time constraint end in format %H:%M:%S</span>
+<span class="sd">        iDec : int</span>
+<span class="sd">            The decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">timeStart</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">timeStop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">timeStart</span><span class="p">,</span> <span class="n">timeStop</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="WindowSelector.addWindowMask"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addWindowMask">[docs]</a>    <span class="k">def</span> <span class="nf">addWindowMask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">maskName</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a window mask</span>
+<span class="sd">        </span>
+<span class="sd">        This is a mask with values for each evaluation frequency.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        site : str</span>
+<span class="sd">            The site for which to search for a mask</span>
+<span class="sd">        maskName : str</span>
+<span class="sd">            The name of the mask</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">siteData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+        <span class="n">maskIO</span> <span class="o">=</span> <span class="n">MaskIO</span><span class="p">(</span><span class="n">siteData</span><span class="o">.</span><span class="n">getSpecdirMaskPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">specdir</span><span class="p">))</span>
+        <span class="n">maskData</span> <span class="o">=</span> <span class="n">maskIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">maskName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span><span class="p">[</span><span class="n">site</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">maskData</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WindowSelector.calcSharedWindows"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.calcSharedWindows">[docs]</a>    <span class="k">def</span> <span class="nf">calcSharedWindows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate shared windows between sites</span>
+
+<span class="sd">        Calculates the shared windows between sites. No masks are applied in this method. Datetime constraints are applied.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;No sites given to Window Selector. At least one site needs to be given.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># calculate datetime constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcDatetimeConstraints</span><span class="p">()</span>
+
+        <span class="c1"># initialise the sharedWindows with a set from one site</span>
+        <span class="n">sites</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span>
+        <span class="n">siteInit</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sharedWindows</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteGlobalIndices</span><span class="p">[</span><span class="n">siteInit</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span>
+
+        <span class="c1"># now for each decimation level, calculate the shared windows</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sharedWindows</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sharedWindows</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">siteGlobalIndices</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="c1"># apply time constraints</span>
+        <span class="c1"># time constraints should be formulated as a set</span>
+        <span class="c1"># and then, find the intersection again</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="n">constraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLevelDatetimeConstraints</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">constraints</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">datetimeIndices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">dC</span> <span class="ow">in</span> <span class="n">constraints</span><span class="p">:</span>
+                    <span class="n">gIndexStart</span><span class="p">,</span> <span class="n">firstWindowStart</span> <span class="o">=</span> <span class="n">datetime2gIndex</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">projData</span><span class="o">.</span><span class="n">refTime</span><span class="p">,</span>
+                        <span class="n">dC</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getSampleFreqLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">gIndexEnd</span><span class="p">,</span> <span class="n">firstWindowEnd</span> <span class="o">=</span> <span class="n">datetime2gIndex</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">projData</span><span class="o">.</span><span class="n">refTime</span><span class="p">,</span>
+                        <span class="n">dC</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getSampleFreqLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="n">gIndexEnd</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">gIndexEnd</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="p">)</span>  <span class="c1"># as the function returns the next window starting after time</span>
+                    <span class="k">if</span> <span class="n">gIndexEnd</span> <span class="o">&lt;</span> <span class="n">gIndexStart</span><span class="p">:</span>
+                        <span class="n">gIndexEnd</span> <span class="o">=</span> <span class="n">gIndexStart</span>
+                    <span class="n">datetimeIndices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">gIndexStart</span><span class="p">,</span> <span class="n">gIndexEnd</span><span class="p">)))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
+                        <span class="s2">&quot;Decimation level = </span><span class="si">{}</span><span class="s2">. Applying date constraint </span><span class="si">{}</span><span class="s2"> - </span><span class="si">{}</span><span class="s2">, global index constraint </span><span class="si">{}</span><span class="s2"> - </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">iDec</span><span class="p">,</span> <span class="n">dC</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dC</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gIndexStart</span><span class="p">,</span> <span class="n">gIndexEnd</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sharedWindows</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sharedWindows</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                    <span class="n">datetimeIndices</span>
+                <span class="p">)</span></div>
+
+<div class="viewcode-block" id="WindowSelector.calcGlobalIndices"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.calcGlobalIndices">[docs]</a>    <span class="k">def</span> <span class="nf">calcGlobalIndices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Find all the global indices for the sites&quot;&quot;&quot;</span>
+
+        <span class="c1"># get all the spectra files with the correct sampling frequency</span>
+        <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+            <span class="n">siteData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+            <span class="n">timeFilesFs</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurements</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">)</span>
+            <span class="c1"># specFiles = self.proj.getSiteSpectraFiles(s)</span>
+            <span class="n">specFolders</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">spectra</span>
+            <span class="n">specFoldersFs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">specFolder</span> <span class="ow">in</span> <span class="n">specFolders</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">specFolder</span> <span class="ow">in</span> <span class="n">timeFilesFs</span><span class="p">:</span>
+                    <span class="n">specFoldersFs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">specFolder</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecFolders</span><span class="p">[</span><span class="n">site</span><span class="p">]</span> <span class="o">=</span> <span class="n">specFoldersFs</span>
+
+            <span class="c1"># for each decimation level</span>
+            <span class="c1"># loop through each of the spectra folders</span>
+            <span class="c1"># and find the global indices ranges for each decimation level</span>
+            <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
+            <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+                <span class="c1"># get the dictionaries ready</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecReaders</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecRanges</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">siteGlobalIndices</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="c1"># loop through spectra folders and figure out global indices</span>
+                <span class="k">for</span> <span class="n">specFolder</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecFolders</span><span class="p">[</span><span class="n">site</span><span class="p">]:</span>
+                    <span class="c1"># here, have to use the specdir option</span>
+                    <span class="n">specReader</span> <span class="o">=</span> <span class="n">SpectrumReader</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">siteData</span><span class="o">.</span><span class="n">specPath</span><span class="p">,</span> <span class="n">specFolder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">specdir</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="c1"># here, use prepend to open the spectra file</span>
+                    <span class="n">check</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">openBinaryForReading</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prepend</span><span class="p">,</span> <span class="n">iDec</span><span class="p">)</span>
+                    <span class="c1"># if file does not exist, continue</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecReaders</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">][</span><span class="n">specFolder</span><span class="p">]</span> <span class="o">=</span> <span class="n">specReader</span>
+                    <span class="n">globalRange</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getGlobalRange</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecRanges</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">][</span><span class="n">specFolder</span><span class="p">]</span> <span class="o">=</span> <span class="n">globalRange</span>
+                    <span class="c1"># and save set of global indices</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">siteGlobalIndices</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                        <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">globalRange</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">globalRange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="WindowSelector.calcDatetimeConstraints"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.calcDatetimeConstraints">[docs]</a>    <span class="k">def</span> <span class="nf">calcDatetimeConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Calculate overall datetime constraints</span>
+
+<span class="sd">        Priority order for datetime constraints is: </span>
+<span class="sd">        1. datetime constraints</span>
+<span class="sd">        2. date constraints</span>
+<span class="sd">        3. time constraints   </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># calculate site dates if required</span>
+        <span class="n">siteDates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcSiteDates</span><span class="p">()</span>
+
+        <span class="c1"># datetime constraints are for each decimation level</span>
+        <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="c1"># calculate date and time constraints for each level</span>
+            <span class="c1"># begin with the datetime constraints - these have highest priority</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datetimes</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span>
+
+            <span class="c1"># check to see whether any date and time constraints</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">iDec</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">iDec</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">dateConstraints</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">iDec</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># apply time constraints only on specified days</span>
+                <span class="n">dateConstraints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dates</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dateConstraints</span> <span class="o">=</span> <span class="n">siteDates</span>
+
+            <span class="c1"># finally, add the time constraints to the dates</span>
+            <span class="c1"># otherwise add the whole day</span>
+            <span class="n">dateAndTimeConstraints</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">iDec</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># add whole days</span>
+                <span class="k">for</span> <span class="n">dC</span> <span class="ow">in</span> <span class="n">dateConstraints</span><span class="p">:</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                    <span class="n">stop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="n">time</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">59</span><span class="p">))</span>
+                    <span class="n">dateAndTimeConstraints</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># add each time for each day</span>
+                <span class="k">for</span> <span class="n">tC</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="p">[</span><span class="n">iDec</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">dC</span> <span class="ow">in</span> <span class="n">dateConstraints</span><span class="p">:</span>
+                        <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="n">tC</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                        <span class="n">stop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">dC</span><span class="p">,</span> <span class="n">tC</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="c1"># check if this goes over a day</span>
+                        <span class="k">if</span> <span class="n">tC</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">tC</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                            <span class="c1"># then need to increment the day</span>
+                            <span class="n">dCNext</span> <span class="o">=</span> <span class="n">dC</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                            <span class="n">stop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">dCNext</span><span class="p">,</span> <span class="n">tC</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="c1"># append to constraints</span>
+                        <span class="n">dateAndTimeConstraints</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">])</span>
+
+            <span class="c1"># finally, combine datetimes and dateAndTimeConstraints</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">+</span> <span class="n">dateAndTimeConstraints</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="WindowSelector.calcSiteDates"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.calcSiteDates">[docs]</a>    <span class="k">def</span> <span class="nf">calcSiteDates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="n">starts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">stops</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+            <span class="n">siteData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+            <span class="n">starts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">siteData</span><span class="o">.</span><span class="n">siteStart</span><span class="p">)</span>
+            <span class="n">stops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">siteData</span><span class="o">.</span><span class="n">siteEnd</span><span class="p">)</span>
+        <span class="c1"># need all the dates between</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">starts</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+        <span class="n">d2</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">stops</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">d1</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                <span class="s2">&quot;A site passed to the window selector does not overlap with any other sites. There will be no shared windows&quot;</span><span class="p">,</span>
+                <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># now with d2 &gt; d1</span>
+        <span class="n">siteDates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">d2</span> <span class="o">-</span> <span class="n">d1</span>
+        <span class="c1"># + 1 because inclusive of stop and start days</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">delta</span><span class="o">.</span><span class="n">days</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">siteDates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d1</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">i</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">siteDates</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printList"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sampling frequency [Hz] = </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Spectra directory = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">specdir</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sites = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">)))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Site information:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+            <span class="n">textLst</span> <span class="o">=</span> <span class="n">textLst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">printSiteInfoList</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printSiteInfo"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printSiteInfo">[docs]</a>    <span class="k">def</span> <span class="nf">printSiteInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print out information about the sites&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+            <span class="n">blockPrint</span><span class="p">(</span><span class="s2">&quot;WindowSelector::site info&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">printSiteInfoList</span><span class="p">(</span><span class="n">site</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printSiteInfoList"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printSiteInfoList">[docs]</a>    <span class="k">def</span> <span class="nf">printSiteInfoList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Return site window information as a list of strings</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        site : str</span>
+<span class="sd">            The site name</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Site window information as a list of strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sampling frequency [Hz] = </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Site = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">site</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Site global index information&quot;</span><span class="p">)</span>
+        <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Decimation Level = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iDec</span><span class="p">))</span>
+            <span class="n">ranges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecRanges</span>
+            <span class="k">for</span> <span class="n">sF</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ranges</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+                <span class="n">startTime1</span><span class="p">,</span> <span class="n">endTime1</span> <span class="o">=</span> <span class="n">gIndex2datetime</span><span class="p">(</span>
+                    <span class="n">ranges</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">][</span><span class="n">sF</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">projData</span><span class="o">.</span><span class="n">refTime</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getDecFactor</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">startTime2</span><span class="p">,</span> <span class="n">endTime2</span> <span class="o">=</span> <span class="n">gIndex2datetime</span><span class="p">(</span>
+                    <span class="n">ranges</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">][</span><span class="n">sF</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">projData</span><span class="o">.</span><span class="n">refTime</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getDecFactor</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s2">&quot;Measurement file = </span><span class="si">{}</span><span class="se">\t</span><span class="s2">time range = </span><span class="si">{}</span><span class="s2"> - </span><span class="si">{}</span><span class="se">\t</span><span class="s2">Global Indices Range = </span><span class="si">{:d}</span><span class="s2"> - </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">sF</span><span class="p">,</span>
+                        <span class="n">startTime1</span><span class="p">,</span>
+                        <span class="n">endTime2</span><span class="p">,</span>
+                        <span class="n">ranges</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">][</span><span class="n">sF</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">ranges</span><span class="p">[</span><span class="n">site</span><span class="p">][</span><span class="n">iDec</span><span class="p">][</span><span class="n">sF</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printSharedWindows"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printSharedWindows">[docs]</a>    <span class="k">def</span> <span class="nf">printSharedWindows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Print out the shared windows&quot;&quot;&quot;</span>
+
+        <span class="n">blockPrint</span><span class="p">(</span><span class="s2">&quot;WindowSelector::shared windows&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">printSharedWindowsList</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printSharedWindowsList"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printSharedWindowsList">[docs]</a>    <span class="k">def</span> <span class="nf">printSharedWindowsList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Shared window information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Shared window information as a list of strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Decimation Level = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iDec</span><span class="p">))</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Number of shared windows = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">getNumSharedWindows</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Shared Window Indices: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">list2ranges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSharedWindowsLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">))</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;NOTE: These are the shared windows at each decimation level. Windows for each evaluation frequency might vary depending on masks&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printDatetimeConstraints"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printDatetimeConstraints">[docs]</a>    <span class="k">def</span> <span class="nf">printDatetimeConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print out the datetime constraints&quot;&quot;&quot;</span>
+
+        <span class="n">blockPrint</span><span class="p">(</span>
+            <span class="s2">&quot;WindowSelector::datetime constraints&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">printDatetimeConstraintsList</span><span class="p">()</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printDatetimeConstraintsList"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printDatetimeConstraintsList">[docs]</a>    <span class="k">def</span> <span class="nf">printDatetimeConstraintsList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Datetime constraint information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Datetime constraint information as a list of strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># calculate datetime constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcDatetimeConstraints</span><span class="p">()</span>
+        <span class="c1"># populate textLst</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Datetime constraints&quot;</span><span class="p">)</span>
+        <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Decimation Level = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iDec</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLevelDatetimeConstraints</span><span class="p">(</span><span class="n">iDec</span><span class="p">):</span>
+                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Constraint </span><span class="si">{}</span><span class="s2"> - </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printWindowMasks"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printWindowMasks">[docs]</a>    <span class="k">def</span> <span class="nf">printWindowMasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Print mask information&quot;&quot;&quot;</span>
+
+        <span class="n">blockPrint</span><span class="p">(</span><span class="s2">&quot;WindowSelector::window masks&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">printWindowMasksList</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printWindowMasksList"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printWindowMasksList">[docs]</a>    <span class="k">def</span> <span class="nf">printWindowMasksList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Window mask information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Window mask information as a list of strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Site = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">No masks for this site&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+                    <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Mask = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">maskName</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printWindowsForFrequency"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printWindowsForFrequency">[docs]</a>    <span class="k">def</span> <span class="nf">printWindowsForFrequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listwindows</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print information about the windows for each evaluation frequency</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        listwindows : bool</span>
+<span class="sd">            Boolean flag to actually write out all the windows. Default is False as this takes up a lot of space in the terminal</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">blockPrint</span><span class="p">(</span>
+            <span class="s2">&quot;WindowSelector::windows for frequency&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWindowsForFrequencyList</span><span class="p">(</span><span class="n">listwindows</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="WindowSelector.printWindowsForFrequencyList"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printWindowsForFrequencyList">[docs]</a>    <span class="k">def</span> <span class="nf">printWindowsForFrequencyList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listwindows</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Information about windows for each evaluation frequency as a list of strings</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        listwindows : bool</span>
+<span class="sd">            Boolean flag to actually write out all the windows. Default is False as this takes up a lot of space in the terminal</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            Windows for evaluation frequency information as a list of strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="n">evalFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
+            <span class="n">unmaskedWindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumSharedWindows</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">eIdx</span><span class="p">,</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">):</span>
+                <span class="n">maskedWindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getWindowsForFreq</span><span class="p">(</span><span class="n">iDec</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">)</span>
+                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s2">&quot;Evaluation frequency = </span><span class="si">{:.6f}</span><span class="s2">, shared windows = </span><span class="si">{:d}</span><span class="s2">, windows after masking = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">eFreq</span><span class="p">,</span> <span class="n">unmaskedWindows</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">maskedWindows</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">listwindows</span><span class="p">:</span>
+                    <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">list2ranges</span><span class="p">(</span><span class="n">maskedWindows</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

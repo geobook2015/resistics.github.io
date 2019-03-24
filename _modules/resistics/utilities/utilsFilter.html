@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.utilities.utilsFilter &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.utilities.utilsFilter</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.utilities.utilsFilter</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">signal</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">generalPrint</span><span class="p">,</span> <span class="n">arrayToStringInt</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsMath</span> <span class="k">import</span> <span class="n">intdiv</span>
+
+
+<div class="viewcode-block" id="normalise"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.normalise">[docs]</a><span class="k">def</span> <span class="nf">normalise</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Normalise time data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        timeData to normalise</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Normalised time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">normaliseData</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Data normalised&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="normaliseData"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.normaliseData">[docs]</a><span class="k">def</span> <span class="nf">normaliseData</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Normalise array data</span>
+<span class="sd">    </span>
+<span class="sd">    Normalisation is done by dividing by the result of numpy.norm of the data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Dict</span>
+<span class="sd">        Dictionary with channel as keys and normalised data as values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="lowPass"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.lowPass">[docs]</a><span class="k">def</span> <span class="nf">lowPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Lowpass butterworth filter for time data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        timeData to filter</span>
+<span class="sd">    cutoff : float</span>
+<span class="sd">        Cutoff frequency in Hz</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Filtered time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">lowPassData</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">)</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Low pass filter applied with cutoff </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cutoff</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="lowPassData"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.lowPassData">[docs]</a><span class="k">def</span> <span class="nf">lowPassData</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Lowpass butterworth filter for array data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    cutoff : float</span>
+<span class="sd">        Cutoff frequency in Hz</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># create the filter</span>
+    <span class="n">normalisedCutoff</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">cutoff</span> <span class="o">/</span> <span class="n">sampleFreq</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">normalisedCutoff</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s2">&quot;lowpass&quot;</span><span class="p">,</span> <span class="n">analog</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="c1"># filter each channel</span>
+    <span class="k">return</span> <span class="n">filterData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="highPass"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.highPass">[docs]</a><span class="k">def</span> <span class="nf">highPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Highpass butterworth filter for time data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        timeData to filter</span>
+<span class="sd">    cutoff : float</span>
+<span class="sd">        Cutoff frequency in Hz</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace        </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Filtered time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">highPassData</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">)</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;High pass filter applied with cutoff </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cutoff</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="highPassData"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.highPassData">[docs]</a><span class="k">def</span> <span class="nf">highPassData</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Highpass butterworth filter for array data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    cutoff : float</span>
+<span class="sd">        Cutoff frequency in Hz</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># create the filter</span>
+    <span class="n">normalisedCutoff</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">cutoff</span> <span class="o">/</span> <span class="n">sampleFreq</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">normalisedCutoff</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s2">&quot;highpass&quot;</span><span class="p">,</span> <span class="n">analog</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">filterData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="bandPass"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.bandPass">[docs]</a><span class="k">def</span> <span class="nf">bandPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">cutoffLow</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">cutoffHigh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Bandpass butterworth filter for time data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        timeData to filter</span>
+<span class="sd">    cutoff : float</span>
+<span class="sd">        Cutoff frequency in Hz</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace        </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Filtered time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">bandPassData</span><span class="p">(</span>
+        <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">cutoffLow</span><span class="p">,</span> <span class="n">cutoffHigh</span>
+    <span class="p">)</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+        <span class="s2">&quot;Band pass filter applied with cutoffs </span><span class="si">{}</span><span class="s2"> Hz and </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">cutoffLow</span><span class="p">,</span> <span class="n">cutoffHigh</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="bandPassData"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.bandPassData">[docs]</a><span class="k">def</span> <span class="nf">bandPassData</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">cutoffLow</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">cutoffHigh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Bandpass butterworth filter for array data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    cutoff : float</span>
+<span class="sd">        Cutoff frequency in Hz</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># create the filter</span>
+    <span class="n">normalisedCutoffLow</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">cutoffLow</span> <span class="o">/</span> <span class="n">sampleFreq</span>
+    <span class="n">normalisedCutoffHigh</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">cutoffHigh</span> <span class="o">/</span> <span class="n">sampleFreq</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span>
+        <span class="n">order</span><span class="p">,</span>
+        <span class="p">[</span><span class="n">normalisedCutoffLow</span><span class="p">,</span> <span class="n">normalisedCutoffHigh</span><span class="p">],</span>
+        <span class="n">btype</span><span class="o">=</span><span class="s2">&quot;bandpass&quot;</span><span class="p">,</span>
+        <span class="n">analog</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">filterData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="filterData"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.filterData">[docs]</a><span class="k">def</span> <span class="nf">filterData</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Butterworth filter for array data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    b : array_like</span>
+<span class="sd">        The numerator coefficient vector of the filter</span>
+<span class="sd">    a : array_like</span>
+<span class="sd">        The denominator coefficient vector of the filter. If a[0] is not 1, then both a and b are normalized by a[0]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">filteredData</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">filteredData</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">filtfilt</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;gust&quot;</span><span class="p">,</span> <span class="n">irlen</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">filteredData</span></div>
+
+
+<div class="viewcode-block" id="notchFilter"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.notchFilter">[docs]</a><span class="k">def</span> <span class="nf">notchFilter</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">notch</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Bandpass butterworth filter for time data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        timeData to filter</span>
+<span class="sd">    notch : float</span>
+<span class="sd">        Frequency to notch filter in Hz</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace        </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Filtered time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">notchFilterData</span><span class="p">(</span>
+        <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">notch</span><span class="p">,</span> <span class="n">notch</span> <span class="o">/</span> <span class="mf">5.0</span>
+    <span class="p">)</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Notch filter applied at </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">notch</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="notchFilterData"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.notchFilterData">[docs]</a><span class="k">def</span> <span class="nf">notchFilterData</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">notch</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">band</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Notch filter array data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        Sampling frequency in Hz</span>
+<span class="sd">    notch : float</span>
+<span class="sd">        Frequency to notch in Hz</span>
+<span class="sd">    band : float   </span>
+<span class="sd">        The bandwidth around the centerline freqency that you wish to filter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># set parameters</span>
+    <span class="n">nyq</span> <span class="o">=</span> <span class="n">sampleFreq</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="n">notch</span> <span class="o">-</span> <span class="n">band</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">high</span> <span class="o">=</span> <span class="n">notch</span> <span class="o">+</span> <span class="n">band</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="n">low</span> <span class="o">/</span> <span class="n">nyq</span>
+    <span class="n">high</span> <span class="o">=</span> <span class="n">high</span> <span class="o">/</span> <span class="n">nyq</span>
+    <span class="c1"># filter</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">filter_type</span> <span class="o">=</span> <span class="s2">&quot;bessel&quot;</span>
+    <span class="n">filteredData</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">iirfilter</span><span class="p">(</span>
+            <span class="n">order</span><span class="p">,</span> <span class="p">[</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">],</span> <span class="n">btype</span><span class="o">=</span><span class="s2">&quot;bandstop&quot;</span><span class="p">,</span> <span class="n">analog</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ftype</span><span class="o">=</span><span class="n">filter_type</span>
+        <span class="p">)</span>
+        <span class="n">filteredData</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">lfilter</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">filteredData</span></div>
+
+
+<div class="viewcode-block" id="resample"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.resample">[docs]</a><span class="k">def</span> <span class="nf">resample</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">resampFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Resample time data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        timeData to filter</span>
+<span class="sd">    resampFreq : float</span>
+<span class="sd">        The frequency to resample to</span>
+<span class="sd">    inplace : bool, optional</span>
+<span class="sd">        Whether to manipulate the data inplace        </span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Filtered time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">resampleData</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">resampFreq</span><span class="p">)</span>
+    <span class="c1"># update the time info</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="o">=</span> <span class="n">resampFreq</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">numSamples</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">timeData</span><span class="o">.</span><span class="n">chans</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">timeData</span><span class="o">.</span><span class="n">stopTime</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">startTime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span>
+        <span class="n">seconds</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">numSamples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="resampleData"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.resampleData">[docs]</a><span class="k">def</span> <span class="nf">resampleData</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sampleFreqNew</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Resample array data</span>
+<span class="sd">    </span>
+<span class="sd">    Resample the data using the polyphase method which does not assume periodicity</span>
+<span class="sd">    Calculate the upsample and then the downsampling rate and using polyphase filtering, the final sample rate is: </span>
+<span class="sd">    (up / down) * original sample rate</span>
+<span class="sd">    Therefore, to get a sampling frequency of sampleFreqNew, want:</span>
+<span class="sd">    (sampleFreqNew / sampleFreq) * sampleFreq</span>
+<span class="sd">    Use the fractions library to get up and down as integers which they are required to be.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        The current sampling frequency in Hz</span>
+<span class="sd">    sampleFreqNew : float</span>
+<span class="sd">        The sampling frequency in Hz to resample to</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span> <span class="nn">fractions</span> <span class="k">import</span> <span class="n">Fraction</span>
+    <span class="n">frac</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span>
+        <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sampleFreq</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">limit_denominator</span><span class="p">()</span>  <span class="c1"># because this is most probably a float</span>
+    <span class="n">frac</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">frac</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">sampleFreqNew</span><span class="p">))</span>
+    <span class="n">frac</span><span class="o">.</span><span class="n">limit_denominator</span><span class="p">()</span>
+
+
+    <span class="c1"># otherwise, normal polyphase filtering</span>
+    <span class="n">resampleData</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">resampleData</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">resample_poly</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">frac</span><span class="o">.</span><span class="n">numerator</span><span class="p">,</span> <span class="n">frac</span><span class="o">.</span><span class="n">denominator</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">resampleData</span></div>
+
+
+<div class="viewcode-block" id="downsampleData"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.downsampleData">[docs]</a><span class="k">def</span> <span class="nf">downsampleData</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">downsampleFactor</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Decimate array data</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    downsampleFactor : int</span>
+<span class="sd">        The factor to downsample the data by</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : Dict</span>
+<span class="sd">        Dictionary with channel as keys and data as values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># if downsampleFactor is 1, nothing to do</span>
+    <span class="k">if</span> <span class="n">downsampleFactor</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="c1"># a downsample factor should not be greater than 13</span>
+    <span class="c1"># hence factorise downsampleFactors that are greater than this</span>
+    <span class="k">if</span> <span class="n">downsampleFactor</span> <span class="o">&gt;</span> <span class="mi">13</span><span class="p">:</span>
+        <span class="n">downsamples</span> <span class="o">=</span> <span class="n">factorise</span><span class="p">(</span><span class="n">downsampleFactor</span><span class="p">)</span>
+        <span class="n">generalPrint</span><span class="p">(</span>
+            <span class="s2">&quot;Decimation&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Downsample factor </span><span class="si">{}</span><span class="s2"> greater than 13. Downsampling will be performed in multiple steps of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">downsampleFactor</span><span class="p">,</span> <span class="n">arrayToStringInt</span><span class="p">(</span><span class="n">downsamples</span><span class="p">)</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">downsamples</span> <span class="o">=</span> <span class="p">[</span><span class="n">downsampleFactor</span><span class="p">]</span>
+
+    <span class="c1"># downsample for each factor in downsamples</span>
+    <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">downsamples</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">decimate</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">factor</span><span class="p">,</span> <span class="n">zero_phase</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="factorise"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsFilter.html#resistics.utilities.utilsFilter.factorise">[docs]</a><span class="k">def</span> <span class="nf">factorise</span><span class="p">(</span><span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Factorise a number to avoid too large a downsample factor</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    number : int</span>
+<span class="sd">        The number to factorise</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List[int]</span>
+<span class="sd">        The downsampling factors to use</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    There&#39;s a few pathological cases here that are being ignored. For example, what if the downsample factor is the product of two primes greater than 13.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">primefac</span>
+    <span class="n">factors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">primefac</span><span class="o">.</span><span class="n">primefac</span><span class="p">(</span><span class="n">number</span><span class="p">))</span>
+    <span class="n">downsamples</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">val</span> <span class="o">*</span> <span class="n">f</span>
+        <span class="k">if</span> <span class="n">test</span> <span class="o">&gt;</span> <span class="mi">13</span><span class="p">:</span>
+            <span class="n">downsamples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">val</span> <span class="o">*</span> <span class="n">f</span>
+    <span class="c1"># logic: on the last value of f, val*f is tested</span>
+    <span class="c1"># if this is greater than 13, the previous val is added, which leaves one factor leftover</span>
+    <span class="c1"># if not greater than 13, then this is not added either</span>
+    <span class="c1"># so append the last value. the only situation in which this fails is the last factor itself is over 13.</span>
+    <span class="n">downsamples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">downsamples</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Calibration data &mdash; Resistics 0.1 documentation</title>
+  <title>Calibration data &mdash; resistics 0.0.5 documentation</title>
   
 
   
@@ -38,8 +38,8 @@
   <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Tutorial" href="../tutorial.html" />
-    <link rel="prev" title="Interpolating to second" href="timeseries/Interpolating-to-second.html" /> 
+    <link rel="next" title="Metronix Calibration" href="calibration/metronix-calibration.html" />
+    <link rel="prev" title="Interpolating to second" href="timeseries/interpolation-to-second.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -53,7 +53,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Resistics
+            <a href="../index.html" class="icon icon-home"> resistics
           
 
           
@@ -92,7 +92,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../conventions.html">Conventions</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="timeseries.html">Timeseries data</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Calibration data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Calibration data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="calibration/metronix-calibration.html">Metronix Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calibration/rsp-calibration.html">RSP Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calibration/rspx-calibration.html">RSPX Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calibration/ascii-calibration.html">ASCII Calibration</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
@@ -100,7 +106,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
 </ul>
 
             
@@ -115,7 +124,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Resistics</a>
+          <a href="../index.html">resistics</a>
         
       </nav>
 
@@ -169,6 +178,24 @@
             
   <div class="section" id="calibration-data">
 <h1>Calibration data<a class="headerlink" href="#calibration-data" title="Permalink to this headline">¶</a></h1>
+<p>Calibration data for magnetotelluric recordings come in many different flavours. Again, resistics aims to support the main formats, though this becomes harder when they are binary formatted.</p>
+<p>Currently, there are four supported calibration formats. These are:</p>
+<ul class="simple">
+<li><a class="reference internal" href="calibration/metronix-calibration.html"><span class="doc">Metronix</span></a></li>
+<li><a class="reference internal" href="calibration/rsp-calibration.html"><span class="doc">RSP</span></a></li>
+<li><a class="reference internal" href="calibration/rspx-calibration.html"><span class="doc">RSPX</span></a></li>
+<li>A simple <a class="reference internal" href="calibration/ascii-calibration.html"><span class="doc">ASCII</span></a> format</li>
+</ul>
+<div class="section" id="extending-calibration-data">
+<h2>Extending calibration data<a class="headerlink" href="#extending-calibration-data" title="Permalink to this headline">¶</a></h2>
+<p>Often times, calibration data does not cover the whole range of evaluation frequencies to be processed. In this case, the calibration data needs to be extended. By default, resistics will extend calibration data using simple linear interpolation. In some cases, it is better for the extension of calibration data to be performed outside of resistics. In this case, calibration extension can be switched off as a configuration option. For more details, see the <a class="reference internal" href="../features/configuration.html"><span class="doc">Configuration</span></a> section.</p>
+</div>
+<div class="section" id="viewing-calibration-data">
+<h2>Viewing calibration data<a class="headerlink" href="#viewing-calibration-data" title="Permalink to this headline">¶</a></h2>
+<p>As calibration is another major point of pain and failure in the processing magnetotelluric data, resistics includes tools for viewing calibration data. This is good practice, to ensure that calibration files are being read in appropriately. See the sections covering each format for examples of viewing calibration data.</p>
+<div class="toctree-wrapper compound">
+</div>
+</div>
 </div>
 
 
@@ -179,10 +206,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../tutorial.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="calibration/metronix-calibration.html" class="btn btn-neutral float-right" title="Metronix Calibration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="timeseries/Interpolating-to-second.html" class="btn btn-neutral float-left" title="Interpolating to second" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="timeseries/interpolation-to-second.html" class="btn btn-neutral float-left" title="Interpolating to second" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

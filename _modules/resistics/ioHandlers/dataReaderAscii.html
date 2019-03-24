@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.ioHandlers.dataReaderAscii &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.ioHandlers.dataReaderAscii</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.ioHandlers.dataReaderAscii</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="k">import</span> <span class="n">DataReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsClean</span> <span class="k">import</span> <span class="n">removeNansSingle</span><span class="p">,</span> <span class="n">removeZerosSingle</span>
+
+
+<div class="viewcode-block" id="DataReaderAscii"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.dataReaderAscii.html#resistics.ioHandlers.dataReaderAscii.DataReaderAscii">[docs]</a><span class="k">class</span> <span class="nc">DataReaderAscii</span><span class="p">(</span><span class="n">DataReaderInternal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Data reader for ascii formatted data</span>
+
+<span class="sd">    The ASCII data reader reads ascii data files and internally formatted header files. No further scaling is applied to the data values in either getUnscaledSamples or getPhysicalSamples. All the data is assumed to be in the correct units.</span>
+
+<span class="sd">    In fact, if the data does not have to be calibrated, the units could be anything as long as they are internally consistent.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    setParameters()</span>
+<span class="sd">        Set data format parameters    </span>
+<span class="sd">    getUnscaledSamples()</span>
+<span class="sd">        Get the raw unscaled samples from an ascii file</span>
+<span class="sd">    getPhysicalSamples()</span>
+<span class="sd">        Get data in field units. Note: no further scaling is applied in this function, ascii data is assumed to be in field units</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DataReaderAscii.setParameters"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.dataReaderAscii.html#resistics.ioHandlers.dataReaderAscii.DataReaderAscii.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set data reader parameters</span>
+
+<span class="sd">        This will vary for the different data formats. By default, setup for the internal data format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">headerF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.hdr&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.ascii&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span> <span class="o">=</span> <span class="mi">4</span></div>
+
+<div class="viewcode-block" id="DataReaderAscii.getUnscaledSamples"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.dataReaderAscii.html#resistics.ioHandlers.dataReaderAscii.DataReaderAscii.getUnscaledSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getUnscaledSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get raw data from ascii data file</span>
+
+<span class="sd">        This function simply reads the lines which match the samples to be read</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chans : List[str], optional</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        startSample : int, optional</span>
+<span class="sd">            First sample to return</span>
+<span class="sd">        endSample : int, optional</span>
+<span class="sd">            Last sample to return</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># initialise chans, startSample and endSample with the whole dataset</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># get samples - this is inclusive</span>
+        <span class="n">dSamples</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># loop through chans and get data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+            <span class="c1"># check to make sure channel exists</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">checkChan</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+            <span class="c1"># get data file</span>
+            <span class="n">dFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDataFile</span><span class="p">(</span><span class="n">chan</span><span class="p">))</span>
+            <span class="c1"># read the lines</span>
+            <span class="n">dataChan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">dSamples</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dFile</span><span class="p">)</span> <span class="k">as</span> <span class="n">dF</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">il</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dF</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">il</span> <span class="o">&gt;</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]:</span>
+                        <span class="k">break</span>
+                    <span class="k">if</span> <span class="n">il</span> <span class="o">&gt;=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">il</span> <span class="o">&lt;=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]:</span>
+                        <span class="n">dIndex</span> <span class="o">=</span> <span class="n">il</span> <span class="o">-</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span>
+                        <span class="n">dataChan</span><span class="p">[</span><span class="n">dIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="c1"># set the data</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataChan</span>
+
+        <span class="c1"># get data start and stop time</span>
+        <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample2time</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="c1"># dataset comments</span>
+        <span class="n">comments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Unscaled data </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2"> read in from measurement </span><span class="si">{}</span><span class="s2">, samples </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">startTime</span><span class="p">,</span>
+                <span class="n">stopTime</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sampling frequency </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">comments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span> <span class="o">+</span> <span class="n">comments</span>
+        <span class="k">return</span> <span class="n">TimeData</span><span class="p">(</span>
+            <span class="n">sampleFreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">(),</span>
+            <span class="n">startTime</span><span class="o">=</span><span class="n">startTime</span><span class="p">,</span>
+            <span class="n">stopTime</span><span class="o">=</span><span class="n">stopTime</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="n">comments</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataReaderAscii.getPhysicalSamples"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.dataReaderAscii.html#resistics.ioHandlers.dataReaderAscii.DataReaderAscii.getPhysicalSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getPhysicalSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get ascii data scaled to physical values</span>
+<span class="sd">        </span>
+<span class="sd">        Warnings</span>
+<span class="sd">        --------</span>
+<span class="sd">        No scaling happens in getPhysicalSamples. Ascii data is assumed to be properly scaled to mV for magnetic channels and mV/km for electric channels (i.e. field units)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chans : List[str]</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        startSample : int</span>
+<span class="sd">            First sample to return</span>
+<span class="sd">        endSample : int</span>
+<span class="sd">            Last sample to return</span>
+<span class="sd">        remaverage : bool</span>
+<span class="sd">            Remove average from the data</span>
+<span class="sd">        remzeros : bool</span>
+<span class="sd">            Remove zeroes from the data</span>
+<span class="sd">        remnans: bool</span>
+<span class="sd">            Remove NanNs from the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
+            <span class="n">chans</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">],</span>
+            <span class="n">startSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span>
+            <span class="n">endSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="c1"># no further scaling applied to ascii data</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+            <span class="c1"># if remove zeros - False by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">removeZerosSingle</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
+            <span class="c1"># if remove nans - False by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">removeNansSingle</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
+            <span class="c1"># remove the average from the data - True by default</span>
+            <span class="c1"># do this after all scaling and removing nans and zeros</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
+                    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+            <span class="s2">&quot;Remove zeros: </span><span class="si">{}</span><span class="s2">, remove nans: </span><span class="si">{}</span><span class="s2">, remove average: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">timeData</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

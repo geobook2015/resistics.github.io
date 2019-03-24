@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Comments &mdash; Resistics 0.1 documentation</title>
+  <title>Comments &mdash; resistics 0.0.5 documentation</title>
   
 
   
@@ -53,7 +53,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Resistics
+            <a href="../index.html" class="icon icon-home"> resistics
           
 
           
@@ -93,7 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration files</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Comments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remoteStatistics.html">Statistics calculated with a remote reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remote-statistics.html">Statistics calculated with a remote reference</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
@@ -102,7 +102,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
 </ul>
 
             
@@ -117,7 +120,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Resistics</a>
+          <a href="../index.html">resistics</a>
         
       </nav>
 
@@ -171,45 +174,81 @@
             
   <div class="section" id="comments">
 <h1>Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h1>
-<p>To help traceability and reproducibility of processing results, all datasets which are written out by resistics are written with associated comment files. Comment files detail the parameters with which the data was processed. An example of a comments file for a spectra dataset is provided below. As can be seen, there is a significant detail about the processing sequence and the parameters used.</p>
+<p>To help traceability and reproducibility of processing results, most datasets which are written out by resistics are written with associated comment files. Comment files detail the parameters with which the data was processed. An example of a comments file for a spectra dataset is provided below. As can be seen, there is a significant detail about the processing sequence and the parameters used.</p>
 <p>Only timeseries data, spectra data and statistic data are written out with comment files. Transfer function files do not have associated comments files as they are usually calculated out from a set of data sources.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Unscaled data 2016-03-23 02:35:00 to 2016-03-24 01:54:59.992188 read in from measurement exampleProject2\timeData\M1\meas_2016-03-23_02-35-00, samples 0 to 10751999
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2012-02-10 11:30:00 to 2012-02-11 23:03:43.992188 read in from measurement tutorialProject\timeData\site1\meas_2012-02-10_11-30-00, samples 0 to 16387071
 Sampling frequency 128.0
-Removing gain and scaling electric channels to mV/km
+Scaling channel Ex with scalar -0.000112591 to give mV
+Dividing channel Ex by electrode distance 0.08 km to give mV/km
+Scaling channel Ey with scalar -0.000112512 to give mV
+Dividing channel Ey by electrode distance 0.091 km to give mV/km
+Scaling channel Hx with scalar -0.00360174 to give mV
+Scaling channel Hy with scalar -0.00360038 to give mV
+Scaling channel Hz with scalar -0.0036007 to give mV
 Remove zeros: False, remove nans: False, remove average: True
 ---------------------------------------------------
 Calculating project spectra
-Using configuration with name dec8_5 in configuration file ex1_04b_config.ini
+Using default configuration
 Channel Ex not calibrated
 Channel Ey not calibrated
-Channel Hx calibrated with calibration data from file exampleProject2\calData\MFS06e612.TXT
-Channel Hy calibrated with calibration data from file exampleProject2\calData\MFS06e613.TXT
-Channel Hz not calibrated
-Decimating with 8 levels and 5 frequencies per level
-Evaluation frequencies for this level 32.0, 22.62741699796952, 16.0, 11.31370849898476, 8.0
-Windowing with window size 256 samples and overlap 64 samples
-Time data decimated from 128.0 Hz to 32.0 Hz, new start time 2016-03-23 02:35:00, new end time 2016-03-24 01:54:59.968750
-Evaluation frequencies for this level 5.65685424949238, 4.0, 2.82842712474619, 2.0, 1.414213562373095
-Windowing with window size 256 samples and overlap 64 samples
-Time data decimated from 32.0 Hz to 8.0 Hz, new start time 2016-03-23 02:35:00, new end time 2016-03-24 01:54:59.875000
-Evaluation frequencies for this level 1.0, 0.7071067811865475, 0.5, 0.35355339059327373, 0.25
-Windowing with window size 256 samples and overlap 64 samples
-Time data decimated from 8.0 Hz to 1.0 Hz, new start time 2016-03-23 02:35:00, new end time 2016-03-24 01:54:59
-Evaluation frequencies for this level 0.17677669529663687, 0.125, 0.08838834764831843, 0.0625, 0.044194173824159216
-Windowing with window size 256 samples and overlap 64 samples
-Time data decimated from 1.0 Hz to 0.25 Hz, new start time 2016-03-23 02:35:00, new end time 2016-03-24 01:54:56
-Evaluation frequencies for this level 0.03125, 0.022097086912079608, 0.015625, 0.011048543456039804, 0.0078125
-Windowing with window size 256 samples and overlap 64 samples
-Time data decimated from 0.25 Hz to 0.03125 Hz, new start time 2016-03-23 02:35:00, new end time 2016-03-24 01:54:28
-Evaluation frequencies for this level 0.005524271728019902, 0.00390625, 0.002762135864009951, 0.001953125, 0.0013810679320049755
-Windowing with window size 256 samples and overlap 64 samples
-Time data decimated from 0.03125 Hz to 0.0078125 Hz, new start time 2016-03-23 02:35:00, new end time 2016-03-24 01:54:28
-Evaluation frequencies for this level 0.0009765625, 0.0006905339660024878, 0.00048828125, 0.0003452669830012439, 0.000244140625
-Windowing with window size 256 samples and overlap 64 samples
-Spectra data written out to exampleProject2\specData\M1\meas_2016-03-23_02-35-00\dec8_5 on 2019-02-23 18:03:39.284153
+Channel Hx calibrated with calibration data from file tutorialProject\calData\Hx_MFS06365.TXT
+Channel Hy calibrated with calibration data from file tutorialProject\calData\Hy_MFS06357.TXT
+Channel Hz calibrated with calibration data from file tutorialProject\calData\Hz_MFS06307.TXT
+Decimating with 7 levels and 7 frequencies per level
+Evaluation frequencies for this level 32.0, 22.62741699796952, 16.0, 11.31370849898476, 8.0, 5.65685424949238, 4.0
+Windowing with window size 512 samples and overlap 128 samples
+Time data decimated from 128.0 Hz to 16.0 Hz, new start time 2012-02-10 11:30:00, new end time 2012-02-11 23:03:43.937500
+Evaluation frequencies for this level 2.82842712474619, 2.0, 1.414213562373095, 1.0, 0.7071067811865475, 0.5, 0.35355339059327373
+Windowing with window size 512 samples and overlap 128 samples
+Time data decimated from 16.0 Hz to 2.0 Hz, new start time 2012-02-10 11:30:00, new end time 2012-02-11 23:03:43.500000
+Evaluation frequencies for this level 0.25, 0.17677669529663687, 0.125, 0.08838834764831843, 0.0625, 0.044194173824159216, 0.03125
+Windowing with window size 512 samples and overlap 128 samples
+Time data decimated from 2.0 Hz to 0.25 Hz, new start time 2012-02-10 11:30:00, new end time 2012-02-11 23:03:40
+Time data decimated from 0.25 Hz to 0.125 Hz, new start time 2012-02-10 11:30:00, new end time 2012-02-11 23:03:36
+Evaluation frequencies for this level 0.022097086912079608, 0.015625, 0.011048543456039804, 0.0078125, 0.005524271728019902, 0.00390625, 0.002762135864009951
+Windowing with window size 512 samples and overlap 128 samples
+Time data decimated from 0.125 Hz to 0.015625 Hz, new start time 2012-02-10 11:30:00, new end time 2012-02-11 23:03:20
+Evaluation frequencies for this level 0.001953125, 0.0013810679320049755, 0.0009765625, 0.0006905339660024878, 0.00048828125, 0.0003452669830012439, 0.000244140625
+Windowing with window size 512 samples and overlap 128 samples
+Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30-00\spectra on 2019-03-22 23:27:50.569672
 ---------------------------------------------------
 </pre></div>
-</div>
+</td></tr></table></div>
 </div>
 
 

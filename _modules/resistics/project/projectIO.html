@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.project.projectIO &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.project.projectIO</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.project.projectIO</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Union</span>
+
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.projectData</span> <span class="k">import</span> <span class="n">ProjectData</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.configData</span> <span class="k">import</span> <span class="n">ConfigData</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsConfig</span> <span class="k">import</span> <span class="n">loadConfig</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsIO</span> <span class="k">import</span> <span class="n">checkAndMakeDir</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">projectText</span><span class="p">,</span>
+    <span class="n">projectBlock</span><span class="p">,</span>
+    <span class="n">projectWarning</span><span class="p">,</span>
+    <span class="n">projectError</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="newProject"><a class="viewcode-back" href="../../../api/resistics.project.projectIO.html#resistics.project.projectIO.newProject">[docs]</a><span class="k">def</span> <span class="nf">newProject</span><span class="p">(</span>
+    <span class="n">projectPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">refTime</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">datetime</span><span class="p">],</span>
+    <span class="n">configFile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mtProj&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProjectData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a new project in project path</span>
+
+<span class="sd">    A new project will be created in project path. If the project path directory does not exist, a new one will be made. If a project already exists in project path, this project will be loaded and returned.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projectPath : str</span>
+<span class="sd">        Path for the project directory</span>
+<span class="sd">    refTime : datetime</span>
+<span class="sd">        The reference time for the project</span>
+<span class="sd">    configFile : str</span>
+<span class="sd">        Path to a configuration file</span>
+<span class="sd">    name : str, optional (default is &quot;mtProj&quot;)</span>
+<span class="sd">        The name of the project file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ProjectData</span>
+<span class="sd">        A project data object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># check if a project file already exists and if so, load it</span>
+
+    <span class="c1"># create project path directory</span>
+    <span class="n">checkAndMakeDir</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
+    <span class="c1"># reference time</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">refTime</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">refTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">refTime</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+    <span class="c1"># print info</span>
+    <span class="n">textLst</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Creating a new project in path: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">projectPath</span><span class="p">),</span>
+        <span class="s2">&quot;Project name: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">projectBlock</span><span class="p">(</span><span class="n">textLst</span><span class="p">)</span>
+
+    <span class="c1"># create the subdirectories</span>
+    <span class="n">projectFile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.prj&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">timePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;timeData&quot;</span><span class="p">)</span>
+    <span class="n">specPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;specData&quot;</span><span class="p">)</span>
+    <span class="n">statPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;statData&quot;</span><span class="p">)</span>
+    <span class="n">maskPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;maskData&quot;</span><span class="p">)</span>
+    <span class="n">transFuncPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;transFuncData&quot;</span><span class="p">)</span>
+    <span class="n">calPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;calData&quot;</span><span class="p">)</span>
+    <span class="n">imagePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">)</span>
+    <span class="n">saveProjectFile</span><span class="p">(</span>
+        <span class="n">projectFile</span><span class="p">,</span>
+        <span class="n">refTime</span><span class="p">,</span>
+        <span class="n">calPath</span><span class="p">,</span>
+        <span class="n">timePath</span><span class="p">,</span>
+        <span class="n">specPath</span><span class="p">,</span>
+        <span class="n">statPath</span><span class="p">,</span>
+        <span class="n">maskPath</span><span class="p">,</span>
+        <span class="n">transFuncPath</span><span class="p">,</span>
+        <span class="n">imagePath</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># configuration file</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigData</span><span class="p">(</span><span class="n">configFile</span><span class="p">)</span>
+
+    <span class="n">proj</span> <span class="o">=</span> <span class="n">ProjectData</span><span class="p">(</span>
+        <span class="n">projectFile</span><span class="p">,</span>
+        <span class="n">refTime</span><span class="p">,</span>
+        <span class="n">calPath</span><span class="p">,</span>
+        <span class="n">timePath</span><span class="p">,</span>
+        <span class="n">specPath</span><span class="p">,</span>
+        <span class="n">statPath</span><span class="p">,</span>
+        <span class="n">maskPath</span><span class="p">,</span>
+        <span class="n">transFuncPath</span><span class="p">,</span>
+        <span class="n">imagePath</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+    <span class="n">proj</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">proj</span></div>
+
+
+<div class="viewcode-block" id="loadProject"><a class="viewcode-back" href="../../../api/resistics.project.projectIO.html#resistics.project.projectIO.loadProject">[docs]</a><span class="k">def</span> <span class="nf">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">configFile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProjectData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Load an existing project</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projectPath : str</span>
+<span class="sd">        Path for the project directory</span>
+<span class="sd">    configFile : str</span>
+<span class="sd">        Path to a configuration file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ProjectData</span>
+<span class="sd">        A project data object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># search for the .prj file (hopefully only one)</span>
+    <span class="n">gl</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;*.prj&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">projectError</span><span class="p">(</span><span class="s2">&quot;Unable to find project file in path: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">projectPath</span><span class="p">))</span>
+    <span class="n">projectFile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">gl</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">projectText</span><span class="p">(</span>
+        <span class="s2">&quot;Loading project file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">projectFile</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">projectPaths</span> <span class="o">=</span> <span class="n">loadProjectFile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">projectFile</span><span class="p">))</span>
+
+    <span class="c1"># check the configuration file</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigData</span><span class="p">(</span><span class="n">configFile</span><span class="p">)</span>
+
+    <span class="n">proj</span> <span class="o">=</span> <span class="n">ProjectData</span><span class="p">(</span>
+        <span class="n">projectFile</span><span class="p">,</span>
+        <span class="n">projectPaths</span><span class="p">[</span><span class="s2">&quot;refTime&quot;</span><span class="p">],</span>
+        <span class="n">projectPaths</span><span class="p">[</span><span class="s2">&quot;calPath&quot;</span><span class="p">],</span>
+        <span class="n">projectPaths</span><span class="p">[</span><span class="s2">&quot;timePath&quot;</span><span class="p">],</span>
+        <span class="n">projectPaths</span><span class="p">[</span><span class="s2">&quot;specPath&quot;</span><span class="p">],</span>
+        <span class="n">projectPaths</span><span class="p">[</span><span class="s2">&quot;statPath&quot;</span><span class="p">],</span>
+        <span class="n">projectPaths</span><span class="p">[</span><span class="s2">&quot;maskPath&quot;</span><span class="p">],</span>
+        <span class="n">projectPaths</span><span class="p">[</span><span class="s2">&quot;transFuncPath&quot;</span><span class="p">],</span>
+        <span class="n">projectPaths</span><span class="p">[</span><span class="s2">&quot;imagePath&quot;</span><span class="p">],</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+    <span class="n">proj</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">proj</span></div>
+
+
+<div class="viewcode-block" id="saveProjectFile"><a class="viewcode-back" href="../../../api/resistics.project.projectIO.html#resistics.project.projectIO.saveProjectFile">[docs]</a><span class="k">def</span> <span class="nf">saveProjectFile</span><span class="p">(</span>
+    <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">refTime</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+    <span class="n">calPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">timePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">specPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">statPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">maskPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">transFuncPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">imagePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Save the project file to filepath</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : str</span>
+<span class="sd">        Path to project file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Calibration data path = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">calPath</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Time data path = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">timePath</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Spectra data path = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">specPath</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Statistics data path = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">statPath</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Mask data path = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maskPath</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;TransFunc data path = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">transFuncPath</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Image data path = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">imagePath</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Reference time = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">refTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="loadProjectFile"><a class="viewcode-back" href="../../../api/resistics.project.projectIO.html#resistics.project.projectIO.loadProjectFile">[docs]</a><span class="k">def</span> <span class="nf">loadProjectFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Load project from path to project file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath : str</span>
+<span class="sd">        Path to project file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    projPath : Dict[str, Union[str, datetime]]</span>
+<span class="sd">        A dictionary with various project paths</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">projPaths</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="n">split</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;Calibration data path&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">projPaths</span><span class="p">[</span><span class="s2">&quot;calPath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;Time data path&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">projPaths</span><span class="p">[</span><span class="s2">&quot;timePath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;Spectra data path&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">projPaths</span><span class="p">[</span><span class="s2">&quot;specPath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;Statistics data path&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">projPaths</span><span class="p">[</span><span class="s2">&quot;statPath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;Mask data path&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">projPaths</span><span class="p">[</span><span class="s2">&quot;maskPath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;TransFunc data path&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">projPaths</span><span class="p">[</span><span class="s2">&quot;transFuncPath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;Image data path&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">projPaths</span><span class="p">[</span><span class="s2">&quot;imagePath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;Reference time&quot;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">projPaths</span><span class="p">[</span><span class="s2">&quot;refTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                <span class="n">split</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">projPaths</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

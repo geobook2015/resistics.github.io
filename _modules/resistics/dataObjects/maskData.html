@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.dataObjects.maskData &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.dataObjects.maskData</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.dataObjects.maskData</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Set</span>
+
+<span class="c1"># import from package#</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.dataObject</span> <span class="k">import</span> <span class="n">DataObject</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">arrayToString</span><span class="p">,</span> <span class="n">blockPrint</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsFreq</span> <span class="k">import</span> <span class="n">getFrequencyArray</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="k">import</span> <span class="n">getViewFonts</span>
+
+
+<div class="viewcode-block" id="MaskData"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData">[docs]</a><span class="k">class</span> <span class="nc">MaskData</span><span class="p">(</span><span class="n">DataObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class for holding information about window masking</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    maskName : str</span>
+<span class="sd">        The name of the mask</span>
+<span class="sd">    sampleFreq : float  </span>
+<span class="sd">        The sampling frequency of the data in Hz</span>
+<span class="sd">    numLevels : int</span>
+<span class="sd">        Number of decimation levels</span>
+<span class="sd">    evalFreq : List[float]</span>
+<span class="sd">        The evaluation frequnecies</span>
+<span class="sd">    constraints : Dict</span>
+<span class="sd">        Constraints index by evaluation frequency, statistic and component</span>
+<span class="sd">    insideOut : Dict</span>
+<span class="sd">        Flag stating whether to mask values inside constraints (False) or outside constraints (True), indexed by evaluation frequency, statistic and component</span>
+<span class="sd">    maskWindows : Dict</span>
+<span class="sd">        Dictionary for storing the masked windows for each evaluation frequency</span>
+<span class="sd">    self.stats : List</span>
+<span class="sd">        Statistics to use in the masking</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    __init__(sampleFreq, numLevels, evalFreq, kwargs)</span>
+<span class="sd">        Initialise maskData</span>
+<span class="sd">    setStats(stats)</span>
+<span class="sd">        Set the statistics used in the MaskData</span>
+<span class="sd">    addConstraint(stat, constraint, insideOut)</span>
+<span class="sd">        Add constraints for statistic stat for all evaluation frequencies</span>
+<span class="sd">    addConstraintLevel(stat, constraint, level, insideOut)</span>
+<span class="sd">        Add constraints for statistic stat for all evaluation frequencies for a single decimation level  </span>
+<span class="sd">    addConstraintFreq(stat, constraint, level, eIdx, insideOut)</span>
+<span class="sd">        Add a constraint for statistic stat for a particular evaluation frequency               </span>
+<span class="sd">    getConstraintFreq(level, eIdx, stat = &quot;&quot;)</span>
+<span class="sd">        Get the constraints for a evaluation frequency provided by the level and the evaluation frequency index and optional request constraints only for a particular statistic</span>
+<span class="sd">    getMaskWindowsFreq(level, eIdx)</span>
+<span class="sd">        Get a set of the masked windows for an evaluation frequency identified by decimation level and evaluation frequency index</span>
+<span class="sd">    prepareDicts()</span>
+<span class="sd">        Prepare the storage dictionaries given a new set of statistics</span>
+<span class="sd">    resetMaskWindows()</span>
+<span class="sd">        Clear the masked windows</span>
+<span class="sd">    view(level)</span>
+<span class="sd">        View the masked windows at a particular decimation level</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class status returned as list of strings</span>
+<span class="sd">    printConstraints()</span>
+<span class="sd">        Print constraint information to the console</span>
+<span class="sd">    printConstraintsList()</span>
+<span class="sd">        Return constraint information as a list of strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialise mask data </span>
+<span class="sd">    </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sampleFreq : float</span>
+<span class="sd">            Data sampling frequency in Hz</span>
+<span class="sd">        numLevels : int</span>
+<span class="sd">            Number of decimation levels</span>
+<span class="sd">        evalFreq : np.ndarray</span>
+<span class="sd">            2-D Matrix, numlevels * evaluations frequencies per level. Contents are evaluations frequencies</span>
+<span class="sd">        kwargs : Dict</span>
+<span class="sd">            Two optional arguments: &quot;name&quot; for statistic name and &quot;stats&quot; for the statistics to use</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">maskName</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mask&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">sampleFreq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">numLevels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">evalFreq</span>
+        <span class="c1"># constraints and masked windows</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">insideOut</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># stats is the stats to use</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="s2">&quot;stats&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prepareDicts</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MaskData.setStats"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.setStats">[docs]</a>    <span class="k">def</span> <span class="nf">setStats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stats</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the statistics to use for the constraints</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stats : List[str]</span>
+<span class="sd">            A list of statistics for which constraints will be provided</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stats</span> <span class="o">=</span> <span class="n">stats</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prepareDicts</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MaskData.addConstraint"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.addConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stat</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">constraint</span><span class="p">,</span> <span class="n">insideOut</span><span class="o">=</span><span class="p">[])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a constraint for all levels and evaluation frequencies</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stat : str</span>
+<span class="sd">            The statistic to be constrained</span>
+<span class="sd">        constraint : </span>
+<span class="sd">            The constraint parameter</span>
+<span class="sd">        insideOut : (optional) </span>
+<span class="sd">            Inside out parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">ilevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addConstraintLevel</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">constraint</span><span class="p">,</span> <span class="n">ilevel</span><span class="p">,</span> <span class="n">insideOut</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaskData.addConstraintLevel"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.addConstraintLevel">[docs]</a>    <span class="k">def</span> <span class="nf">addConstraintLevel</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">stat</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">constraint</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">insideOut</span><span class="o">=</span><span class="p">[]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a constraint for a whole decimation level</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stat : str</span>
+<span class="sd">            The statistic to be constrained</span>
+<span class="sd">        constraint : </span>
+<span class="sd">            The constraint parameter</span>
+<span class="sd">        level : int</span>
+<span class="sd">            The decimation level</span>
+<span class="sd">        insideOut : (optional) </span>
+<span class="sd">            Inside out parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">eIdx</span><span class="p">,</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">level</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addConstraintFreq</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">constraint</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">,</span> <span class="n">insideOut</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaskData.addConstraintFreq"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.addConstraintFreq">[docs]</a>    <span class="k">def</span> <span class="nf">addConstraintFreq</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">stat</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">constraint</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">insideOut</span><span class="o">=</span><span class="p">[]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Add a constraint for an evaluation frequency</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stat : str</span>
+<span class="sd">            The statistic to be constrained</span>
+<span class="sd">        constraint : </span>
+<span class="sd">            The constraint parameter</span>
+<span class="sd">        level : int</span>
+<span class="sd">            The decimation level</span>
+<span class="sd">        eIdx : int</span>
+<span class="sd">            Evaluation Frequency index</span>
+<span class="sd">        insideOut : (optional) </span>
+<span class="sd">            Inside out parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">eFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">eIdx</span><span class="p">]</span>
+        <span class="c1"># insideOut = []</span>
+        <span class="c1"># if &quot;insideOut&quot; in kwargs:</span>
+        <span class="c1">#     insideOut = kwargs[&quot;insideOut&quot;]</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">constraint</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">constraint</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">insideOut</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">insideOut</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">insideOut</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="MaskData.getConstraintFreq"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.getConstraintFreq">[docs]</a>    <span class="k">def</span> <span class="nf">getConstraintFreq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stat</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get constraints for an evaluation frequency</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        level : int</span>
+<span class="sd">            The decimation level</span>
+<span class="sd">        eIdx : int</span>
+<span class="sd">            Evaluation Frequency index</span>
+<span class="sd">        stat : str</span>
+<span class="sd">            The statistic for which to return the constraints</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : list</span>
+<span class="sd">            Constraints for the evaluation frequency</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">eFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">eIdx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">stat</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span></div>
+
+    <span class="c1"># def getConstraintFreqStat(self, level: int, eIdx: int, stat: str):</span>
+    <span class="c1">#     &quot;&quot;&quot;Get the constraints for an evaluation frequency and a particular statistic</span>
+
+    <span class="c1">#     Parameters</span>
+    <span class="c1">#     ----------</span>
+    <span class="c1">#     level : int</span>
+    <span class="c1">#         The decimation level</span>
+    <span class="c1">#     eIdx : int</span>
+    <span class="c1">#         The evaluation frequency index</span>
+
+    <span class="c1">#     &quot;&quot;&quot;</span>
+
+    <span class="c1">#     eFreq = self.evalFreq[level][eIdx]</span>
+    <span class="c1">#     return self.constraints[eFreq][stat]</span>
+
+<div class="viewcode-block" id="MaskData.getMaskWindowsFreq"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.getMaskWindowsFreq">[docs]</a>    <span class="k">def</span> <span class="nf">getMaskWindowsFreq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get a set of the masked windows (used by WindowSelector)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        level : int</span>
+<span class="sd">            The decimation level</span>
+<span class="sd">        eIdx : int</span>
+<span class="sd">            Evaluation Frequency index</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Set[int]</span>
+<span class="sd">            A set with the indices of the masked windows</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">eFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">eIdx</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MaskData.prepareDicts"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.prepareDicts">[docs]</a>    <span class="k">def</span> <span class="nf">prepareDicts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Prepare dictionaries for storing masking information&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">ilevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">ilevel</span><span class="p">]:</span>
+                <span class="c1"># empty set for maskWindows to start off with</span>
+                <span class="c1"># i.e. remove none</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">insideOut</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">insideOut</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="MaskData.resetMaskWindows"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.resetMaskWindows">[docs]</a>    <span class="k">def</span> <span class="nf">resetMaskWindows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Reset/Clear the masked windows&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">ilevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">ilevel</span><span class="p">]:</span>
+                <span class="c1"># empty set for maskWindows to start off with</span>
+                <span class="c1"># i.e. remove none</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MaskData.view"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.view">[docs]</a>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Produces a 2d plot with all the masked windows along the bottom for a decimation level</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        level : int</span>
+<span class="sd">            The decimation level</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">evalFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">level</span><span class="p">]</span>
+        <span class="n">levelMasked</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="n">evalFreq</span><span class="p">:</span>
+            <span class="n">levelMasked</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">])</span>
+        <span class="n">levelMasked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">levelMasked</span><span class="p">)))</span>
+        <span class="n">global2localMap</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">levelMasked</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">global2localMap</span><span class="p">[</span><span class="n">levelMasked</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="n">numFreq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">levelMasked</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">numFreq</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">gI</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]:</span>
+                <span class="n">lI</span> <span class="o">=</span> <span class="n">global2localMap</span><span class="p">[</span><span class="n">gI</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">lI</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># now plot</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">pcolor</span><span class="p">(</span><span class="n">levelMasked</span><span class="p">,</span> <span class="n">numFreq</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">Dark2_r</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MaskData.printList"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : List[str]</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Mask name = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maskName</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sampling frequency = </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Statistics to use for constraints = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Evaluation frequencies [Hz]&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="n">freqForLevel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">il</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="n">freqForLevel</span><span class="p">:</span>
+                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s2">&quot;Decimation level = </span><span class="si">{:d}</span><span class="s2">, Frequency = </span><span class="si">{:.6f}</span><span class="s2"> [Hz], number of masked windows = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">il</span><span class="p">,</span> <span class="n">eFreq</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">])</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="MaskData.printConstraints"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.printConstraints">[docs]</a>    <span class="k">def</span> <span class="nf">printConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Print information about the constraints&quot;&quot;&quot;</span>
+
+        <span class="n">blockPrint</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Constraints&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printConstraintsList</span><span class="p">(),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaskData.printConstraintsList"><a class="viewcode-back" href="../../../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.printConstraintsList">[docs]</a>    <span class="k">def</span> <span class="nf">printConstraintsList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Constraint information as a list of strings</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : List[str]</span>
+<span class="sd">            List of strings with information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">textLst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">evalFreq</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        <span class="k">for</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="n">evalFreq</span><span class="p">:</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Frequency = </span><span class="si">{:.6f}</span><span class="s2"> [Hz]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eFreq</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">:</span>
+                <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Statistic = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stat</span><span class="p">))</span>
+                <span class="c1"># check to see if any constraints</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">No constraints for this statistic&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="c1"># if there are, print out</span>
+                <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">]:</span>
+                    <span class="n">minVal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">maxVal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="se">\t</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">component</span><span class="p">,</span>
+                            <span class="n">minVal</span><span class="p">,</span>
+                            <span class="n">maxVal</span><span class="p">,</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">insideOut</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">],</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+        <span class="k">return</span> <span class="n">textLst</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

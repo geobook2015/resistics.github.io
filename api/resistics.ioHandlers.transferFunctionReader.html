@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.ioHandlers.transferFunctionReader module &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="resistics.ioHandlers.transferFunctionWriter module" href="resistics.ioHandlers.transferFunctionWriter.html" />
+    <link rel="prev" title="resistics.ioHandlers.statisticIO module" href="resistics.ioHandlers.statisticIO.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="resistics.calculators.html">resistics.calculators package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.dataObjects.html">resistics.dataObjects package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="resistics.ioHandlers.html">resistics.ioHandlers package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.calibrationIO.html">resistics.ioHandlers.calibrationIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReader.html">resistics.ioHandlers.dataReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderATS.html">resistics.ioHandlers.dataReaderATS module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderAscii.html">resistics.ioHandlers.dataReaderAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderInternal.html">resistics.ioHandlers.dataReaderInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderPhoenix.html">resistics.ioHandlers.dataReaderPhoenix module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderSpam.html">resistics.ioHandlers.dataReaderSpam module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataWriter.html">resistics.ioHandlers.dataWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataWriterAscii.html">resistics.ioHandlers.dataWriterAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataWriterInternal.html">resistics.ioHandlers.dataWriterInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.ioHandler.html">resistics.ioHandlers.ioHandler module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.maskIO.html">resistics.ioHandlers.maskIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.spectrumReader.html">resistics.ioHandlers.spectrumReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.spectrumWriter.html">resistics.ioHandlers.spectrumWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.statisticIO.html">resistics.ioHandlers.statisticIO module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">resistics.ioHandlers.transferFunctionReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.transferFunctionWriter.html">resistics.ioHandlers.transferFunctionWriter module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.project.html">resistics.project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.utilities.html">resistics.utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="resistics.ioHandlers.html">resistics.ioHandlers package</a> &raquo;</li>
+        
+      <li>resistics.ioHandlers.transferFunctionReader module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/resistics.ioHandlers.transferFunctionReader.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-resistics.ioHandlers.transferFunctionReader">
+<span id="resistics-iohandlers-transferfunctionreader-module"></span><h1>resistics.ioHandlers.transferFunctionReader module<a class="headerlink" href="#module-resistics.ioHandlers.transferFunctionReader" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="resistics.ioHandlers.transferFunctionReader.TransferFunctionReader">
+<em class="property">class </em><code class="descclassname">resistics.ioHandlers.transferFunctionReader.</code><code class="descname">TransferFunctionReader</code><span class="sig-paren">(</span><em>filepath: str = ''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/transferFunctionReader.html#TransferFunctionReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.transferFunctionReader.TransferFunctionReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="resistics.ioHandlers.ioHandler.html#resistics.ioHandlers.ioHandler.IOHandler" title="resistics.ioHandlers.ioHandler.IOHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.ioHandlers.ioHandler.IOHandler</span></code></a></p>
+<p>Class for reading and writing maskData</p>
+<p>Transfer function files are located in:
+project -&gt; transFuncData -&gt; site -&gt; filepath</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Transfer function file</p>
+</dd>
+<dt><strong>headers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">OrderedDict()</span></dt>
+<dd><p class="first last">Transfer function file header information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>__init__(filepath=”“)</strong></td>
+<td>Initialise the transferFunctionReader file read(filepath) Set and read a new transfer function file</td>
+</tr>
+<tr class="row-even"><td><strong>readFile()</strong></td>
+<td>Read the transfer function file</td>
+</tr>
+<tr class="row-odd"><td><strong>readInternal()</strong></td>
+<td>Read internally formatted transfer function files</td>
+</tr>
+<tr class="row-even"><td><strong>formatHeaders()</strong></td>
+<td>Format header values for internally formatted transfer function files</td>
+</tr>
+<tr class="row-odd"><td><strong>readEdi()</strong></td>
+<td>Read Edi formatted tranfer function files</td>
+</tr>
+<tr class="row-even"><td><strong>readNumericBlock(lines)</strong></td>
+<td>Read a numeric block for Edi transfer function files</td>
+</tr>
+<tr class="row-odd"><td><strong>constructComplex(real, imag)</strong></td>
+<td>Construct a complex valued array from arrays of the real and imaginary values of the complex numbers</td>
+</tr>
+<tr class="row-even"><td><strong>printList()</strong></td>
+<td>Class status returned as list of strings</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.constructComplex">
+<code class="descname">constructComplex</code><span class="sig-paren">(</span><em>real</em>, <em>imag</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/transferFunctionReader.html#TransferFunctionReader.constructComplex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.constructComplex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a complex array from separate real and imaginary arrays</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>real</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">An array of the real part of the complex data</p>
+</dd>
+<dt><strong>imag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">An array of the complex part of the complex data</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">Numpy array of complex data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.formatHeaders">
+<code class="descname">formatHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/transferFunctionReader.html#TransferFunctionReader.formatHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.formatHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format  header values for the internal transfer function file format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.printList">
+<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/transferFunctionReader.html#TransferFunctionReader.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.printList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class information as a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of strings with information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>filepath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/transferFunctionReader.html#TransferFunctionReader.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a new file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Filepath to transfer function file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.readEdi">
+<code class="descname">readEdi</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/transferFunctionReader.html#TransferFunctionReader.readEdi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.readEdi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an EDI transfer function file</p>
+<p>EDI files have an &gt;END that signifies the end of the file. This works quite nicely to our advantage when reading an EDI file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TransferFunctionData</strong></dt>
+<dd><p class="first last">Tranfser function data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.readFile">
+<code class="descname">readFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.transferFunctionData.TransferFunctionData<a class="reference internal" href="../_modules/resistics/ioHandlers/transferFunctionReader.html#TransferFunctionReader.readFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.readFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a transfer function file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TransferFunctionData</strong></dt>
+<dd><p class="first last">Tranfser function data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.readInternal">
+<code class="descname">readInternal</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/transferFunctionReader.html#TransferFunctionReader.readInternal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.readInternal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an internally formatted transfer function file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>TransferFunctionData</strong></dt>
+<dd><p class="first last">Tranfser function data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.readNumericBlock">
+<code class="descname">readNumericBlock</code><span class="sig-paren">(</span><em>lines: List[str]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/transferFunctionReader.html#TransferFunctionReader.readNumericBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.transferFunctionReader.TransferFunctionReader.readNumericBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an EDI numeric block</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>lines</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of strings (or the lines in the file) that are a numeric block</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>np.ndarray</strong></dt>
+<dd><p class="first last">Numeric data as a numpy array</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="resistics.ioHandlers.transferFunctionWriter.html" class="btn btn-neutral float-right" title="resistics.ioHandlers.transferFunctionWriter module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="resistics.ioHandlers.statisticIO.html" class="btn btn-neutral float-left" title="resistics.ioHandlers.statisticIO module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

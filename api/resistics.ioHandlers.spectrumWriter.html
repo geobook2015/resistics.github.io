@@ -1,0 +1,544 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.ioHandlers.spectrumWriter module &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="resistics.ioHandlers.statisticIO module" href="resistics.ioHandlers.statisticIO.html" />
+    <link rel="prev" title="resistics.ioHandlers.spectrumReader module" href="resistics.ioHandlers.spectrumReader.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="resistics.calculators.html">resistics.calculators package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.dataObjects.html">resistics.dataObjects package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="resistics.ioHandlers.html">resistics.ioHandlers package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.calibrationIO.html">resistics.ioHandlers.calibrationIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReader.html">resistics.ioHandlers.dataReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderATS.html">resistics.ioHandlers.dataReaderATS module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderAscii.html">resistics.ioHandlers.dataReaderAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderInternal.html">resistics.ioHandlers.dataReaderInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderPhoenix.html">resistics.ioHandlers.dataReaderPhoenix module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderSpam.html">resistics.ioHandlers.dataReaderSpam module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataWriter.html">resistics.ioHandlers.dataWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataWriterAscii.html">resistics.ioHandlers.dataWriterAscii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataWriterInternal.html">resistics.ioHandlers.dataWriterInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.ioHandler.html">resistics.ioHandlers.ioHandler module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.maskIO.html">resistics.ioHandlers.maskIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.spectrumReader.html">resistics.ioHandlers.spectrumReader module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">resistics.ioHandlers.spectrumWriter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.statisticIO.html">resistics.ioHandlers.statisticIO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.transferFunctionReader.html">resistics.ioHandlers.transferFunctionReader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.transferFunctionWriter.html">resistics.ioHandlers.transferFunctionWriter module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.project.html">resistics.project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.utilities.html">resistics.utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="resistics.ioHandlers.html">resistics.ioHandlers package</a> &raquo;</li>
+        
+      <li>resistics.ioHandlers.spectrumWriter module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/resistics.ioHandlers.spectrumWriter.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-resistics.ioHandlers.spectrumWriter">
+<span id="resistics-iohandlers-spectrumwriter-module"></span><h1>resistics.ioHandlers.spectrumWriter module<a class="headerlink" href="#module-resistics.ioHandlers.spectrumWriter" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter">
+<em class="property">class </em><code class="descclassname">resistics.ioHandlers.spectrumWriter.</code><code class="descname">SpectrumWriter</code><span class="sig-paren">(</span><em>datapath: str</em>, <em>refTime: datetime.datetime</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="resistics.ioHandlers.ioHandler.html#resistics.ioHandlers.ioHandler.IOHandler" title="resistics.ioHandlers.ioHandler.IOHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.ioHandlers.ioHandler.IOHandler</span></code></a></p>
+<p>Writes spectra data for measurements</p>
+<p>Spectrum writer writes out spectra data as either binary (recommended) or ascii (more space required). A spectra file should be written out for each decimation level along with an information file, again for each decimation level. A single comments file is written out to record the processing sequence.</p>
+<p>Spectra files are located in:
+project -&gt; specData -&gt; site -&gt; datapath -&gt; spectra data files</p>
+<p>.dat files are ascii formatted data
+.bin files are binary formatted data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>datapath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Data root for spectra data</p>
+</dd>
+<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Filepath for spectra files</p>
+</dd>
+<dt><strong>refTime</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime</span></dt>
+<dd><p class="first last">The reference time for the project</p>
+</dd>
+<dt><strong>file</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">The data file</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="67%" />
+<col width="33%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>__init__(datapath, refTime)</strong></td>
+<td>Initialise the SpectrumWriter</td>
+</tr>
+<tr class="row-even"><td><strong>openBinaryForWriting(filename, fileInc, sampleFreq, winSize, winOverlap, globalOffset, numWindows, channels)</strong></td>
+<td>Open file for writing binary spectra data</td>
+</tr>
+<tr class="row-odd"><td><strong>writeBinary(specData)</strong></td>
+<td>Write out binary spectra data for a single time window</td>
+</tr>
+<tr class="row-even"><td><strong>openAsciiForWriting(filename, fileInc, sampleFreq, winSize, winOverlap, globalOffset, numWindows, channels)</strong></td>
+<td>Open file for writing ascii spectra data</td>
+</tr>
+<tr class="row-odd"><td><strong>writeAscii(specData)</strong></td>
+<td>Write out ascii spectra data for a single time window</td>
+</tr>
+<tr class="row-even"><td><strong>writeInfoFile(filepath, sampleFreq, winSize, winOverlap, globalOffset, numWindows, channels)</strong></td>
+<td>Write out the spectra information file</td>
+</tr>
+<tr class="row-odd"><td><strong>writeCommentsFile(comments)</strong></td>
+<td>Write out the comments file</td>
+</tr>
+<tr class="row-even"><td><strong>getFileBase(filename, fileInc)</strong></td>
+<td>Get the spectra file name</td>
+</tr>
+<tr class="row-odd"><td><strong>closeFile()</strong></td>
+<td>Close spectra data file</td>
+</tr>
+<tr class="row-even"><td><strong>printList()</strong></td>
+<td>Class status returned as list of strings</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter.closeFile">
+<code class="descname">closeFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter.closeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter.closeFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close spectra file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter.getFileBase">
+<code class="descname">getFileBase</code><span class="sig-paren">(</span><em>filename: str</em>, <em>fileInc: int</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter.getFileBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter.getFileBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read comments file from filepath</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename: str</strong></dt>
+<dd><p class="first last">Filename of spectra files</p>
+</dd>
+<dt><strong>fileInc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The decimation level</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter.openAsciiForWriting">
+<code class="descname">openAsciiForWriting</code><span class="sig-paren">(</span><em>filename: str, fileInc: str, sampleFreq: float, winSize: int, winOverlap: int, globalOffset: int, numWindows: int, channels: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter.openAsciiForWriting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter.openAsciiForWriting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write ascii spectrum file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Filename for spectra files</p>
+</dd>
+<dt><strong>fileInc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The decimation level</p>
+</dd>
+<dt><strong>sampleFreq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Sampling frequeny of time data</p>
+</dd>
+<dt><strong>winSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Window size in samples for time data windows</p>
+</dd>
+<dt><strong>winOverlap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Overlap size in samples for time data windows</p>
+</dd>
+<dt><strong>globalOffset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Global offset for local and global indices</p>
+</dd>
+<dt><strong>numWindows</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The number of windows in the time data</p>
+</dd>
+<dt><strong>channels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Channels in data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter.openBinaryForWriting">
+<code class="descname">openBinaryForWriting</code><span class="sig-paren">(</span><em>filename</em>, <em>fileInc</em>, <em>sampleFreq</em>, <em>winSize</em>, <em>winOverlap</em>, <em>globalOffset</em>, <em>numWindows</em>, <em>channels</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter.openBinaryForWriting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter.openBinaryForWriting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write binary spectrum file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Filename for spectra files</p>
+</dd>
+<dt><strong>fileInc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The decimation level</p>
+</dd>
+<dt><strong>sampleFreq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Sampling frequeny of time data</p>
+</dd>
+<dt><strong>winSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Window size in samples for time data windows</p>
+</dd>
+<dt><strong>winOverlap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Overlap size in samples for time data windows</p>
+</dd>
+<dt><strong>globalOffset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Global offset for local and global indices</p>
+</dd>
+<dt><strong>numWindows</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The number of windows in the time data</p>
+</dd>
+<dt><strong>channels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Channels in data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter.printList">
+<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter.printList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class information as a list of strings</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of strings with information</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter.writeAscii">
+<code class="descname">writeAscii</code><span class="sig-paren">(</span><em>specData: resistics.dataObjects.spectrumData.SpectrumData</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter.writeAscii"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter.writeAscii" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write spectrum data to ascii file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>specData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">SpectrumData</span></dt>
+<dd><p class="first last">Spectrum data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter.writeBinary">
+<code class="descname">writeBinary</code><span class="sig-paren">(</span><em>specData</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter.writeBinary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter.writeBinary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write spectrum data to binary file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>specData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">SpectrumData</span></dt>
+<dd><p class="first last">Spectrum data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter.writeCommentsFile">
+<code class="descname">writeCommentsFile</code><span class="sig-paren">(</span><em>comments: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter.writeCommentsFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter.writeCommentsFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write comments file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>comments</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">List of comments</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.spectrumWriter.SpectrumWriter.writeInfoFile">
+<code class="descname">writeInfoFile</code><span class="sig-paren">(</span><em>filepath: str, sampleFreq: float, winSize: int, winOverlap: int, globalOffset: int, numWindows: int, channels: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/spectrumWriter.html#SpectrumWriter.writeInfoFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.spectrumWriter.SpectrumWriter.writeInfoFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write info file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">Filepath for info file</p>
+</dd>
+<dt><strong>sampleFreq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Sampling frequeny of time data</p>
+</dd>
+<dt><strong>winSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Window size in samples for time data windows</p>
+</dd>
+<dt><strong>winOverlap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Overlap size in samples for time data windows</p>
+</dd>
+<dt><strong>globalOffset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Global offset for local and global indices</p>
+</dd>
+<dt><strong>numWindows</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">The number of windows in the time data</p>
+</dd>
+<dt><strong>channels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
+<dd><p class="first last">Channels in data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="resistics.ioHandlers.statisticIO.html" class="btn btn-neutral float-right" title="resistics.ioHandlers.statisticIO module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="resistics.ioHandlers.spectrumReader.html" class="btn btn-neutral float-left" title="resistics.ioHandlers.spectrumReader module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
