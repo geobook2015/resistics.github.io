@@ -172,7 +172,7 @@
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">errorPrint</span>
 
 
-<div class="viewcode-block" id="interpolateToSecond"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsInterp.html#resistics.utilities.utilsInterp.interpolateToSecond">[docs]</a><span class="k">def</span> <span class="nf">interpolateToSecond</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+<div class="viewcode-block" id="interpolateToSecond"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsInterp.html#resistics.utilities.utilsInterp.interpolateToSecond">[docs]</a><span class="k">def</span> <span class="nf">interpolateToSecond</span><span class="p">(</span><span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Interpolate data to be on the second</span>
 
 <span class="sd">    Some formats of time data (e.g. SPAM) do not start on the second with their sampling. This method interpolates so that sampling starts on the second and improves interoperability with other recording formats. </span>
@@ -181,6 +181,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    timeData : TimeData</span>
 <span class="sd">        Time data to interpolate onto the second</span>
+<span class="sd">    inplace :  bool, optional</span>
+<span class="sd">        Whether to do the interpolation inplace or not. Default is True.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -191,6 +193,8 @@
     <span class="n">startTimeInterp</span><span class="p">,</span> <span class="n">numSamplesInterp</span><span class="p">,</span> <span class="n">dataInterp</span> <span class="o">=</span> <span class="n">interpolateToSecondData</span><span class="p">(</span>
         <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">timeData</span><span class="o">.</span><span class="n">startTime</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">numSamples</span> <span class="o">=</span> <span class="n">numSamplesInterp</span>
     <span class="n">timeData</span><span class="o">.</span><span class="n">startTime</span> <span class="o">=</span> <span class="n">startTimeInterp</span>
     <span class="c1"># calculate end timeEnd</span>
