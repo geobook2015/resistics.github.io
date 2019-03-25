@@ -180,6 +180,61 @@
             
   <div class="section" id="rsp-calibration">
 <h1>RSP Calibration<a class="headerlink" href="#rsp-calibration" title="Permalink to this headline">¶</a></h1>
+<p>Metronix calibration files are ASCII files with some metadata and calibration information for when the induction coil is operating with either chopper on or chopper off.</p>
+<p>The units of metronix calibration files are interpreted to be:</p>
+<ul class="simple">
+<li>Frequency in Hz</li>
+<li>Magnitude in mV/(nT*Hz)</li>
+<li>Phase in degrees</li>
+</ul>
+<div class="section" id="naming-in-the-project-environment">
+<h2>Naming in the project environment<a class="headerlink" href="#naming-in-the-project-environment" title="Permalink to this headline">¶</a></h2>
+<p>When using the project environment, resistics automatically searches for calibration files in the calData folder.
+Metronix files should be named according to the following specification:</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>[SENSOR][SERIAL].txt</p>
+<p class="last">Where SENSOR is the sensor type and SERIAL is the sensor serial number</p>
+</div>
+<p>As an example, consider an induction coil with:</p>
+<ul class="simple">
+<li>sensor type MFS06</li>
+<li>sensor serial number 365</li>
+</ul>
+<p>Then the file should be named</p>
+</div>
+<div class="section" id="complete-example-script">
+<h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the example script in full.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationData</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="c1"># read RSP calibration data with chopper off</span>
+<span class="c1"># these can often be broadband</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;Metronix_Coil-----TYPE-006_BB-ID-000307.RSP&quot;</span><span class="p">)</span>
+<span class="n">calIO</span> <span class="o">=</span> <span class="n">CalibrationIO</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rsp&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">calData</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">calData</span><span class="p">)</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;rsp BB&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -319,6 +374,7 @@
       0.00001000       0.00000250      89.99985504
 </pre></div>
 </td></tr></table></div>
+</div>
 </div>
 
 

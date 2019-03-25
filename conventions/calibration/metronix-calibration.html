@@ -180,6 +180,130 @@
             
   <div class="section" id="metronix-calibration">
 <h1>Metronix Calibration<a class="headerlink" href="#metronix-calibration" title="Permalink to this headline">¶</a></h1>
+<p>Metronix calibration files are ASCII files with some metadata and calibration information for when the induction coil is operating with either chopper on or chopper off.</p>
+<p>The units of metronix calibration files are interpreted to be:</p>
+<ul class="simple">
+<li>Frequency in Hz</li>
+<li>Magnitude in mV/(nT*Hz)</li>
+<li>Phase in degrees</li>
+</ul>
+<div class="section" id="naming-in-the-project-environment">
+<h2>Naming in the project environment<a class="headerlink" href="#naming-in-the-project-environment" title="Permalink to this headline">¶</a></h2>
+<p>When using the project environment, resistics automatically searches for calibration files in the calData folder.
+Metronix files should be named according to the following specification:</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>[SENSOR][SERIAL].txt</p>
+<p class="last">Where SENSOR is the sensor type and SERIAL is the sensor serial number</p>
+</div>
+<p>As an example, consider an induction coil with:</p>
+<ul class="simple">
+<li>sensor type MFS06</li>
+<li>sensor serial number 365</li>
+</ul>
+<p>Then the file should be named</p>
+</div>
+<div class="section" id="complete-example-script">
+<h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the example script in full.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationData</span>
+
+<span class="c1"># read metronix calibration data with chopper off</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz_MFS06307.TXT&quot;</span><span class="p">)</span>
+<span class="n">calIO</span> <span class="o">=</span> <span class="n">CalibrationIO</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;metronix&quot;</span><span class="p">,</span> <span class="n">chopper</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">calDataChopperOff</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">calDataChopperOff</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># plot</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calDataChopperOff</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Chopper off&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationMetronixChopperOff.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># extend True</span>
+<span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;metronix&quot;</span><span class="p">,</span> <span class="n">chopper</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calDataExtend</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">calDataExtend</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># plot the two together</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calDataExtend</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Chopper off, Extend True&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calDataChopperOff</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Chopper off&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationMetronixExtend.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># read in the chopper on</span>
+<span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;metronix&quot;</span><span class="p">,</span> <span class="n">chopper</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">calDataChopperOn</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">calDataChopperOn</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># plot the three together</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calDataChopperOff</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Chopper off&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calDataChopperOn</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Chopper on&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationMetronixChopperOn.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># write as the ASCII format</span>
+<span class="n">calIO</span><span class="o">.</span><span class="n">writeInternalFormat</span><span class="p">(</span><span class="n">calDataChopperOn</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;test.TXT&quot;</span><span class="p">))</span>
+
+</pre></div>
+</td></tr></table></div>
+<p>The calibration file the script is reading.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
   2
   3
@@ -397,6 +521,7 @@ Chopper Off
 +1.0000E+04  +5.4489E-05  -5.5006E+01    
 </pre></div>
 </td></tr></table></div>
+</div>
 </div>
 
 
