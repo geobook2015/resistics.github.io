@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
@@ -191,7 +192,7 @@
 <span id="resistics-dataobjects-calibrationdata-module"></span><h1>resistics.dataObjects.calibrationData module<a class="headerlink" href="#module-resistics.dataObjects.calibrationData" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.dataObjects.calibrationData.CalibrationData">
-<em class="property">class </em><code class="descclassname">resistics.dataObjects.calibrationData.</code><code class="descname">CalibrationData</code><span class="sig-paren">(</span><em>filename: str</em>, <em>freqs: numpy.ndarray</em>, <em>magnitude: numpy.ndarray</em>, <em>phase: numpy.ndarray</em>, <em>staticGain: float = 1</em>, <em>chopper: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/dataObjects/calibrationData.html#CalibrationData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.dataObjects.calibrationData.CalibrationData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">resistics.dataObjects.calibrationData.</code><code class="descname">CalibrationData</code><span class="sig-paren">(</span><em>filename: str</em>, <em>freqs: numpy.ndarray</em>, <em>magnitude: numpy.ndarray</em>, <em>phase: numpy.ndarray</em>, <em>staticGain: float = 1</em>, <em>chopper: bool = False</em>, <em>serial: int = 1</em>, <em>sensor: str = ''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/dataObjects/calibrationData.html#CalibrationData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.dataObjects.calibrationData.CalibrationData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.dataObjects.dataObject.html#resistics.dataObjects.dataObject.DataObject" title="resistics.dataObjects.dataObject.DataObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.dataObjects.dataObject.DataObject</span></code></a></p>
 <p>Class for holding calibration data</p>
 <p>Calibration data should be given in the frequency domain and has a magnitude and phase component (in radians). Calibration data is the impulse response for an instrument or sensor and is usually deconvolved (division in frequency domain) from the time data.</p>
@@ -239,10 +240,10 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>__init__(kwargs)</strong></td>
-<td>Initialise the time data</td>
+<td>Initialise the calibration data</td>
 </tr>
 <tr class="row-even"><td><strong>view(kwargs)</strong></td>
-<td>View the spectra data</td>
+<td>View the calibration data</td>
 </tr>
 <tr class="row-odd"><td><strong>printList()</strong></td>
 <td>Class status returned as list of strings</td>
@@ -277,6 +278,12 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>staticgain</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Boolean flag for having static gain on, default is True</p>
+</dd>
+<dt><strong>degrees</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">Plot phase in degreesm default is False</p>
+</dd>
 <dt><strong>fig</strong> <span class="classifier-delimiter">:</span> <span class="classifier">matplotlib.pyplot.figure, optional</span></dt>
 <dd><p class="first last">A figure object</p>
 </dd>

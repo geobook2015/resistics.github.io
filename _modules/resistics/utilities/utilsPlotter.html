@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
@@ -176,6 +177,42 @@
 
 <span class="c1"># import from package</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsChecks</span> <span class="k">import</span> <span class="n">parseKeywords</span>
+
+
+<div class="viewcode-block" id="savePlot"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsPlotter.html#resistics.utilities.utilsPlotter.savePlot">[docs]</a><span class="k">def</span> <span class="nf">savePlot</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fig</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Save plot whilst checking for overwriting</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str</span>
+<span class="sd">        The path to save the file</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Filename to save to</span>
+<span class="sd">    fig : plt.figure   </span>
+<span class="sd">        Matplotlig figure to save</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The filename written out to</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">import</span> <span class="nn">os</span>
+
+    <span class="n">filenameForWriting</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="n">fileExists</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">fileExists</span><span class="p">:</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filenameForWriting</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+            <span class="n">filenameForWriting</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">counter</span><span class="p">)</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fileExists</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">break</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filenameForWriting</span><span class="p">))</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">filenameForWriting</span></div>
 
 
 <div class="viewcode-block" id="getPlotRowsAndCols"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsPlotter.html#resistics.utilities.utilsPlotter.getPlotRowsAndCols">[docs]</a><span class="k">def</span> <span class="nf">getPlotRowsAndCols</span><span class="p">(</span><span class="n">maxCols</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">numPlots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>

@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
@@ -263,7 +264,7 @@
     <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sensor</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="rspName"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsCalibrate.html#resistics.utilities.utilsCalibrate.rspName">[docs]</a><span class="k">def</span> <span class="nf">rspName</span><span class="p">(</span><span class="n">ext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">chopper</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="rspName"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsCalibrate.html#resistics.utilities.utilsCalibrate.rspName">[docs]</a><span class="k">def</span> <span class="nf">rspName</span><span class="p">(</span><span class="n">ext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">chopper</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Get RSP calibration file name</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -279,8 +280,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    out : str</span>
-<span class="sd">        Name of calibration file</span>
+<span class="sd">    out : List[str]</span>
+<span class="sd">        Name of calibration files</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sensor</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
@@ -291,12 +292,13 @@
     <span class="k">if</span> <span class="n">chopper</span><span class="p">:</span>
         <span class="n">board</span> <span class="o">=</span> <span class="s2">&quot;LF&quot;</span>
     <span class="n">sensorNum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sensor</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
-    <span class="k">return</span> <span class="s2">&quot;Metronix_Coil-----TYPE-</span><span class="si">{:03d}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">-ID-</span><span class="si">{:06d}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">sensorNum</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span>
-    <span class="p">)</span></div>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;TYPE-</span><span class="si">{:03d}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">-ID-</span><span class="si">{:06d}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sensorNum</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span><span class="p">))</span>
+    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;TYPE-</span><span class="si">{:03d}</span><span class="s2">_BB-ID-</span><span class="si">{:06d}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sensorNum</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">names</span></div>
 
 
-<div class="viewcode-block" id="rspxName"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsCalibrate.html#resistics.utilities.utilsCalibrate.rspxName">[docs]</a><span class="k">def</span> <span class="nf">rspxName</span><span class="p">(</span><span class="n">ext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">chopper</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="rspxName"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsCalibrate.html#resistics.utilities.utilsCalibrate.rspxName">[docs]</a><span class="k">def</span> <span class="nf">rspxName</span><span class="p">(</span><span class="n">ext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">chopper</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Get RSPX calibration file name</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -312,8 +314,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    out : str</span>
-<span class="sd">        Name of calibration file</span>
+<span class="sd">    out : List[str]</span>
+<span class="sd">        Name of calibration files</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sensor</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
@@ -324,9 +326,10 @@
     <span class="k">if</span> <span class="n">chopper</span><span class="p">:</span>
         <span class="n">board</span> <span class="o">=</span> <span class="s2">&quot;LF&quot;</span>
     <span class="n">sensorNum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sensor</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
-    <span class="k">return</span> <span class="s2">&quot;Metronix_Coil-----TYPE-</span><span class="si">{:03d}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">-ID-</span><span class="si">{:06d}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">sensorNum</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span>
-    <span class="p">)</span></div>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;TYPE-</span><span class="si">{:03d}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">-ID-</span><span class="si">{:06d}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sensorNum</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span><span class="p">))</span>
+    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;TYPE-</span><span class="si">{:03d}</span><span class="s2">_BB-ID-</span><span class="si">{:06d}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sensorNum</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">ext</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">names</span></div>
 
 
 <div class="viewcode-block" id="defaultCalibration"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsCalibrate.html#resistics.utilities.utilsCalibrate.defaultCalibration">[docs]</a><span class="k">def</span> <span class="nf">defaultCalibration</span><span class="p">():</span>

@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
@@ -180,7 +181,11 @@
 <span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="k">import</span> <span class="n">getMaskData</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsIO</span> <span class="k">import</span> <span class="n">fileFormatSampleFreq</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">listToString</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="k">import</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPlotRowsAndCols</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">savePlot</span><span class="p">,</span>
+    <span class="n">plotOptionsSpec</span><span class="p">,</span>
+    <span class="n">getPlotRowsAndCols</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsChecks</span> <span class="k">import</span> <span class="n">parseKeywords</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsStats</span> <span class="k">import</span> <span class="n">getStatElements</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="k">import</span> <span class="p">(</span>
@@ -669,7 +674,7 @@
             <span class="n">clim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;clim&quot;</span><span class="p">],</span>
             <span class="n">label</span><span class="o">=</span><span class="n">meas</span><span class="p">,</span>
             <span class="n">plotfonts</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">],</span>
-            <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span>
+            <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="c1"># add a legened</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -681,13 +686,9 @@
         <span class="p">),</span>
         <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">],</span>
     <span class="p">)</span>
-    <span class="n">st</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="mf">0.98</span><span class="p">)</span>
 
-    <span class="c1"># plot format</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.90</span><span class="p">)</span>
-
-    <span class="c1"># plot show and save</span>
+    <span class="c1"># plot format, show and save</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">])</span>      
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;save&quot;</span><span class="p">]:</span>
         <span class="n">impath</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">imagePath</span>
         <span class="n">sampleFreqStr</span> <span class="o">=</span> <span class="n">fileFormatSampleFreq</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">)</span>
@@ -701,9 +702,8 @@
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;maskname&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;maskname&quot;</span><span class="p">])</span>
-        <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">impath</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-        <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="n">savename</span> <span class="o">=</span> <span class="n">savePlot</span><span class="p">(</span><span class="n">impath</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fig</span><span class="p">)</span>
+        <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">savename</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;show&quot;</span><span class="p">]:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;block&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">fig</span></div>
@@ -831,11 +831,8 @@
         <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
             <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisTicks&quot;</span><span class="p">])</span>
 
-    <span class="c1"># plot format</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.90</span><span class="p">)</span>
-
-    <span class="c1"># plot show and save</span>
+    <span class="c1"># plot format, show and save</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">])</span>     
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;save&quot;</span><span class="p">]:</span>
         <span class="n">impath</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">imagePath</span>
         <span class="n">sampleFreqStr</span> <span class="o">=</span> <span class="n">fileFormatSampleFreq</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">)</span>
@@ -848,10 +845,9 @@
             <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;maskname&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;maskname&quot;</span><span class="p">])</span>        
-        <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">impath</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-        <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;maskname&quot;</span><span class="p">])</span>
+        <span class="n">savename</span> <span class="o">=</span> <span class="n">savePlot</span><span class="p">(</span><span class="n">impath</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fig</span><span class="p">)</span>
+        <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">savename</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;show&quot;</span><span class="p">]:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;block&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">fig</span></div>

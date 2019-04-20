@@ -91,11 +91,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="project-environment.html">The project environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viewing-data.html">Viewing timeseries data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="up-and-running.html">Up and running</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tipper.html">Calculating the Tipper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tipper.html">Calculating the tipper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viewing-spectra.html">Viewing spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple-spectra.html">Multiple spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration-files.html">Using configuration files</a></li>
@@ -180,6 +181,196 @@
             
   <div class="section" id="processing-with-masks">
 <h1>Processing with masks<a class="headerlink" href="#processing-with-masks" title="Permalink to this headline">¶</a></h1>
+<p>Now that statistics and masks have been calculated, the final step is to include those masks in the transfer function calculation. There is a simple addition to the standard transfer function calculation workflow presented in <a class="reference internal" href="up-and-running.html"><span class="doc">Up and running</span></a> and <a class="reference internal" href="tipper.html"><span class="doc">Tippers</span></a>.</p>
+<p>As always, load the project.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1"># load project and configuration file</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now perform the transfer function calculation with the addition of a mask.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Process the data with this mask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100&quot;</span><span class="p">},</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The elements of note in this code block are:</p>
+<ul class="simple">
+<li>masks keyword. A mask needs to be associated with a site and provided in a dictionary. More than a single mask file can be supplied for a site by passing a list of masks.</li>
+<li>postpend keyword. This is the postpend on the output transfer function data file to avoid overwriting existing transfer function calculation files.</li>
+</ul>
+<p>The resultant impedance tensor result can be visualised in the same way as demonstrated in previous secitons.</p>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="../_images/stat_statData_coherence_view.png" />
+<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span></p>
+</div>
+<p>Repeating the process for the mask with additional transfer function constraints gives:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">processProject</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">},</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id2">
+<img alt="alternate text" src="../_images/stat_statData_coherence_view.png" />
+<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This was the last section of the tutorial. To explore more advanced use cases or user provided examples, please visit the <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> and <a class="reference internal" href="../cookbook.html"><span class="doc">Cookbook</span></a> sections respectively.</p>
+</div>
+<div class="section" id="complete-example-script">
+<h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the complete example script is provided below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1"># load project and configuration file</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
+
+<span class="c1"># Process the data with this mask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100&quot;</span><span class="p">},</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span>
+
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">},</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 
 

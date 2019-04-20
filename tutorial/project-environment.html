@@ -91,11 +91,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">The project environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viewing-data.html">Viewing timeseries data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="up-and-running.html">Up and running</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tipper.html">Calculating the Tipper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tipper.html">Calculating the tipper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viewing-spectra.html">Viewing spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple-spectra.html">Multiple spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration-files.html">Using configuration files</a></li>
@@ -185,8 +186,11 @@
 <li>A path for the new project</li>
 <li>A reference time for the new project</li>
 </ul>
-<p>The reference time should be a time before any time data was recorded and gives a reference point for time windowing the entire project.</p>
-<p>Below is an example of setting up a new project in the folder exampleProject. The newProject method create new folders as required and returns a <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a> object which holds the project information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The reference time should be a time before any time data was recorded and gives a reference point for time windowing the entire project.</p>
+</div>
+<p>Below is an example of setting up a new project in the folder tutorialProject. The <a class="reference internal" href="../api/resistics.project.projectIO.html#resistics.project.projectIO.newProject" title="resistics.project.projectIO.newProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">newProject()</span></code></a> method create new folders as required and returns a <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a> object which holds the project information.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -208,14 +212,14 @@
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>Project information can be viewed by calling the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">projData</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">printInfo</span></span><span class="punctuation"><span class="pre">()</span></span></code> method or by simply <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">print</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">projData</span></span><span class="punctuation"><span class="pre">)</span></span></code>.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>12:34:03 ProjectData: Time data path = exampleProject\timeData
-12:34:03 ProjectData: Spectra data path = exampleProject\specData
-12:34:03 ProjectData: Statistics data path = exampleProject\statData
-12:34:03 ProjectData: Mask data path = exampleProject\maskData
-12:34:03 ProjectData: TransFunc data path = exampleProject\transFuncData
-12:34:03 ProjectData: Calibration data path = exampleProject\calData
-12:34:03 ProjectData: Images data path = exampleProject\images
+<p>Project information can be viewed by calling the <a class="reference internal" href="../api/resistics.dataObjects.dataObject.html#resistics.dataObjects.dataObject.DataObject.printInfo" title="resistics.dataObjects.dataObject.DataObject.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method or by simply <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">print</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">projData</span></span><span class="punctuation"><span class="pre">)</span></span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>12:34:03 ProjectData: Time data path = tutorialProject\timeData
+12:34:03 ProjectData: Spectra data path = tutorialProject\specData
+12:34:03 ProjectData: Statistics data path = tutorialProject\statData
+12:34:03 ProjectData: Mask data path = tutorialProject\maskData
+12:34:03 ProjectData: TransFunc data path = tutorialProject\transFuncData
+12:34:03 ProjectData: Calibration data path = tutorialProject\calData
+12:34:03 ProjectData: Images data path = tutorialProject\images
 12:34:03 ProjectData: Reference time = 2012-02-10 00:00:00
 12:34:03 ProjectData: Project start time = 2019-03-03 12:34:03.709213
 12:34:03 ProjectData: Project stop time = 2019-03-03 12:34:03.709213
@@ -223,8 +227,8 @@
 12:34:03 ProjectData: Sampling frequencies found in project (Hz):
 </pre></div>
 </div>
-<p>Within the folder exampleProject, Resistics creates another set of folders as shown below:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exampleProject
+<p>Within the folder tutorialProject, resistics creates another set of folders as shown below:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>tutorialProject
 ├── calData : directory for storing calibration files
 ├── timeData : directory where time data should be stored
 ├── specData : directory where spectra data is saved
@@ -235,18 +239,25 @@
 └── mtProj.prj : the project file which allows reloading of a project
 </pre></div>
 </div>
-<p>The mtProj.prj project file stores some information about the project allowing it to be reloaded easily. It is a text file and can be opened in a text editor such as notepad or notepad++. For this exampleProject, the mtProj.prj file looks like:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Calibration data path = exampleProject\calData
-Time data path = exampleProject\timeData
-Spectra data path = exampleProject\specData
-Statistics data path = exampleProject\statData
-Mask data path = exampleProject\maskData
-TransFunc data path = exampleProject\transFuncData
-Image data path = exampleProject\images
+<p>The mtProj.prj project file stores some information about the project allowing it to be reloaded easily. It is a text file and can be opened in a text editor such as notepad or notepad++. For this tutorialProject, the mtProj.prj file looks like:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Calibration data path = tutorialProject\calData
+Time data path = tutorialProject\timeData
+Spectra data path = tutorialProject\specData
+Statistics data path = tutorialProject\statData
+Mask data path = tutorialProject\maskData
+TransFunc data path = tutorialProject\transFuncData
+Image data path = tutorialProject\images
 Reference time = 2012-02-10 00:00:00
 </pre></div>
-</div>
-<p>The next step is to create a directory for a new site. This can be done using <code class="code python docutils literal notranslate"><span class="name"><span class="pre">projData</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">createSite</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">siteName</span></span><span class="punctuation"><span class="pre">)</span></span></code>. However, printing the project information again still shows zero sites. This is because only folders with timeseries data in them are counted as sites.</p>
+</td></tr></table></div>
+<p>The next step is to create a directory for a new site. This can be done using the <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData.createSite" title="resistics.dataObjects.projectData.ProjectData.createSite"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createSite()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>. However, printing the project information again still shows zero sites. This is because only folders with timeseries data in them are counted as sites.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
 12
 13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># create a new site</span>
@@ -255,7 +266,7 @@ Reference time = 2012-02-10 00:00:00
 </pre></div>
 </td></tr></table></div>
 <p>Creating a new site only involves creating a new directory. This can also be done manually in the timeData folder.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exampleProject
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>tutorialProject
 ├── calData
 ├── timeData
 │   └── site1
@@ -268,7 +279,7 @@ Reference time = 2012-02-10 00:00:00
 </pre></div>
 </div>
 <p>Once a project has been created, timeseries data should be added to the timeData directory under a site directory.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exampleProject
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>tutorialProject
 ├── calData
 ├── timeData
 │   └── site1
@@ -285,6 +296,15 @@ Reference time = 2012-02-10 00:00:00
 ├── images
 └── mtProj.prj
 </pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>Time data folders should start with one of the following:</p>
+<ul class="last simple">
+<li>meas</li>
+<li>run</li>
+<li>phnx</li>
+</ul>
 </div>
 <p>Once a project has been created and a site populated with data folders, the project can be loaded. It will automatically pick up the new files. Please see the <a class="reference internal" href="../conventions.html"><span class="doc">conventions</span></a> section is your data is not being picked up</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -305,13 +325,13 @@ Reference time = 2012-02-10 00:00:00
 </pre></div>
 </td></tr></table></div>
 <p>Printing the project information now that there is a site with data shows the number of sites found and their start and end dates.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>13:01:50 ProjectData: Time data path = exampleProject\timeData
-13:01:50 ProjectData: Spectra data path = exampleProject\specData
-13:01:50 ProjectData: Statistics data path = exampleProject\statData
-13:01:50 ProjectData: Mask data path = exampleProject\maskData
-13:01:50 ProjectData: TransFunc data path = exampleProject\transFuncData
-13:01:50 ProjectData: Calibration data path = exampleProject\calData
-13:01:50 ProjectData: Images data path = exampleProject\images
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>13:01:50 ProjectData: Time data path = tutorialProject\timeData
+13:01:50 ProjectData: Spectra data path = tutorialProject\specData
+13:01:50 ProjectData: Statistics data path = tutorialProject\statData
+13:01:50 ProjectData: Mask data path = tutorialProject\maskData
+13:01:50 ProjectData: TransFunc data path = tutorialProject\transFuncData
+13:01:50 ProjectData: Calibration data path = tutorialProject\calData
+13:01:50 ProjectData: Images data path = tutorialProject\images
 13:01:50 ProjectData: Reference time = 2012-02-10 00:00:00
 13:01:50 ProjectData: Project start time = 2012-02-10 11:05:00.000000
 13:01:50 ProjectData: Project stop time = 2012-02-11 23:03:43.992188
@@ -320,7 +340,7 @@ Reference time = 2012-02-10 00:00:00
 13:01:50 ProjectData: Sampling frequencies found in project (Hz): 128.0, 4096.0
 </pre></div>
 </div>
-<p>Another useful function is to view the project timeline. This can be done with <code class="code python docutils literal notranslate"><span class="name"><span class="pre">projData</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">view</span></span><span class="punctuation"><span class="pre">()</span></span></code>.</p>
+<p>Another useful function is to view the project timeline. This can be done with the <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData.view" title="resistics.dataObjects.projectData.ProjectData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>10
 11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the project timeline</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
@@ -328,9 +348,9 @@ Reference time = 2012-02-10 00:00:00
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
 <img alt="alternate text" src="../_images/projectTimeline.png" />
-<p class="caption"><span class="caption-text">The exampleProject timeline</span></p>
+<p class="caption"><span class="caption-text">The tutorialProject timeline</span></p>
 </div>
-<p>Site information can be accessed by using <code class="code python docutils literal notranslate"><span class="name"><span class="pre">projData</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">getSiteData</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">siteName</span></span><span class="punctuation"><span class="pre">)</span></span></code>. <a class="reference internal" href="../api/resistics.dataObjects.siteData.html#resistics.dataObjects.siteData.SiteData" title="resistics.dataObjects.siteData.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a> objects hold information about sites which can be printed in the same way as project information.</p>
+<p>Site information can be accessed by using the <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData.getSiteData" title="resistics.dataObjects.projectData.ProjectData.getSiteData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getSiteData()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>. This returns a  <a class="reference internal" href="../api/resistics.dataObjects.siteData.html#resistics.dataObjects.siteData.SiteData" title="resistics.dataObjects.siteData.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a> object, which holds information about sites. Site information can be printed to the terminal in the same way as project information.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
 14
 15
@@ -341,10 +361,10 @@ Reference time = 2012-02-10 00:00:00
 </pre></div>
 </td></tr></table></div>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>13:51:26 SiteData: Site = site1
-13:51:26 SiteData: Time data path = exampleProject\timeData\site1
-13:51:26 SiteData: Spectra data path = exampleProject\specData\site1
-13:51:26 SiteData: Statistics data path = exampleProject\statData\site1
-13:51:26 SiteData: TransFunc data path = exampleProject\transFuncData\site1
+13:51:26 SiteData: Time data path = tutorialProject\timeData\site1
+13:51:26 SiteData: Spectra data path = tutorialProject\specData\site1
+13:51:26 SiteData: Statistics data path = tutorialProject\statData\site1
+13:51:26 SiteData: TransFunc data path = tutorialProject\transFuncData\site1
 13:51:26 SiteData: Site start time = 2012-02-10 11:05:00
 13:51:26 SiteData: Site stop time = 2012-02-11 23:03:43.992188
 13:51:26 SiteData: Sampling frequencies recorded = 128.00000000, 4096.00000000
@@ -354,10 +374,78 @@ Reference time = 2012-02-10 00:00:00
 13:51:26 SiteData: meas_2012-02-10_11-30-00             128.0           2012-02-10 11:30:00         2012-02-11 23:03:43.992188
 </pre></div>
 </div>
-<p>Site timelines can also be viewed using <code class="code python docutils literal notranslate"><span class="name"><span class="pre">siteData</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">view</span></span><span class="punctuation"><span class="pre">()</span></span></code>.</p>
+<p>Site timelines can also be viewed using <a class="reference internal" href="../api/resistics.dataObjects.siteData.html#resistics.dataObjects.siteData.SiteData.view" title="resistics.dataObjects.siteData.SiteData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.siteData.html#resistics.dataObjects.siteData.SiteData" title="resistics.dataObjects.siteData.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a>.</p>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../_images/siteTimeline.png" />
 <p class="caption"><span class="caption-text">The site timeline</span></p>
+</div>
+<div class="section" id="complete-example-scripts">
+<h2>Complete example scripts<a class="headerlink" href="#complete-example-scripts" title="Permalink to this headline">¶</a></h2>
+<p>For clarity, the complete example scripts are provided here.</p>
+<p>The create project script:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+
+<span class="c1"># define project path</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="c1"># define reference time for project</span>
+<span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2012-02-10 00:00:00&quot;</span>
+<span class="c1"># create a new project and print infomation</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">newProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">referenceTime</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="c1"># create a new site</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+</pre></div>
+</td></tr></table></div>
+<p>The load project script:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1"># define project path</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="c1"># load the project and print infomation</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># view the project timeline</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+
+<span class="c1"># get site data</span>
+<span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
+<span class="n">siteData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="n">siteData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
 </div>
 </div>
 

@@ -1,0 +1,792 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Processing ASCII data &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API reference" href="../modules.html" />
+    <link rel="prev" title="Cookbook" href="../cookbook.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../cookbook.html">Cookbook</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Processing ASCII data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../cookbook.html">Cookbook</a> &raquo;</li>
+        
+      <li>Processing ASCII data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/cookbook/ascii-project.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="processing-ascii-data">
+<h1>Processing ASCII data<a class="headerlink" href="#processing-ascii-data" title="Permalink to this headline">¶</a></h1>
+<p>There are instances in which magnetotelluric time series data is better dealt with in ASCII format. ASCII format has some storage and efficiency costs, but does offer a method of last resort when either a data format is not supported or ASCII data is all that is available. To read more about the ASCII data format, see <a class="reference internal" href="../formats/timeseries/ascii-timeseries.html"><span class="doc">here</span></a>.</p>
+<p>The following is an example of processing long-period ASCII data from a magnotelluric observatory, recorded by a LEMI device.</p>
+<p>There are five data files, one for each channel:</p>
+<ul class="simple">
+<li>bxnT.ascii</li>
+<li>bynT.ascii</li>
+<li>bznT.ascii</li>
+<li>exmuVm.ascii</li>
+<li>eymuVm.ascii</li>
+</ul>
+<p>The data files can be downloaded from <a class="reference external" href="https://1drv.ms/f/s!ApKs8ZhVotKMgR6lVt3iI4cR6QUg">here</a> for those interested in following along.</p>
+<p>The magnetic fields are in nT, which is the unit required by resistics (after calibration).</p>
+<p>The electric fields are in microvolts per metre, which is the equivalent of mV/km, again the unit required by resistics.</p>
+<p>To begin, a new project and site is created.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+
+<span class="c1"># define project path</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
+<span class="c1"># define reference time for project</span>
+<span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2018-01-01 00:00:00&quot;</span>
+<span class="c1"># create a new project and print infomation</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">newProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">referenceTime</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="c1"># create a new site</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+
+</pre></div>
+</td></tr></table></div>
+<p>This is a single site, therefore, the reference time is of little significance. A dummy reference time has been set for the data.</p>
+<p>Under the site directory, a time series measurement directory needs to be created. This is a simple job of making a new directory, in this case named “meas”. The data files should be copied into this directory.</p>
+<p>After the project, site and measurement directory have been created, the data has to be prepared to be read in by resistics. This is achieved by using the <a class="reference internal" href="../api/resistics.ioHandlers.dataWriter.html#resistics.ioHandlers.dataWriter.DataWriter.writeTemplateHeaderFiles" title="resistics.ioHandlers.dataWriter.DataWriter.writeTemplateHeaderFiles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeTemplateHeaderFiles()</span></code></a> method of the class <a class="reference internal" href="../api/resistics.ioHandlers.dataWriter.html#resistics.ioHandlers.dataWriter.DataWriter" title="resistics.ioHandlers.dataWriter.DataWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataWriter</span></code></a>.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriter</span> <span class="kn">import</span> <span class="n">DataWriter</span>
+
+<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">,</span> <span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas&quot;</span><span class="p">)</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriter</span><span class="p">()</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
+<span class="n">chan2FileMap</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="s2">&quot;exmuVm.ascii&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Ey&quot;</span><span class="p">:</span> <span class="s2">&quot;eymuVm.ascii&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Hx&quot;</span><span class="p">:</span> <span class="s2">&quot;bxnT.ascii&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="s2">&quot;bynT.ascii&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Hz&quot;</span><span class="p">:</span> <span class="s2">&quot;bznT.ascii&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">startDate</span> <span class="o">=</span> <span class="s2">&quot;2018-01-01 12:00:00&quot;</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">writeTemplateHeaderFiles</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span> <span class="n">chan2FileMap</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">430000</span><span class="p">,</span> <span class="n">startDate</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <a class="reference internal" href="../api/resistics.ioHandlers.dataWriter.html#resistics.ioHandlers.dataWriter.DataWriter.writeTemplateHeaderFiles" title="resistics.ioHandlers.dataWriter.DataWriter.writeTemplateHeaderFiles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeTemplateHeaderFiles()</span></code></a> creates dummy header files for the ASCII data allowing resistics to read it in appropriately. The dummy files it creates are:</p>
+<ul class="simple">
+<li>chan_00.hdr</li>
+<li>chan_01.hdr</li>
+<li>chan_02.hdr</li>
+<li>chan_03.hdr</li>
+<li>chan_04.hdr</li>
+<li>global.hdr</li>
+</ul>
+<p>For a more in depth look at what is being done here, refer to <a class="reference internal" href="../formats/timeseries/ascii-timeseries.html"><span class="doc">ASCII time series</span></a>, which uses the same files to demonstrate ASCII data support in resistics.</p>
+<p>The time series is now ready to be read in. In the below code block, the project and site timelines are plotted, giving two images, and then the time series is visualised.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1"># load the project</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+
+<span class="c1"># view site data</span>
+<span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
+<span class="n">siteData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
+
+<span class="n">viewTime</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;2018-01-03 00:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2018-01-04 00:00:00&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The next step is to calculate out the spectra.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate spectrum using standard options</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+
+<span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">calibrate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The easiest way to process the ascii data is using the default parameterisation, much like in <a class="reference internal" href="../tutorial/up-and-running.html"><span class="doc">Up and running</span></a>.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the spectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+
+<span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">])</span>
+
+<span class="c1"># plot transfer function and save the plot</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
+
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">360</span><span class="p">,</span> <span class="mi">360</span><span class="p">]</span>
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate the tipper</span>
+<span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">)</span>
+
+<span class="c1"># plot a single file</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewTipper</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTipper</span>
+
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">()</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
+<span class="n">viewTipper</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">,</span> <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="complete-example-script">
+<h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the complete example scripts are provided below.</p>
+<p>Create the project and a site:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+
+<span class="c1"># define project path</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
+<span class="c1"># define reference time for project</span>
+<span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2018-01-01 00:00:00&quot;</span>
+<span class="c1"># create a new project and print infomation</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">newProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">referenceTime</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="c1"># create a new site</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+
+</pre></div>
+</td></tr></table></div>
+<p>Preparing the ascii data to be read in:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriter</span> <span class="kn">import</span> <span class="n">DataWriter</span>
+
+<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">,</span> <span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas&quot;</span><span class="p">)</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriter</span><span class="p">()</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
+<span class="n">chan2FileMap</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="s2">&quot;exmuVm.ascii&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Ey&quot;</span><span class="p">:</span> <span class="s2">&quot;eymuVm.ascii&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Hx&quot;</span><span class="p">:</span> <span class="s2">&quot;bxnT.ascii&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="s2">&quot;bynT.ascii&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Hz&quot;</span><span class="p">:</span> <span class="s2">&quot;bznT.ascii&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">startDate</span> <span class="o">=</span> <span class="s2">&quot;2018-01-01 12:00:00&quot;</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">writeTemplateHeaderFiles</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span> <span class="n">chan2FileMap</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">430000</span><span class="p">,</span> <span class="n">startDate</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Transfer function calculation with default parameters:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1"># load the project</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+
+<span class="c1"># view site data</span>
+<span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
+<span class="n">siteData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
+
+<span class="n">viewTime</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;2018-01-03 00:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2018-01-04 00:00:00&quot;</span><span class="p">)</span>
+
+<span class="c1"># calculate spectrum using standard options</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+
+<span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">calibrate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># process the spectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+
+<span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">])</span>
+
+<span class="c1"># plot transfer function and save the plot</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
+
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">360</span><span class="p">,</span> <span class="mi">360</span><span class="p">]</span>
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># calculate the tipper</span>
+<span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">)</span>
+
+<span class="c1"># plot a single file</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewTipper</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTipper</span>
+
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">()</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
+<span class="n">viewTipper</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">,</span> <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Run with a configuration file:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1">#  load the project and also provide a config file</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;asciiconfig.ini&quot;</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># # calculate spectrum using the new configuration</span>
+<span class="c1"># from resistics.project.projectSpectra import calculateSpectra</span>
+
+<span class="c1"># calculateSpectra(projData, calibrate=False)</span>
+<span class="c1"># projData.refresh()</span>
+
+<span class="c1"># calculate transfer function</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+
+<span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">])</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+
+<span class="c1"># plot transfer function and save the plot</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
+
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">360</span><span class="p">,</span> <span class="mi">360</span><span class="p">]</span>
+<span class="n">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span> <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># from resistics.project.projectTransferFunction import viewTipper</span>
+<span class="c1"># from resistics.utilities.utilsPlotter import plotOptionsTipper</span>
+
+<span class="c1"># plotoptions = plotOptionsTipper()</span>
+<span class="c1"># plotoptions[&quot;xlim&quot;] = [0.01, 1000000]</span>
+<span class="c1"># viewTipper(projData, sites=[&quot;site1&quot;], plotoptions=plotoptions, save=True)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Run with statistics:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1">#  load the project and also provide a config file</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;asciiconfig.ini&quot;</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># calculate statistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
+
+<span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
+
+<span class="c1"># create a mask based on coherence</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+
+<span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">])</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]})</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;coh30_100&quot;</span>
+<span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># calculate transfer function</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span> <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span><span class="p">},</span> <span class="n">postpend</span><span class="o">=</span><span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span>
+<span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+
+<span class="c1"># plot transfer function and save the plot</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
+
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
+<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">360</span><span class="p">,</span> <span class="mi">360</span><span class="p">]</span>
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># from resistics.project.projectTransferFunction import viewTipper</span>
+<span class="c1"># from resistics.utilities.utilsPlotter import plotOptionsTipper</span>
+
+<span class="c1"># plotoptions = plotOptionsTipper()</span>
+<span class="c1"># plotoptions[&quot;xlim&quot;] = [0.01, 1000000]</span>
+<span class="c1"># viewTipper(projData, sites=[&quot;site1&quot;], plotoptions=plotoptions, save=True)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../modules.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../cookbook.html" class="btn btn-neutral float-left" title="Cookbook" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

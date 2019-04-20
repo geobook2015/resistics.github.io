@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
@@ -186,6 +187,10 @@
 <span class="sd">    ----------</span>
 <span class="sd">    datafile : str</span>
 <span class="sd">        Path to calibration data file</span>
+<span class="sd">    fileformat : str</span>
+<span class="sd">        The file format of the calibration file</span>
+<span class="sd">    chopper : bool</span>
+<span class="sd">        Boolean flag for reading chopper on or off or writing chopper on or off</span>
 <span class="sd">    extend : bool</span>
 <span class="sd">        Boolean flag for extending (extrapolating) the calibration data</span>
 
@@ -217,6 +222,8 @@
 <span class="sd">        Convert a set of data lines in a calibration file into a list    </span>
 <span class="sd">    writeInternalFormat()</span>
 <span class="sd">        Write internal format calibration file</span>
+<span class="sd">    writeInternalTemplate()</span>
+<span class="sd">        Write a template file for internal calibration format</span>
 <span class="sd">    printList()</span>
 <span class="sd">        Class status returned as list of strings       </span>
 <span class="sd">	&quot;&quot;&quot;</span>
@@ -232,14 +239,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        datafile : str, optional</span>
+<span class="sd">        datafile : str, optional, optional</span>
 <span class="sd">            Path to calibration data file</span>
-<span class="sd">        format : str, optional</span>
+<span class="sd">        format : str, optional, optional</span>
 <span class="sd">            Calibration file format</span>
-<span class="sd">        chopper : bool</span>
-<span class="sd">            Boolean flag for reading chopper on or off data, mostly used with metronix data</span>
-<span class="sd">        extend : bool</span>
-<span class="sd">            Boolean flag for extrapolating the calibration data</span>
+<span class="sd">        chopper : bool, optional</span>
+<span class="sd">            Boolean flag for reading chopper on or off data, mostly used with metronix data. Default is False.</span>
+<span class="sd">        extend : bool, optional</span>
+<span class="sd">            Boolean flag for extrapolating the calibration data. Default is True.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">datafile</span><span class="p">,</span> <span class="n">fileformat</span><span class="p">,</span> <span class="n">chopper</span><span class="p">,</span> <span class="n">extend</span><span class="p">)</span>
@@ -247,7 +254,7 @@
 <div class="viewcode-block" id="CalibrationIO.refresh"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.refresh">[docs]</a>    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">datafile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">fileformat</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;inductiontxt&quot;</span><span class="p">,</span>
+        <span class="n">fileformat</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;induction&quot;</span><span class="p">,</span>
         <span class="n">chopper</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">extend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -331,6 +338,9 @@
             <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
         <span class="n">numLines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
+        <span class="c1"># serial and sensor - there is no sensor information in the file</span>
+        <span class="n">serial</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="c1"># no static gain - already included</span>
         <span class="n">staticGain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="c1"># variables to save line numbers</span>
@@ -340,6 +350,9 @@
         <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLines</span><span class="p">):</span>
             <span class="c1"># remove whitespace and new line characters</span>
             <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;Magnetometer&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
+                <span class="n">split1</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">serial</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">split1</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
             <span class="k">if</span> <span class="s2">&quot;Chopper On&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
                 <span class="n">chopperOn</span> <span class="o">=</span> <span class="n">il</span>
             <span class="k">if</span> <span class="s2">&quot;Chopper Off&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
@@ -375,6 +388,8 @@
             <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
             <span class="n">staticGain</span><span class="o">=</span><span class="n">staticGain</span><span class="p">,</span>
             <span class="n">chopper</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopper</span><span class="p">,</span>
+            <span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">,</span>
+            <span class="n">sensor</span><span class="o">=</span><span class="n">sensor</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="CalibrationIO.readRSPData"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.readRSPData">[docs]</a>    <span class="k">def</span> <span class="nf">readRSPData</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CalibrationData</span><span class="p">:</span>
@@ -395,11 +410,20 @@
             <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
         <span class="n">numLines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
-        <span class="n">staticGain</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">dataReadFrom</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">serial</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">staticGain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">dataReadFrom</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">il</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLines</span><span class="p">):</span>
             <span class="c1"># remove whitespace and new line characters</span>
             <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="c1"># find serial</span>
+            <span class="k">if</span> <span class="s2">&quot;induction coil no&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
+                <span class="n">split1</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">serial</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">split1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="c1"># find sensor</span>
+            <span class="k">if</span> <span class="s2">&quot;SensorType&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
+                <span class="n">sensor</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
             <span class="c1"># find static gain value</span>
             <span class="k">if</span> <span class="s2">&quot;StaticGain&quot;</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]:</span>
                 <span class="n">staticGain</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">il</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
@@ -424,7 +448,14 @@
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extendCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">CalibrationData</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="p">,</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">staticGain</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">staticGain</span><span class="p">,</span>
+            <span class="n">chopper</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopper</span><span class="p">,</span>
+            <span class="n">sensor</span><span class="o">=</span><span class="n">sensor</span><span class="p">,</span>
+            <span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="CalibrationIO.readRSPXData"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.readRSPXData">[docs]</a>    <span class="k">def</span> <span class="nf">readRSPXData</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CalibrationData</span><span class="p">:</span>
@@ -446,8 +477,16 @@
 
         <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="p">)</span>
         <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="c1"># serial</span>
+        <span class="n">serial</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;SensorId&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">serial</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;SensorId&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="c1"># sensor</span>
+        <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;SensorSpecification&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sensor</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;SensorSpecification&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
         <span class="c1"># static gain</span>
-        <span class="n">staticGain</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">staticGain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;StaticGain&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">staticGain</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;StaticGain&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
         <span class="c1"># get the calibration data</span>
@@ -471,22 +510,14 @@
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extendCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">CalibrationData</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="p">,</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">staticGain</span>
-        <span class="p">)</span></div>
-
-<div class="viewcode-block" id="CalibrationIO.unitCalibration"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.unitCalibration">[docs]</a>    <span class="k">def</span> <span class="nf">unitCalibration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CalibrationData</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return a unit calibration</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        CalibrationData</span>
-<span class="sd">            A calibration data object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0000001</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">100000000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
-        <span class="n">staticGain</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">return</span> <span class="n">CalibrationData</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="p">,</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">staticGain</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">staticGain</span><span class="p">,</span>
+            <span class="n">chopper</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chopper</span><span class="p">,</span>
+            <span class="n">sensor</span><span class="o">=</span><span class="n">sensor</span><span class="p">,</span>
+            <span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="CalibrationIO.readInternalFormat"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.readInternalFormat">[docs]</a>    <span class="k">def</span> <span class="nf">readInternalFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -508,6 +539,8 @@
         <span class="k">for</span> <span class="n">il</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
             <span class="k">if</span> <span class="s2">&quot;Serial&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
                 <span class="n">serial</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">if</span> <span class="s2">&quot;Sensor&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">sensor</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="k">if</span> <span class="s2">&quot;Static gain&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
                 <span class="n">staticGain</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
             <span class="k">if</span> <span class="s2">&quot;Magnitude unit&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
@@ -515,7 +548,11 @@
             <span class="k">if</span> <span class="s2">&quot;Phase unit&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
                 <span class="n">phaseUnit</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="k">if</span> <span class="s2">&quot;Chopper&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-                <span class="n">chopper</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                <span class="n">chopperStr</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">chopperStr</span> <span class="o">==</span> <span class="s2">&quot;True&quot;</span><span class="p">:</span>
+                    <span class="n">chopper</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">chopper</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="s2">&quot;CALIBRATION DATA&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
                 <span class="n">dataReadFrom</span> <span class="o">=</span> <span class="n">il</span> <span class="o">+</span> <span class="mi">1</span>
                 <span class="k">break</span>
@@ -525,19 +562,40 @@
         <span class="c1"># sort and extend</span>
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sortCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extendCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>        
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extendCalData</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="c1"># apply static gain</span>
         <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">staticGain</span>
         <span class="k">if</span> <span class="n">phaseUnit</span> <span class="o">==</span> <span class="s2">&quot;degrees&quot;</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
 
         <span class="n">calData</span> <span class="o">=</span> <span class="n">CalibrationData</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="p">,</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">staticGain</span><span class="p">,</span> <span class="n">chopper</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="n">staticGain</span><span class="p">,</span>
+            <span class="n">chopper</span><span class="o">=</span><span class="n">chopper</span><span class="p">,</span>
+            <span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">,</span>
+            <span class="n">sensor</span><span class="o">=</span><span class="n">sensor</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">calData</span><span class="o">.</span><span class="n">magnitudeUnit</span> <span class="o">=</span> <span class="n">magnitudeUnit</span>
         <span class="n">calData</span><span class="o">.</span><span class="n">phaseUnit</span> <span class="o">=</span> <span class="s2">&quot;radians&quot;</span>
-        <span class="n">calData</span><span class="o">.</span><span class="n">serial</span> <span class="o">=</span> <span class="n">serial</span>
         <span class="k">return</span> <span class="n">calData</span></div>
+
+<div class="viewcode-block" id="CalibrationIO.unitCalibration"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.unitCalibration">[docs]</a>    <span class="k">def</span> <span class="nf">unitCalibration</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CalibrationData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a unit calibration</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        CalibrationData</span>
+<span class="sd">            A calibration data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0000001</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">100000000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+        <span class="n">staticGain</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">CalibrationData</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datafile</span><span class="p">,</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">staticGain</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="CalibrationIO.sortCalData"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.sortCalData">[docs]</a>    <span class="k">def</span> <span class="nf">sortCalData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Sort calibration data by frequency ascending (low to high)</span>
@@ -616,18 +674,65 @@
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Serial = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">calData</span><span class="o">.</span><span class="n">serial</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Sensor = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">calData</span><span class="o">.</span><span class="n">sensor</span><span class="p">))</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Static gain = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">calData</span><span class="o">.</span><span class="n">staticGain</span><span class="p">))</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Magnitude unit = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">calData</span><span class="o">.</span><span class="n">magnitudeUnit</span><span class="p">))</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Phase unit = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">calData</span><span class="o">.</span><span class="n">phaseUnit</span><span class="p">))</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Chopper = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">calData</span><span class="o">.</span><span class="n">chopper</span><span class="p">))</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;CALIBRATION DATA</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># remove static gain from magnitude</span>
+            <span class="n">magnitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">calData</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+            <span class="n">magnitude</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">/</span> <span class="n">calData</span><span class="o">.</span><span class="n">staticGain</span>
+            <span class="c1"># write out magnitude without static gain</span>
             <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">calData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">):</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
                     <span class="s2">&quot;</span><span class="si">{:+.4e}</span><span class="s2">  </span><span class="si">{:+.4e}</span><span class="s2">  </span><span class="si">{:+.4e}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">calData</span><span class="o">.</span><span class="n">freqs</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">calData</span><span class="o">.</span><span class="n">magnitude</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">calData</span><span class="o">.</span><span class="n">phase</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                        <span class="n">calData</span><span class="o">.</span><span class="n">freqs</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">magnitude</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">calData</span><span class="o">.</span><span class="n">phase</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
                     <span class="p">)</span>
                 <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CalibrationIO.writeInternalTemplate"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalTemplate">[docs]</a>    <span class="k">def</span> <span class="nf">writeInternalTemplate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">serial</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">staticgain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">chopper</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">magnitudeUnit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mV/nT&quot;</span><span class="p">,</span>
+        <span class="n">phaseUnit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;degrees&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Write out a calibration data template file</span>
+
+<span class="sd">        This make it easier for the creation of a custom calibration file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filepath : str</span>
+<span class="sd">            The file to write out to</span>
+<span class="sd">        serial : int, optional</span>
+<span class="sd">            The serial number of the sensor/instrument</span>
+<span class="sd">        sensor : str, optional</span>
+<span class="sd">            The sensor type</span>
+<span class="sd">        staticgain : float, optional</span>
+<span class="sd">            The static gain</span>
+<span class="sd">        chopper : bool, optional</span>
+<span class="sd">            The chopper on or off</span>
+<span class="sd">        magnitudeUnit : str, optional</span>
+<span class="sd">            The units of the magnitude. This should be mV/nT because that is what the internal format expects</span>
+<span class="sd">        phaseUnit : str, optional</span>
+<span class="sd">            Can be either degrees or radians</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Serial = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">serial</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Sensor = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sensor</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Static gain = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">staticgain</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Magnitude unit = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">magnitudeUnit</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Phase unit = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phaseUnit</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Chopper = </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chopper</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;CALIBRATION DATA</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>                </div>
 
 <div class="viewcode-block" id="CalibrationIO.printList"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>

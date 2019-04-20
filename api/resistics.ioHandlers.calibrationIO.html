@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
@@ -212,6 +213,12 @@ project -&gt; calData</p>
 <dt><strong>datafile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Path to calibration data file</p>
 </dd>
+<dt><strong>fileformat</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The file format of the calibration file</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">Boolean flag for reading chopper on or off or writing chopper on or off</p>
+</dd>
 <dt><strong>extend</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
 <dd><p class="first last">Boolean flag for extending (extrapolating) the calibration data</p>
 </dd>
@@ -266,7 +273,10 @@ project -&gt; calData</p>
 <tr class="row-odd"><td><strong>writeInternalFormat()</strong></td>
 <td>Write internal format calibration file</td>
 </tr>
-<tr class="row-even"><td><strong>printList()</strong></td>
+<tr class="row-even"><td><strong>writeInternalTemplate()</strong></td>
+<td>Write a template file for internal calibration format</td>
+</tr>
+<tr class="row-odd"><td><strong>printList()</strong></td>
 <td>Class status returned as list of strings</td>
 </tr>
 </tbody>
@@ -478,7 +488,7 @@ Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.calibrationIO.CalibrationIO.refresh">
-<code class="descname">refresh</code><span class="sig-paren">(</span><em>datafile: str = ''</em>, <em>fileformat: str = 'inductiontxt'</em>, <em>chopper: bool = False</em>, <em>extend: bool = True</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/calibrationIO.html#CalibrationIO.refresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.calibrationIO.CalibrationIO.refresh" title="Permalink to this definition">¶</a></dt>
+<code class="descname">refresh</code><span class="sig-paren">(</span><em>datafile: str = ''</em>, <em>fileformat: str = 'induction'</em>, <em>chopper: bool = False</em>, <em>extend: bool = True</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/calibrationIO.html#CalibrationIO.refresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.calibrationIO.CalibrationIO.refresh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Refresh the CalibrationIO parameters</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -563,6 +573,44 @@ Data is returned with units: F [Hz], Magnitude [mV/nT], Phase [radians]</p>
 </dd>
 <dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">The file to write out to</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalTemplate">
+<code class="descname">writeInternalTemplate</code><span class="sig-paren">(</span><em>filepath: str</em>, <em>serial: int = 1</em>, <em>sensor: str = ''</em>, <em>staticgain: float = 1.0</em>, <em>chopper: bool = False</em>, <em>magnitudeUnit: str = 'mV/nT'</em>, <em>phaseUnit: str = 'degrees'</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/calibrationIO.html#CalibrationIO.writeInternalTemplate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalTemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write out a calibration data template file</p>
+<p>This make it easier for the creation of a custom calibration file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filepath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The file to write out to</p>
+</dd>
+<dt><strong>serial</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><p class="first last">The serial number of the sensor/instrument</p>
+</dd>
+<dt><strong>sensor</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">The sensor type</p>
+</dd>
+<dt><strong>staticgain</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
+<dd><p class="first last">The static gain</p>
+</dd>
+<dt><strong>chopper</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p class="first last">The chopper on or off</p>
+</dd>
+<dt><strong>magnitudeUnit</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">The units of the magnitude. This should be mV/nT because that is what the internal format expects</p>
+</dd>
+<dt><strong>phaseUnit</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p class="first last">Can be either degrees or radians</p>
 </dd>
 </dl>
 </td>

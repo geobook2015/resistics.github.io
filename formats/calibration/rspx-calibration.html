@@ -1,0 +1,2353 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>RSPX Calibration &mdash; resistics 0.0.5 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ASCII Calibration" href="ascii-calibration.html" />
+    <link rel="prev" title="RSP Calibration" href="rsp-calibration.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../formats.html">Data formats</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../timeseries.html">Timeseries data</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../calibration.html">Calibration data</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="metronix-calibration.html">Metronix Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rsp-calibration.html">RSP Calibration</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">RSPX Calibration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ascii-calibration.html">ASCII Calibration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../formats.html">Data formats</a> &raquo;</li>
+        
+          <li><a href="../calibration.html">Calibration data</a> &raquo;</li>
+        
+      <li>RSPX Calibration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/formats/calibration/rspx-calibration.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rspx-calibration">
+<h1>RSPX Calibration<a class="headerlink" href="#rspx-calibration" title="Permalink to this headline">¶</a></h1>
+<p>RSPX calibration files are XML files with metadata and calibration data.</p>
+<p>The units of RSPX calibration files are interpreted to be:</p>
+<ul class="simple">
+<li>Frequency in Hz</li>
+<li>Magnitude in mV/nT</li>
+<li>Phase in degrees</li>
+</ul>
+<p>Resistics will automatically convert these units to:</p>
+<ul class="simple">
+<li>Frequency in Hz</li>
+<li>Magnitude in mV/nT (including any static gain)</li>
+<li>Phase in radians</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Remember that extension happens in the original units of the calibration data. For RSP data files, this is in mV/nT.</p>
+</div>
+<div class="section" id="naming-in-the-project-environment">
+<h2>Naming in the project environment<a class="headerlink" href="#naming-in-the-project-environment" title="Permalink to this headline">¶</a></h2>
+<p>When using the project environment, resistics automatically searches for calibration files in the calData folder.
+RSPX files should be named according to the following specification:</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>[*]TYPE-[SENSORNUM]_[BOARD]-ID-[SERIAL].RSPX</p>
+<p>or</p>
+<p>[*]TYPE-[SENSORNUM]_BB-ID-[SERIAL].RSPX</p>
+<p>where:</p>
+<ul class="simple">
+<li>SENSORNUM is the sensor number out of the sensor type written with three digits (i.e. leading zeros required if the sensor number is less than three digits)</li>
+<li>BOARD is either LF (chopper on) or HF (chopper off)</li>
+<li>SERIAL is the serial number written with six digits (i.e. leading zeros required if the serial number is less than six digits)</li>
+<li>[*] represents any general string.</li>
+</ul>
+<p class="last">The BB files represent broadband calibration files that cover both chopper on and chopper off cases.</p>
+</div>
+<p>As an example, consider an induction coil with,</p>
+<ul class="simple">
+<li>sensor type MFS06</li>
+<li>sensor serial number 133</li>
+<li>Chopper off</li>
+</ul>
+<p>then,</p>
+<ul class="simple">
+<li>SENSORNUM = 006</li>
+<li>BOARD = HF</li>
+<li>SERIAL = 000133</li>
+</ul>
+<p>Therefore, the file could be named:</p>
+<ul class="simple">
+<li>Metronix_Coil—–TYPE-006_HF-ID-000133.RSPX</li>
+<li>Metronix_Coil—–TYPE-006_BB-ID-000133.RSPX</li>
+</ul>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>The class <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> can be used to read in RSPX calibration files.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationData</span>
+
+<span class="c1"># read RSPX calibration data</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;Metronix_Coil-----TYPE-006_HF-ID-000133.RSPX&quot;</span><span class="p">)</span>
+<span class="n">calIO</span> <span class="o">=</span> <span class="n">CalibrationIO</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rspx&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">calData</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>When using <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> to read a calibration file, the filepath and calibration data format (rspx) need to be defined. Further, the extension rule can be optionally passed. Because RSPX files only contain one set of calibration data (unlike Metronix files which may have calibration data for both chopper on and off), the chopper keyword is unused for reading RSPX files.</p>
+<p>The method <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.read" title="resistics.ioHandlers.calibrationIO.CalibrationIO.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> returns a <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData" title="resistics.dataObjects.calibrationData.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a> object. Information about this can be printed to the terminal, giving:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301</pre></div></td><td class="code"><div class="highlight"><pre><span></span>14:38:30 CalibrationData: ####################
+14:38:30 CalibrationData: CALIBRATIONDATA INFO BEGIN
+14:38:30 CalibrationData: ####################
+14:38:30 CalibrationData: Filename = calData\Metronix_Coil-----TYPE-006_HF-ID-000133.RSPX
+14:38:30 CalibrationData: Serial = 133
+14:38:30 CalibrationData: Sensor = 006_HF
+14:38:30 CalibrationData: Static gain = 800.00
+14:38:30 CalibrationData: Chopper = False
+14:38:30 CalibrationData: Number of frequency points = 287
+14:38:30 CalibrationData: Calibration data:
+14:38:30 CalibrationData:          Frequency [Hz]       Mag. [mv/nT]    Phase [rad]
+14:38:30 CalibrationData:              1.00000000           180.04            2.01
+14:38:30 CalibrationData:              1.03925600           189.75            1.98
+14:38:30 CalibrationData:              1.08005200           199.79            1.95
+14:38:30 CalibrationData:              1.12245100           210.08            1.92
+14:38:30 CalibrationData:              1.16651300           220.73            1.89
+14:38:30 CalibrationData:              1.21230500           231.60            1.85
+14:38:30 CalibrationData:              1.25989500           242.88            1.82
+14:38:30 CalibrationData:              1.30935300           254.40            1.79
+14:38:30 CalibrationData:              1.36075300           266.12            1.76
+14:38:30 CalibrationData:              1.41417000           278.21            1.73
+14:38:30 CalibrationData:              1.46968400           290.44            1.70
+14:38:30 CalibrationData:              1.52737800           302.98            1.66
+14:38:30 CalibrationData:              1.58733600           315.77            1.63
+14:38:30 CalibrationData:              1.64964800           328.70            1.60
+14:38:30 CalibrationData:              1.71440600           341.97            1.57
+14:38:30 CalibrationData:              1.78170600           355.26            1.54
+14:38:30 CalibrationData:              1.85164800           368.62            1.50
+14:38:30 CalibrationData:              1.92433600           382.12            1.47
+14:38:30 CalibrationData:              1.99987700           395.63            1.44
+14:38:30 CalibrationData:              2.07838400           409.18            1.41
+14:38:30 CalibrationData:              2.15997200           422.87            1.38
+14:38:30 CalibrationData:              2.24476300           436.42            1.34
+14:38:30 CalibrationData:              2.33288300           449.94            1.31
+14:38:30 CalibrationData:              2.42446200           463.60            1.28
+14:38:30 CalibrationData:              2.51963600           477.16            1.25
+14:38:30 CalibrationData:              2.61854600           490.47            1.22
+14:38:30 CalibrationData:              2.72133900           503.72            1.19
+14:38:30 CalibrationData:              2.82816700           516.81            1.16
+14:38:30 CalibrationData:              2.93918800           529.72            1.13
+14:38:30 CalibrationData:              3.05456800           542.34            1.09
+14:38:30 CalibrationData:              3.17447700           555.05            1.07
+14:38:30 CalibrationData:              3.29909400           567.29            1.04
+14:38:30 CalibrationData:              3.42860200           578.98            1.01
+14:38:30 CalibrationData:              3.56319400           590.99            0.98
+14:38:30 CalibrationData:              3.70307000           601.89            0.95
+14:38:30 CalibrationData:              3.84843600           612.84            0.92
+14:38:30 CalibrationData:              3.99950900           623.49            0.89
+14:38:30 CalibrationData:              4.15651300           633.56            0.87
+14:38:30 CalibrationData:              4.31967900           643.63            0.84
+14:38:30 CalibrationData:              4.48925100           653.12            0.81
+14:38:30 CalibrationData:              4.66548000           662.23            0.79
+14:38:30 CalibrationData:              4.84862700           670.92            0.76
+14:38:30 CalibrationData:              5.03896300           679.45            0.74
+14:38:30 CalibrationData:              5.23677100           687.12            0.72
+14:38:30 CalibrationData:              5.44234400           694.84            0.69
+14:38:30 CalibrationData:              5.65598600           702.28            0.67
+14:38:30 CalibrationData:              5.87801600           709.24            0.65
+14:38:30 CalibrationData:              6.10876200           715.97            0.63
+14:38:30 CalibrationData:              6.34856500           722.24            0.60
+14:38:30 CalibrationData:              6.59778300           728.20            0.58
+14:38:30 CalibrationData:              6.85678300           733.65            0.56
+14:38:30 CalibrationData:              7.12595100           738.86            0.54
+14:38:30 CalibrationData:              7.40568400           743.78            0.52
+14:38:30 CalibrationData:              7.69640000           748.51            0.51
+14:38:30 CalibrationData:              7.99852800           752.66            0.49
+14:38:30 CalibrationData:              8.31251500           757.15            0.47
+14:38:30 CalibrationData:              8.63882800           760.99            0.46
+14:38:30 CalibrationData:              8.97795200           764.62            0.44
+14:38:30 CalibrationData:              9.33038700           768.39            0.42
+14:38:30 CalibrationData:              9.69665800           771.35            0.41
+14:38:30 CalibrationData:             10.07731000           774.30            0.39
+14:38:30 CalibrationData:             10.47290000           776.83            0.38
+14:38:30 CalibrationData:             10.88402000           779.68            0.37
+14:38:30 CalibrationData:             11.31128000           781.88            0.35
+14:38:30 CalibrationData:             11.75531000           784.47            0.34
+14:38:30 CalibrationData:             12.21677000           786.62            0.33
+14:38:30 CalibrationData:             12.69635000           788.13            0.31
+14:38:30 CalibrationData:             13.19476000           789.72            0.30
+14:38:30 CalibrationData:             13.71272000           792.29            0.29
+14:38:30 CalibrationData:             14.25103000           793.80            0.28
+14:38:30 CalibrationData:             14.81046000           793.80            0.27
+14:38:30 CalibrationData:             15.39186000           796.29            0.26
+14:38:30 CalibrationData:             17.95480000           800.93            0.22
+14:38:30 CalibrationData:             18.65963000           801.73            0.21
+14:38:30 CalibrationData:             19.39213000           802.05            0.21
+14:38:30 CalibrationData:             20.15338000           803.51            0.20
+14:38:30 CalibrationData:             20.94451000           804.61            0.19
+14:38:30 CalibrationData:             21.76670000           804.62            0.18
+14:38:30 CalibrationData:             22.62117000           806.28            0.18
+14:38:30 CalibrationData:             23.50918000           806.36            0.17
+14:38:31 CalibrationData:             24.43205000           807.13            0.16
+14:38:31 CalibrationData:             25.39114000           808.07            0.16
+14:38:31 CalibrationData:             26.38789000           807.60            0.15
+14:38:31 CalibrationData:             27.42377000           808.95            0.14
+14:38:31 CalibrationData:             28.50031000           807.80            0.14
+14:38:31 CalibrationData:             29.61910000           809.44            0.13
+14:38:31 CalibrationData:             30.78182000           809.52            0.13
+14:38:31 CalibrationData:             31.99018000           809.42            0.12
+14:38:31 CalibrationData:             33.24598000           810.13            0.12
+14:38:31 CalibrationData:             34.55107000           811.74            0.11
+14:38:31 CalibrationData:             35.90740000           810.69            0.11
+14:38:31 CalibrationData:             37.31697000           809.40            0.11
+14:38:31 CalibrationData:             38.78187000           810.78            0.10
+14:38:31 CalibrationData:             40.30428000           811.33            0.10
+14:38:31 CalibrationData:             41.88645000           811.65            0.09
+14:38:31 CalibrationData:             43.53074000           816.34            0.09
+14:38:31 CalibrationData:             45.23956000           810.93            0.08
+14:38:31 CalibrationData:             56.99711000           808.61            0.06
+14:38:31 CalibrationData:             59.23457000           819.76            0.06
+14:38:31 CalibrationData:             61.55986000           815.52            0.06
+14:38:31 CalibrationData:             63.97644000           811.75            0.06
+14:38:31 CalibrationData:             66.48788000           810.00            0.05
+14:38:31 CalibrationData:             69.09791000           812.64            0.05
+14:38:31 CalibrationData:             71.81039000           813.61            0.05
+14:38:31 CalibrationData:             74.62936000           812.47            0.05
+14:38:31 CalibrationData:             77.55898000           811.26            0.04
+14:38:31 CalibrationData:             80.60361000           813.99            0.04
+14:38:31 CalibrationData:             83.76776000           813.41            0.04
+14:38:31 CalibrationData:             87.05612000           813.64            0.03
+14:38:31 CalibrationData:             90.47357000           812.17            0.03
+14:38:31 CalibrationData:             94.02518000           813.58            0.03
+14:38:31 CalibrationData:             97.71619000           811.50            0.03
+14:38:31 CalibrationData:            101.55210000           810.37            0.03
+14:38:31 CalibrationData:            105.53860000           816.78            0.02
+14:38:31 CalibrationData:            109.68160000           813.77            0.02
+14:38:31 CalibrationData:            113.98720000           813.25            0.02
+14:38:31 CalibrationData:            118.46190000           813.28            0.02
+14:38:31 CalibrationData:            123.11220000           813.83            0.02
+14:38:31 CalibrationData:            127.94500000           813.10            0.01
+14:38:31 CalibrationData:            132.96760000           814.46            0.01
+14:38:31 CalibrationData:            138.18730000           813.58            0.01
+14:38:31 CalibrationData:            143.61200000           814.59            0.00
+14:38:31 CalibrationData:            161.19730000           813.27            0.00
+14:38:31 CalibrationData:            167.52530000           813.43            0.00
+14:38:31 CalibrationData:            174.10160000           812.82           -0.00
+14:38:31 CalibrationData:            180.93600000           814.47           -0.00
+14:38:31 CalibrationData:            188.03880000           812.00           -0.01
+14:38:31 CalibrationData:            195.42040000           813.32           -0.01
+14:38:31 CalibrationData:            203.09180000           810.59           -0.01
+14:38:31 CalibrationData:            211.06430000           813.78           -0.01
+14:38:31 CalibrationData:            219.34970000           810.92           -0.01
+14:38:31 CalibrationData:            227.96050000           812.76           -0.01
+14:38:31 CalibrationData:            236.90920000           808.74           -0.02
+14:38:31 CalibrationData:            265.91890000           811.02           -0.02
+14:38:31 CalibrationData:            276.35770000           814.13           -0.02
+14:38:31 CalibrationData:            287.20630000           813.75           -0.02
+14:38:31 CalibrationData:            298.48080000           813.32           -0.02
+14:38:31 CalibrationData:            310.19780000           813.94           -0.03
+14:38:31 CalibrationData:            322.37490000           815.89           -0.03
+14:38:31 CalibrationData:            335.02990000           813.76           -0.04
+14:38:31 CalibrationData:            361.84990000           816.53           -0.04
+14:38:31 CalibrationData:            376.05450000           813.33           -0.04
+14:38:31 CalibrationData:            390.81680000           810.83           -0.04
+14:38:31 CalibrationData:            406.15860000           812.75           -0.05
+14:38:31 CalibrationData:            422.10260000           814.14           -0.05
+14:38:31 CalibrationData:            438.67250000           814.54           -0.05
+14:38:31 CalibrationData:            455.89290000           814.47           -0.06
+14:38:31 CalibrationData:            473.78930000           811.30           -0.06
+14:38:31 CalibrationData:            492.38830000           811.58           -0.06
+14:38:31 CalibrationData:            511.71730000           811.68           -0.07
+14:38:31 CalibrationData:            531.80510000           809.90           -0.07
+14:38:31 CalibrationData:            552.68150000           814.30           -0.07
+14:38:31 CalibrationData:            574.37740000           809.49           -0.07
+14:38:31 CalibrationData:            596.92490000           809.93           -0.08
+14:38:31 CalibrationData:            620.35770000           810.50           -0.08
+14:38:31 CalibrationData:            644.71020000           811.07           -0.08
+14:38:31 CalibrationData:            670.01870000           811.09           -0.09
+14:38:31 CalibrationData:            696.32080000           810.10           -0.09
+14:38:31 CalibrationData:            723.65530000           809.53           -0.10
+14:38:31 CalibrationData:            752.06290000           810.51           -0.10
+14:38:31 CalibrationData:            781.58570000           809.64           -0.10
+14:38:31 CalibrationData:            812.26730000           810.52           -0.11
+14:38:31 CalibrationData:            844.15340000           808.46           -0.11
+14:38:31 CalibrationData:            877.29130000           807.66           -0.12
+14:38:31 CalibrationData:            911.72990000           807.71           -0.12
+14:38:31 CalibrationData:            947.52050000           808.28           -0.13
+14:38:31 CalibrationData:            984.71610000           806.50           -0.13
+14:38:31 CalibrationData:           1023.37200000           806.27           -0.14
+14:38:31 CalibrationData:           1063.54500000           805.99           -0.14
+14:38:31 CalibrationData:           1105.29500000           805.64           -0.15
+14:38:31 CalibrationData:           1148.68400000           805.61           -0.16
+14:38:31 CalibrationData:           1193.77700000           804.77           -0.16
+14:38:31 CalibrationData:           1240.63900000           804.45           -0.17
+14:38:31 CalibrationData:           1289.34100000           803.21           -0.18
+14:38:31 CalibrationData:           1339.95500000           803.32           -0.18
+14:38:31 CalibrationData:           1392.55600000           801.71           -0.19
+14:38:31 CalibrationData:           1447.22200000           799.92           -0.20
+14:38:31 CalibrationData:           1504.03400000           799.31           -0.21
+14:38:31 CalibrationData:           1563.07500000           799.02           -0.21
+14:38:31 CalibrationData:           1624.43500000           797.93           -0.22
+14:38:31 CalibrationData:           1688.20300000           796.99           -0.23
+14:38:31 CalibrationData:           1754.47500000           795.63           -0.24
+14:38:31 CalibrationData:           1823.34800000           793.96           -0.25
+14:38:31 CalibrationData:           1894.92500000           792.35           -0.26
+14:38:31 CalibrationData:           1969.31100000           790.40           -0.27
+14:38:31 CalibrationData:           2046.61800000           789.44           -0.28
+14:38:31 CalibrationData:           2126.95900000           786.46           -0.29
+14:38:31 CalibrationData:           2210.45500000           784.41           -0.31
+14:38:31 CalibrationData:           2297.22800000           781.98           -0.32
+14:38:31 CalibrationData:           2387.40700000           779.89           -0.33
+14:38:31 CalibrationData:           2481.12600000           777.20           -0.35
+14:38:31 CalibrationData:           2578.52400000           774.10           -0.36
+14:38:31 CalibrationData:           2679.74600000           770.73           -0.38
+14:38:31 CalibrationData:           2784.94100000           766.99           -0.39
+14:38:31 CalibrationData:           2894.26600000           762.87           -0.41
+14:38:31 CalibrationData:           3007.88300000           758.50           -0.42
+14:38:31 CalibrationData:           3125.95900000           753.39           -0.44
+14:38:31 CalibrationData:           3248.67100000           747.83           -0.46
+14:38:31 CalibrationData:           3376.19900000           740.52           -0.48
+14:38:31 CalibrationData:           3508.73400000           732.83           -0.50
+14:38:31 CalibrationData:           3646.47200000           722.77           -0.53
+14:38:31 CalibrationData:           3789.61700000           712.43           -0.55
+14:38:31 CalibrationData:           3938.38100000           699.04           -0.57
+14:38:31 CalibrationData:           4092.98500000           683.14           -0.60
+14:38:31 CalibrationData:           4253.65800000           663.89           -0.62
+14:38:31 CalibrationData:           4420.63800000           641.28           -0.64
+14:38:31 CalibrationData:           4594.17300000           616.12           -0.65
+14:38:31 CalibrationData:           4774.52100000           590.20           -0.65
+14:38:31 CalibrationData:           4961.94800000           567.73           -0.63
+14:38:31 CalibrationData:           5156.73200000           553.70           -0.60
+14:38:31 CalibrationData:           5359.16300000           550.27           -0.57
+14:38:31 CalibrationData:           5569.54100000           555.82           -0.55
+14:38:31 CalibrationData:           5788.17700000           565.80           -0.54
+14:38:31 CalibrationData:           6015.39600000           576.48           -0.55
+14:38:31 CalibrationData:           6251.53400000           585.33           -0.56
+14:38:31 CalibrationData:           6496.94200000           591.38           -0.58
+14:38:31 CalibrationData:           6751.98400000           595.02           -0.61
+14:38:31 CalibrationData:           7017.03800000           595.82           -0.63
+14:38:31 CalibrationData:           7292.49700000           594.73           -0.66
+14:38:31 CalibrationData:           7578.76900000           592.12           -0.69
+14:38:31 CalibrationData:           7876.27900000           587.89           -0.72
+14:38:31 CalibrationData:           8185.46700000           582.37           -0.74
+14:38:31 CalibrationData:           8506.79300000           575.81           -0.77
+14:38:31 CalibrationData:           8840.73300000           568.38           -0.80
+14:38:31 CalibrationData:           9187.78200000           560.02           -0.83
+14:38:31 CalibrationData:           9548.45500000           551.21           -0.86
+14:38:31 CalibrationData:           9923.28600000           541.35           -0.89
+14:38:31 CalibrationData:          10312.83000000           531.16           -0.92
+14:38:31 CalibrationData:          10717.67000000           518.39           -0.95
+14:38:31 CalibrationData:          11138.40000000           507.01           -0.98
+14:38:31 CalibrationData:          11575.64000000           495.04           -1.01
+14:38:31 CalibrationData:          12030.05000000           482.77           -1.04
+14:38:31 CalibrationData:          12502.30000000           469.87           -1.07
+14:38:31 CalibrationData:          12993.09000000           456.61           -1.10
+14:38:31 CalibrationData:          13503.14000000           443.19           -1.13
+14:38:31 CalibrationData:          14033.22000000           428.93           -1.16
+14:38:31 CalibrationData:          14584.10000000           414.72           -1.19
+14:38:31 CalibrationData:          15156.61000000           399.76           -1.22
+14:38:31 CalibrationData:          15751.59000000           384.90           -1.24
+14:38:31 CalibrationData:          16369.93000000           369.67           -1.26
+14:38:31 CalibrationData:          17012.54000000           354.88           -1.28
+14:38:31 CalibrationData:          17680.38000000           340.81           -1.30
+14:38:31 CalibrationData:          18374.44000000           327.28           -1.32
+14:38:31 CalibrationData:          19095.74000000           313.44           -1.33
+14:38:31 CalibrationData:          19845.36000000           302.47           -1.34
+14:38:31 CalibrationData:          20624.40000000           292.55           -1.35
+14:38:31 CalibrationData:          21434.02000000           283.81           -1.36
+14:38:31 CalibrationData:          22275.43000000           276.01           -1.37
+14:38:31 CalibrationData:          23149.87000000           268.66           -1.38
+14:38:31 CalibrationData:          24058.63000000           261.64           -1.40
+14:38:31 CalibrationData:          25003.07000000           255.03           -1.41
+14:38:31 CalibrationData:          25984.58000000           248.19           -1.44
+14:38:31 CalibrationData:          27004.62000000           241.16           -1.46
+14:38:31 CalibrationData:          28064.71000000           234.02           -1.48
+14:38:31 CalibrationData:          29166.41000000           226.22           -1.51
+14:38:31 CalibrationData:          30311.36000000           218.68           -1.53
+14:38:31 CalibrationData:          31501.25000000           210.86           -1.56
+14:38:31 CalibrationData:          32737.85000000           203.03           -1.58
+14:38:31 CalibrationData:          34023.00000000           194.98           -1.61
+14:38:31 CalibrationData:          35358.59000000           186.96           -1.63
+14:38:31 CalibrationData:          36746.62000000           179.03           -1.65
+14:38:31 CalibrationData:          38189.13000000           171.34           -1.67
+14:38:31 CalibrationData:          39688.27000000           164.06           -1.69
+14:38:31 CalibrationData:          41246.27000000           157.06           -1.70
+14:38:31 CalibrationData:          42865.41000000           150.72           -1.72
+14:38:31 CalibrationData:          44548.13000000           144.90           -1.73
+14:38:31 CalibrationData:          46296.89000000           139.71           -1.74
+14:38:31 CalibrationData:          48114.31000000           134.94           -1.75
+14:38:31 CalibrationData:          50003.07000000           130.44           -1.77
+14:38:31 CalibrationData:          51965.97000000           126.12           -1.79
+14:38:31 CalibrationData:          54005.93000000           121.81           -1.81
+14:38:31 CalibrationData:          56125.97000000           117.67           -1.83
+14:38:31 CalibrationData:          58329.23000000           113.43           -1.85
+14:38:31 CalibrationData:          60618.99000000           109.16           -1.87
+14:38:31 CalibrationData:          62998.63000000           105.08           -1.89
+14:38:31 CalibrationData:          65471.68000000           101.20           -1.91
+14:38:31 CalibrationData:          68041.82000000            97.65           -1.93
+14:38:31 CalibrationData:          70712.85000000            94.32           -1.94
+14:38:31 CalibrationData:          73488.73000000            91.37           -1.96
+14:38:31 CalibrationData:          76373.58000000            88.69           -1.98
+14:38:31 CalibrationData:          79371.68000000            85.97           -2.01
+14:38:31 CalibrationData:          82487.47000000            83.34           -2.03
+14:38:31 CalibrationData:          85725.57000000            80.63           -2.06
+14:38:31 CalibrationData:          89090.78000000            78.04           -2.08
+14:38:31 CalibrationData:          92588.10000000            75.57           -2.11
+14:38:31 CalibrationData:          96222.71000000            73.21           -2.13
+14:38:31 CalibrationData:         100000.00000000            71.02           -2.16
+14:38:31 CalibrationData: ####################
+14:38:31 CalibrationData: CALIBRATIONDATA INFO END
+14:38:31 CalibrationData: ####################
+</pre></div>
+</td></tr></table></div>
+<p>Once the calibration data file is read in, the calibration curve can be viewed by using the <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData.view" title="resistics.dataObjects.calibrationData.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData" title="resistics.dataObjects.calibrationData.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a>. By passing a matplotlib figure to this, the layout of the plot can be controlled.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPX.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="../../_images/calibrationRSPX.png" />
+<p class="caption"><span class="caption-text">Viewing the unextended calibration data</span></p>
+</div>
+<p>The calibration static gain is applied to the magnitude data by default. To view the data without static gain, pass <code class="code python docutils literal notranslate"><span class="name"><span class="pre">staticgain</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">False</span></span></code> to the <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData.view" title="resistics.dataObjects.calibrationData.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> call. Further, to plot the phase in degrees, pass <code class="code python docutils literal notranslate"><span class="name"><span class="pre">degrees</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">True</span></span></code> to  <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData.view" title="resistics.dataObjects.calibrationData.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a>.</p>
+<p>To visualise the influence of the static gain correction, the calibration data can be plotted with and without static gain as shown in the following example.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>20
+21
+22
+23
+24
+25
+26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
+    <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">staticgain</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPX_staticGainAndDegrees.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id2">
+<img alt="alternate text" src="../../_images/calibrationRSPX_staticGainAndDegrees.png" />
+<p class="caption"><span class="caption-text">Viewing the unextended calibration data with and without static gain</span></p>
+</div>
+<p>The same calibration file can be read again, but this time with extension of the data too. The parameters of <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> can be reset by using the <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.refresh" title="resistics.ioHandlers.calibrationIO.CalibrationIO.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a> method.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>30
+31
+32
+33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># this time read in with extend</span>
+<span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rspx&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calDataExtended</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">calDataExtended</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>To see the effect of the extension, which is a simple edge extrapolation, the original and extended data can be viewed on the same plot.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>35
+36
+37
+38
+39
+40
+41</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot these two together</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calDataExtended</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPX_extended.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="../../_images/calibrationRSPX_extended.png" />
+<p class="caption"><span class="caption-text">Viewing the unextended and extended calibration data</span></p>
+</div>
+<p>The calibration data can be written out in the internal ASCII format using the <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalFormat" title="resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalFormat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeInternalFormat()</span></code></a> method of <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a>.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>43
+44
+45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># write as the ASCII format</span>
+<span class="n">rspx2ascii</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;rspx2ascii.TXT&quot;</span><span class="p">)</span>
+<span class="n">calIO</span><span class="o">.</span><span class="n">writeInternalFormat</span><span class="p">(</span><span class="n">calData</span><span class="p">,</span> <span class="n">rspx2ascii</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The internal ascii calibration format writes out values in the following units:</p>
+<ul class="simple">
+<li>Magnitude in mV/nT</li>
+<li>Phase in radians</li>
+</ul>
+<p>This gives the file below:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Serial = 133
+Sensor = 006_HF
+Static gain = 800.0
+Magnitude unit = mV/nT
+Phase unit = radians
+Chopper = False
+
+CALIBRATION DATA
++1.0000e+00  +2.2505e-01  +2.0081e+00
++1.0393e+00  +2.3719e-01  +1.9779e+00
++1.0801e+00  +2.4974e-01  +1.9475e+00
++1.1225e+00  +2.6260e-01  +1.9169e+00
++1.1665e+00  +2.7591e-01  +1.8858e+00
++1.2123e+00  +2.8950e-01  +1.8548e+00
++1.2599e+00  +3.0361e-01  +1.8233e+00
++1.3094e+00  +3.1800e-01  +1.7915e+00
++1.3608e+00  +3.3265e-01  +1.7601e+00
++1.4142e+00  +3.4776e-01  +1.7284e+00
++1.4697e+00  +3.6305e-01  +1.6965e+00
++1.5274e+00  +3.7873e-01  +1.6645e+00
++1.5873e+00  +3.9471e-01  +1.6323e+00
++1.6496e+00  +4.1087e-01  +1.6002e+00
++1.7144e+00  +4.2746e-01  +1.5680e+00
++1.7817e+00  +4.4408e-01  +1.5359e+00
++1.8516e+00  +4.6078e-01  +1.5037e+00
++1.9243e+00  +4.7765e-01  +1.4715e+00
++1.9999e+00  +4.9454e-01  +1.4396e+00
++2.0784e+00  +5.1147e-01  +1.4075e+00
++2.1600e+00  +5.2859e-01  +1.3754e+00
++2.2448e+00  +5.4552e-01  +1.3439e+00
++2.3329e+00  +5.6243e-01  +1.3119e+00
++2.4245e+00  +5.7950e-01  +1.2804e+00
++2.5196e+00  +5.9645e-01  +1.2489e+00
++2.6185e+00  +6.1309e-01  +1.2178e+00
++2.7213e+00  +6.2966e-01  +1.1869e+00
++2.8282e+00  +6.4601e-01  +1.1563e+00
++2.9392e+00  +6.6215e-01  +1.1256e+00
++3.0546e+00  +6.7793e-01  +1.0947e+00
++3.1745e+00  +6.9381e-01  +1.0661e+00
++3.2991e+00  +7.0911e-01  +1.0360e+00
++3.4286e+00  +7.2373e-01  +1.0069e+00
++3.5632e+00  +7.3874e-01  +9.7865e-01
++3.7031e+00  +7.5236e-01  +9.5023e-01
++3.8484e+00  +7.6606e-01  +9.2195e-01
++3.9995e+00  +7.7937e-01  +8.9469e-01
++4.1565e+00  +7.9195e-01  +8.6749e-01
++4.3197e+00  +8.0454e-01  +8.4097e-01
++4.4893e+00  +8.1640e-01  +8.1476e-01
++4.6655e+00  +8.2778e-01  +7.8938e-01
++4.8486e+00  +8.3865e-01  +7.6427e-01
++5.0390e+00  +8.4931e-01  +7.3975e-01
++5.2368e+00  +8.5891e-01  +7.1577e-01
++5.4423e+00  +8.6855e-01  +6.9238e-01
++5.6560e+00  +8.7786e-01  +6.6954e-01
++5.8780e+00  +8.8655e-01  +6.4734e-01
++6.1088e+00  +8.9496e-01  +6.2590e-01
++6.3486e+00  +9.0280e-01  +6.0447e-01
++6.5978e+00  +9.1025e-01  +5.8395e-01
++6.8568e+00  +9.1706e-01  +5.6375e-01
++7.1260e+00  +9.2358e-01  +5.4404e-01
++7.4057e+00  +9.2973e-01  +5.2491e-01
++7.6964e+00  +9.3564e-01  +5.0704e-01
++7.9985e+00  +9.4083e-01  +4.8901e-01
++8.3125e+00  +9.4644e-01  +4.7189e-01
++8.6388e+00  +9.5123e-01  +4.5506e-01
++8.9780e+00  +9.5578e-01  +4.3862e-01
++9.3304e+00  +9.6049e-01  +4.2305e-01
++9.6967e+00  +9.6419e-01  +4.0770e-01
++1.0077e+01  +9.6787e-01  +3.9259e-01
++1.0473e+01  +9.7104e-01  +3.7865e-01
++1.0884e+01  +9.7461e-01  +3.6506e-01
++1.1311e+01  +9.7735e-01  +3.5215e-01
++1.1755e+01  +9.8059e-01  +3.3908e-01
++1.2217e+01  +9.8328e-01  +3.2599e-01
++1.2696e+01  +9.8516e-01  +3.1316e-01
++1.3195e+01  +9.8715e-01  +3.0267e-01
++1.3713e+01  +9.9036e-01  +2.9104e-01
++1.4251e+01  +9.9225e-01  +2.7932e-01
++1.4810e+01  +9.9226e-01  +2.6990e-01
++1.5392e+01  +9.9536e-01  +2.5997e-01
++1.7955e+01  +1.0012e+00  +2.2485e-01
++1.8660e+01  +1.0022e+00  +2.1330e-01
++1.9392e+01  +1.0026e+00  +2.0690e-01
++2.0153e+01  +1.0044e+00  +1.9758e-01
++2.0945e+01  +1.0058e+00  +1.9041e-01
++2.1767e+01  +1.0058e+00  +1.8190e-01
++2.2621e+01  +1.0078e+00  +1.7568e-01
++2.3509e+01  +1.0080e+00  +1.6796e-01
++2.4432e+01  +1.0089e+00  +1.6336e-01
++2.5391e+01  +1.0101e+00  +1.5585e-01
++2.6388e+01  +1.0095e+00  +1.5001e-01
++2.7424e+01  +1.0112e+00  +1.4479e-01
++2.8500e+01  +1.0097e+00  +1.3871e-01
++2.9619e+01  +1.0118e+00  +1.3257e-01
++3.0782e+01  +1.0119e+00  +1.2815e-01
++3.1990e+01  +1.0118e+00  +1.2411e-01
++3.3246e+01  +1.0127e+00  +1.1742e-01
++3.4551e+01  +1.0147e+00  +1.1341e-01
++3.5907e+01  +1.0134e+00  +1.0811e-01
++3.7317e+01  +1.0118e+00  +1.0572e-01
++3.8782e+01  +1.0135e+00  +1.0051e-01
++4.0304e+01  +1.0142e+00  +9.8930e-02
++4.1886e+01  +1.0146e+00  +9.1714e-02
++4.3531e+01  +1.0204e+00  +9.1730e-02
++4.5240e+01  +1.0137e+00  +8.3453e-02
++5.6997e+01  +1.0108e+00  +5.9246e-02
++5.9235e+01  +1.0247e+00  +6.2387e-02
++6.1560e+01  +1.0194e+00  +5.8908e-02
++6.3976e+01  +1.0147e+00  +5.6983e-02
++6.6488e+01  +1.0125e+00  +4.8096e-02
++6.9098e+01  +1.0158e+00  +4.6679e-02
++7.1810e+01  +1.0170e+00  +4.6563e-02
++7.4629e+01  +1.0156e+00  +4.6508e-02
++7.7559e+01  +1.0141e+00  +4.3787e-02
++8.0604e+01  +1.0175e+00  +4.1045e-02
++8.3768e+01  +1.0168e+00  +3.7048e-02
++8.7056e+01  +1.0171e+00  +3.3256e-02
++9.0474e+01  +1.0152e+00  +3.0612e-02
++9.4025e+01  +1.0170e+00  +2.7635e-02
++9.7716e+01  +1.0144e+00  +3.1474e-02
++1.0155e+02  +1.0130e+00  +2.7714e-02
++1.0554e+02  +1.0210e+00  +2.2854e-02
++1.0968e+02  +1.0172e+00  +1.9701e-02
++1.1399e+02  +1.0166e+00  +2.1173e-02
++1.1846e+02  +1.0166e+00  +1.6366e-02
++1.2311e+02  +1.0173e+00  +1.5739e-02
++1.2794e+02  +1.0164e+00  +1.4325e-02
++1.3297e+02  +1.0181e+00  +1.2859e-02
++1.3819e+02  +1.0170e+00  +1.1479e-02
++1.4361e+02  +1.0182e+00  +3.3479e-03
++1.6120e+02  +1.0166e+00  +3.7740e-03
++1.6753e+02  +1.0168e+00  +7.5067e-04
++1.7410e+02  +1.0160e+00  -2.9741e-04
++1.8094e+02  +1.0181e+00  -2.8266e-03
++1.8804e+02  +1.0150e+00  -6.5775e-03
++1.9542e+02  +1.0167e+00  -5.9912e-03
++2.0309e+02  +1.0132e+00  -6.8191e-03
++2.1106e+02  +1.0172e+00  -1.1739e-02
++2.1935e+02  +1.0136e+00  -1.2612e-02
++2.2796e+02  +1.0159e+00  -1.4412e-02
++2.3691e+02  +1.0109e+00  -1.5717e-02
++2.6592e+02  +1.0138e+00  -1.7834e-02
++2.7636e+02  +1.0177e+00  -2.3006e-02
++2.8721e+02  +1.0172e+00  -2.3296e-02
++2.9848e+02  +1.0167e+00  -2.4514e-02
++3.1020e+02  +1.0174e+00  -3.0079e-02
++3.2237e+02  +1.0199e+00  -3.1503e-02
++3.3503e+02  +1.0172e+00  -3.8060e-02
++3.6185e+02  +1.0207e+00  -4.1665e-02
++3.7605e+02  +1.0167e+00  -4.0165e-02
++3.9082e+02  +1.0135e+00  -4.4750e-02
++4.0616e+02  +1.0159e+00  -4.5778e-02
++4.2210e+02  +1.0177e+00  -4.8246e-02
++4.3867e+02  +1.0182e+00  -5.3312e-02
++4.5589e+02  +1.0181e+00  -5.5872e-02
++4.7379e+02  +1.0141e+00  -5.6669e-02
++4.9239e+02  +1.0145e+00  -6.0166e-02
++5.1172e+02  +1.0146e+00  -6.5187e-02
++5.3181e+02  +1.0124e+00  -6.9146e-02
++5.5268e+02  +1.0179e+00  -7.1464e-02
++5.7438e+02  +1.0119e+00  -7.0525e-02
++5.9692e+02  +1.0124e+00  -7.5860e-02
++6.2036e+02  +1.0131e+00  -7.9058e-02
++6.4471e+02  +1.0138e+00  -7.9668e-02
++6.7002e+02  +1.0139e+00  -8.7178e-02
++6.9632e+02  +1.0126e+00  -9.1921e-02
++7.2366e+02  +1.0119e+00  -9.6173e-02
++7.5206e+02  +1.0131e+00  -9.8823e-02
++7.8159e+02  +1.0120e+00  -1.0254e-01
++8.1227e+02  +1.0131e+00  -1.0762e-01
++8.4415e+02  +1.0106e+00  -1.1389e-01
++8.7729e+02  +1.0096e+00  -1.1655e-01
++9.1173e+02  +1.0096e+00  -1.2245e-01
++9.4752e+02  +1.0104e+00  -1.2809e-01
++9.8472e+02  +1.0081e+00  -1.3137e-01
++1.0234e+03  +1.0078e+00  -1.3727e-01
++1.0635e+03  +1.0075e+00  -1.4470e-01
++1.1053e+03  +1.0070e+00  -1.4946e-01
++1.1487e+03  +1.0070e+00  -1.5566e-01
++1.1938e+03  +1.0060e+00  -1.6238e-01
++1.2406e+03  +1.0056e+00  -1.6837e-01
++1.2893e+03  +1.0040e+00  -1.7611e-01
++1.3400e+03  +1.0041e+00  -1.8326e-01
++1.3926e+03  +1.0021e+00  -1.9034e-01
++1.4472e+03  +9.9990e-01  -1.9865e-01
++1.5040e+03  +9.9914e-01  -2.0604e-01
++1.5631e+03  +9.9878e-01  -2.1406e-01
++1.6244e+03  +9.9742e-01  -2.2316e-01
++1.6882e+03  +9.9624e-01  -2.3159e-01
++1.7545e+03  +9.9453e-01  -2.4123e-01
++1.8233e+03  +9.9245e-01  -2.5170e-01
++1.8949e+03  +9.9044e-01  -2.6128e-01
++1.9693e+03  +9.8799e-01  -2.7237e-01
++2.0466e+03  +9.8680e-01  -2.8413e-01
++2.1270e+03  +9.8307e-01  -2.9464e-01
++2.2105e+03  +9.8051e-01  -3.0700e-01
++2.2972e+03  +9.7748e-01  -3.1929e-01
++2.3874e+03  +9.7487e-01  -3.3209e-01
++2.4811e+03  +9.7150e-01  -3.4567e-01
++2.5785e+03  +9.6762e-01  -3.6086e-01
++2.6797e+03  +9.6341e-01  -3.7531e-01
++2.7849e+03  +9.5873e-01  -3.9043e-01
++2.8943e+03  +9.5359e-01  -4.0794e-01
++3.0079e+03  +9.4813e-01  -4.2490e-01
++3.1260e+03  +9.4173e-01  -4.4296e-01
++3.2487e+03  +9.3478e-01  -4.6222e-01
++3.3762e+03  +9.2565e-01  -4.8239e-01
++3.5087e+03  +9.1604e-01  -5.0353e-01
++3.6465e+03  +9.0347e-01  -5.2630e-01
++3.7896e+03  +8.9053e-01  -5.4973e-01
++3.9384e+03  +8.7380e-01  -5.7403e-01
++4.0930e+03  +8.5392e-01  -5.9755e-01
++4.2537e+03  +8.2987e-01  -6.1998e-01
++4.4206e+03  +8.0160e-01  -6.3810e-01
++4.5942e+03  +7.7015e-01  -6.4871e-01
++4.7745e+03  +7.3774e-01  -6.4685e-01
++4.9619e+03  +7.0967e-01  -6.3043e-01
++5.1567e+03  +6.9213e-01  -6.0156e-01
++5.3592e+03  +6.8784e-01  -5.7158e-01
++5.5695e+03  +6.9478e-01  -5.5010e-01
++5.7882e+03  +7.0725e-01  -5.4208e-01
++6.0154e+03  +7.2060e-01  -5.4708e-01
++6.2515e+03  +7.3166e-01  -5.6112e-01
++6.4969e+03  +7.3922e-01  -5.8153e-01
++6.7520e+03  +7.4378e-01  -6.0620e-01
++7.0170e+03  +7.4478e-01  -6.3187e-01
++7.2925e+03  +7.4341e-01  -6.5926e-01
++7.5788e+03  +7.4015e-01  -6.8752e-01
++7.8763e+03  +7.3486e-01  -7.1584e-01
++8.1855e+03  +7.2796e-01  -7.4493e-01
++8.5068e+03  +7.1977e-01  -7.7424e-01
++8.8407e+03  +7.1047e-01  -8.0321e-01
++9.1878e+03  +7.0002e-01  -8.3254e-01
++9.5485e+03  +6.8901e-01  -8.6213e-01
++9.9233e+03  +6.7668e-01  -8.9144e-01
++1.0313e+04  +6.6395e-01  -9.2143e-01
++1.0718e+04  +6.4798e-01  -9.5310e-01
++1.1138e+04  +6.3377e-01  -9.8311e-01
++1.1576e+04  +6.1879e-01  -1.0132e+00
++1.2030e+04  +6.0346e-01  -1.0430e+00
++1.2502e+04  +5.8734e-01  -1.0728e+00
++1.2993e+04  +5.7076e-01  -1.1025e+00
++1.3503e+04  +5.5399e-01  -1.1316e+00
++1.4033e+04  +5.3617e-01  -1.1603e+00
++1.4584e+04  +5.1840e-01  -1.1883e+00
++1.5157e+04  +4.9970e-01  -1.2156e+00
++1.5752e+04  +4.8112e-01  -1.2407e+00
++1.6370e+04  +4.6208e-01  -1.2645e+00
++1.7013e+04  +4.4360e-01  -1.2847e+00
++1.7680e+04  +4.2601e-01  -1.3016e+00
++1.8374e+04  +4.0910e-01  -1.3159e+00
++1.9096e+04  +3.9180e-01  -1.3291e+00
++1.9845e+04  +3.7809e-01  -1.3376e+00
++2.0624e+04  +3.6569e-01  -1.3468e+00
++2.1434e+04  +3.5476e-01  -1.3565e+00
++2.2275e+04  +3.4501e-01  -1.3672e+00
++2.3150e+04  +3.3582e-01  -1.3809e+00
++2.4059e+04  +3.2705e-01  -1.3968e+00
++2.5003e+04  +3.1878e-01  -1.4150e+00
++2.5985e+04  +3.1023e-01  -1.4359e+00
++2.7005e+04  +3.0145e-01  -1.4586e+00
++2.8065e+04  +2.9253e-01  -1.4827e+00
++2.9166e+04  +2.8277e-01  -1.5077e+00
++3.0311e+04  +2.7335e-01  -1.5329e+00
++3.1501e+04  +2.6357e-01  -1.5579e+00
++3.2738e+04  +2.5379e-01  -1.5834e+00
++3.4023e+04  +2.4373e-01  -1.6073e+00
++3.5359e+04  +2.3370e-01  -1.6304e+00
++3.6747e+04  +2.2379e-01  -1.6515e+00
++3.8189e+04  +2.1417e-01  -1.6698e+00
++3.9688e+04  +2.0507e-01  -1.6872e+00
++4.1246e+04  +1.9633e-01  -1.7019e+00
++4.2865e+04  +1.8840e-01  -1.7151e+00
++4.4548e+04  +1.8113e-01  -1.7272e+00
++4.6297e+04  +1.7464e-01  -1.7406e+00
++4.8114e+04  +1.6867e-01  -1.7542e+00
++5.0003e+04  +1.6305e-01  -1.7709e+00
++5.1966e+04  +1.5765e-01  -1.7883e+00
++5.4006e+04  +1.5226e-01  -1.8074e+00
++5.6126e+04  +1.4709e-01  -1.8284e+00
++5.8329e+04  +1.4178e-01  -1.8493e+00
++6.0619e+04  +1.3645e-01  -1.8714e+00
++6.2999e+04  +1.3136e-01  -1.8908e+00
++6.5472e+04  +1.2650e-01  -1.9078e+00
++6.8042e+04  +1.2207e-01  -1.9258e+00
++7.0713e+04  +1.1790e-01  -1.9430e+00
++7.3489e+04  +1.1421e-01  -1.9617e+00
++7.6374e+04  +1.1086e-01  -1.9827e+00
++7.9372e+04  +1.0746e-01  -2.0061e+00
++8.2487e+04  +1.0418e-01  -2.0316e+00
++8.5726e+04  +1.0078e-01  -2.0576e+00
++8.9091e+04  +9.7555e-02  -2.0835e+00
++9.2588e+04  +9.4461e-02  -2.1082e+00
++9.6223e+04  +9.1514e-02  -2.1329e+00
++1.0000e+05  +8.8779e-02  -2.1597e+00
+</pre></div>
+</td></tr></table></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When writing out in internal format, the static gain is removed from the magnitude but recorded in the file. When reading in the internal format again, the static gain will be reapplied.</p>
+</div>
+<p>To read in the internal ASCII format calibration file, the parameters of <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> need to be reset using the <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.refresh" title="resistics.ioHandlers.calibrationIO.CalibrationIO.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a> method. This time, the fileformat needs to be set to “induction”.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>47
+48
+49
+50</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># can read this again</span>
+<span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">rspx2ascii</span><span class="p">,</span> <span class="s2">&quot;induction&quot;</span><span class="p">,</span> <span class="n">chopper</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">calDataAscii</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">calDataAscii</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>Finally, plotting the original data and the internal ASCII format data can be done in the following way:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>52
+53
+54
+55
+56
+57
+58</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot together</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calDataAscii</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ASCII calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPXvsASCII.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<p>The resultant figure is:</p>
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="../../_images/calibrationRSPXvsASCII.png" />
+<p class="caption"><span class="caption-text">Viewing the original RSPX data versus the ASCII data</span></p>
+</div>
+</div>
+<div class="section" id="complete-example-script">
+<h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the example script in full.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
+<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationData</span>
+
+<span class="c1"># read RSPX calibration data</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;Metronix_Coil-----TYPE-006_HF-ID-000133.RSPX&quot;</span><span class="p">)</span>
+<span class="n">calIO</span> <span class="o">=</span> <span class="n">CalibrationIO</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rspx&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">calData</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># plot</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPX.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
+    <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">staticgain</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPX_staticGainAndDegrees.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># this time read in with extend</span>
+<span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rspx&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calDataExtended</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">calDataExtended</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># plot these two together</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calDataExtended</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPX_extended.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># write as the ASCII format</span>
+<span class="n">rspx2ascii</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;rspx2ascii.TXT&quot;</span><span class="p">)</span>
+<span class="n">calIO</span><span class="o">.</span><span class="n">writeInternalFormat</span><span class="p">(</span><span class="n">calData</span><span class="p">,</span> <span class="n">rspx2ascii</span><span class="p">)</span>
+
+<span class="c1"># can read this again</span>
+<span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">rspx2ascii</span><span class="p">,</span> <span class="s2">&quot;induction&quot;</span><span class="p">,</span> <span class="n">chopper</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">calDataAscii</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">calDataAscii</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># plot together</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSPX calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">calDataAscii</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ASCII calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPXvsASCII.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299</pre></div></td><td class="code"><div class="highlight"><pre><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;EmeraldModuleResponse&gt;
+    &lt;CalibrationFile&gt;06133_1503_H_15V&lt;/CalibrationFile&gt;
+    &lt;CalibrationDate&gt;2015_03&lt;/CalibrationDate&gt;
+    &lt;CalibrationType&gt;RSP&lt;/CalibrationType&gt;
+    &lt;SensorType&gt;Metronix_Coil&lt;/SensorType&gt;
+    &lt;SensorSpecification&gt;006_HF&lt;/SensorSpecification&gt;
+    &lt;SensorId&gt;133&lt;/SensorId&gt;
+    &lt;StaticGain&gt;800.000000&lt;/StaticGain&gt;
+    &lt;Unit&gt;mV/nT&lt;/Unit&gt;
+    &lt;Status&gt;OK&lt;/Status&gt;
+    &lt;ResponseData Frequency=&quot; 100000.00000000&quot; Magnitude=&quot;0.08877854&quot; Phase=&quot;-123.74210000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  96222.71000000&quot; Magnitude=&quot;0.09151411&quot; Phase=&quot;-122.20340000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  92588.10000000&quot; Magnitude=&quot;0.09446067&quot; Phase=&quot;-120.79290000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  89090.78000000&quot; Magnitude=&quot;0.09755461&quot; Phase=&quot;-119.37630000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  85725.57000000&quot; Magnitude=&quot;0.10078241&quot; Phase=&quot;-117.89050000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  82487.47000000&quot; Magnitude=&quot;0.10417753&quot; Phase=&quot;-116.40460000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  79371.68000000&quot; Magnitude=&quot;0.10746057&quot; Phase=&quot;-114.94360000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  76373.58000000&quot; Magnitude=&quot;0.11086033&quot; Phase=&quot;-113.60060000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  73488.73000000&quot; Magnitude=&quot;0.11420669&quot; Phase=&quot;-112.39800000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  70712.85000000&quot; Magnitude=&quot;0.11790333&quot; Phase=&quot;-111.32490000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  68041.82000000&quot; Magnitude=&quot;0.12206631&quot; Phase=&quot;-110.34170000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  65471.68000000&quot; Magnitude=&quot;0.12650338&quot; Phase=&quot;-109.31160000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  62998.63000000&quot; Magnitude=&quot;0.13135538&quot; Phase=&quot;-108.33700000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  60618.99000000&quot; Magnitude=&quot;0.13645350&quot; Phase=&quot;-107.22050000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  58329.23000000&quot; Magnitude=&quot;0.14178375&quot; Phase=&quot;-105.95920000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  56125.97000000&quot; Magnitude=&quot;0.14708763&quot; Phase=&quot;-104.76010000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  54005.93000000&quot; Magnitude=&quot;0.15226050&quot; Phase=&quot;-103.55500000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  51965.97000000&quot; Magnitude=&quot;0.15765400&quot; Phase=&quot;-102.46000000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  50003.07000000&quot; Magnitude=&quot;0.16305150&quot; Phase=&quot;-101.46570000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  48114.31000000&quot; Magnitude=&quot;0.16867225&quot; Phase=&quot;-100.50760000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  46296.89000000&quot; Magnitude=&quot;0.17464037&quot; Phase=&quot; -99.73044000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  44548.13000000&quot; Magnitude=&quot;0.18112975&quot; Phase=&quot; -98.95991000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  42865.41000000&quot; Magnitude=&quot;0.18840138&quot; Phase=&quot; -98.26605000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  41246.27000000&quot; Magnitude=&quot;0.19632613&quot; Phase=&quot; -97.50920000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  39688.27000000&quot; Magnitude=&quot;0.20506888&quot; Phase=&quot; -96.66896000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  38189.13000000&quot; Magnitude=&quot;0.21417450&quot; Phase=&quot; -95.67523000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  36746.62000000&quot; Magnitude=&quot;0.22378650&quot; Phase=&quot; -94.62573000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  35358.59000000&quot; Magnitude=&quot;0.23369975&quot; Phase=&quot; -93.41593000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  34023.00000000&quot; Magnitude=&quot;0.24372675&quot; Phase=&quot; -92.09158000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  32737.85000000&quot; Magnitude=&quot;0.25378587&quot; Phase=&quot; -90.72304000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  31501.25000000&quot; Magnitude=&quot;0.26357338&quot; Phase=&quot; -89.26049000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  30311.36000000&quot; Magnitude=&quot;0.27334562&quot; Phase=&quot; -87.82895000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  29166.41000000&quot; Magnitude=&quot;0.28277425&quot; Phase=&quot; -86.38580000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  28064.71000000&quot; Magnitude=&quot;0.29252925&quot; Phase=&quot; -84.95051000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  27004.62000000&quot; Magnitude=&quot;0.30144925&quot; Phase=&quot; -83.57078000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  25984.58000000&quot; Magnitude=&quot;0.31023187&quot; Phase=&quot; -82.27145000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  25003.07000000&quot; Magnitude=&quot;0.31878313&quot; Phase=&quot; -81.07256000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  24058.63000000&quot; Magnitude=&quot;0.32705462&quot; Phase=&quot; -80.03114000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  23149.87000000&quot; Magnitude=&quot;0.33582125&quot; Phase=&quot; -79.11964000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  22275.43000000&quot; Magnitude=&quot;0.34500938&quot; Phase=&quot; -78.33450000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  21434.02000000&quot; Magnitude=&quot;0.35476388&quot; Phase=&quot; -77.71940000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  20624.40000000&quot; Magnitude=&quot;0.36569350&quot; Phase=&quot; -77.16328000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  19845.36000000&quot; Magnitude=&quot;0.37808613&quot; Phase=&quot; -76.64165000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  19095.74000000&quot; Magnitude=&quot;0.39179938&quot; Phase=&quot; -76.15090000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  18374.44000000&quot; Magnitude=&quot;0.40909613&quot; Phase=&quot; -75.39464000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  17680.38000000&quot; Magnitude=&quot;0.42601200&quot; Phase=&quot; -74.57809000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  17012.54000000&quot; Magnitude=&quot;0.44359738&quot; Phase=&quot; -73.60526000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  16369.93000000&quot; Magnitude=&quot;0.46208163&quot; Phase=&quot; -72.44982000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  15751.59000000&quot; Magnitude=&quot;0.48112488&quot; Phase=&quot; -71.08853000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  15156.61000000&quot; Magnitude=&quot;0.49970175&quot; Phase=&quot; -69.65128000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  14584.10000000&quot; Magnitude=&quot;0.51839500&quot; Phase=&quot; -68.08278000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  14033.22000000&quot; Magnitude=&quot;0.53616725&quot; Phase=&quot; -66.47764000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  13503.14000000&quot; Magnitude=&quot;0.55398938&quot; Phase=&quot; -64.83617000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  12993.09000000&quot; Magnitude=&quot;0.57075862&quot; Phase=&quot; -63.16896000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  12502.30000000&quot; Magnitude=&quot;0.58733663&quot; Phase=&quot; -61.46547000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  12030.05000000&quot; Magnitude=&quot;0.60346125&quot; Phase=&quot; -59.75940000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  11575.64000000&quot; Magnitude=&quot;0.61879500&quot; Phase=&quot; -58.05477000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  11138.40000000&quot; Magnitude=&quot;0.63376563&quot; Phase=&quot; -56.32827000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  10717.67000000&quot; Magnitude=&quot;0.64798400&quot; Phase=&quot; -54.60885000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;  10312.83000000&quot; Magnitude=&quot;0.66395025&quot; Phase=&quot; -52.79426000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   9923.28600000&quot; Magnitude=&quot;0.67668200&quot; Phase=&quot; -51.07599000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   9548.45500000&quot; Magnitude=&quot;0.68900887&quot; Phase=&quot; -49.39648000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   9187.78200000&quot; Magnitude=&quot;0.70002263&quot; Phase=&quot; -47.70113000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   8840.73300000&quot; Magnitude=&quot;0.71046888&quot; Phase=&quot; -46.02061000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   8506.79300000&quot; Magnitude=&quot;0.71976525&quot; Phase=&quot; -44.36049000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   8185.46700000&quot; Magnitude=&quot;0.72796500&quot; Phase=&quot; -42.68160000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   7876.27900000&quot; Magnitude=&quot;0.73486363&quot; Phase=&quot; -41.01434000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   7578.76900000&quot; Magnitude=&quot;0.74015125&quot; Phase=&quot; -39.39211000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   7292.49700000&quot; Magnitude=&quot;0.74340988&quot; Phase=&quot; -37.77294000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   7017.03800000&quot; Magnitude=&quot;0.74477900&quot; Phase=&quot; -36.20350000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   6751.98400000&quot; Magnitude=&quot;0.74378063&quot; Phase=&quot; -34.73297000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   6496.94200000&quot; Magnitude=&quot;0.73922162&quot; Phase=&quot; -33.31895000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   6251.53400000&quot; Magnitude=&quot;0.73166287&quot; Phase=&quot; -32.14974000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   6015.39600000&quot; Magnitude=&quot;0.72060062&quot; Phase=&quot; -31.34537000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   5788.17700000&quot; Magnitude=&quot;0.70725213&quot; Phase=&quot; -31.05912000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   5569.54100000&quot; Magnitude=&quot;0.69477675&quot; Phase=&quot; -31.51843000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   5359.16300000&quot; Magnitude=&quot;0.68783825&quot; Phase=&quot; -32.74899000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   5156.73200000&quot; Magnitude=&quot;0.69212750&quot; Phase=&quot; -34.46659000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   4961.94800000&quot; Magnitude=&quot;0.70966512&quot; Phase=&quot; -36.12075000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   4774.52100000&quot; Magnitude=&quot;0.73774500&quot; Phase=&quot; -37.06163000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   4594.17300000&quot; Magnitude=&quot;0.77015088&quot; Phase=&quot; -37.16825000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   4420.63800000&quot; Magnitude=&quot;0.80159825&quot; Phase=&quot; -36.56036000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   4253.65800000&quot; Magnitude=&quot;0.82986563&quot; Phase=&quot; -35.52214000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   4092.98500000&quot; Magnitude=&quot;0.85391987&quot; Phase=&quot; -34.23725000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   3938.38100000&quot; Magnitude=&quot;0.87379887&quot; Phase=&quot; -32.88945000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   3789.61700000&quot; Magnitude=&quot;0.89053325&quot; Phase=&quot; -31.49726000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   3646.47200000&quot; Magnitude=&quot;0.90346738&quot; Phase=&quot; -30.15461000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   3508.73400000&quot; Magnitude=&quot;0.91603612&quot; Phase=&quot; -28.85027000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   3376.19900000&quot; Magnitude=&quot;0.92565325&quot; Phase=&quot; -27.63919000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   3248.67100000&quot; Magnitude=&quot;0.93478188&quot; Phase=&quot; -26.48347000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   3125.95900000&quot; Magnitude=&quot;0.94173487&quot; Phase=&quot; -25.37949000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   3007.88300000&quot; Magnitude=&quot;0.94812737&quot; Phase=&quot; -24.34476000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2894.26600000&quot; Magnitude=&quot;0.95358850&quot; Phase=&quot; -23.37326000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2784.94100000&quot; Magnitude=&quot;0.95873425&quot; Phase=&quot; -22.36996000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2679.74600000&quot; Magnitude=&quot;0.96341025&quot; Phase=&quot; -21.50375000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2578.52400000&quot; Magnitude=&quot;0.96762362&quot; Phase=&quot; -20.67566000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2481.12600000&quot; Magnitude=&quot;0.97150487&quot; Phase=&quot; -19.80529000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2387.40700000&quot; Magnitude=&quot;0.97486675&quot; Phase=&quot; -19.02755000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2297.22800000&quot; Magnitude=&quot;0.97747925&quot; Phase=&quot; -18.29376000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2210.45500000&quot; Magnitude=&quot;0.98051137&quot; Phase=&quot; -17.59004000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2126.95900000&quot; Magnitude=&quot;0.98306925&quot; Phase=&quot; -16.88171000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   2046.61800000&quot; Magnitude=&quot;0.98680013&quot; Phase=&quot; -16.27970000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1969.31100000&quot; Magnitude=&quot;0.98799425&quot; Phase=&quot; -15.60589000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1894.92500000&quot; Magnitude=&quot;0.99043875&quot; Phase=&quot; -14.97023000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1823.34800000&quot; Magnitude=&quot;0.99244525&quot; Phase=&quot; -14.42108000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1754.47500000&quot; Magnitude=&quot;0.99453187&quot; Phase=&quot; -13.82166000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1688.20300000&quot; Magnitude=&quot;0.99624050&quot; Phase=&quot; -13.26928000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1624.43500000&quot; Magnitude=&quot;0.99741825&quot; Phase=&quot; -12.78584000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1563.07500000&quot; Magnitude=&quot;0.99878075&quot; Phase=&quot; -12.26478000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1504.03400000&quot; Magnitude=&quot;0.99913737&quot; Phase=&quot; -11.80522000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1447.22200000&quot; Magnitude=&quot;0.99990150&quot; Phase=&quot; -11.38177000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1392.55600000&quot; Magnitude=&quot;1.00213800&quot; Phase=&quot; -10.90575000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1339.95500000&quot; Magnitude=&quot;1.00414575&quot; Phase=&quot; -10.50015000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1289.34100000&quot; Magnitude=&quot;1.00400900&quot; Phase=&quot; -10.09041000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1240.63900000&quot; Magnitude=&quot;1.00555813&quot; Phase=&quot;  -9.64709200&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1193.77700000&quot; Magnitude=&quot;1.00596850&quot; Phase=&quot;  -9.30379600&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1148.68400000&quot; Magnitude=&quot;1.00701037&quot; Phase=&quot;  -8.91853500&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1105.29500000&quot; Magnitude=&quot;1.00704775&quot; Phase=&quot;  -8.56366300&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1063.54500000&quot; Magnitude=&quot;1.00749325&quot; Phase=&quot;  -8.29078600&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;   1023.37200000&quot; Magnitude=&quot;1.00784175&quot; Phase=&quot;  -7.86474000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    984.71610000&quot; Magnitude=&quot;1.00812313&quot; Phase=&quot;  -7.52669100&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    947.52050000&quot; Magnitude=&quot;1.01035550&quot; Phase=&quot;  -7.33875700&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    911.72990000&quot; Magnitude=&quot;1.00964163&quot; Phase=&quot;  -7.01577800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    877.29130000&quot; Magnitude=&quot;1.00957462&quot; Phase=&quot;  -6.67788600&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    844.15340000&quot; Magnitude=&quot;1.01057825&quot; Phase=&quot;  -6.52545700&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    812.26730000&quot; Magnitude=&quot;1.01314625&quot; Phase=&quot;  -6.16592200&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    781.58570000&quot; Magnitude=&quot;1.01204450&quot; Phase=&quot;  -5.87499800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    752.06290000&quot; Magnitude=&quot;1.01314275&quot; Phase=&quot;  -5.66213100&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    723.65530000&quot; Magnitude=&quot;1.01190950&quot; Phase=&quot;  -5.51033400&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    696.32080000&quot; Magnitude=&quot;1.01262738&quot; Phase=&quot;  -5.26667000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    670.01870000&quot; Magnitude=&quot;1.01386100&quot; Phase=&quot;  -4.99495900&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    644.71020000&quot; Magnitude=&quot;1.01383500&quot; Phase=&quot;  -4.56462800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    620.35770000&quot; Magnitude=&quot;1.01312975&quot; Phase=&quot;  -4.52968200&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    596.92490000&quot; Magnitude=&quot;1.01241838&quot; Phase=&quot;  -4.34644400&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    574.37740000&quot; Magnitude=&quot;1.01186850&quot; Phase=&quot;  -4.04080200&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    552.68150000&quot; Magnitude=&quot;1.01787463&quot; Phase=&quot;  -4.09456800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    531.80510000&quot; Magnitude=&quot;1.01236900&quot; Phase=&quot;  -3.96180100&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    511.71730000&quot; Magnitude=&quot;1.01460300&quot; Phase=&quot;  -3.73493600&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    492.38830000&quot; Magnitude=&quot;1.01447463&quot; Phase=&quot;  -3.44727300&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    473.78930000&quot; Magnitude=&quot;1.01412850&quot; Phase=&quot;  -3.24690300&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    455.89290000&quot; Magnitude=&quot;1.01808250&quot; Phase=&quot;  -3.20123100&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    438.67250000&quot; Magnitude=&quot;1.01817463&quot; Phase=&quot;  -3.05453300&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    422.10260000&quot; Magnitude=&quot;1.01767500&quot; Phase=&quot;  -2.76427000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    406.15860000&quot; Magnitude=&quot;1.01593700&quot; Phase=&quot;  -2.62289000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    390.81680000&quot; Magnitude=&quot;1.01353125&quot; Phase=&quot;  -2.56399100&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    376.05450000&quot; Magnitude=&quot;1.01665663&quot; Phase=&quot;  -2.30128600&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    361.84990000&quot; Magnitude=&quot;1.02066363&quot; Phase=&quot;  -2.38722800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    335.02990000&quot; Magnitude=&quot;1.01719650&quot; Phase=&quot;  -2.18067400&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    322.37490000&quot; Magnitude=&quot;1.01986600&quot; Phase=&quot;  -1.80498700&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    310.19780000&quot; Magnitude=&quot;1.01742625&quot; Phase=&quot;  -1.72342600&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    298.48080000&quot; Magnitude=&quot;1.01665188&quot; Phase=&quot;  -1.40456000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    287.20630000&quot; Magnitude=&quot;1.01719287&quot; Phase=&quot;  -1.33476400&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    276.35770000&quot; Magnitude=&quot;1.01766225&quot; Phase=&quot;  -1.31812500&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    265.91890000&quot; Magnitude=&quot;1.01377813&quot; Phase=&quot;  -1.02183900&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    236.90920000&quot; Magnitude=&quot;1.01091875&quot; Phase=&quot;  -0.90050380&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    227.96050000&quot; Magnitude=&quot;1.01594950&quot; Phase=&quot;  -0.82571860&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    219.34970000&quot; Magnitude=&quot;1.01364837&quot; Phase=&quot;  -0.72262460&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    211.06430000&quot; Magnitude=&quot;1.01723000&quot; Phase=&quot;  -0.67256750&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    203.09180000&quot; Magnitude=&quot;1.01323200&quot; Phase=&quot;  -0.39070290&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    195.42040000&quot; Magnitude=&quot;1.01665262&quot; Phase=&quot;  -0.34327180&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    188.03880000&quot; Magnitude=&quot;1.01500213&quot; Phase=&quot;  -0.37686230&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    180.93600000&quot; Magnitude=&quot;1.01808925&quot; Phase=&quot;  -0.16195270&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    174.10160000&quot; Magnitude=&quot;1.01602938&quot; Phase=&quot;  -0.01704049&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    167.52530000&quot; Magnitude=&quot;1.01678450&quot; Phase=&quot;   0.04301032&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    161.19730000&quot; Magnitude=&quot;1.01658675&quot; Phase=&quot;   0.21623680&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    143.61200000&quot; Magnitude=&quot;1.01823762&quot; Phase=&quot;   0.19182020&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    138.18730000&quot; Magnitude=&quot;1.01697275&quot; Phase=&quot;   0.65767340&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    132.96760000&quot; Magnitude=&quot;1.01807550&quot; Phase=&quot;   0.73678700&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    127.94500000&quot; Magnitude=&quot;1.01636875&quot; Phase=&quot;   0.82077430&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    123.11220000&quot; Magnitude=&quot;1.01728938&quot; Phase=&quot;   0.90175380&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    118.46190000&quot; Magnitude=&quot;1.01660100&quot; Phase=&quot;   0.93770800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    113.98720000&quot; Magnitude=&quot;1.01655713&quot; Phase=&quot;   1.21314200&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    109.68160000&quot; Magnitude=&quot;1.01720688&quot; Phase=&quot;   1.12879200&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    105.53860000&quot; Magnitude=&quot;1.02097425&quot; Phase=&quot;   1.30943800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;    101.55210000&quot; Magnitude=&quot;1.01296238&quot; Phase=&quot;   1.58789200&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     97.71619000&quot; Magnitude=&quot;1.01437837&quot; Phase=&quot;   1.80333400&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     94.02518000&quot; Magnitude=&quot;1.01696925&quot; Phase=&quot;   1.58334100&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     90.47357000&quot; Magnitude=&quot;1.01521488&quot; Phase=&quot;   1.75391000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     87.05612000&quot; Magnitude=&quot;1.01705563&quot; Phase=&quot;   1.90544700&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     83.76776000&quot; Magnitude=&quot;1.01676163&quot; Phase=&quot;   2.12269900&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     80.60361000&quot; Magnitude=&quot;1.01749212&quot; Phase=&quot;   2.35168100&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     77.55898000&quot; Magnitude=&quot;1.01408025&quot; Phase=&quot;   2.50879300&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     74.62936000&quot; Magnitude=&quot;1.01558650&quot; Phase=&quot;   2.66469900&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     71.81039000&quot; Magnitude=&quot;1.01701362&quot; Phase=&quot;   2.66783500&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     69.09791000&quot; Magnitude=&quot;1.01579388&quot; Phase=&quot;   2.67449800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     66.48788000&quot; Magnitude=&quot;1.01249650&quot; Phase=&quot;   2.75570900&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     63.97644000&quot; Magnitude=&quot;1.01468700&quot; Phase=&quot;   3.26490400&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     61.55986000&quot; Magnitude=&quot;1.01939638&quot; Phase=&quot;   3.37516000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     59.23457000&quot; Magnitude=&quot;1.02469938&quot; Phase=&quot;   3.57448500&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     56.99711000&quot; Magnitude=&quot;1.01076562&quot; Phase=&quot;   3.39453000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     45.23956000&quot; Magnitude=&quot;1.01365837&quot; Phase=&quot;   4.78150000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     43.53074000&quot; Magnitude=&quot;1.02041888&quot; Phase=&quot;   5.25572000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     41.88645000&quot; Magnitude=&quot;1.01456525&quot; Phase=&quot;   5.25482300&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     40.30428000&quot; Magnitude=&quot;1.01416200&quot; Phase=&quot;   5.66824500&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     38.78187000&quot; Magnitude=&quot;1.01347188&quot; Phase=&quot;   5.75877800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     37.31697000&quot; Magnitude=&quot;1.01175488&quot; Phase=&quot;   6.05706900&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     35.90740000&quot; Magnitude=&quot;1.01335837&quot; Phase=&quot;   6.19422000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     34.55107000&quot; Magnitude=&quot;1.01467550&quot; Phase=&quot;   6.49802500&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     33.24598000&quot; Magnitude=&quot;1.01266338&quot; Phase=&quot;   6.72740600&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     31.99018000&quot; Magnitude=&quot;1.01177125&quot; Phase=&quot;   7.11083800&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     30.78182000&quot; Magnitude=&quot;1.01189950&quot; Phase=&quot;   7.34236400&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     29.61910000&quot; Magnitude=&quot;1.01179687&quot; Phase=&quot;   7.59592700&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     28.50031000&quot; Magnitude=&quot;1.00974725&quot; Phase=&quot;   7.94773300&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     27.42377000&quot; Magnitude=&quot;1.01118650&quot; Phase=&quot;   8.29576100&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     26.38789000&quot; Magnitude=&quot;1.00949875&quot; Phase=&quot;   8.59513200&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     25.39114000&quot; Magnitude=&quot;1.01009100&quot; Phase=&quot;   8.92935400&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     24.43205000&quot; Magnitude=&quot;1.00891300&quot; Phase=&quot;   9.35981700&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     23.50918000&quot; Magnitude=&quot;1.00795350&quot; Phase=&quot;   9.62346500&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     22.62117000&quot; Magnitude=&quot;1.00784838&quot; Phase=&quot;  10.06581000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     21.76670000&quot; Magnitude=&quot;1.00577112&quot; Phase=&quot;  10.42234000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     20.94451000&quot; Magnitude=&quot;1.00575850&quot; Phase=&quot;  10.90986000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     20.15338000&quot; Magnitude=&quot;1.00438937&quot; Phase=&quot;  11.32069000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     19.39213000&quot; Magnitude=&quot;1.00256862&quot; Phase=&quot;  11.85436000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     18.65963000&quot; Magnitude=&quot;1.00216588&quot; Phase=&quot;  12.22126000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     17.95480000&quot; Magnitude=&quot;1.00116725&quot; Phase=&quot;  12.88312000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     15.39186000&quot; Magnitude=&quot;0.99536338&quot; Phase=&quot;  14.89497000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     14.81046000&quot; Magnitude=&quot;0.99225588&quot; Phase=&quot;  15.46403000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     14.25103000&quot; Magnitude=&quot;0.99224500&quot; Phase=&quot;  16.00377000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     13.71272000&quot; Magnitude=&quot;0.99035862&quot; Phase=&quot;  16.67527000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     13.19476000&quot; Magnitude=&quot;0.98715387&quot; Phase=&quot;  17.34152000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     12.69635000&quot; Magnitude=&quot;0.98515825&quot; Phase=&quot;  17.94263000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     12.21677000&quot; Magnitude=&quot;0.98327912&quot; Phase=&quot;  18.67780000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     11.75531000&quot; Magnitude=&quot;0.98058950&quot; Phase=&quot;  19.42797000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     11.31128000&quot; Magnitude=&quot;0.97735225&quot; Phase=&quot;  20.17696000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     10.88402000&quot; Magnitude=&quot;0.97460575&quot; Phase=&quot;  20.91657000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     10.47290000&quot; Magnitude=&quot;0.97103713&quot; Phase=&quot;  21.69529000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;     10.07731000&quot; Magnitude=&quot;0.96787437&quot; Phase=&quot;  22.49375000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      9.69665800&quot; Magnitude=&quot;0.96419150&quot; Phase=&quot;  23.35962000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      9.33038700&quot; Magnitude=&quot;0.96048800&quot; Phase=&quot;  24.23872000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      8.97795200&quot; Magnitude=&quot;0.95577875&quot; Phase=&quot;  25.13118000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      8.63882800&quot; Magnitude=&quot;0.95123175&quot; Phase=&quot;  26.07279000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      8.31251500&quot; Magnitude=&quot;0.94643537&quot; Phase=&quot;  27.03755000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      7.99852800&quot; Magnitude=&quot;0.94082888&quot; Phase=&quot;  28.01823000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      7.69640000&quot; Magnitude=&quot;0.93563613&quot; Phase=&quot;  29.05140000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      7.40568400&quot; Magnitude=&quot;0.92972737&quot; Phase=&quot;  30.07529000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      7.12595100&quot; Magnitude=&quot;0.92357637&quot; Phase=&quot;  31.17091000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      6.85678300&quot; Magnitude=&quot;0.91706413&quot; Phase=&quot;  32.30061000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      6.59778300&quot; Magnitude=&quot;0.91024663&quot; Phase=&quot;  33.45770000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      6.34856500&quot; Magnitude=&quot;0.90279912&quot; Phase=&quot;  34.63381000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      6.10876200&quot; Magnitude=&quot;0.89495975&quot; Phase=&quot;  35.86138000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      5.87801600&quot; Magnitude=&quot;0.88655362&quot; Phase=&quot;  37.08980000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      5.65598600&quot; Magnitude=&quot;0.87785612&quot; Phase=&quot;  38.36166000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      5.44234400&quot; Magnitude=&quot;0.86854912&quot; Phase=&quot;  39.67066000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      5.23677100&quot; Magnitude=&quot;0.85890500&quot; Phase=&quot;  41.01062000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      5.03896300&quot; Magnitude=&quot;0.84930638&quot; Phase=&quot;  42.38470000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      4.84862700&quot; Magnitude=&quot;0.83865200&quot; Phase=&quot;  43.78920000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      4.66548000&quot; Magnitude=&quot;0.82778150&quot; Phase=&quot;  45.22813000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      4.48925100&quot; Magnitude=&quot;0.81639912&quot; Phase=&quot;  46.68229000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      4.31967900&quot; Magnitude=&quot;0.80453862&quot; Phase=&quot;  48.18391000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      4.15651300&quot; Magnitude=&quot;0.79195300&quot; Phase=&quot;  49.70335000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      3.99950900&quot; Magnitude=&quot;0.77936700&quot; Phase=&quot;  51.26211000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      3.84843600&quot; Magnitude=&quot;0.76605613&quot; Phase=&quot;  52.82388000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      3.70307000&quot; Magnitude=&quot;0.75236437&quot; Phase=&quot;  54.44391000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      3.56319400&quot; Magnitude=&quot;0.73874300&quot; Phase=&quot;  56.07273000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      3.42860200&quot; Magnitude=&quot;0.72372800&quot; Phase=&quot;  57.69059000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      3.29909400&quot; Magnitude=&quot;0.70910675&quot; Phase=&quot;  59.35883000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      3.17447700&quot; Magnitude=&quot;0.69380988&quot; Phase=&quot;  61.08051000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      3.05456800&quot; Magnitude=&quot;0.67793050&quot; Phase=&quot;  62.71901000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.93918800&quot; Magnitude=&quot;0.66215213&quot; Phase=&quot;  64.49177000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.82816700&quot; Magnitude=&quot;0.64600975&quot; Phase=&quot;  66.24989000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.72133900&quot; Magnitude=&quot;0.62965512&quot; Phase=&quot;  68.00648000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.61854600&quot; Magnitude=&quot;0.61309087&quot; Phase=&quot;  69.77637000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.51963600&quot; Magnitude=&quot;0.59644513&quot; Phase=&quot;  71.55630000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.42446200&quot; Magnitude=&quot;0.57950400&quot; Phase=&quot;  73.36092000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.33288300&quot; Magnitude=&quot;0.56242525&quot; Phase=&quot;  75.16586000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.24476300&quot; Magnitude=&quot;0.54552137&quot; Phase=&quot;  77.00172000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.15997200&quot; Magnitude=&quot;0.52859062&quot; Phase=&quot;  78.80736000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      2.07838400&quot; Magnitude=&quot;0.51147062&quot; Phase=&quot;  80.64350000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.99987700&quot; Magnitude=&quot;0.49454175&quot; Phase=&quot;  82.48358000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.92433600&quot; Magnitude=&quot;0.47764725&quot; Phase=&quot;  84.30909000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.85164800&quot; Magnitude=&quot;0.46077775&quot; Phase=&quot;  86.15383000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.78170600&quot; Magnitude=&quot;0.44407713&quot; Phase=&quot;  88.00144000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.71440600&quot; Magnitude=&quot;0.42745850&quot; Phase=&quot;  89.84236000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.64964800&quot; Magnitude=&quot;0.41087300&quot; Phase=&quot;  91.68628000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.58733600&quot; Magnitude=&quot;0.39470650&quot; Phase=&quot;  93.52610000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.52737800&quot; Magnitude=&quot;0.37873050&quot; Phase=&quot;  95.36633000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.46968400&quot; Magnitude=&quot;0.36305112&quot; Phase=&quot;  97.20285000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.41417000&quot; Magnitude=&quot;0.34775838&quot; Phase=&quot;  99.03044000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.36075300&quot; Magnitude=&quot;0.33265012&quot; Phase=&quot; 100.84700000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.30935300&quot; Magnitude=&quot;0.31799900&quot; Phase=&quot; 102.64810000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.25989500&quot; Magnitude=&quot;0.30360600&quot; Phase=&quot; 104.46570000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.21230500&quot; Magnitude=&quot;0.28949850&quot; Phase=&quot; 106.27010000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.16651300&quot; Magnitude=&quot;0.27591425&quot; Phase=&quot; 108.05070000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.12245100&quot; Magnitude=&quot;0.26260112&quot; Phase=&quot; 109.82990000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.08005200&quot; Magnitude=&quot;0.24974337&quot; Phase=&quot; 111.58270000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.03925600&quot; Magnitude=&quot;0.23718962&quot; Phase=&quot; 113.32730000&quot; /&gt;
+    &lt;ResponseData Frequency=&quot;      1.00000000&quot; Magnitude=&quot;0.22505363&quot; Phase=&quot; 115.05370000&quot; /&gt;
+&lt;/EmeraldModuleResponse&gt;
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ascii-calibration.html" class="btn btn-neutral float-right" title="ASCII Calibration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rsp-calibration.html" class="btn btn-neutral float-left" title="RSP Calibration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -91,11 +91,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="project-environment.html">The project environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viewing-data.html">Viewing timeseries data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="up-and-running.html">Up and running</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tipper.html">Calculating the Tipper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tipper.html">Calculating the tipper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viewing-spectra.html">Viewing spectra</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multiple-spectra.html">Multiple spectra</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Using configuration files</a></li>
@@ -180,7 +181,9 @@
             
   <div class="section" id="using-configuration-files">
 <h1>Using configuration files<a class="headerlink" href="#using-configuration-files" title="Permalink to this headline">¶</a></h1>
-<p>Configuration files are a powerful way to set multiple parameters. To read about the parameters in configuration files, please see xxx. A user supplied configuration only needs to include the parameters to be changed.</p>
+<p>Configuration files are a powerful way to set multiple parameters. For more information about the parameters in configuration files, please see <a class="reference internal" href="../features/configuration.html"><span class="doc">Configuration files</span></a>.</p>
+<p>A user supplied configuration only needs to include non-default parameters (those where the values are changed). Details on the easiest way to create a configuration file are provided <a class="reference internal" href="../features/configuration.html"><span class="doc">here</span></a>.</p>
+<p>To use configuration files, they should be specified when loading in a project. An example configuration file is shown below.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -210,11 +213,138 @@ minwindowsize = 256
 minoverlapsize = 64
 </pre></div>
 </td></tr></table></div>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>22
-23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot transfer function and save the plot</span>
-<span class="n">viewTransferFunction</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<p>This configuration has been named <em>dec8_5</em> because it uses a decimation scheme of 8 decimation levels with 5 evaluation frequencies per level. Configuration names should be meaningful and unique to allow disambiguation and easy repeatability. Configuration file names are stored in dataset comments to ensure transparency.</p>
+<p>The below shows how to load a project with a configuration specified by a configuration file.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1">#  load the project and also provide a config file</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
+<p>The configuration file above specifies a spectra directory to use. For more on what this means, please see the <a class="reference internal" href="multiple-spectra.html"><span class="doc">Multiple spectra</span></a> page. The result is that all project methods which use the <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a> instance loaded with the configuration file will pick up the configuration parameters.</p>
+<p>Calculating spectra is now straightforward. When passing the <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a> instance loaded with the tutorialConfig.ini configuration file to <a class="reference internal" href="../api/resistics.project.projectSpectra.html#resistics.project.projectSpectra.calculateSpectra" title="resistics.project.projectSpectra.calculateSpectra"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateSpectra()</span></code></a>, the <strong>specdir</strong> option in the configuration file will automatically be picked up.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate spectrum using the new configuration</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+
+<span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>The spectra will be stored in the following location:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exampleProject
+├── calData
+├── timeData
+│   └── site1
+|       |── dataFolder1
+│       |── dataFolder2
+|       |──     .
+|       |──     .
+|       |──     .
+|       └── dataFolderN
+├── specData
+│   └── site1
+|       |── dataFolder1
+|       |   └── dec8_5
+|       |
+│       |── dataFolder2
+|       |   └── dec8_5
+|       |──     .
+|       |──     .
+|       |──     .
+|       └── dataFolderN
+|           └── dec8_5
+├── statData
+├── maskData
+├── transFuncData
+├── images
+└── mtProj.prj
+</pre></div>
+</div>
+<p>To process these spectra, it’s a similar situation. Passing the <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a> instance loaded with the tutorialConfig.ini configuration file to <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.processProject" title="resistics.project.projectTransferFunction.processProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code></a>, the <strong>specdir</strong> option in the configuration file will automatically be picked up.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the spectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+
+<span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="c1"># plot transfer function and save the plot</span>
+<span class="n">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now the plot using the new configuration parameters (8 decimation levels with 5 evaluation frequencies per decimation level) can be compared to the default parameterisation.</p>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="../_images/stat_statData_coherence_view.png" />
+<p class="caption"><span class="caption-text">Using the customised configuration</span></p>
+</div>
+<div class="align-center figure" id="id2">
+<img alt="alternate text" src="../_images/stat_statData_coherence_hist.png" />
+<p class="caption"><span class="caption-text">Using the default configuration</span></p>
+</div>
+<div class="section" id="complete-example-script">
+<h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the complete example script is provided below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1">#  load the project and also provide a config file</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># calculate spectrum using the new configuration</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+
+<span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+
+<span class="c1"># process the spectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+
+<span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="c1"># plot transfer function and save the plot</span>
+<span class="n">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 
 

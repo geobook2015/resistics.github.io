@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
@@ -183,6 +184,7 @@
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsIO</span> <span class="k">import</span> <span class="n">checkFilepath</span><span class="p">,</span> <span class="n">fileFormatSampleFreq</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="n">arrayToString</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">savePlot</span><span class="p">,</span>
     <span class="n">plotOptionsTransferFunction</span><span class="p">,</span>
     <span class="n">getTransferFunctionFigSize</span><span class="p">,</span>
     <span class="n">plotOptionsTipper</span><span class="p">,</span>
@@ -262,7 +264,7 @@
 <span class="sd">    sites : List[str], optional</span>
 <span class="sd">        List of sites </span>
 <span class="sd">    sampleFreqs : List[float], optional</span>
-<span class="sd">        List of sample frequencies to plot</span>
+<span class="sd">        List of sample frequencies to process</span>
 <span class="sd">    specdir : str, optional</span>
 <span class="sd">        The spectra directories to use</span>
 <span class="sd">    inchans : List[str], optional</span>
@@ -432,8 +434,8 @@
     <span class="n">processor</span><span class="o">.</span><span class="n">process</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="viewTransferFunction"><a class="viewcode-back" href="../../../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.viewTransferFunction">[docs]</a><span class="k">def</span> <span class="nf">viewTransferFunction</span><span class="p">(</span><span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;View transfer function data</span>
+<div class="viewcode-block" id="viewImpedance"><a class="viewcode-back" href="../../../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.viewImpedance">[docs]</a><span class="k">def</span> <span class="nf">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;View impedance tensor data</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -521,7 +523,7 @@
                 <span class="c1"># plot</span>
                 <span class="n">mk</span> <span class="o">=</span> <span class="n">mks</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">mks</span><span class="p">)]</span>
                 <span class="n">ls</span> <span class="o">=</span> <span class="n">lstyles</span><span class="p">[</span><span class="n">idx</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">lstyles</span><span class="p">)]</span>
-                <span class="n">tfData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
+                <span class="n">tfData</span><span class="o">.</span><span class="n">viewImpedance</span><span class="p">(</span>
                     <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
                     <span class="n">polarisations</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;polarisations&quot;</span><span class="p">],</span>
                     <span class="n">mk</span><span class="o">=</span><span class="n">mk</span><span class="p">,</span>
@@ -547,12 +549,12 @@
             <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.92</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;save&quot;</span><span class="p">]:</span>
-                <span class="n">imPath</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">imagePath</span>
+                <span class="n">impath</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">imagePath</span>
                 <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;transFunction_</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span> <span class="n">postpend</span>
                 <span class="p">)</span>
-                <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">imPath</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
-                <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+                <span class="n">savename</span> <span class="o">=</span> <span class="n">savePlot</span><span class="p">(</span><span class="n">impath</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fig</span><span class="p">)</span>
+                <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">savename</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;show&quot;</span><span class="p">]:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
@@ -661,12 +663,12 @@
             <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;save&quot;</span><span class="p">]:</span>
-                <span class="n">imPath</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">imagePath</span>
-                <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;tipper_</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">impath</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">imagePath</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;tipper_</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">site</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span> <span class="n">postpend</span>
                 <span class="p">)</span>
-                <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">imPath</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
-                <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+                <span class="n">savename</span> <span class="o">=</span> <span class="n">savePlot</span><span class="p">(</span><span class="n">impath</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fig</span><span class="p">)</span>
+                <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Image saved to file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">savename</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;show&quot;</span><span class="p">]:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
