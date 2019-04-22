@@ -103,6 +103,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mask-processing.html">Processing with masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date-time-constraints.html">Date and time constraints</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -181,7 +182,8 @@
             
   <div class="section" id="statistics">
 <h1>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h1>
-<p>Statistics are a feature of resistics meant to provide more insight into the data and more options for masking noisy or bad time windows. There are a number of built in statistics and an intention to support custom statistics in the future. The following section covers the usage of statistics. For more information about the available statistics and their meanings, please refer to <a class="reference internal" href="../features/statistics.html"><span class="doc">Statistics</span></a> and <a class="reference internal" href="../features/remote-statistics.html"><span class="doc">Remote statistics</span></a>.</p>
+<p>Statistics are a feature of resistics meant to provide more insight into the data and more options for masking noisy or bad time windows. <strong>They are calculated out for each evaluation frequency at each decimation level</strong>. As statistics are calculated out for each evaluation frequency, variation in statistic values can be viewed across time and evaluation frequency.</p>
+<p>There are a number of built in statistics and an intention to support custom statistics in the future. The following section covers the usage of statistics. For more information about the available statistics and their meanings, please refer to <a class="reference internal" href="../features/statistics.html"><span class="doc">Statistics</span></a> and <a class="reference internal" href="../features/remote-statistics.html"><span class="doc">Remote statistics</span></a>.</p>
 <p>As normal, begin with loading the project.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -193,7 +195,7 @@
 
 <span class="c1"># need the project path for loading</span>
 <span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
-<span class="c1"># projData = loadProject(projectPath)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The next step is to get a list of the resistics built in statistics. These come in two flavours:</p>
@@ -204,10 +206,10 @@
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
 12
 13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># # get default statistic names</span>
-<span class="c1"># from resistics.utilities.utilsStats import getStatNames</span>
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get default statistic names</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsStats</span> <span class="kn">import</span> <span class="n">getStatNames</span>
 
-<span class="c1"># stats, remotestats = getStatNames()</span>
+<span class="n">stats</span><span class="p">,</span> <span class="n">remotestats</span> <span class="o">=</span> <span class="n">getStatNames</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
@@ -218,10 +220,10 @@
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
 14
 15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># # calculate statistics</span>
-<span class="c1"># from resistics.project.projectStatistics import calculateStatistics</span>
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate statistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
 
-<span class="c1"># calculateStatistics(projData, stats=stats)</span>
+<span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The single site statistics which are calculated by default are coherence and transfer function values. There are two ways to manually specify the statistics to calculate. These are:</p>
@@ -411,7 +413,7 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
 <span class="c1"># load the project with the tutorial configuration file</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
-<span class="c1"># calculateStatistics(projData, stats=stats)</span>
+<span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Statistic data can be read in using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.getStatisticData" title="resistics.project.projectStatistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> method of the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> module. As stated earlier, statistic data is indexed by site, measurement directory, spectra directory and statistic name. These have to be provided to <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.getStatisticData" title="resistics.project.projectStatistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a>. However, if the <strong>specdir</strong> keyword is not provided, <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.getStatisticData" title="resistics.project.projectStatistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> will check if <strong>specdir</strong> is defined in the configuration file. If not, it will revert to the default configuration (and spectra directory). Additionally, the decimation level to read in has to be specified. Below is an example.</p>
@@ -437,98 +439,144 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
 <li><a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.histogram" title="resistics.dataObjects.statisticData.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a>, which plots a histogram of the statistic</li>
 <li><a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a>, which plots crossplots of the statistic components</li>
 </ul>
-<p>An example of viewing those is shown below:</p>
+<p>Examples of using these methods to view statistic values and variation are shown below:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>31
 32
 33
 34
 35
-36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view statistic value over time</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+36
+37
+38
+39</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view statistic value over time</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_view&quot;</span><span class="p">))</span>
 <span class="c1"># view statistic histogram</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_histogram&quot;</span><span class="p">))</span>
 <span class="c1"># view statistic crossplot</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;cohExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHy&quot;</span><span class="p">]])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;cohExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHy&quot;</span><span class="p">]])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_crossplot&quot;</span><span class="p">))</span>
 </pre></div>
 </td></tr></table></div>
 <p>These produce the following plots:</p>
 <div class="align-center figure" id="id1">
-<img alt="alternate text" src="../_images/stat_statData_coherence_view.png" />
-<p class="caption"><span class="caption-text">Coherence plotted using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.view" title="resistics.dataObjects.statisticData.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method</span></p>
+<img alt="alternate text" src="../_images/statistic_coherence_view.png" />
+<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.view" title="resistics.dataObjects.statisticData.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method</span></p>
 </div>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../_images/stat_statData_coherence_hist.png" />
-<p class="caption"><span class="caption-text">Coherence plotted using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.histogram" title="resistics.dataObjects.statisticData.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a> method</span></p>
+<img alt="alternate text" src="../_images/statistic_coherence_histogram.png" />
+<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.histogram" title="resistics.dataObjects.statisticData.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a> method</span></p>
 </div>
 <div class="align-center figure" id="id3">
-<a class="reference internal image-reference" href="../_images/stat_statData_coherence_crossplot.png"><img alt="alternate text" src="../_images/stat_statData_coherence_crossplot.png" style="width: 400px;" /></a>
-<p class="caption"><span class="caption-text">Coherence plotted using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method</span></p>
+<a class="reference internal image-reference" href="../_images/statistic_coherence_crossplot.png"><img alt="alternate text" src="../_images/statistic_coherence_crossplot.png" style="width: 500px;" /></a>
+<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method</span></p>
 </div>
 <p>In the above case, the coherence statistic was read in. Another statistic is the transfer function calculated on a window-by-window basis. The statistic data for this can be read in and plotted in a similar way.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>38
-39
-40
-41
-42
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>42
 43
 44
-45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># transfer function statistic data</span>
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># transfer function statistic data</span>
 <span class="n">statData</span> <span class="o">=</span> <span class="n">getStatisticData</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">declevel</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">)</span>
 <span class="c1"># view statistic value over time</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_view&quot;</span><span class="p">))</span>
 <span class="c1"># view statistic histogram</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_histogram&quot;</span><span class="p">))</span>
+<span class="c1"># view statistic crossplot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">crossplots</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;ExHxReal&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHxImag&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;ExHyReal&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyImag&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;EyHxReal&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxImag&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;EyHyReal&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHyImag&quot;</span><span class="p">],</span>
+    <span class="p">],</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_crossplot&quot;</span><span class="p">))</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id4">
-<img alt="alternate text" src="../_images/stat_statData_transferFunction_view.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.histogram" title="resistics.dataObjects.statisticData.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a> method</span></p>
+<img alt="alternate text" src="../_images/statistic_transferFunction_view.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.view" title="resistics.dataObjects.statisticData.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method</span></p>
 </div>
 <div class="align-center figure" id="id5">
-<img alt="alternate text" src="../_images/stat_statData_transferFunction_hist.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method</span></p>
+<img alt="alternate text" src="../_images/statistic_transferFunction_histogram.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.histogram" title="resistics.dataObjects.statisticData.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a> method</span></p>
 </div>
-<p>The next example if the crossplot for the transfer function statistic. This make more intuitive sense than the coherence crossplot above, as it allows the plotting of the transfer function data on the complex plane.</p>
+<p>The next example is the crossplot for the transfer function statistic. This make more intuitive sense than the coherence crossplot above, as it allows the plotting of the transfer function data on the complex plane.</p>
 <div class="align-center figure" id="id6">
-<a class="reference internal image-reference" href="../_images/stat_statData_coherence_crossplot.png"><img alt="alternate text" src="../_images/stat_statData_coherence_crossplot.png" style="width: 400px;" /></a>
-<p class="caption"><span class="caption-text">Transfer function data plotted using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method</span></p>
+<img alt="alternate text" src="../_images/statistic_transferFunction_crossplot.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method</span></p>
 </div>
 <p>In all of these cases, a 0 is being passed to the plotting methods. This 0 is the evaluation frequency index for that decimation level. Changing it will plot a different evaluation frequency.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>46
-47</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view statistic crossplot</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The evaluation frequency index starts from 0 and goes to the number of evaluation frequencies per decimation level - 1. So if there are 7 evaluation frequencies per decimation level, the evaluation frequency indices will be 0, 1, 2, 3, 4, 5, 6.</p>
+<p class="last">Evaluation frequency and decimation level indices will be covered in more detail further down.</p>
+</div>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>65
+66
+67</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># look at the next evaluation frequency</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_view_eval1&quot;</span><span class="p">))</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id7">
-<img alt="alternate text" src="../_images/stat_statData_transferFunction_view_eval1.png" />
-<p class="caption"><span class="caption-text">Transfer function data using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method for a different evaluation frequency</span></p>
+<img alt="alternate text" src="../_images/statistic_transferFunction_view_eval1.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 22.627417 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.view" title="resistics.dataObjects.statisticData.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method.</span></p>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The evaluation frequency index starts from 0 and goes to the number of evaluation frequencies per decimation level - 1. So if there are 7 evaluation frequencies per decimation level, the evaluation frequency indices will be 0, 1, 2, 3, 4, 5, 6.</p>
-</div>
+<div class="section" id="statistics-across-time-series-measurements">
+<h2>Statistics across time series measurements<a class="headerlink" href="#statistics-across-time-series-measurements" title="Permalink to this headline">¶</a></h2>
 <p>The above examples were reading in statistic data for a single measurement. However, in many cases, the statistics over all the time series measurements of a certain sampling frequency in a site are of more interest. In order to plot and view these, the methods available in the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> module will be more useful. The module <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> has two plotting methods:</p>
 <ul class="simple">
 <li><a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a></li>
 <li><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewHistogram()</span></code></li>
 </ul>
-<p>These do much the same as the methods available in the class <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData" title="resistics.dataObjects.statisticData.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a>, however, they will bring together all the statistics in a site for measurements of a given sampling frequency. For example:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>61
-62
-63
-64
-65
-66
-67
-68
-69
+<p>These do much the same as the methods available in the class <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData" title="resistics.dataObjects.statisticData.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a>, however, they will bring together all the statistics in a site for measurements of a given sampling frequency.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For the tutorial project, there is only a single measurement at 128 Hz and a single measurement at 4096 Hz, meaning that this is not the best example of the functionality. For more interesting examples, please see <a class="reference internal" href="../cookbook/statistic-plotting.html"><span class="doc">Statistic plotting</span></a> in the cookbook.</p>
+</div>
+<p>For example, statistic value variation across time can be plotted using <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>69
 70
 71
 72
-73</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot statistics for all data of a of a sampling frequency for a site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span><span class="p">,</span> <span class="n">viewStatisticHistogram</span>
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot statistic values in time for all data of a specified sampling frequency in a site</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span>
 
 <span class="c1"># statistic in time</span>
 <span class="n">viewStatistic</span><span class="p">(</span>
@@ -542,30 +590,59 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
 <span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>This produces the plot below. In this case, as there is only</p>
+<p>This produces the plot below:</p>
 <div class="align-center figure" id="id8">
-<img alt="alternate text" src="../_images/stat_statData_transferFunction_view_eval1.png" />
-<p class="caption"><span class="caption-text">Transfer function data using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method for a different evaluation frequency</span></p>
+<img alt="alternate text" src="../_images/stat_transferFunction_site1_128_000_dec0_efreq0_dec8_5.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a></span></p>
 </div>
-<p>And a few more examples of plotting statistics across time series measurements of a specific sampling frequency in a site.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 74
- 75
- 76
- 77
- 78
- 79
- 80
- 81
- 82
- 83
- 84
- 85
- 86
- 87
- 88
- 89
- 90
- 91
+<p>Statistic histograms over all time series measurements of a specified sampling frequency in a site can be plotted in a similar way.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>83
+84
+85
+86
+87
+88
+89</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot statistic histogram for all data of a specified sampling frequency in a site</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatisticHistogram</span>
+
+<span class="c1"># statistic histogram</span>
+<span class="n">viewStatisticHistogram</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id9">
+<img alt="alternate text" src="../_images/statHist_transferFunction_site1_128_000_dec0_efreq0_dec8_5.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">viewHistogram()</span></code></span></p>
+</div>
+<p>Recall, statistic values are calculated on an evaluation frequency basis. Currently, 32 Hz has been plotted, but other evaluation frequencies can be plotted by using the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">declevel</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">eFreqI</span></span></code> keywords`.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>The meaning of <code class="code python docutils literal notranslate"><span class="name"><span class="pre">declevel</span></span></code> (decimation level index) and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">eFreqI</span></span></code> (evaluation frequency index) are best demonstrated with an example.</p>
+<p>Consider the evaluation frequencies in this set up using 8 decimation levels and 5 evaluation frequencies per level with a data sampling frequency of 128 Hz:</p>
+<blockquote class="last">
+<div><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Decimation Level = 0: 32.00000000, 22.62741700, 16.00000000, 11.31370850, 8.00000000
+Decimation Level = 1: 5.65685425, 4.00000000, 2.82842712, 2.00000000, 1.41421356
+Decimation Level = 2: 1.00000000, 0.70710678, 0.50000000, 0.35355339, 0.25000000
+Decimation Level = 3: 0.17677670, 0.12500000, 0.08838835, 0.06250000, 0.04419417
+Decimation Level = 4: 0.03125000, 0.02209709, 0.01562500, 0.01104854, 0.00781250
+Decimation Level = 5: 0.00552427, 0.00390625, 0.00276214, 0.00195312, 0.00138107
+Decimation Level = 6: 0.00097656, 0.00069053, 0.00048828, 0.00034527, 0.00024414
+Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
+</pre></div>
+</div>
+<p>Decimation level numbering starts from 0 (and with 8 decimation levels, extends to 7). Evaluation frequency numbering begins from 0 (and with 5 evaluation frequencies per decimation level, extends to 4).</p>
+<p>The decimation and evaluation frequency indices can be best demonstrated using a few of examples:</p>
+<ul class="simple">
+<li>Evaluation frequency 32 Hz, decimation level = 0, evaluation frequency index = 0</li>
+<li>Evaluation frequency 1 Hz, decimation level = 2, evaluation frequency index = 0</li>
+<li>Evaluation frequency 0.35355339 Hz, decimation level = 2, evaluation frequency index = 3</li>
+</ul>
+<p>The main motivation behind this is the difficulty in manually specifying evaluation frequencies such as 0.35355339 Hz.</p>
+</div></blockquote>
+</div>
+<p>Below are examples of plotting site and sampling frequency wide statistics for different evaluation frequencies.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 91
  92
  93
  94
@@ -574,10 +651,21 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
  97
  98
  99
-100</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># statistic histogram</span>
-<span class="n">viewStatisticHistogram</span><span class="p">(</span>
-    <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span>
-<span class="p">)</span>
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># more examples</span>
 <span class="c1"># change the evaluation frequency</span>
 <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
@@ -603,7 +691,16 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
 <span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
+<div class="align-center figure" id="id10">
+<img alt="alternate text" src="../_images/stat_transferFunction_site1_128_000_dec0_efreq1_dec8_5.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>. Here, evaluation frequency 22.627417 Hz is plotted (decimation level = 0, evaluation frequency index = 1).</span></p>
+</div>
+<div class="align-center figure" id="id11">
+<img alt="alternate text" src="../_images/stat_transferFunction_site1_128_000_dec1_efreq0_dec8_5.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>. Here, evaluation frequency 5.65685425 Hz is plotted (decimation level = 1, evaluation frequency index = 0).</span></p>
+</div>
 <p>Up until now, statistics have been used to investigate the variance of the time series data. However, they can be used to select which time windows to process. To find out how to use them to select and remove time windows, continue to the <a class="reference internal" href="masks.html"><span class="doc">Masks</span></a> section.</p>
+</div>
 <div class="section" id="complete-example-script">
 <h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
 <p>For the purposes of clarity, the complete example script is provided below.</p>
@@ -706,28 +803,42 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
  97
  98
  99
-100</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># need the project path for loading</span>
 <span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
-<span class="c1"># projData = loadProject(projectPath)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 
-<span class="c1"># # get default statistic names</span>
-<span class="c1"># from resistics.utilities.utilsStats import getStatNames</span>
+<span class="c1"># get default statistic names</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsStats</span> <span class="kn">import</span> <span class="n">getStatNames</span>
 
-<span class="c1"># stats, remotestats = getStatNames()</span>
+<span class="n">stats</span><span class="p">,</span> <span class="n">remotestats</span> <span class="o">=</span> <span class="n">getStatNames</span><span class="p">()</span>
 
-<span class="c1"># # calculate statistics</span>
-<span class="c1"># from resistics.project.projectStatistics import calculateStatistics</span>
+<span class="c1"># calculate statistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
 
-<span class="c1"># calculateStatistics(projData, stats=stats)</span>
+<span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">)</span>
 
 <span class="c1"># calculate statistics for a different spectra directory</span>
 <span class="c1"># load the project with the tutorial configuration file</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
-<span class="c1"># calculateStatistics(projData, stats=stats)</span>
+<span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">)</span>
 
 <span class="c1"># to get statistic data, we need the site, the measurement and the statistic we want</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">getStatisticData</span>
@@ -737,22 +848,28 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
     <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span> <span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="n">declevel</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">)</span>
 <span class="c1"># view statistic value over time</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_view&quot;</span><span class="p">))</span>
 <span class="c1"># view statistic histogram</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_histogram&quot;</span><span class="p">))</span>
 <span class="c1"># view statistic crossplot</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;cohExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHy&quot;</span><span class="p">]])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;cohExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHy&quot;</span><span class="p">]])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_crossplot&quot;</span><span class="p">))</span>
+
 
 <span class="c1"># transfer function statistic data</span>
 <span class="n">statData</span> <span class="o">=</span> <span class="n">getStatisticData</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">declevel</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">)</span>
 <span class="c1"># view statistic value over time</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_view&quot;</span><span class="p">))</span>
 <span class="c1"># view statistic histogram</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_histogram&quot;</span><span class="p">))</span>
 <span class="c1"># view statistic crossplot</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
     <span class="mi">0</span><span class="p">,</span>
     <span class="n">crossplots</span><span class="o">=</span><span class="p">[</span>
         <span class="p">[</span><span class="s2">&quot;ExHxReal&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHxImag&quot;</span><span class="p">],</span>
@@ -763,11 +880,13 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_crossplot&quot;</span><span class="p">))</span>
 <span class="c1"># look at the next evaluation frequency</span>
-<span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_view_eval1&quot;</span><span class="p">))</span>
 
-<span class="c1"># plot statistics for all data of a of a sampling frequency for a site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span><span class="p">,</span> <span class="n">viewStatisticHistogram</span>
+<span class="c1"># plot statistic values in time for all data of a specified sampling frequency in a site</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span>
 
 <span class="c1"># statistic in time</span>
 <span class="n">viewStatistic</span><span class="p">(</span>
@@ -779,10 +898,16 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
     <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+
+<span class="c1"># plot statistic histogram for all data of a specified sampling frequency in a site</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatisticHistogram</span>
+
 <span class="c1"># statistic histogram</span>
 <span class="n">viewStatisticHistogram</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span>
 <span class="p">)</span>
+
+<span class="c1"># more examples</span>
 <span class="c1"># change the evaluation frequency</span>
 <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>

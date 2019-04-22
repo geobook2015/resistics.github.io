@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Advanced" href="../advanced.html" />
+    <link rel="next" title="Date and time constraints" href="date-time-constraints.html" />
     <link rel="prev" title="Masks" href="masks.html" /> 
 </head>
 
@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Processing with masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date-time-constraints.html">Date and time constraints</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -214,7 +215,7 @@
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
-    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span>
     <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100&quot;</span><span class="p">},</span>
     <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
 <span class="p">)</span>
@@ -225,10 +226,21 @@
 <li>masks keyword. A mask needs to be associated with a site and provided in a dictionary. More than a single mask file can be supplied for a site by passing a list of masks.</li>
 <li>postpend keyword. This is the postpend on the output transfer function data file to avoid overwriting existing transfer function calculation files.</li>
 </ul>
-<p>The resultant impedance tensor result can be visualised in the same way as demonstrated in previous secitons.</p>
+<p>The resultant impedance tensor result can be visualised in the same way as demonstrated in previous sections using the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.viewImpedance" title="resistics.project.projectTransferFunction.viewImpedance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewImpedance()</span></code></a> method of the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#module-resistics.project.projectTransferFunction" title="resistics.project.projectTransferFunction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectTransferFunction</span></code></a> module.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
 <div class="align-center figure" id="id1">
-<img alt="alternate text" src="../_images/stat_statData_coherence_view.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span></p>
+<img alt="alternate text" src="../_images/transFunction_site1_dec8_5_coh70_100.png" />
+<p class="caption"><span class="caption-text">Impedance tensor estimate with the coherence masking</span></p>
 </div>
 <p>Repeating the process for the mask with additional transfer function constraints gives:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>26
@@ -247,18 +259,14 @@
 39
 40
 41
-42
-43
-44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">processProject</span><span class="p">(</span>
+42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">processProject</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
-    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span>
     <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">},</span>
     <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 
 <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
@@ -271,8 +279,8 @@
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../_images/stat_statData_coherence_view.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span></p>
+<img alt="alternate text" src="../_images/transFunction_site1_dec8_5_coh70_100_tfConstrained.png" />
+<p class="caption"><span class="caption-text">Impedance tensor estimate with both coherence and transfer function masking</span></p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -322,9 +330,7 @@
 39
 40
 41
-42
-43
-44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load project and configuration file</span>
@@ -338,7 +344,7 @@
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
-    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span>
     <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100&quot;</span><span class="p">},</span>
     <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
 <span class="p">)</span>
@@ -353,12 +359,10 @@
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
-    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span>
     <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">},</span>
     <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
 <span class="p">)</span>
-
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 
 <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
@@ -381,7 +385,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../advanced.html" class="btn btn-neutral float-right" title="Advanced" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="date-time-constraints.html" class="btn btn-neutral float-right" title="Date and time constraints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="masks.html" class="btn btn-neutral float-left" title="Masks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

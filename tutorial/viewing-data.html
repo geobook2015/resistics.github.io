@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mask-processing.html">Processing with masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date-time-constraints.html">Date and time constraints</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -207,9 +208,9 @@
 <span class="n">viewTime</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;2012-02-11 01:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2012-02-11 01:10:00&quot;</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>This produces the below plot:</p>
+<p>This yields the below plot:</p>
 <div class="align-center figure" id="id1">
-<img alt="alternate text" src="../_images/projectViewTime_1.png" />
+<img alt="alternate text" src="../_images/timeData_2012-02-11_01-00-00__2012-02-11_01-10-00.png" />
 <p class="caption"><span class="caption-text">Project time data</span></p>
 </div>
 <p>By default, channels E<sub>x</sub>, E<sub>y</sub>, H<sub>x</sub>, H<sub>y</sub>, H<sub>z</sub> are all plotted. However, the channels to plot can be explicitly defined. Further, all sites in the project with time data in this range will be plotted. Sites to plot can be explicitly defined as a list of sites.</p>
@@ -220,7 +221,8 @@
 18
 19
 20
-21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># explicitly define sites and channels to plot</span>
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># explicitly define sites and channels to plot</span>
 <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2012-02-11 01:00:00&quot;</span><span class="p">,</span>
@@ -228,23 +230,24 @@
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
     <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../_images/projectViewTime_2.png" />
+<img alt="alternate text" src="../_images/timeData_2012-02-11_01-00-00__2012-02-11_01-02-00.png" />
 <p class="caption"><span class="caption-text">Project time data with sites and channels restricted</span></p>
 </div>
 <p>There are a number of pre-processing options that can be optionally applied to the time data. If calibration files for magnetic channels are available and appropriately placed in the project calData directory, the calibration option can be applied.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>23
-24
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>24
 25
 26
 27
 28
 29
 30
-31</pre></div></td><td class="code"><div class="highlight"><pre><span></span>
-<span class="c1"># calibrate magnetic channels</span>
+31
+32
+33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calibrate magnetic channels</span>
 <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2012-02-11 01:00:00&quot;</span><span class="p">,</span>
@@ -252,25 +255,26 @@
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
     <span class="n">calibrate</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id3">
-<img alt="alternate text" src="../_images/projectViewTime_3.png" />
+<img alt="alternate text" src="../_images/timeData_2012-02-11_01-00-00__2012-02-11_01-02-00.1.png" />
 <p class="caption"><span class="caption-text">Project time data with magnetic fields calibrated</span></p>
 </div>
 <p>Low pass filters can be applied to the data as shown below:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>33
-34
-35
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>35
 36
 37
 38
 39
 40
 41
-42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="p">)</span>
-
-<span class="c1"># low pass filter</span>
+42
+43
+44
+45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># low pass filter</span>
 <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2012-02-11 01:00:00&quot;</span><span class="p">,</span>
@@ -278,10 +282,13 @@
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
     <span class="n">calibrate</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lpfilt&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id4">
-<img alt="alternate text" src="../_images/projectViewTime_4.png" />
+<img alt="alternate text" src="../_images/timeData_2012-02-11_01-00-00__2012-02-11_01-02-00.2.png" />
 <p class="caption"><span class="caption-text">Project time data with magnetic fields calibrated and a low pass filter applied</span></p>
 </div>
 <p>High pass, band pass and notch filters can also be applied to the data in a similar fashion.</p>
@@ -316,10 +323,10 @@
 72
 73
 74
-75</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="c1"># high pass filter</span>
+75
+76
+77
+78</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># high pass filter</span>
 <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2012-02-11 01:00:00&quot;</span><span class="p">,</span>
@@ -348,6 +355,36 @@
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2012-02-11 01:00:00&quot;</span><span class="p">,</span>
     <span class="s2">&quot;2012-02-11 01:02:00&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
+    <span class="n">calibrate</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">notch</span><span class="o">=</span><span class="p">[</span><span class="mf">16.6667</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The channels can be individually normalised by using the normalise option. The normalisation factor here is calculated using the numpy.linalg.norm method.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># normalise</span>
+<span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-11 01:00:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-11 01:02:00&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
+    <span class="n">calibrate</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">normalise</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Resistics can automatically save plots as images in the project images directory. When batching, it can often be useful to not show the plots (which tend to block the progress of the code) but rather save the plot without showing it. This can be achieved in the following way:</p>
@@ -362,22 +399,22 @@
 96
 97
 98
-99</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
-    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
-    <span class="n">calibrate</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">normalise</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="c1"># save with band pass filter</span>
+99</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># save with band pass filter</span>
 <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2012-02-11 01:00:00&quot;</span><span class="p">,</span>
     <span class="s2">&quot;2012-02-11 01:02:00&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
+    <span class="n">calibrate</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;bpfilt&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">]},</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id5">
-<img alt="alternate text" src="../_images/projectViewTime_5.png" />
+<img alt="alternate text" src="../_images/timeData_2012-02-11_01-00-00__2012-02-11_01-02-00.7.png" />
 <p class="caption"><span class="caption-text">Example of a plot saved as an image</span></p>
 </div>
 <div class="section" id="complete-example-scripts">

@@ -233,6 +233,70 @@
 <span class="sd">    -------</span>
 <span class="sd">    __init__(decParams)</span>
 <span class="sd">        Initialise window selector with information about the decimation parameters</span>
+<span class="sd">    getSharedWindowsLevel(iDec)</span>
+<span class="sd">        Get the shared windows for a decimation level as a python set</span>
+<span class="sd">    getNumSharedWindows(iDec)</span>
+<span class="sd">        Get the number of shared windows for a decimation level</span>
+<span class="sd">    getWindowsForFreq(iDec, eIdx)</span>
+<span class="sd">        Get the number of shared windows for a decimation level and evaluation frequency</span>
+<span class="sd">    getUnmaskedWindowsLevel(iDec)</span>
+<span class="sd">        Get unmasked windows for a decimation level</span>
+<span class="sd">    getDatetimeConstraints()</span>
+<span class="sd">        Get the datetime constraints</span>
+<span class="sd">    getLevelDatetimeConstraints(iDec)</span>
+<span class="sd">        Get the datetime constraints for a decimation level</span>
+<span class="sd">    getMasks()</span>
+<span class="sd">        Get a dictionary with masks to use for each site in the window selector</span>
+<span class="sd">    getSpecReaderForWindow(site, iDec, iWin)</span>
+<span class="sd">        Get the spectrum reader for a window</span>
+<span class="sd">    getDataSize(iDec)</span>
+<span class="sd">        Get the spectrum reader for a window</span>
+<span class="sd">    setSites(sites)</span>
+<span class="sd">        Set the sites for which to find the shared windows</span>
+<span class="sd">    addDatetimeConstraint(start, stop)</span>
+<span class="sd">        Add a datetime constraint</span>
+<span class="sd">    addLevelDatetimeConstraint(start, stop, iDec):</span>
+<span class="sd">        Add a datetime constraint for a decimation level</span>
+<span class="sd">    addDateConstraint(dateC)</span>
+<span class="sd">        Add a date constraint</span>
+<span class="sd">    addLevelDateConstraint(dateC, iDec)</span>
+<span class="sd">        Add a date constraint for a decimation level</span>
+<span class="sd">    addTimeConstraint(start, stop)</span>
+<span class="sd">        Add a time constraint. This will recur on every day of recording</span>
+<span class="sd">    addLevelTimeConstraint(start, stop, iDec)</span>
+<span class="sd">        Add a time constraint for a decimation level. This will recur on every day of recording</span>
+<span class="sd">    addWindowMask(site, maskName)</span>
+<span class="sd">        Add a window mask</span>
+<span class="sd">    calcSharedWindows()</span>
+<span class="sd">        Calculate shared windows between sites</span>
+<span class="sd">    calcGlobalIndices()</span>
+<span class="sd">        Find all the global indices for the sites</span>
+<span class="sd">    calcDatetimeConstraints()</span>
+<span class="sd">        Calculate overall datetime constraints</span>
+<span class="sd">    calcSiteDates()</span>
+<span class="sd">        Calculate a list of days that all the sites were operating</span>
+<span class="sd">    printList()</span>
+<span class="sd">        Class information as a list of strings</span>
+<span class="sd">    printSiteInfo()</span>
+<span class="sd">        Print out information about the sites included in the window selection</span>
+<span class="sd">    printSiteInfoList(site)</span>
+<span class="sd">        Return site window information as a list of strings</span>
+<span class="sd">    printSharedWindows() </span>
+<span class="sd">        Print out the shared windows</span>
+<span class="sd">    printSharedWindowsList()</span>
+<span class="sd">        Shared window information as a list of strings</span>
+<span class="sd">    printDatetimeConstraints()</span>
+<span class="sd">        Print out the datetime constraints</span>
+<span class="sd">    printDatetimeConstraintsList()</span>
+<span class="sd">        Datetime constraint information as a list of strings</span>
+<span class="sd">    printWindowMasks()</span>
+<span class="sd">        Print information about masks being used in the window selection</span>
+<span class="sd">    printWindowMasksList()</span>
+<span class="sd">        Window mask information as a list of strings</span>
+<span class="sd">    printWindowsForFrequency(listwindows=False):</span>
+<span class="sd">        Print information about the windows for each evaluation frequency</span>
+<span class="sd">    printWindowsForFrequencyList(listwindows=False)</span>
+<span class="sd">        Information about windows for each evaluation frequency as a list of strings</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
@@ -266,8 +330,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># shared indices</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sharedWindows</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1"># the masks to use for each site</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># the masks to use for each site - there can be multiple masks for each site</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># the spec files for each site at fs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecFolders</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">siteSpecReaders</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -370,12 +434,13 @@
             <span class="n">indices</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getWindowsForFreq</span><span class="p">(</span><span class="n">iDec</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">indices</span></div>
 
-<div class="viewcode-block" id="WindowSelector.getDatetimeConstraints"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getDatetimeConstraints">[docs]</a>    <span class="k">def</span> <span class="nf">getDatetimeConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WindowSelector.getDatetimeConstraints"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getDatetimeConstraints">[docs]</a>    <span class="k">def</span> <span class="nf">getDatetimeConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get the datetime constraints</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        </span>
+<span class="sd">        Dict</span>
+<span class="sd">            Dictionary of datetime constraints at all decimation levels</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">calcDatetimeConstraints</span><span class="p">()</span>
@@ -384,6 +449,8 @@
 <div class="viewcode-block" id="WindowSelector.getLevelDatetimeConstraints"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getLevelDatetimeConstraints">[docs]</a>    <span class="k">def</span> <span class="nf">getLevelDatetimeConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the datetime constraints</span>
 <span class="sd">        </span>
+<span class="sd">        todo: check what this is</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        </span>
@@ -392,12 +459,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">calcDatetimeConstraints</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="WindowSelector.getMasks"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getMasks">[docs]</a>    <span class="k">def</span> <span class="nf">getMasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get the datetime constraints</span>
+<div class="viewcode-block" id="WindowSelector.getMasks"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.getMasks">[docs]</a>    <span class="k">def</span> <span class="nf">getMasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get a dictionary with masks to use for each site in the window selector</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        </span>
+<span class="sd">        Dict</span>
+<span class="sd">            Dictionary with masks to use for each site in the window selector</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">siteMasks</span></div>
@@ -456,7 +524,7 @@
         <span class="k">for</span> <span class="n">sF</span> <span class="ow">in</span> <span class="n">specReaders</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">specReaders</span><span class="p">[</span><span class="n">sF</span><span class="p">]</span><span class="o">.</span><span class="n">getDataSize</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="WindowSelector.setSites"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.setSites">[docs]</a>    <span class="k">def</span> <span class="nf">setSites</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sites</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="WindowSelector.setSites"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.setSites">[docs]</a>    <span class="k">def</span> <span class="nf">setSites</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sites</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set the sites for which to find the shared windows</span>
 
 <span class="sd">        Parameters</span>
@@ -480,14 +548,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">siteGlobalIndices</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># at the end, calculate global indices</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calcGlobalIndices</span><span class="p">()</span></div>
-
-    <span class="c1"># # this is the spectra director</span>
-    <span class="c1"># def setSpecDir(self, specdir):</span>
-    <span class="c1">#     specDir = specdir</span>
-
-    <span class="c1"># # this is the prepend for the spectra files</span>
-    <span class="c1"># def setPrepend(self, prepend):</span>
-    <span class="c1">#     self.prepend = prepend</span>
 
 <div class="viewcode-block" id="WindowSelector.addDatetimeConstraint"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addDatetimeConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addDatetimeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a datetime constraint</span>
@@ -563,7 +623,7 @@
         <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">addLevelTimeConstraint</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">iDec</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WindowSelector.addLevelTimeConstraint"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addLevelTimeConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addLevelTimeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">iDec</span><span class="p">):</span>
+<div class="viewcode-block" id="WindowSelector.addLevelTimeConstraint"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addLevelTimeConstraint">[docs]</a>    <span class="k">def</span> <span class="nf">addLevelTimeConstraint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">iDec</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a time constraint for a decimation level. This will recur on every day of recording.</span>
 
 <span class="sd">        Parameters</span>
@@ -768,6 +828,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datetimeConstraints</span><span class="p">[</span><span class="n">iDec</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="WindowSelector.calcSiteDates"><a class="viewcode-back" href="../../../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.calcSiteDates">[docs]</a>    <span class="k">def</span> <span class="nf">calcSiteDates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Calculate a list of days that all the sites were operating</span>
+<span class="sd">        </span>
+<span class="sd">        This uses the siteStart and siteEnd datetimes, so does not take into account the start and end of actual time series measurements, which is taken into account later.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[datetime]</span>
+<span class="sd">            A list of dates all the sites were operating</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">starts</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">stops</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>

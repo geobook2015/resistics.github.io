@@ -182,15 +182,6 @@
     <span class="n">errorPrint</span><span class="p">,</span>
     <span class="n">blockPrint</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="k">import</span> <span class="p">(</span>
-    <span class="n">lowPass</span><span class="p">,</span>
-    <span class="n">highPass</span><span class="p">,</span>
-    <span class="n">bandPass</span><span class="p">,</span>
-    <span class="n">notchFilter</span><span class="p">,</span>
-    <span class="n">normalise</span><span class="p">,</span>
-    <span class="n">resample</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsInterp</span> <span class="k">import</span> <span class="n">interpolateToSecond</span>
 
 
 <div class="viewcode-block" id="projectText"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsProject.html#resistics.utilities.utilsProject.projectText">[docs]</a><span class="k">def</span> <span class="nf">projectText</span><span class="p">(</span><span class="n">infoStr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -390,7 +381,7 @@
     <span class="n">processor</span> <span class="o">=</span> <span class="n">ProcessorRemoteReference</span><span class="p">(</span><span class="n">winSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">processor</span>
-    
+
     <span class="k">return</span> <span class="n">processor</span></div>
 
 
@@ -420,6 +411,36 @@
         <span class="c1"># this data has nothing to contribute in the optional date range</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="applyPolarisationReversalOptions"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsProject.html#resistics.utilities.utilsProject.applyPolarisationReversalOptions">[docs]</a><span class="k">def</span> <span class="nf">applyPolarisationReversalOptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Polarity reverse time data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        User specified options for polarity reversal</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        Time data to polarity reverse</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Polarity reversed time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">],</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="c1"># no polarity reversal to be performed</span>
+        <span class="k">return</span> <span class="n">timeData</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># not specified in the right way</span>
+        <span class="k">return</span> <span class="n">timeData</span>
+
+    <span class="kn">from</span> <span class="nn">resistics.utilities.utilsMath</span> <span class="k">import</span> <span class="n">polarityReversal</span>
+
+    <span class="n">timeData</span> <span class="o">=</span> <span class="n">polarityReversal</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
 
 
 <div class="viewcode-block" id="applyCalibrationOptions"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsProject.html#resistics.utilities.utilsProject.applyCalibrationOptions">[docs]</a><span class="k">def</span> <span class="nf">applyCalibrationOptions</span><span class="p">(</span>
@@ -479,10 +500,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="s2">&quot;lpfilt&quot;</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span>
+        <span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="k">import</span> <span class="n">lowPass</span>
+
         <span class="n">timeData</span> <span class="o">=</span> <span class="n">lowPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">][</span><span class="s2">&quot;lpfilt&quot;</span><span class="p">])</span>
     <span class="k">if</span> <span class="s2">&quot;hpfilt&quot;</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span>
+        <span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="k">import</span> <span class="n">highPass</span>
+
         <span class="n">timeData</span> <span class="o">=</span> <span class="n">highPass</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">][</span><span class="s2">&quot;hpfilt&quot;</span><span class="p">])</span>
     <span class="k">if</span> <span class="s2">&quot;bpfilt&quot;</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span>
+        <span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="k">import</span> <span class="n">bandPass</span>
+
         <span class="n">timeData</span> <span class="o">=</span> <span class="n">bandPass</span><span class="p">(</span>
             <span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">][</span><span class="s2">&quot;bpfilt&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">][</span><span class="s2">&quot;bpfilt&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="p">)</span>
@@ -510,6 +537,8 @@
 <span class="sd">        Notch filtered time data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="k">import</span> <span class="n">notchFilter</span>
+
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;notch&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;notch&quot;</span><span class="p">]:</span>
             <span class="n">timeData</span> <span class="o">=</span> <span class="n">notchFilter</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
@@ -533,6 +562,8 @@
 <span class="sd">    TimeData</span>
 <span class="sd">        Normalised time data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="k">import</span> <span class="n">normalise</span>
 
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;normalise&quot;</span><span class="p">]:</span>
         <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Normalising data&quot;</span><span class="p">)</span>
@@ -564,6 +595,8 @@
 <span class="sd">    This will fail with longer sample periods (i.e. greater than a second)    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="kn">from</span> <span class="nn">resistics.utilities.utilsInterp</span> <span class="k">import</span> <span class="n">interpolateToSecond</span>
+
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;interp&quot;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">timeData</span><span class="o">.</span><span class="n">startTime</span><span class="o">.</span><span class="n">microsecond</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">timeData</span> <span class="o">=</span> <span class="n">interpolateToSecond</span><span class="p">(</span><span class="n">timeData</span><span class="p">)</span>
@@ -588,6 +621,8 @@
 <span class="sd">    TimeData</span>
 <span class="sd">        Resampled time data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="k">import</span> <span class="n">resample</span>
 
     <span class="k">if</span> <span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;resamp&quot;</span><span class="p">]:</span>  <span class="c1"># then need to resample this data</span>
         <span class="n">timeData</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;resamp&quot;</span><span class="p">][</span><span class="n">timeData</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">])</span>

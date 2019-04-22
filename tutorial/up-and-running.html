@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mask-processing.html">Processing with masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date-time-constraints.html">Date and time constraints</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -208,6 +209,10 @@
 <span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">After calculating spectra, it is best practice to refresh the project to make sure everything is picked up.</p>
+</div>
 <p>Spectra data files are stored in project specData directory. The folder structure is similar to the timeData folder</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exampleProject
 ├── calData
@@ -242,12 +247,10 @@
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>14
 15
 16
-17
-18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the spectra</span>
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the spectra</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
 
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
-<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
 <p>Transfer function data is stored under the transFuncData folder as shown below. As transfer functions are calculated out for each unique sampling frequency in a site, the data is stored with respect to sampling frequencies.</p>
@@ -336,43 +339,67 @@ Var-EyHy
 </td></tr></table></div>
 <p>The reason to use this rather than EDI for now is an intention to build this out further to include more information about uncertainty that can be taken further into an inversion process.</p>
 <p>Once the components of the impedance tensor have been calculated, it is possible to visualise them using the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.viewImpedance" title="resistics.project.projectTransferFunction.viewImpedance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewImpedance()</span></code></a> method available in the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#module-resistics.project.projectTransferFunction" title="resistics.project.projectTransferFunction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectTransferFunction</span></code></a> module.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>20
-21
-22
-23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot transfer function and save the plot</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot transfer function and save the plot</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 
 <span class="n">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
-<a class="reference internal image-reference" href="../_images/transFunction_simpleRun_onePlot.png"><img alt="alternate text" src="../_images/transFunction_simpleRun_onePlot.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../_images/transFunction_site1_spectra1.png"><img alt="alternate text" src="../_images/transFunction_site1_spectra1.png" style="width: 400px;" /></a>
 <p class="caption"><span class="caption-text">The default plot for transfer functions</span></p>
 </div>
 <p>However, this plot is quite busy. One way to simplify the plot is to explicitly specify the polarisations to plot.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>25
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>24
+25
 26
-27
-28</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># or keep the two most important polarisations on the same plot</span>
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># or keep the two most important polarisations on the same plot</span>
 <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span>
 <span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
-<a class="reference internal image-reference" href="../_images/transFunction_simpleRun_onePlot_polarisations.png"><img alt="alternate text" src="../_images/transFunction_simpleRun_onePlot_polarisations.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../_images/transFunction_site1_spectra.1.png"><img alt="alternate text" src="../_images/transFunction_site1_spectra.1.png" style="width: 400px;" /></a>
 <p class="caption"><span class="caption-text">Limiting the polarisations in a transfer function plot</span></p>
 </div>
 <p>On occasion, it can be more useful to plot each component separately. This can be done by setting <code class="code python docutils literal notranslate"><span class="name"><span class="pre">oneplot</span></span> <span class="operator"><span class="pre">=</span></span> <span class="name builtin pseudo"><span class="pre">False</span></span></code> in the arguments.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>30
-31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># this plot is quite busy, let&#39;s plot all the components on separate plots</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>29
+30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># this plot is quite busy, let&#39;s plot all the components on separate plots</span>
 <span class="n">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>This results in the following plot.</p>
 <div class="align-center figure" id="id3">
-<img alt="alternate text" src="../_images/transFunction_simpleRun_multPlots.png" />
+<img alt="alternate text" src="../_images/transFunction_site1_spectra.2.png" />
 <p class="caption"><span class="caption-text">Polarisations of impedance tensor plotted on separate plots</span></p>
+</div>
+<p>To read in a transfer function directly, the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.getTransferFunctionData" title="resistics.project.projectTransferFunction.getTransferFunctionData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getTransferFunctionData()</span></code></a> method of the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#module-resistics.project.projectTransferFunction" title="resistics.project.projectTransferFunction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectTransferFunction</span></code></a> module can be used. The <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.getTransferFunctionData" title="resistics.project.projectTransferFunction.getTransferFunctionData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getTransferFunctionData()</span></code></a> will read in the transfer function data file and return a <a class="reference internal" href="../api/resistics.dataObjects.transferFunctionData.html#resistics.dataObjects.transferFunctionData.TransferFunctionData" title="resistics.dataObjects.transferFunctionData.TransferFunctionData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransferFunctionData</span></code></a> object with information about the components of the transfer function data.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>32
+33
+34
+35</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get a transfer function data object</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">getTransferFunctionData</span>
+
+<span class="n">tfData</span> <span class="o">=</span> <span class="n">getTransferFunctionData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Currently, resistics uses a proprietry, but still ASCII, transfer function file format. As .edi files are the standard format for magnetotellurics, these will be properly supported going forwards. However, the intention with current file format is to allow for additional future changes that capture more information that would be useful for geophysical inversion.</p>
+</div>
+<p>The transfer function data can be plotted using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code> method of <a class="reference internal" href="../api/resistics.dataObjects.transferFunctionData.html#module-resistics.dataObjects.transferFunctionData" title="resistics.dataObjects.transferFunctionData"><code class="xref py py-class docutils literal notranslate"><span class="pre">transferFunctionData</span></code></a>. This is shown below, along with the plot.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>36
+37</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">tfData</span><span class="o">.</span><span class="n">viewImpedance</span><span class="p">(</span><span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunctionViewExample&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id4">
+<a class="reference internal image-reference" href="../_images/transferFunctionViewExample.png"><img alt="alternate text" src="../_images/transferFunctionViewExample.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">Plotting the transfer function data individually</span></p>
 </div>
 <div class="section" id="complete-example-script">
 <h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
@@ -430,7 +457,6 @@ Var-EyHy
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
 
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
-<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
 <span class="c1"># plot transfer function and save the plot</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
@@ -445,11 +471,12 @@ Var-EyHy
 <span class="c1"># this plot is quite busy, let&#39;s plot all the components on separate plots</span>
 <span class="n">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="c1"># plot a single file</span>
+<span class="c1"># get a transfer function data object</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">getTransferFunctionData</span>
 
 <span class="n">tfData</span> <span class="o">=</span> <span class="n">getTransferFunctionData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-<span class="n">tfData</span><span class="o">.</span><span class="n">viewImpedance</span><span class="p">(</span><span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">tfData</span><span class="o">.</span><span class="n">viewImpedance</span><span class="p">(</span><span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunctionViewExample&quot;</span><span class="p">))</span>
 </pre></div>
 </td></tr></table></div>
 </div>

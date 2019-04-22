@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mask-processing.html">Processing with masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date-time-constraints.html">Date and time constraints</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -215,7 +216,8 @@
 └── mtProj.prj
 </pre></div>
 </div>
-<p>However, by specifying the <strong>specdir</strong> option in <a class="reference internal" href="../api/resistics.project.projectSpectra.html#resistics.project.projectSpectra.calculateSpectra" title="resistics.project.projectSpectra.calculateSpectra"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateSpectra()</span></code></a>, a new set of spectra can be calculated. An example is shown below where a second set of spectra are calculated with notch filters and <strong>specdir</strong> is specified as <code class="code python docutils literal notranslate"><span class="name"><span class="pre">specdir</span></span> <span class="operator"><span class="pre">=</span></span> <span class="literal string double"><span class="pre">“notch”</span></span></code>.</p>
+<p>However, by specifying the <strong>specdir</strong> option in <a class="reference internal" href="../api/resistics.project.projectSpectra.html#resistics.project.projectSpectra.calculateSpectra" title="resistics.project.projectSpectra.calculateSpectra"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateSpectra()</span></code></a>, a new set of spectra can be calculated.
+In the <a class="reference internal" href="viewing-spectra.html"><span class="doc">Viewing spectra</span></a> section, it was clear that the time series spectra had a peak at 50 Hz, which is a common powerline frequency. Therefore, an example is shown below where a second set of spectra are calculated with a notch filter applied at 50 Hz and <strong>specdir</strong> is specified as <code class="code python docutils literal notranslate"><span class="name"><span class="pre">specdir</span></span> <span class="operator"><span class="pre">=</span></span> <span class="literal string double"><span class="pre">“notch”</span></span></code>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -235,7 +237,7 @@
 <span class="c1"># calculate another set of spectra for the 128 Hz data with notching at 50Hz and 16.667Hz</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
 
-<span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span> <span class="n">notch</span><span class="o">=</span><span class="p">[</span><span class="mf">16.667</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">)</span>
+<span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span> <span class="n">notch</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">],</span> <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
@@ -288,10 +290,10 @@
 25
 26</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the spectra</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPaperFonts</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">viewSpectraSection</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">viewSpectra</span><span class="p">,</span> <span class="n">viewSpectraSection</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsSpec</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewSpectraSection</span><span class="p">(</span>
+<span class="n">viewSpectra</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span>
@@ -308,32 +310,45 @@
 <p class="caption"><span class="caption-text">Default spectra data</span></p>
 </div>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-30-00_dec0_spectra.png" />
+<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-30-00_dec0_notch.png" />
 <p class="caption"><span class="caption-text">Notched spectra data</span></p>
 </div>
-<p>The next step is to process the notched spectra data. To do this, <strong>specdir</strong> has to be specified in the call to <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.processProject" title="resistics.project.projectTransferFunction.processProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code></a> as shown below:</p>
+<p>A spectra section can also be plotted in a similar to way the example shown in <a class="reference internal" href="viewing-spectra.html"><span class="doc">Viewing Spectra</span></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>28
 29
 30
 31
-32</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the new set of spectra</span>
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">viewSpectraSection</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span>
+    <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="../_images/spectraSection_site1_meas_2012-02-10_11-30-00_dec0_notch.png" />
+<p class="caption"><span class="caption-text">Notched spectra section</span></p>
+</div>
+<p>The next step is to process the notched spectra data. To do this, <strong>specdir</strong> has to be specified in the call to <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.processProject" title="resistics.project.projectTransferFunction.processProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code></a> as shown below:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>38
+39
+40
+41</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the new set of spectra</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
 
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">)</span>
-<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
 <p>Finally, the transfer function data for the notched spectra data can be viewed by once more specifying the <strong>specdir</strong> option in the call to <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.viewImpedance" title="resistics.project.projectTransferFunction.viewImpedance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewImpedance()</span></code></a></p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>34
-35
-36
-37
-38
-39
-40
-41
-42
-43
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>43
 44
 45
 46
@@ -343,7 +358,17 @@
 50
 51
 52
-53</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot the transfer functions, again with specifying the relevant specdir</span>
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot the transfer functions, again with specifying the relevant specdir</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 
 <span class="n">viewImpedance</span><span class="p">(</span>
@@ -354,6 +379,7 @@
     <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">,</span>
     <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
 <span class="p">)</span>
+
 <span class="c1"># and compare to the original</span>
 <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
@@ -366,15 +392,20 @@
 </pre></div>
 </td></tr></table></div>
 <p>The impedance for the default spectra calculated parameters and then for the notch parameters are shown below.</p>
-<div class="align-center figure" id="id3">
-<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-30-00_dec0_spectra.png" />
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="../_images/transFunction_site1_notch.png" />
 <p class="caption"><span class="caption-text">Default impedance tensor estimation</span></p>
 </div>
-<div class="align-center figure" id="id4">
-<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-30-00_dec0_spectra.png" />
+<div class="align-center figure" id="id5">
+<img alt="alternate text" src="../_images/transFunction_site1_spectra.3.png" />
 <p class="caption"><span class="caption-text">Impedance tensor estimation using the notched spectra data</span></p>
 </div>
-<p>As mentioned in the note at the top of this page, the simplest way to use the specdir option is through configuration files. More information about configuration files is provided in the <a class="reference internal" href="../features/configuration.html"><span class="doc">Configuration files</span></a> section. An example of using configuration files is provided in the <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a> section.</p>
+<p>As mentioned in the note at the top of this page, the simplest way to use the specdir option is through configuration files.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">When specifying specdir in a configuration file, the specdir keyword no longer has to be passed to the various method calls as it is picked up directly from the confiugration file. This makes everything much simpler and removes a source of mistakes.</p>
+</div>
+<p>More information about configuration files is provided in the <a class="reference internal" href="../features/configuration.html"><span class="doc">Configuration files</span></a> section. An example of using configuration files is provided in the <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a> section.</p>
 <div class="section" id="complete-example-script">
 <h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
 <p>For the purposes of clarity, the complete example script is provided below.</p>
@@ -431,7 +462,17 @@
 51
 52
 53
-54</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
@@ -440,14 +481,24 @@
 <span class="c1"># calculate another set of spectra for the 128 Hz data with notching at 50Hz and 16.667Hz</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
 
-<span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span> <span class="n">notch</span><span class="o">=</span><span class="p">[</span><span class="mf">16.667</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">)</span>
+<span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span> <span class="n">notch</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">],</span> <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
 <span class="c1"># view the spectra</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPaperFonts</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">viewSpectraSection</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">viewSpectra</span><span class="p">,</span> <span class="n">viewSpectraSection</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsSpec</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
+<span class="n">viewSpectra</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span>
+    <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+
 <span class="n">viewSpectraSection</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
@@ -462,7 +513,6 @@
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
 
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">)</span>
-<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
 <span class="c1"># plot the transfer functions, again with specifying the relevant specdir</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
@@ -475,6 +525,7 @@
     <span class="n">specdir</span><span class="o">=</span><span class="s2">&quot;notch&quot;</span><span class="p">,</span>
     <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
 <span class="p">)</span>
+
 <span class="c1"># and compare to the original</span>
 <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>

@@ -249,6 +249,9 @@ prepend_[name of input measurement]_postpend. By default, prepend is “proc” 
 <dt><strong>outputsite</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
 <dd><p class="first last">A site to output the preprocessed time data to. If this site does not exist, it will be created</p>
 </dd>
+<dt><strong>polreverse</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict[str, bool]</span></dt>
+<dd><p class="first last">Keys are channels and values are boolean flags for reversing</p>
+</dd>
 <dt><strong>calibrate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
 <dd><p class="first last">Boolean flag for calibrating the data. Default is false and setting to True will calibrate where files can be found.</p>
 </dd>
@@ -282,7 +285,7 @@ prepend_[name of input measurement]_postpend. By default, prepend is “proc” 
 
 <dl class="function">
 <dt id="resistics.project.projectTime.viewTime">
-<code class="descclassname">resistics.project.projectTime.</code><code class="descname">viewTime</code><span class="sig-paren">(</span><em>projData: resistics.dataObjects.projectData.ProjectData</em>, <em>startDate: str</em>, <em>endDate: str</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.pyplot.figure<a class="reference internal" href="../_modules/resistics/project/projectTime.html#viewTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.projectTime.viewTime" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">resistics.project.projectTime.</code><code class="descname">viewTime</code><span class="sig-paren">(</span><em>projData: resistics.dataObjects.projectData.ProjectData</em>, <em>startDate: str</em>, <em>endDate: str</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; Optional[matplotlib.pyplot.figure]<a class="reference internal" href="../_modules/resistics/project/projectTime.html#viewTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.projectTime.viewTime" title="Permalink to this definition">¶</a></dt>
 <dd><p>View timeseries in the project</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -303,6 +306,9 @@ prepend_[name of input measurement]_postpend. By default, prepend is “proc” 
 </dd>
 <dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str], optional</span></dt>
 <dd><p class="first last">List of channels to plot</p>
+</dd>
+<dt><strong>polreverse</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict[str, bool]</span></dt>
+<dd><p class="first last">Keys are channels and values are boolean flags for reversing</p>
 </dd>
 <dt><strong>calibrate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
 <dd><p class="first last">Boolean flag to calibrate data</p>
@@ -329,8 +335,8 @@ prepend_[name of input measurement]_postpend. By default, prepend is “proc” 
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>matplotlib.pyplot.figure</strong></dt>
-<dd><p class="first last">Figure handle</p>
+<dt><strong>matplotlib.pyplot.figure or None</strong></dt>
+<dd><p class="first last">A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</p>
 </dd>
 </dl>
 </td>

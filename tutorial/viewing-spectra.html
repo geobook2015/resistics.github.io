@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mask-processing.html">Processing with masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date-time-constraints.html">Date and time constraints</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -280,7 +281,7 @@ Windowing with window size 512 samples and overlap 128 samples
 Time data decimated from 0.125 Hz to 0.015625 Hz, new start time 2012-02-10 11:30:00, new end time 2012-02-11 23:03:20
 Evaluation frequencies for this level 0.001953125, 0.0013810679320049755, 0.0009765625, 0.0006905339660024878, 0.00048828125, 0.0003452669830012439, 0.000244140625
 Windowing with window size 512 samples and overlap 128 samples
-Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30-00\spectra on 2019-04-13 17:36:48.781887
+Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30-00\spectra on 2019-04-21 16:20:37.963120
 ---------------------------------------------------
 </pre></div>
 </td></tr></table></div>
@@ -308,22 +309,10 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
  9
 10
-11
-12
-13
-14
-15
-16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the spectra at 128 Hz</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the spectra at 128 Hz</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">viewSpectra</span>
 
-<span class="n">viewSpectra</span><span class="p">(</span>
-    <span class="n">projData</span><span class="p">,</span>
-    <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span>
-    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">viewSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>This gives the following output:</p>
@@ -332,11 +321,11 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 <p class="caption"><span class="caption-text">Plot of the first time window spectrum</span></p>
 </div>
 <p>Plotting options can be defined using the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">plotoptions</span></span></code> keyword for <a class="reference internal" href="../api/resistics.project.projectSpectra.html#resistics.project.projectSpectra.viewSpectra" title="resistics.project.projectSpectra.viewSpectra"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewSpectra()</span></code></a>. This needs to be a dictionary defining layout options (limits etc). There are some built-in plot options for different types of plots. In the below example, <a class="reference internal" href="../api/resistics.utilities.utilsPlotter.html#resistics.utilities.utilsPlotter.plotOptionsSpec" title="resistics.utilities.utilsPlotter.plotOptionsSpec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plotOptionsSpec()</span></code></a> returns a dictionary of standard plot options for spectra. Further, <a class="reference internal" href="../api/resistics.utilities.utilsPlotter.html#resistics.utilities.utilsPlotter.getPaperFonts" title="resistics.utilities.utilsPlotter.getPaperFonts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPaperFonts()</span></code></a> returns a dictionary of font sizes to use for the plot targetted at papers.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>19
-20
-21
-22
-23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># setting the plot options</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># setting the plot options</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsSpec</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
@@ -348,15 +337,15 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 </pre></div>
 </div>
 <p>Now plotting the spectra again with the new plot options gives the same plot but with bigger font sizes which might be useful for an academic paper.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>25
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>19
+20
+21
+22
+23
+24
+25
 26
-27
-28
-29
-30
-31
-32
-33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the spectra at 128 Hz</span>
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the spectra at 128 Hz</span>
 <span class="n">viewSpectra</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
@@ -378,17 +367,17 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 <li>A dictionary with a start and stop, i.e. {start: 30, stop:40}, which will then define the range 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 and 40</li>
 </ul>
 <p>In the below example, <code class="code python docutils literal notranslate"><span class="name"><span class="pre">plotwindow</span></span> <span class="operator"><span class="pre">=</span></span> <span class="literal string double"><span class="pre">“all”</span></span></code> which means that 20 windows across the time series measurement will be plotted.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>35
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>29
+30
+31
+32
+33
+34
+35
 36
 37
 38
-39
-40
-41
-42
-43
-44
-45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the spectra at 128 Hz for more than a single window</span>
+39</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the spectra at 128 Hz for more than a single window</span>
 <span class="n">viewSpectra</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
@@ -406,21 +395,19 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 <p class="caption"><span class="caption-text">Plot of multiple window spectra</span></p>
 </div>
 <p>Another useful way to inspect the variation of spectra across the time series measurement is to plot a spectra section using the <a class="reference internal" href="../api/resistics.project.projectSpectra.html#resistics.project.projectSpectra.viewSpectraSection" title="resistics.project.projectSpectra.viewSpectraSection"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewSpectraSection()</span></code></a> method of <a class="reference internal" href="../api/resistics.project.projectSpectra.html#module-resistics.project.projectSpectra" title="resistics.project.projectSpectra"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectSpectra</span></code></a>. This is a 2-D image of the spectra with time across the x-axis and frequency across the y-axis with colour representing the amplitude. An example of plotting a spectra section and the image is shown below.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>47
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>41
+42
+43
+44
+45
+46
+47
 48
 49
 50
-51
-52
-53
-54
-55
-56
-57
-58</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># spectra sections</span>
+51</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># spectra sections</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">viewSpectraSection</span>
 
-<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsSpec</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">viewSpectraSection</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
@@ -432,23 +419,23 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id4">
-<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-30-00_dec0_spectra.2.png" />
+<img alt="alternate text" src="../_images/spectraSection_site1_meas_2012-02-10_11-30-00_dec0_spectra.png" />
 <p class="caption"><span class="caption-text">Plot of a spectra section for 128Hz sampling frequency data</span></p>
 </div>
 <p>Spectra sections plot 250 window spectra across the duration of the time series measurement.</p>
 <p>To understand the dominant frequencies in a time series measurement, it can be useful to perform spectral stacking. This can be achieved using the <a class="reference internal" href="../api/resistics.project.projectSpectra.html#resistics.project.projectSpectra.viewSpectraStack" title="resistics.project.projectSpectra.viewSpectraStack"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewSpectraStack()</span></code></a> method of <a class="reference internal" href="../api/resistics.project.projectSpectra.html#module-resistics.project.projectSpectra" title="resistics.project.projectSpectra"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectSpectra</span></code></a>. Spectra stacking will averages the spectra amplitudes across multiple windows.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>60
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>53
+54
+55
+56
+57
+58
+59
+60
 61
 62
 63
-64
-65
-66
-67
-68
-69
-70
-71</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># spectra stack</span>
+64</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># spectra stack</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">viewSpectraStack</span>
 
 <span class="n">viewSpectraStack</span><span class="p">(</span>
@@ -463,40 +450,40 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id5">
-<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-30-00_dec0_spectra.2.png" />
+<img alt="alternate text" src="../_images/spectraStack_site1_meas_2012-02-10_11-30-00_dec0_spectra.png" />
 <p class="caption"><span class="caption-text">Plot of a spectra stacking for 128Hz sampling frequency data</span></p>
 </div>
 <p>Adding the <strong>coherences</strong> keyword also stacks the coherences. The number of stacks to perform across the duration of the time series measurement can be controlled using the <strong>numstacks</strong> keyword. For more information, see the documentation for <a class="reference internal" href="../api/resistics.project.projectSpectra.html#resistics.project.projectSpectra.viewSpectraStack" title="resistics.project.projectSpectra.viewSpectraStack"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewSpectraStack()</span></code></a>.</p>
-<p>The above were demonstrated on data sampled at 128Hz sampling rate but can be easily calculated for the 4096Hz data of the tutorial project.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 73
- 74
- 75
- 76
- 77
- 78
- 79
- 80
- 81
- 82
- 83
- 84
- 85
- 86
- 87
- 88
- 89
- 90
- 91
- 92
- 93
- 94
- 95
- 96
- 97
- 98
- 99
-100
-101</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the spectra at 4096 Hz</span>
+<p>The above were demonstrated on data sampled at 128Hz sampling rate but can be easily repeated for the 4096Hz data of the tutorial project.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the spectra at 4096 Hz</span>
 <span class="n">viewSpectra</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
@@ -529,122 +516,115 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 </td></tr></table></div>
 <p>The resultant plots are:</p>
 <div class="align-center figure" id="id6">
-<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-30-00_dec0_spectra.2.png" />
+<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-05-00_dec0_spectra.png" />
 <p class="caption"><span class="caption-text">Plot of a spectra for 20 windows across the 4096Hz measurement</span></p>
 </div>
 <div class="align-center figure" id="id7">
-<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-30-00_dec0_spectra.2.png" />
+<img alt="alternate text" src="../_images/spectraSection_site1_meas_2012-02-10_11-05-00_dec0_spectra.png" />
 <p class="caption"><span class="caption-text">Plot of spectra section for the 4096Hz measurement</span></p>
 </div>
 <div class="align-center figure" id="id8">
-<img alt="alternate text" src="../_images/spectraData_site1_meas_2012-02-10_11-30-00_dec0_spectra.2.png" />
+<img alt="alternate text" src="../_images/spectraStack_site1_meas_2012-02-10_11-05-00_dec0_spectra.png" />
 <p class="caption"><span class="caption-text">Plot of spectra stack for the 4096Hz measurement</span></p>
 </div>
-<p>All the above are a means to understand the dominant frequencies in the time series data. Ideally, the Schumann resonances should be visible, as they are in the 128Hz data. Other common features are powerline noise - the exact frequency of this is dependent on geographic location, but often 50Hz - and train noise around 16.6Hz.</p>
+<p>All the above are a means to understand the dominant frequencies in the time series data. Ideally, the Schumann resonances should be visible, as they are in the 128Hz data. Other common features are powerline noise - the exact frequency of this is dependent on geographic location, but often 50Hz - and trainline noise around 16.6Hz.</p>
 <div class="section" id="complete-example-script">
 <h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
 <p>For the purposes of clarity, the complete example script is provided below.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
-  2
-  3
-  4
-  5
-  6
-  7
-  8
-  9
- 10
- 11
- 12
- 13
- 14
- 15
- 16
- 17
- 18
- 19
- 20
- 21
- 22
- 23
- 24
- 25
- 26
- 27
- 28
- 29
- 30
- 31
- 32
- 33
- 34
- 35
- 36
- 37
- 38
- 39
- 40
- 41
- 42
- 43
- 44
- 45
- 46
- 47
- 48
- 49
- 50
- 51
- 52
- 53
- 54
- 55
- 56
- 57
- 58
- 59
- 60
- 61
- 62
- 63
- 64
- 65
- 66
- 67
- 68
- 69
- 70
- 71
- 72
- 73
- 74
- 75
- 76
- 77
- 78
- 79
- 80
- 81
- 82
- 83
- 84
- 85
- 86
- 87
- 88
- 89
- 90
- 91
- 92
- 93
- 94
- 95
- 96
- 97
- 98
- 99
-100
-101</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load the project</span>
@@ -654,13 +634,7 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 <span class="c1"># view the spectra at 128 Hz</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">viewSpectra</span>
 
-<span class="n">viewSpectra</span><span class="p">(</span>
-    <span class="n">projData</span><span class="p">,</span>
-    <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span>
-    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">viewSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1"># setting the plot options</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPaperFonts</span>
@@ -693,7 +667,6 @@ Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-30
 <span class="c1"># spectra sections</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">viewSpectraSection</span>
 
-<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsSpec</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">viewSpectraSection</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>

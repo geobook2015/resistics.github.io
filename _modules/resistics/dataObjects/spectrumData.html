@@ -371,7 +371,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        fig : matplotlib.pyplot.figure, optional</span>
 <span class="sd">            A figure object</span>
-<span class="sd">        plotFonts : Dict, optional</span>
+<span class="sd">        plotfonts : Dict, optional</span>
 <span class="sd">            A dictionary of plot fonts</span>
 <span class="sd">        chans : List[str], optional</span>
 <span class="sd">            A list of channels to plot</span>
@@ -379,6 +379,8 @@
 <span class="sd">            Label for the plots</span>
 <span class="sd">        xlim : List, optional</span>
 <span class="sd">            Limits for the x axis</span>
+<span class="sd">        color : str, rgba Tuple</span>
+<span class="sd">            The color for the line plot</span>
 <span class="sd">        legend : bool</span>
 <span class="sd">            Boolean flag for adding a legend</span>
 
@@ -394,7 +396,8 @@
             <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
             <span class="k">else</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
         <span class="p">)</span>
-        <span class="n">plotFonts</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;plotFonts&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;plotFonts&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">getViewFonts</span><span class="p">()</span>
+        <span class="n">plotFonts</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;plotfonts&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">getViewFonts</span><span class="p">()</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="c1"># suptitle</span>
         <span class="n">st</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
             <span class="s2">&quot;Spectra data from </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">startTime</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopTime</span><span class="p">),</span>
@@ -409,9 +412,9 @@
             <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Channel </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotFonts</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">])</span>
             <span class="c1"># plot the data</span>
             <span class="k">if</span> <span class="s2">&quot;label&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">])</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]))</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
             <span class="c1"># add frequency label</span>
             <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="n">numPlotChans</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Frequency [Hz]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotFonts</span><span class="p">[</span><span class="s2">&quot;axisLabel&quot;</span><span class="p">])</span>

@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mask-processing.html">Processing with masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date-time-constraints.html">Date and time constraints</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -278,24 +279,20 @@ minoverlapsize = 64
 16
 17
 18
-19
-20
-21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the spectra</span>
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the spectra</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
 
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
-<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-<span class="c1"># plot transfer function and save the plot</span>
 <span class="n">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Now the plot using the new configuration parameters (8 decimation levels with 5 evaluation frequencies per decimation level) can be compared to the default parameterisation.</p>
 <div class="align-center figure" id="id1">
-<img alt="alternate text" src="../_images/stat_statData_coherence_view.png" />
+<img alt="alternate text" src="../_images/transFunction_site1_dec8_51.png" />
 <p class="caption"><span class="caption-text">Using the customised configuration</span></p>
 </div>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../_images/stat_statData_coherence_hist.png" />
+<img alt="alternate text" src="../_images/transFunction_site1_spectra.2.png" />
 <p class="caption"><span class="caption-text">Using the default configuration</span></p>
 </div>
 <div class="section" id="complete-example-script">
@@ -319,9 +316,7 @@ minoverlapsize = 64
 16
 17
 18
-19
-20
-21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1">#  load the project and also provide a config file</span>
@@ -339,8 +334,6 @@ minoverlapsize = 64
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
 
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
-<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-<span class="c1"># plot transfer function and save the plot</span>
 <span class="n">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
