@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.project.projectTransferFunction &mdash; resistics 0.0.5 documentation</title>
+  <title>resistics.project.projectTransferFunction &mdash; resistics rc1 documentation</title>
   
 
   
@@ -62,6 +62,10 @@
 
           
             
+            
+              <div class="version">
+                0.0.5
+              </div>
             
           
 
@@ -167,7 +171,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="c1"># import from package</span>
 <span class="kn">from</span> <span class="nn">resistics.dataObjects.projectData</span> <span class="k">import</span> <span class="n">ProjectData</span>
@@ -196,6 +200,7 @@
     <span class="n">projectError</span><span class="p">,</span>
     <span class="n">getDecimationParameters</span><span class="p">,</span>
     <span class="n">getWindowParameters</span><span class="p">,</span>
+    <span class="n">getWindowSelector</span><span class="p">,</span>
     <span class="n">getSingleSiteProcessor</span><span class="p">,</span>
     <span class="n">getRemoteReferenceProcessor</span><span class="p">,</span>
 <span class="p">)</span>
@@ -220,9 +225,9 @@
 <span class="sd">        The postpend on the transfer function files</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
     <span class="c1"># deal with the postpend</span>
@@ -280,23 +285,26 @@
 <span class="sd">    crosschannels : List[str], optional</span>
 <span class="sd">        List of channels to use for cross powers</span>
 <span class="sd">    masks : Dict, optional</span>
-<span class="sd">        Masks dictionary for passing mask data        </span>
+<span class="sd">        Masks dictionary for passing mask data    </span>
+<span class="sd">    datetimes : List, optional</span>
+<span class="sd">        List of datetime constraints, each one as a dictionary            </span>
 <span class="sd">    postpend : str, optional</span>
 <span class="sd">        String to postpend to the transfer function output</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSites</span><span class="p">()</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">()</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">]</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;outchans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">]</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotesite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotechans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">]</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;crosschannels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSites</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">()</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;outchans&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotesite&quot;</span><span class="p">]:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotechans&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;crosschannels&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">]:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;datetimes&quot;</span><span class="p">]:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span>
@@ -342,6 +350,8 @@
 <span class="sd">        List of channels to use for cross powers</span>
 <span class="sd">    masks : Dict, optional</span>
 <span class="sd">        Masks dictionary for passing mask data</span>
+<span class="sd">    datetimes : List, optional</span>
+<span class="sd">        List of datetime constraints, each one as a dictionary</span>
 <span class="sd">    postpend : str, optional</span>
 <span class="sd">        String to postpend to the transfer function output</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -355,6 +365,7 @@
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotechans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inchans&quot;</span><span class="p">]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;crosschannels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;datetimes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
@@ -367,11 +378,8 @@
     <span class="n">decParams</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
     <span class="n">decParams</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
     <span class="n">winParams</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decParams</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-
     <span class="c1"># window selector</span>
-    <span class="n">winSelector</span> <span class="o">=</span> <span class="n">WindowSelector</span><span class="p">(</span>
-        <span class="n">projData</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">decParams</span><span class="p">,</span> <span class="n">winParams</span><span class="p">,</span> <span class="n">specdir</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="n">winSelector</span> <span class="o">=</span> <span class="n">getWindowSelector</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">decParams</span><span class="p">,</span> <span class="n">winParams</span><span class="p">)</span>
 
     <span class="c1"># if two sites are duplicated (e.g. input site and output site), winSelector only uses distinct sites. Hence using site and inputSite is no problem even if they are the same</span>
     <span class="n">processSites</span> <span class="o">=</span> <span class="p">[]</span>
@@ -397,6 +405,19 @@
                 <span class="c1"># list of masks for the site</span>
                 <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">][</span><span class="n">maskSite</span><span class="p">]:</span>
                     <span class="n">winSelector</span><span class="o">.</span><span class="n">addWindowMask</span><span class="p">(</span><span class="n">maskSite</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+
+    <span class="c1"># add datetime constraints</span>
+    <span class="k">for</span> <span class="n">dC</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;datetimes&quot;</span><span class="p">]:</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">&quot;levels&quot;</span> <span class="ow">in</span> <span class="n">dC</span><span class="p">:</span>
+            <span class="n">levels</span> <span class="o">=</span> <span class="n">dC</span><span class="p">[</span><span class="s2">&quot;levels&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">dC</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;datetime&quot;</span><span class="p">:</span>
+                <span class="n">winSelector</span><span class="o">.</span><span class="n">addDatetimeConstraint</span><span class="p">(</span><span class="n">dC</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span> <span class="n">dC</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">],</span> <span class="n">levels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dC</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span>
+                <span class="n">winSelector</span><span class="o">.</span><span class="n">addTimeConstraint</span><span class="p">(</span><span class="n">dC</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span> <span class="n">dC</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">],</span> <span class="n">levels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dC</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;date&quot;</span><span class="p">:</span>
+                <span class="n">winSelector</span><span class="o">.</span><span class="n">addDateConstraint</span><span class="p">(</span><span class="n">dC</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">levels</span><span class="p">)</span>
 
     <span class="c1"># calculate the shared windows and print info</span>
     <span class="n">winSelector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
@@ -649,7 +670,7 @@
                     <span class="n">xlim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;xlim&quot;</span><span class="p">],</span>
                     <span class="n">length_ylim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;length_ylim&quot;</span><span class="p">],</span>
                     <span class="n">angle_ylim</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;angle_ylim&quot;</span><span class="p">],</span>
-                    <span class="n">plotfonts</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">],</span>                    
+                    <span class="n">plotfonts</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">],</span>
                 <span class="p">)</span>
 
             <span class="c1"># check if any files found</span>

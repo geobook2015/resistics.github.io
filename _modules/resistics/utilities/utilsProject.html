@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.utilities.utilsProject &mdash; resistics 0.0.5 documentation</title>
+  <title>resistics.utilities.utilsProject &mdash; resistics rc1 documentation</title>
   
 
   
@@ -62,6 +62,10 @@
 
           
             
+            
+              <div class="version">
+                0.0.5
+              </div>
             
           
 
@@ -176,6 +180,7 @@
 <span class="kn">from</span> <span class="nn">resistics.calculators.processorSingleSite</span> <span class="k">import</span> <span class="n">ProcessorSingleSite</span>
 <span class="kn">from</span> <span class="nn">resistics.calculators.processorRemoteReference</span> <span class="k">import</span> <span class="n">ProcessorRemoteReference</span>
 <span class="kn">from</span> <span class="nn">resistics.dataObjects.timeData</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.dataObjects.projectData</span> <span class="k">import</span> <span class="n">ProjectData</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">generalPrint</span><span class="p">,</span>
     <span class="n">warningPrint</span><span class="p">,</span>
@@ -331,6 +336,38 @@
     <span class="k">return</span> <span class="n">winParams</span></div>
 
 
+<div class="viewcode-block" id="getWindowSelector"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsProject.html#resistics.utilities.utilsProject.getWindowSelector">[docs]</a><span class="k">def</span> <span class="nf">getWindowSelector</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span>
+    <span class="n">decParams</span><span class="p">:</span> <span class="n">DecimationParams</span><span class="p">,</span>
+    <span class="n">winParams</span><span class="p">:</span> <span class="n">WindowParams</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WindowSelector</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a WindowSelector object from projectData, decimationParams, windowParams</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projData : ProjectData</span>
+<span class="sd">        A project data object</span>
+<span class="sd">    decParams : DecimationParams</span>
+<span class="sd">        DecimationParams object to hold the decimation parameters</span>
+<span class="sd">    winParams : Windowparams</span>
+<span class="sd">        WindowParams object to hold the windowing parameters</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    WindowSelector</span>
+<span class="sd">        A window selector object        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">selector</span> <span class="o">=</span> <span class="n">WindowSelector</span><span class="p">(</span>
+        <span class="n">projData</span><span class="p">,</span>
+        <span class="n">decParams</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span>
+        <span class="n">decParams</span><span class="p">,</span>
+        <span class="n">winParams</span><span class="p">,</span>
+        <span class="n">specdir</span><span class="o">=</span><span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">selector</span></div>
+
+
 <div class="viewcode-block" id="getSingleSiteProcessor"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsProject.html#resistics.utilities.utilsProject.getSingleSiteProcessor">[docs]</a><span class="k">def</span> <span class="nf">getSingleSiteProcessor</span><span class="p">(</span>
     <span class="n">winSelector</span><span class="p">:</span> <span class="n">WindowSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessorSingleSite</span><span class="p">:</span>
@@ -432,7 +469,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">],</span> <span class="nb">bool</span><span class="p">):</span>
         <span class="c1"># no polarity reversal to be performed</span>
         <span class="k">return</span> <span class="n">timeData</span>
-    
+
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="c1"># not specified in the right way</span>
         <span class="k">return</span> <span class="n">timeData</span>

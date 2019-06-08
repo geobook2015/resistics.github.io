@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Date and time constraints &mdash; resistics 0.0.5 documentation</title>
+  <title>Date and time constraints &mdash; resistics rc1 documentation</title>
   
 
   
@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Advanced" href="../advanced.html" />
-    <link rel="prev" title="Processing with masks" href="mask-processing.html" /> 
+    <link rel="prev" title="Recap and deeper dive" href="recap-and-deeper-dive.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -64,6 +64,10 @@
 
           
             
+            
+              <div class="version">
+                0.0.5
+              </div>
             
           
 
@@ -103,6 +107,7 @@
 <li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mask-processing.html">Processing with masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recap-and-deeper-dive.html">Recap and deeper dive</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Date and time constraints</a></li>
 </ul>
 </li>
@@ -182,7 +187,255 @@
             
   <div class="section" id="date-and-time-constraints">
 <h1>Date and time constraints<a class="headerlink" href="#date-and-time-constraints" title="Permalink to this headline">¶</a></h1>
-<p>Another way of constraining the data before evaluation frequency calculation is through date and time constraints. In many cases</p>
+<p>Another way of constraining the data before evaluation frequency calculation is through date and time constraints. In many cases, it can be advantageous to explicitly define the dates and times of the time windows (and their respective spectra) to include in the transfer function calculation.</p>
+<p>There are three types of date and time constraints:</p>
+<ul class="simple">
+<li>A time constraint which recurs on a daily basis</li>
+<li>A date constraint to define dates to use</li>
+<li>A combined date and time constraint</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For a better understanding of how window selection works, see the <a class="reference internal" href="recap-and-deeper-dive.html"><span class="doc">Recap and deeper dive</span></a>.</p>
+</div>
+<p>As always, the means of providing date and time constraints will be demonstrated through an example. Begin as always by loading the project.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1"># load the project</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The next step is define a list to hold the date/time constraints and add a single date/time constraint, which is in the form of a dictionary.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># define date/time constraints - only time windows within the constraints will be used</span>
+<span class="n">datetimes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">datetimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;datetime&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-02-10 19:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-02-11 07:00:00&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>As stated above, there are three types of datetime constraints. They are each specified in the following way:</p>
+<ul class="simple">
+<li>Time constraint as a dictionary: {“type”: “time”, “start”: “HH:MM:SS”, “stop”: “HH:MM:SS”}. If the stop time is less than the start time, the time constraint is assumed to cross days. For example, {“type”: “time”, “start”: “20:00:00”, “stop”: “07:00:00”} will take only night time data.</li>
+<li>Date constraint as a dictionary: {“type”: “date”, “date”: “YYYY-MM-DD”}.</li>
+<li>Datetime constraint as a dictionary: {“type”: “datetime”, “start”: “YYYY-MM-DD HH:MM:SS”, “stop”: “YYYY-MM-DD HH:MM:SS”}</li>
+</ul>
+<p>Multiple date/time constraints can be provided and they will be combined and only windows which fall within these date/time constraints will be used. Below is an example of processing with date/time constraints.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the spectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span> <span class="n">datetimes</span><span class="o">=</span><span class="n">datetimes</span><span class="p">,</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;datetimeConstraint&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># plot transfer function and save the plot</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;datetimeConstraint&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>There is little new in this example apart from the addition of the <em>datetimes</em> keyword to specify the date/time constraints.</p>
+<p>The processing gives the resultant transfer function (note, only processing 128 Hz time series data here).</p>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="../_images/transFunction_site1_dec8_5_datetimeConstraint.png" />
+<p class="caption"><span class="caption-text">Impedance tensor estimate with date/time constraints</span></p>
+</div>
+<p>Compare this to the same processing but without datetime constraints.</p>
+<div class="align-center figure" id="id2">
+<img alt="alternate text" src="../_images/transFunction_site1_dec8_51.png" />
+<p class="caption"><span class="caption-text">Impedance tensor estimate without date/time constraints</span></p>
+</div>
+<p>Finally, date/time constraints and masks can be combined as shown in the following example.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process again with a mask too</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">},</span>
+    <span class="n">datetimes</span><span class="o">=</span><span class="n">datetimes</span><span class="p">,</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained_datetimeConstrained&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained_datetimeConstrained&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>This gives the below transfer function.</p>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="../_images/transFunction_site1_dec8_5_coh70_100_tfConstrained_datetimeConstrained.png" />
+<p class="caption"><span class="caption-text">Impedance tensor estimate with date/time constraints and masks based on coherence and transfer function statistics</span></p>
+</div>
+<p>In comparison, the transfer function with just the mask.</p>
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="../_images/transFunction_site1_dec8_5_coh70_100_tfConstrained.png" />
+<p class="caption"><span class="caption-text">Impedance tensor estimate with just the masking based on coherence and transfer function statistics</span></p>
+</div>
+<div class="section" id="complete-example-script">
+<h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the complete example script is provided below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1"># load the project</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
+
+<span class="c1"># define date/time constraints - only time windows within the constraints will be used</span>
+<span class="n">datetimes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">datetimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;datetime&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-02-10 19:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-02-11 07:00:00&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># process the spectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span> <span class="n">datetimes</span><span class="o">=</span><span class="n">datetimes</span><span class="p">,</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;datetimeConstraint&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># plot transfer function and save the plot</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;datetimeConstraint&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># process again with a mask too</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">},</span>
+    <span class="n">datetimes</span><span class="o">=</span><span class="n">datetimes</span><span class="p">,</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained_datetimeConstrained&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained_datetimeConstrained&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 
 
@@ -196,7 +449,7 @@
         <a href="../advanced.html" class="btn btn-neutral float-right" title="Advanced" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="mask-processing.html" class="btn btn-neutral float-left" title="Processing with masks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="recap-and-deeper-dive.html" class="btn btn-neutral float-left" title="Recap and deeper dive" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

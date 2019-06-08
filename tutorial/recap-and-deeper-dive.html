@@ -1,0 +1,1384 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Recap and deeper dive &mdash; resistics rc1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Date and time constraints" href="date-time-constraints.html" />
+    <link rel="prev" title="Processing with masks" href="mask-processing.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> resistics
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="project-environment.html">The project environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewing-data.html">Viewing timeseries data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="up-and-running.html">Up and running</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tipper.html">Calculating the tipper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewing-spectra.html">Viewing spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multiple-spectra.html">Multiple spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration-files.html">Using configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="masks.html">Masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mask-processing.html">Processing with masks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Recap and deeper dive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="date-time-constraints.html">Date and time constraints</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../tutorial.html">Tutorial</a> &raquo;</li>
+        
+      <li>Recap and deeper dive</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/recap-and-deeper-dive.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="recap-and-deeper-dive">
+<h1>Recap and deeper dive<a class="headerlink" href="#recap-and-deeper-dive" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParams</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowParams</span></code> and <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> classes are central to how resistics processes magnetotelluric data. They are lower level elements of the resistics package but will appear more prominently in the <a class="reference internal" href="../advanced.html"><span class="doc">advanced</span></a> and <a class="reference internal" href="../cookbook.html"><span class="doc">cookbook</span></a> sections.</p>
+<p>Now that many of the basic features of resistics have been introduced, it is a useful time to recap some theory and consider some lower level resistics API. This is not necessary to know, but useful before approaching the <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> and <a class="reference internal" href="../cookbook.html"><span class="doc">Cookbook</span></a> sections.</p>
+<div class="section" id="recap">
+<h2>Recap<a class="headerlink" href="#recap" title="Permalink to this headline">¶</a></h2>
+<p>Ahead of introducing the window selector, it is useful to do a quick recap of how resistics processes magnetotelluric data. Ultimately, the point of processing magnetotelluric data is to understand the electrical properties of the subsurface.</p>
+<p>In the standard magnetotelluric setup, the electrical properties of the subsurface are described by the impedance tensor, which relates the input magnetic fields to the output electric fields. This is usually posed in the frequency domain, as shown below. Please see recommended literature if this is unfamiliar.</p>
+<div class="math notranslate nohighlight">
+\begin{eqnarray}
+E_{x}(\omega) &amp; = &amp; Z_{xx}(\omega) H_{x}(\omega) + Z_{xy}(\omega) H_{y}(\omega) \\
+E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(\omega)
+\end{eqnarray}</div><p>Here, the dependency on frequency (<span class="math notranslate nohighlight">\(\omega\)</span>) is shown explicitly.</p>
+<p>In the field, <span class="math notranslate nohighlight">\(E_{x}\)</span>, <span class="math notranslate nohighlight">\(E_{y}\)</span>, <span class="math notranslate nohighlight">\(H_{x}\)</span>, <span class="math notranslate nohighlight">\(H_{y}\)</span> (and often <span class="math notranslate nohighlight">\(H_{z}\)</span>) are recorded. These are then converted into the frequency domain using the Fourier transform, or in resistics, calculating spectra. To read more about resistics spectra, see <a class="reference internal" href="up-and-running.html"><span class="doc">Up and running</span></a> and <a class="reference internal" href="viewing-spectra.html"><span class="doc">Viewing spectra</span></a>.</p>
+<p>Resistics then processes the magnetotelluric spectra data to try and estimate the four unknown values of <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span>. But in the above, there are two equations and four unknowns, so somehow, more equations need to be generated. This is normally done by by using cross-powers as shown in the below set of equations,</p>
+<div class="math notranslate nohighlight">
+\begin{eqnarray}
+&lt;E_{x}(\omega) E_{x}^{*}(\omega)&gt; &amp; = &amp; Z_{xx}(\omega) &lt;H_{x}(\omega) E_{x}^{*}(\omega)&gt; + Z_{xy}(\omega) &lt;H_{y}(\omega) E_{x}^{*}(\omega)&gt; \\
+&lt;E_{x}(\omega) E_{y}^{*}(\omega)&gt; &amp; = &amp; Z_{xx}(\omega) &lt;H_{x}(\omega) E_{y}^{*}(\omega)&gt; + Z_{xy}(\omega) &lt;H_{y}(\omega) E_{y}^{*}(\omega)&gt; \\
+&lt;E_{x}(\omega) H_{x}^{*}(\omega)&gt; &amp; = &amp; Z_{xx}(\omega) &lt;H_{x}(\omega) H_{x}^{*}(\omega)&gt; + Z_{xy}(\omega) &lt;H_{y}(\omega) H_{x}^{*}(\omega)&gt; \\
+&lt;E_{x}(\omega) H_{y}^{*}(\omega)&gt; &amp; = &amp; Z_{xx}(\omega) &lt;H_{x}(\omega) H_{y}^{*}(\omega)&gt; + Z_{xy}(\omega) &lt;H_{y}(\omega) H_{y}^{*}(\omega)&gt; \\
+\end{eqnarray}</div><div class="math notranslate nohighlight">
+\begin{eqnarray}
+&lt;E_{y}(\omega) E_{x}^{*}(\omega)&gt; &amp; = &amp; Z_{yx}(\omega) &lt;H_{x}(\omega) E_{x}^{*}(\omega)&gt; + Z_{yy}(\omega) &lt;H_{y}(\omega) E_{x}^{*}(\omega)&gt; \\
+&lt;E_{y}(\omega) E_{y}^{*}(\omega)&gt; &amp; = &amp; Z_{yx}(\omega) &lt;H_{x}(\omega) E_{y}^{*}(\omega)&gt; + Z_{yy}(\omega) &lt;H_{y}(\omega) E_{y}^{*}(\omega)&gt; \\
+&lt;E_{y}(\omega) H_{x}^{*}(\omega)&gt; &amp; = &amp; Z_{yx}(\omega) &lt;H_{x}(\omega) H_{x}^{*}(\omega)&gt; + Z_{yy}(\omega) &lt;H_{y}(\omega) H_{x}^{*}(\omega)&gt; \\
+&lt;E_{y}(\omega) H_{y}^{*}(\omega)&gt; &amp; = &amp; Z_{yx}(\omega) &lt;H_{x}(\omega) H_{y}^{*}(\omega)&gt; + Z_{yy}(\omega) &lt;H_{y}(\omega) H_{y}^{*}(\omega)&gt; \\
+\end{eqnarray}</div><p>where <span class="math notranslate nohighlight">\(*\)</span> represents the complex conjugate.</p>
+<p>This equations are solved at a set of frequencies called the <strong>evaluation frequencies</strong>. These are normally chosen on a log scale.</p>
+<p>So theoretically, a magnetotelluric processing system could do the following:</p>
+<ol class="arabic simple">
+<li>Transform full electric and magnetic field time series measurements to frequency domain</li>
+<li>Calculate cross-power spectra</li>
+<li>Select a set of evaluation frequencies</li>
+<li>For each evaluation frequency, perform linear regression to solve for <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span></li>
+</ol>
+<p>However, the impedance tensor estimates can be improved by providing more equations or by stacking cross-power spectra, especially in the presence of electromagnetic noise. This is usually done by windowing the time series, in which case the processing flow looks like this:</p>
+<ol class="arabic simple">
+<li>Choose window parameters (window size and overlap size between windows)</li>
+<li>Transform each window into frequency domain (calculate spectra)</li>
+<li>Calculate cross-power spectra at a set of evaluation frequencies</li>
+<li>Stack the cross-power spectra for the different windows</li>
+<li>For each evaluation frequency, perform linear regression to solve for <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span></li>
+</ol>
+<p>There are other variants on this and stacking strategies. It is not necessary for stacking to be performed and instead cross-powers from a set of randomly selected windows can be used. Further, linear regression can be replaced by robust regression.</p>
+<p>For the purposes of calculating out the longer period evaluation frequencies, the time data is usually decimated before the process is repeated. Explicitly, this means:</p>
+<ul>
+<li><p class="first">For decimation level in number of decimation levels</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Decimate time series by the decimation factor</li>
+<li>Choose window parameters for decimation level</li>
+<li>Select evaluation frequencies for decimation level</li>
+<li>Transform each window into frequency domain (calculate spectra)</li>
+<li>Calculate cross-power spectra at the evaluation frequencies</li>
+<li>Stack the cross-power spectra for the different windows</li>
+<li>For each evaluation frequency, perform linear regression to solve for <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span></li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+<p>In the following sections, the resistics approach to decimation parameters, window parameters and window selection will be detailed. It is not necessary to know this, but this information will be a useful pre-cursor to exploring the <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> and <a class="reference internal" href="../cookbook.html"><span class="doc">Cookbook</span></a> sections.</p>
+</div>
+<div class="section" id="decimation-parameters">
+<h2>Decimation parameters<a class="headerlink" href="#decimation-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParams</span></code> class holds the decimation information. Decimation parameters can be set using configuration files (see <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a>). To see what the <code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParams</span></code> class holds, consider an example.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1"># load project and configuration file</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
+
+<span class="c1"># get decimation parameters</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getDecimationParameters</span>
+
+<span class="n">decimationParameters</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">decimationParameters</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>The project has been loaded along with the configuration file, which has specified 8 decimation levels and 5 evaluation frequencies per level. The decimation paramters can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.calculator.html#resistics.calculators.calculator.Calculator.printInfo" title="resistics.calculators.calculator.Calculator.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method to give:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span>09:50:02 DecimationParams: ####################
+09:50:02 DecimationParams: DECIMATIONPARAMS INFO BEGIN
+09:50:02 DecimationParams: ####################
+09:50:02 DecimationParams: Sampling frequency = 4096.000000
+09:50:02 DecimationParams: Number of decimation levels = 8
+09:50:02 DecimationParams: Level = 0    sample freq. [Hz] = 4096.000000 sample rate [s] = 0.000244  dec. factor = 0000001       inc. factor = 1
+09:50:02 DecimationParams: Level = 1    sample freq. [Hz] = 1024.000000 sample rate [s] = 0.000977  dec. factor = 0000004       inc. factor = 4
+09:50:02 DecimationParams: Level = 2    sample freq. [Hz] = 256.000000  sample rate [s] = 0.003906  dec. factor = 0000016       inc. factor = 4
+09:50:02 DecimationParams: Level = 3    sample freq. [Hz] = 32.000000   sample rate [s] = 0.031250  dec. factor = 0000128       inc. factor = 8
+09:50:02 DecimationParams: Level = 4    sample freq. [Hz] = 8.000000    sample rate [s] = 0.125000  dec. factor = 0000512       inc. factor = 4
+09:50:02 DecimationParams: Level = 5    sample freq. [Hz] = 1.000000    sample rate [s] = 1.000000  dec. factor = 0004096       inc. factor = 8
+09:50:02 DecimationParams: Level = 6    sample freq. [Hz] = 0.250000    sample rate [s] = 4.000000  dec. factor = 0016384       inc. factor = 4
+09:50:02 DecimationParams: Level = 7    sample freq. [Hz] = 0.031250    sample rate [s] = 32.000000 dec. factor = 0131072       inc. factor = 8
+09:50:02 DecimationParams: Evaluation frequencies [Hz]
+09:50:02 DecimationParams: Level = 0: 1024.00000000, 724.07734394, 512.00000000, 362.03867197, 256.00000000
+09:50:02 DecimationParams: Level = 1: 181.01933598, 128.00000000, 90.50966799, 64.00000000, 45.25483400
+09:50:02 DecimationParams: Level = 2: 32.00000000, 22.62741700, 16.00000000, 11.31370850, 8.00000000
+09:50:02 DecimationParams: Level = 3: 5.65685425, 4.00000000, 2.82842712, 2.00000000, 1.41421356
+09:50:02 DecimationParams: Level = 4: 1.00000000, 0.70710678, 0.50000000, 0.35355339, 0.25000000
+09:50:02 DecimationParams: Level = 5: 0.17677670, 0.12500000, 0.08838835, 0.06250000, 0.04419417
+09:50:02 DecimationParams: Level = 6: 0.03125000, 0.02209709, 0.01562500, 0.01104854, 0.00781250
+09:50:02 DecimationParams: Level = 7: 0.00552427, 0.00390625, 0.00276214, 0.00195312, 0.00138107
+09:50:02 DecimationParams: ####################
+09:50:02 DecimationParams: DECIMATIONPARAMS INFO END
+09:50:02 DecimationParams: ####################
+</pre></div>
+</td></tr></table></div>
+<p>The information provides all the decimation factors and the sampling frequencies at each decimation level. It also provides the 5 evaluation frequencies for each decimation level.</p>
+</div>
+<div class="section" id="window-parameters">
+<h2>Window parameters<a class="headerlink" href="#window-parameters" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowParams</span></code> class contains information about the windowing parameters. Window parameters can be set using configuration files (see <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a>).</p>
+<p>Again, consider an example which continues from the decimation paramters example:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get the window parameters</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getWindowParameters</span>
+
+<span class="n">windowParameters</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decimationParameters</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">windowParameters</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>The project has been loaded along with the configuration file, which has specified a minimum window size of 256 samples and a minimum overlap of 64 samples. However, resistics is free to use window and overlap sizes greater than these if it makes sense. Windowing parameter information can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.calculator.html#resistics.calculators.calculator.Calculator.printInfo" title="resistics.calculators.calculator.Calculator.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method.</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre></div></td><td class="code"><div class="highlight"><pre><span></span>09:50:02 WindowParams: ####################
+09:50:02 WindowParams: WINDOWPARAMS INFO BEGIN
+09:50:02 WindowParams: ####################
+09:50:02 WindowParams: Number of decimation levels = 8
+09:50:02 WindowParams: Level = 0, sample freq. [Hz] = 4096.000000, sample rate [s] = 0.000244
+09:50:02 WindowParams: Window size = 2048, window duration [s] = 0.499756
+09:50:02 WindowParams: Window overlap = 512, overlap duration [s] = 0.124756
+09:50:02 WindowParams: Level = 1, sample freq. [Hz] = 1024.000000, sample rate [s] = 0.000977
+09:50:02 WindowParams: Window size = 512, window duration [s] = 0.499023
+09:50:02 WindowParams: Window overlap = 128, overlap duration [s] = 0.124023
+09:50:02 WindowParams: Level = 2, sample freq. [Hz] = 256.000000, sample rate [s] = 0.003906
+09:50:02 WindowParams: Window size = 256, window duration [s] = 0.996094
+09:50:02 WindowParams: Window overlap = 64, overlap duration [s] = 0.246094
+09:50:02 WindowParams: Level = 3, sample freq. [Hz] = 32.000000, sample rate [s] = 0.031250
+09:50:02 WindowParams: Window size = 256, window duration [s] = 7.968750
+09:50:02 WindowParams: Window overlap = 64, overlap duration [s] = 1.968750
+09:50:02 WindowParams: Level = 4, sample freq. [Hz] = 8.000000, sample rate [s] = 0.125000
+09:50:02 WindowParams: Window size = 256, window duration [s] = 31.875000
+09:50:02 WindowParams: Window overlap = 64, overlap duration [s] = 7.875000
+09:50:02 WindowParams: Level = 5, sample freq. [Hz] = 1.000000, sample rate [s] = 1.000000
+09:50:02 WindowParams: Window size = 256, window duration [s] = 255.000000
+09:50:02 WindowParams: Window overlap = 64, overlap duration [s] = 63.000000
+09:50:02 WindowParams: Level = 6, sample freq. [Hz] = 0.250000, sample rate [s] = 4.000000
+09:50:02 WindowParams: Window size = 256, window duration [s] = 1020.000000
+09:50:02 WindowParams: Window overlap = 64, overlap duration [s] = 252.000000
+09:50:02 WindowParams: Level = 7, sample freq. [Hz] = 0.031250, sample rate [s] = 32.000000
+09:50:02 WindowParams: Window size = 256, window duration [s] = 8160.000000
+09:50:02 WindowParams: Window overlap = 64, overlap duration [s] = 2016.000000
+09:50:02 WindowParams: ####################
+09:50:02 WindowParams: WINDOWPARAMS INFO END
+09:50:02 WindowParams: ####################
+</pre></div>
+</td></tr></table></div>
+<p>In this case, for the 4096 Hz data, the for the lower decimation levels, larger window sizes are used but as the decimation increases, the 256 minimum window sample size and 64 minimum overlap sample size is used.</p>
+</div>
+<div class="section" id="window-selector">
+<h2>Window selector<a class="headerlink" href="#window-selector" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> class is a key component of resistics. Before processing time windows (and their respective spectra) to calculate transfer function estimates, the windows to use have to be selected. The <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> class is the how windows are selected.</p>
+<p>Below are a few scenarios under which windows might have to be selected:</p>
+<ol class="arabic simple">
+<li>Single site processing, use all the data</li>
+<li>Single site processing with masks and/or date and time constraints</li>
+<li>Remote reference processing with two sites with masks and/or date and time constraints</li>
+<li>Intersite processing with two sites</li>
+<li>Intersite processing with a remote reference as a third site</li>
+</ol>
+<p>Let’s compare 1 and 2 as simple examples. The others will be introduced in the <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> section.</p>
+<p>Begin by getting a <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> instance. In this case, the 128 Hz data is being used.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>25
+26
+27
+28
+29
+30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getWindowSelector</span>
+
+<span class="n">decimationParameters</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">windowParameters</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decimationParameters</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">getWindowSelector</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">decimationParameters</span><span class="p">,</span> <span class="n">windowParameters</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> needs to know the <code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParams</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowParams</span></code>. Information can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.calculator.html#resistics.calculators.calculator.Calculator.printInfo" title="resistics.calculators.calculator.Calculator.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method. This gives:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span>10:01:53 WindowSelector: ####################
+10:01:53 WindowSelector: WINDOWSELECTOR INFO BEGIN
+10:01:53 WindowSelector: ####################
+10:01:53 WindowSelector: Sampling frequency [Hz] = 128.000000
+10:01:53 WindowSelector: Spectra directory = dec8_5
+10:01:53 WindowSelector: Sites =
+10:01:53 WindowSelector: Site information:
+10:01:53 WindowSelector: ####################
+10:01:53 WindowSelector: WINDOWSELECTOR INFO END
+10:01:53 WindowSelector: ####################
+</pre></div>
+</td></tr></table></div>
+<p>Currently, no sites have been specified for the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> instance. Therefore, there are yet no windows to select from. The next step then is to specify a list of sites.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>27
+28
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># add a site and print the information to the terminal</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">setSites</span><span class="p">([</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>Printing information gives the following, which details the recordings and the global windows for those recordings. The global windows are the window numbers beginning from the project reference time. Here there is nothing for decimation level 7 as the time series was not long enough to give sufficient windows after decimation.</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre><span></span>10:03:44 WindowSelector: ####################
+10:03:44 WindowSelector: WINDOWSELECTOR INFO BEGIN
+10:03:44 WindowSelector: ####################
+10:03:44 WindowSelector: Sampling frequency [Hz] = 128.000000
+10:03:44 WindowSelector: Spectra directory = dec8_5
+10:03:44 WindowSelector: Sites = site1
+10:03:44 WindowSelector: Site information:
+10:03:44 WindowSelector: Sampling frequency [Hz] = 128.000000
+10:03:44 WindowSelector: Site = site1
+10:03:44 WindowSelector: Site global index information
+10:03:44 WindowSelector: Decimation Level = 0
+10:03:44 WindowSelector: Measurement file = meas_2012-02-10_11-30-00    time range = 2012-02-10 11:30:00 - 2012-02-11 23:03:43.992188   Global Indices Range = 27600 - 112948
+10:03:44 WindowSelector: Decimation Level = 1
+10:03:44 WindowSelector: Measurement file = meas_2012-02-10_11-30-00    time range = 2012-02-10 11:30:00 - 2012-02-11 23:03:43.968750   Global Indices Range = 6900 - 28236
+10:03:44 WindowSelector: Decimation Level = 2
+10:03:44 WindowSelector: Measurement file = meas_2012-02-10_11-30-00    time range = 2012-02-10 11:30:00 - 2012-02-11 23:03:43.875000   Global Indices Range = 1725 - 7058
+10:03:44 WindowSelector: Decimation Level = 3
+10:03:44 WindowSelector: Measurement file = meas_2012-02-10_11-30-00    time range = 2012-02-10 11:31:12 - 2012-02-11 23:03:27  Global Indices Range = 216 - 881
+10:03:44 WindowSelector: Decimation Level = 4
+10:03:44 WindowSelector: Measurement file = meas_2012-02-10_11-30-00    time range = 2012-02-10 11:31:12 - 2012-02-11 23:00:12  Global Indices Range = 54 - 219
+10:03:44 WindowSelector: Decimation Level = 5
+10:03:44 WindowSelector: Measurement file = meas_2012-02-10_11-30-00    time range = 2012-02-10 11:56:48 - 2012-02-11 22:38:24  Global Indices Range = 7 - 26
+10:03:44 WindowSelector: Decimation Level = 6
+10:03:44 WindowSelector: Measurement file = meas_2012-02-10_11-30-00    time range = 2012-02-10 13:39:12 - 2012-02-11 19:12:00  Global Indices Range = 2 - 5
+10:03:44 WindowSelector: Decimation Level = 7
+10:03:44 WindowSelector: ####################
+10:03:44 WindowSelector: WINDOWSELECTOR INFO END
+10:03:44 WindowSelector: ####################
+</pre></div>
+</td></tr></table></div>
+<p>Now the shared windows can be calculated using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.calcSharedWindows" title="resistics.calculators.windowSelector.WindowSelector.calcSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calcSharedWindows()</span></code></a> method. In this case, only a single site is specified so there are no other sites to share windows with. When more than a single site is specified, the shared windows between the sites will be calculated. <strong>This means the times where both sites were recording</strong>. This is an essential step for remote reference and intersite processing (see <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a>).</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>31
+32
+33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate shared windows</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>The shared windows can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printSharedWindows" title="resistics.calculators.windowSelector.WindowSelector.printSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printSharedWindows()</span></code></a> method.</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre></div></td><td class="code"><div class="highlight"><pre><span></span>10:04:19 WindowSelector::shared windows: ####################
+10:04:19 WindowSelector::shared windows: WINDOWSELECTOR::SHARED WINDOWS INFO BEGIN
+10:04:19 WindowSelector::shared windows: ####################
+10:04:19 WindowSelector::shared windows: Decimation Level = 0
+10:04:19 WindowSelector::shared windows:        Number of shared windows = 85349
+10:04:19 WindowSelector::shared windows:        Shared window indices: 27600-112948:1
+10:04:19 WindowSelector::shared windows:        Number of unmasked windows: 85349
+10:04:19 WindowSelector::shared windows: Decimation Level = 1
+10:04:19 WindowSelector::shared windows:        Number of shared windows = 21337
+10:04:19 WindowSelector::shared windows:        Shared window indices: 6900-28236:1
+10:04:19 WindowSelector::shared windows:        Number of unmasked windows: 21337
+10:04:19 WindowSelector::shared windows: Decimation Level = 2
+10:04:19 WindowSelector::shared windows:        Number of shared windows = 5334
+10:04:19 WindowSelector::shared windows:        Shared window indices: 1725-7058:1
+10:04:19 WindowSelector::shared windows:        Number of unmasked windows: 5334
+10:04:19 WindowSelector::shared windows: Decimation Level = 3
+10:04:19 WindowSelector::shared windows:        Number of shared windows = 666
+10:04:19 WindowSelector::shared windows:        Shared window indices: 216-881:1
+10:04:19 WindowSelector::shared windows:        Number of unmasked windows: 666
+10:04:19 WindowSelector::shared windows: Decimation Level = 4
+10:04:19 WindowSelector::shared windows:        Number of shared windows = 166
+10:04:19 WindowSelector::shared windows:        Shared window indices: 54-219:1
+10:04:19 WindowSelector::shared windows:        Number of unmasked windows: 166
+10:04:19 WindowSelector::shared windows: Decimation Level = 5
+10:04:19 WindowSelector::shared windows:        Number of shared windows = 20
+10:04:19 WindowSelector::shared windows:        Shared window indices: 7-26:1
+10:04:19 WindowSelector::shared windows:        Number of unmasked windows: 20
+10:04:19 WindowSelector::shared windows: Decimation Level = 6
+10:04:19 WindowSelector::shared windows:        Number of shared windows = 4
+10:04:19 WindowSelector::shared windows:        Shared window indices: 2-5:1
+10:04:19 WindowSelector::shared windows:        Number of unmasked windows: 4
+10:04:19 WindowSelector::shared windows: Decimation Level = 7
+10:04:19 WindowSelector::shared windows:        Number of shared windows = 0
+10:04:19 WindowSelector::shared windows:        Shared window indices:
+10:04:19 WindowSelector::shared windows:        Number of unmasked windows: 0
+10:04:19 WindowSelector::shared windows: NOTE: These are the shared windows at each decimation level. Windows for each evaluation frequency might vary depending on masks
+10:04:19 WindowSelector::shared windows: ####################
+10:04:19 WindowSelector::shared windows: WINDOWSELECTOR::SHARED WINDOWS INFO END
+10:04:19 WindowSelector::shared windows: ####################
+</pre></div>
+</td></tr></table></div>
+<p>The <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> has functionality to limit windows using date and time constraints. Date and time constraints can be provided using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addDateConstraint" title="resistics.calculators.windowSelector.WindowSelector.addDateConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDateConstraint()</span></code></a>, <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addTimeConstraint" title="resistics.calculators.windowSelector.WindowSelector.addTimeConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addTimeConstraint()</span></code></a> and <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addDatetimeConstraint" title="resistics.calculators.windowSelector.WindowSelector.addDatetimeConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDatetimeConstraint()</span></code></a> methods.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Providing a date or time constraint means that only windows which are inside these date/time constraints will be selected. Any windows which are outside the date/time constraint will be discarded.</p>
+</div>
+<p>Below is an example of providing a date constraint using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addDateConstraint" title="resistics.calculators.windowSelector.WindowSelector.addDateConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDateConstraint()</span></code></a> method. After running the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.calcSharedWindows" title="resistics.calculators.windowSelector.WindowSelector.calcSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calcSharedWindows()</span></code></a> method, only time windows within this date/time constraint will be selected.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>35
+36
+37
+38
+39</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># currently using every window, but how might this change with a date or time constraint</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">addDateConstraint</span><span class="p">(</span><span class="s2">&quot;2012-02-11&quot;</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printDatetimeConstraints</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>The datetime constraints can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printDatetimeConstraints" title="resistics.calculators.windowSelector.WindowSelector.printDatetimeConstraints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printDatetimeConstraints()</span></code></a> method. The various print methods give the following:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre></div></td><td class="code"><div class="highlight"><pre><span></span>10:11:24 WindowSelector::datetime constraints: ####################
+10:11:24 WindowSelector::datetime constraints: WINDOWSELECTOR::DATETIME CONSTRAINTS INFO BEGIN
+10:11:24 WindowSelector::datetime constraints: ####################
+10:11:24 WindowSelector::datetime constraints: Datetime constraints
+10:11:24 WindowSelector::datetime constraints: Decimation Level = 0
+10:11:24 WindowSelector::datetime constraints:  Constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59
+10:11:24 WindowSelector::datetime constraints: Decimation Level = 1
+10:11:24 WindowSelector::datetime constraints:  Constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59
+10:11:24 WindowSelector::datetime constraints: Decimation Level = 2
+10:11:24 WindowSelector::datetime constraints:  Constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59
+10:11:24 WindowSelector::datetime constraints: Decimation Level = 3
+10:11:24 WindowSelector::datetime constraints:  Constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59
+10:11:24 WindowSelector::datetime constraints: Decimation Level = 4
+10:11:24 WindowSelector::datetime constraints:  Constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59
+10:11:24 WindowSelector::datetime constraints: Decimation Level = 5
+10:11:24 WindowSelector::datetime constraints:  Constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59
+10:11:24 WindowSelector::datetime constraints: Decimation Level = 6
+10:11:24 WindowSelector::datetime constraints:  Constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59
+10:11:24 WindowSelector::datetime constraints: Decimation Level = 7
+10:11:24 WindowSelector::datetime constraints:  Constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59
+10:11:24 WindowSelector::datetime constraints: ####################
+10:11:24 WindowSelector::datetime constraints: WINDOWSELECTOR::DATETIME CONSTRAINTS INFO END
+10:11:24 WindowSelector::datetime constraints: ####################
+10:11:24 WindowSelector Info: Decimation level = 0. Applying date constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59, global index constraint 57600 - 115199
+10:11:24 WindowSelector Info: Decimation level = 1. Applying date constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59, global index constraint 14400 - 28799
+10:11:24 WindowSelector Info: Decimation level = 2. Applying date constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59, global index constraint 3600 - 7199
+10:11:24 WindowSelector Info: Decimation level = 3. Applying date constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59, global index constraint 450 - 899
+10:11:24 WindowSelector Info: Decimation level = 4. Applying date constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59, global index constraint 113 - 224
+10:11:24 WindowSelector Info: Decimation level = 5. Applying date constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59, global index constraint 15 - 28
+10:11:24 WindowSelector Info: Decimation level = 6. Applying date constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59, global index constraint 4 - 7
+10:11:24 WindowSelector Info: Decimation level = 7. Applying date constraint 2012-02-11 00:00:00 - 2012-02-11 23:59:59, global index constraint 1 - 1
+10:11:24 WindowSelector::shared windows: ####################
+10:11:24 WindowSelector::shared windows: WINDOWSELECTOR::SHARED WINDOWS INFO BEGIN
+10:11:24 WindowSelector::shared windows: ####################
+10:11:24 WindowSelector::shared windows: Decimation Level = 0
+10:11:24 WindowSelector::shared windows:        Number of shared windows = 55349
+10:11:24 WindowSelector::shared windows:        Shared window indices: 57600-112948:1
+10:11:24 WindowSelector::shared windows:        Number of unmasked windows: 55349
+10:11:24 WindowSelector::shared windows: Decimation Level = 1
+10:11:24 WindowSelector::shared windows:        Number of shared windows = 13837
+10:11:24 WindowSelector::shared windows:        Shared window indices: 14400-28236:1
+10:11:24 WindowSelector::shared windows:        Number of unmasked windows: 13837
+10:11:24 WindowSelector::shared windows: Decimation Level = 2
+10:11:24 WindowSelector::shared windows:        Number of shared windows = 3459
+10:11:24 WindowSelector::shared windows:        Shared window indices: 3600-7058:1
+10:11:24 WindowSelector::shared windows:        Number of unmasked windows: 3459
+10:11:24 WindowSelector::shared windows: Decimation Level = 3
+10:11:24 WindowSelector::shared windows:        Number of shared windows = 432
+10:11:24 WindowSelector::shared windows:        Shared window indices: 450-881:1
+10:11:24 WindowSelector::shared windows:        Number of unmasked windows: 432
+10:11:24 WindowSelector::shared windows: Decimation Level = 4
+10:11:24 WindowSelector::shared windows:        Number of shared windows = 107
+10:11:24 WindowSelector::shared windows:        Shared window indices: 113-219:1
+10:11:24 WindowSelector::shared windows:        Number of unmasked windows: 107
+10:11:24 WindowSelector::shared windows: Decimation Level = 5
+10:11:24 WindowSelector::shared windows:        Number of shared windows = 12
+10:11:24 WindowSelector::shared windows:        Shared window indices: 15-26:1
+10:11:24 WindowSelector::shared windows:        Number of unmasked windows: 12
+10:11:24 WindowSelector::shared windows: Decimation Level = 6
+10:11:24 WindowSelector::shared windows:        Number of shared windows = 2
+10:11:24 WindowSelector::shared windows:        Shared window indices: 4,5
+10:11:24 WindowSelector::shared windows:        Number of unmasked windows: 2
+10:11:24 WindowSelector::shared windows: Decimation Level = 7
+10:11:24 WindowSelector::shared windows:        Number of shared windows = 0
+10:11:24 WindowSelector::shared windows:        Shared window indices:
+10:11:24 WindowSelector::shared windows:        Number of unmasked windows: 0
+10:11:24 WindowSelector::shared windows: NOTE: These are the shared windows at each decimation level. Windows for each evaluation frequency might vary depending on masks
+10:11:24 WindowSelector::shared windows: ####################
+10:11:24 WindowSelector::shared windows: WINDOWSELECTOR::SHARED WINDOWS INFO END
+10:11:24 WindowSelector::shared windows: ####################
+</pre></div>
+</td></tr></table></div>
+<p>Comparing the number of shared windows to the previous results, it is clear that the number of shared windows has now reduced. This is due to the application of the date constraint. To reset the date constraint, the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.resetDatetimeConstraints" title="resistics.calculators.windowSelector.WindowSelector.resetDatetimeConstraints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">resetDatetimeConstraints()</span></code></a> method can be used as in the following example, where the current date/time constraint is cleared and a new one added.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>41
+42
+43
+44
+45
+46</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># reset datetime constraints</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">resetDatetimeConstraints</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">addDatetimeConstraint</span><span class="p">(</span><span class="s2">&quot;2012-02-10 19:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2012-02-11 08:00:00&quot;</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printDatetimeConstraints</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>Calculating the shared windows again with this new datetime constraint and printing the information to the terminal gives:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre></div></td><td class="code"><div class="highlight"><pre><span></span>10:11:47 WindowSelector::datetime constraints: ####################
+10:11:47 WindowSelector::datetime constraints: WINDOWSELECTOR::DATETIME CONSTRAINTS INFO BEGIN
+10:11:47 WindowSelector::datetime constraints: ####################
+10:11:47 WindowSelector::datetime constraints: Datetime constraints
+10:11:47 WindowSelector::datetime constraints: Decimation Level = 0
+10:11:47 WindowSelector::datetime constraints:  Constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00
+10:11:47 WindowSelector::datetime constraints: Decimation Level = 1
+10:11:47 WindowSelector::datetime constraints:  Constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00
+10:11:47 WindowSelector::datetime constraints: Decimation Level = 2
+10:11:47 WindowSelector::datetime constraints:  Constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00
+10:11:47 WindowSelector::datetime constraints: Decimation Level = 3
+10:11:47 WindowSelector::datetime constraints:  Constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00
+10:11:47 WindowSelector::datetime constraints: Decimation Level = 4
+10:11:47 WindowSelector::datetime constraints:  Constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00
+10:11:47 WindowSelector::datetime constraints: Decimation Level = 5
+10:11:47 WindowSelector::datetime constraints:  Constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00
+10:11:47 WindowSelector::datetime constraints: Decimation Level = 6
+10:11:47 WindowSelector::datetime constraints:  Constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00
+10:11:47 WindowSelector::datetime constraints: Decimation Level = 7
+10:11:47 WindowSelector::datetime constraints:  Constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00
+10:11:47 WindowSelector::datetime constraints: ####################
+10:11:47 WindowSelector::datetime constraints: WINDOWSELECTOR::DATETIME CONSTRAINTS INFO END
+10:11:47 WindowSelector::datetime constraints: ####################
+10:11:47 WindowSelector Info: Decimation level = 0. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 45600 - 76799
+10:11:47 WindowSelector Info: Decimation level = 1. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 11400 - 19199
+10:11:47 WindowSelector Info: Decimation level = 2. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 2850 - 4799
+10:11:47 WindowSelector Info: Decimation level = 3. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 357 - 599
+10:11:47 WindowSelector Info: Decimation level = 4. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 90 - 149
+10:11:47 WindowSelector Info: Decimation level = 5. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 12 - 18
+10:11:47 WindowSelector Info: Decimation level = 6. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 3 - 4
+10:11:47 WindowSelector Info: Decimation level = 7. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 1 - 1
+10:11:47 WindowSelector::shared windows: ####################
+10:11:47 WindowSelector::shared windows: WINDOWSELECTOR::SHARED WINDOWS INFO BEGIN
+10:11:47 WindowSelector::shared windows: ####################
+10:11:47 WindowSelector::shared windows: Decimation Level = 0
+10:11:47 WindowSelector::shared windows:        Number of shared windows = 31199
+10:11:47 WindowSelector::shared windows:        Shared window indices: 45600-76798:1
+10:11:47 WindowSelector::shared windows:        Number of unmasked windows: 31199
+10:11:47 WindowSelector::shared windows: Decimation Level = 1
+10:11:47 WindowSelector::shared windows:        Number of shared windows = 7799
+10:11:47 WindowSelector::shared windows:        Shared window indices: 11400-19198:1
+10:11:47 WindowSelector::shared windows:        Number of unmasked windows: 7799
+10:11:47 WindowSelector::shared windows: Decimation Level = 2
+10:11:47 WindowSelector::shared windows:        Number of shared windows = 1949
+10:11:47 WindowSelector::shared windows:        Shared window indices: 2850-4798:1
+10:11:47 WindowSelector::shared windows:        Number of unmasked windows: 1949
+10:11:47 WindowSelector::shared windows: Decimation Level = 3
+10:11:47 WindowSelector::shared windows:        Number of shared windows = 242
+10:11:47 WindowSelector::shared windows:        Shared window indices: 357-598:1
+10:11:47 WindowSelector::shared windows:        Number of unmasked windows: 242
+10:11:47 WindowSelector::shared windows: Decimation Level = 4
+10:11:47 WindowSelector::shared windows:        Number of shared windows = 59
+10:11:47 WindowSelector::shared windows:        Shared window indices: 90-148:1
+10:11:47 WindowSelector::shared windows:        Number of unmasked windows: 59
+10:11:47 WindowSelector::shared windows: Decimation Level = 5
+10:11:47 WindowSelector::shared windows:        Number of shared windows = 6
+10:11:47 WindowSelector::shared windows:        Shared window indices: 12-17:1
+10:11:47 WindowSelector::shared windows:        Number of unmasked windows: 6
+10:11:47 WindowSelector::shared windows: Decimation Level = 6
+10:11:47 WindowSelector::shared windows:        Number of shared windows = 1
+10:11:47 WindowSelector::shared windows:        Shared window indices: 3
+10:11:47 WindowSelector::shared windows:        Number of unmasked windows: 1
+10:11:47 WindowSelector::shared windows: Decimation Level = 7
+10:11:47 WindowSelector::shared windows:        Number of shared windows = 0
+10:11:47 WindowSelector::shared windows:        Shared window indices:
+10:11:47 WindowSelector::shared windows:        Number of unmasked windows: 0
+10:11:47 WindowSelector::shared windows: NOTE: These are the shared windows at each decimation level. Windows for each evaluation frequency might vary depending on masks
+10:11:47 WindowSelector::shared windows: ####################
+10:11:47 WindowSelector::shared windows: WINDOWSELECTOR::SHARED WINDOWS INFO END
+10:11:47 WindowSelector::shared windows: ####################
+</pre></div>
+</td></tr></table></div>
+<p>The number of shared windows has reduced even more. Instead of using a full day (24 hours) of data as in the previous example with the date constraint, now only the evening and night has been specified, totalling 13 hours.</p>
+<p>Masks can also be specified in the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addWindowMask" title="resistics.calculators.windowSelector.WindowSelector.addWindowMask"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addWindowMask()</span></code></a> method.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>48
+49
+50
+51
+52</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># can add a mask</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">addWindowMask</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;coh70_100&quot;</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printWindowMasks</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>And printing the information to the terminal gives:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55</pre></div></td><td class="code"><div class="highlight"><pre><span></span>10:12:14 WindowSelector::window masks: ####################
+10:12:14 WindowSelector::window masks: WINDOWSELECTOR::WINDOW MASKS INFO BEGIN
+10:12:14 WindowSelector::window masks: ####################
+10:12:14 WindowSelector::window masks: Site = site1
+10:12:14 WindowSelector::window masks:  Mask = coh70_100
+10:12:14 WindowSelector::window masks: ####################
+10:12:14 WindowSelector::window masks: WINDOWSELECTOR::WINDOW MASKS INFO END
+10:12:14 WindowSelector::window masks: ####################
+10:12:14 WindowSelector Info: Decimation level = 0. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 45600 - 76799
+10:12:14 WindowSelector Info: Decimation level = 1. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 11400 - 19199
+10:12:14 WindowSelector Info: Decimation level = 2. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 2850 - 4799
+10:12:14 WindowSelector Info: Decimation level = 3. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 357 - 599
+10:12:14 WindowSelector Info: Decimation level = 4. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 90 - 149
+10:12:14 WindowSelector Info: Decimation level = 5. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 12 - 18
+10:12:14 WindowSelector Info: Decimation level = 6. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 3 - 4
+10:12:14 WindowSelector Info: Decimation level = 7. Applying date constraint 2012-02-10 19:00:00 - 2012-02-11 08:00:00, global index constraint 1 - 1
+10:12:14 WindowSelector::shared windows: ####################
+10:12:14 WindowSelector::shared windows: WINDOWSELECTOR::SHARED WINDOWS INFO BEGIN
+10:12:14 WindowSelector::shared windows: ####################
+10:12:14 WindowSelector::shared windows: Decimation Level = 0
+10:12:14 WindowSelector::shared windows:        Number of shared windows = 31199
+10:12:14 WindowSelector::shared windows:        Shared window indices: 45600-76798:1
+10:12:14 WindowSelector::shared windows:        Number of unmasked windows: 26341
+10:12:14 WindowSelector::shared windows: Decimation Level = 1
+10:12:14 WindowSelector::shared windows:        Number of shared windows = 7799
+10:12:14 WindowSelector::shared windows:        Shared window indices: 11400-19198:1
+10:12:14 WindowSelector::shared windows:        Number of unmasked windows: 3673
+10:12:14 WindowSelector::shared windows: Decimation Level = 2
+10:12:14 WindowSelector::shared windows:        Number of shared windows = 1949
+10:12:14 WindowSelector::shared windows:        Shared window indices: 2850-4798:1
+10:12:14 WindowSelector::shared windows:        Number of unmasked windows: 403
+10:12:14 WindowSelector::shared windows: Decimation Level = 3
+10:12:14 WindowSelector::shared windows:        Number of shared windows = 242
+10:12:14 WindowSelector::shared windows:        Shared window indices: 357-598:1
+10:12:14 WindowSelector::shared windows:        Number of unmasked windows: 138
+10:12:14 WindowSelector::shared windows: Decimation Level = 4
+10:12:14 WindowSelector::shared windows:        Number of shared windows = 59
+10:12:14 WindowSelector::shared windows:        Shared window indices: 90-148:1
+10:12:14 WindowSelector::shared windows:        Number of unmasked windows: 53
+10:12:14 WindowSelector::shared windows: Decimation Level = 5
+10:12:14 WindowSelector::shared windows:        Number of shared windows = 6
+10:12:14 WindowSelector::shared windows:        Shared window indices: 12-17:1
+10:12:14 WindowSelector::shared windows:        Number of unmasked windows: 3
+10:12:14 WindowSelector::shared windows: Decimation Level = 6
+10:12:14 WindowSelector::shared windows:        Number of shared windows = 1
+10:12:14 WindowSelector::shared windows:        Shared window indices: 3
+10:12:14 WindowSelector::shared windows:        Number of unmasked windows: 0
+10:12:14 WindowSelector::shared windows: Decimation Level = 7
+10:12:14 WindowSelector::shared windows:        Number of shared windows = 0
+10:12:14 WindowSelector::shared windows:        Shared window indices:
+10:12:14 WindowSelector::shared windows:        Number of unmasked windows: 0
+10:12:14 WindowSelector::shared windows: NOTE: These are the shared windows at each decimation level. Windows for each evaluation frequency might vary depending on masks
+10:12:14 WindowSelector::shared windows: ####################
+10:12:14 WindowSelector::shared windows: WINDOWSELECTOR::SHARED WINDOWS INFO END
+10:12:14 WindowSelector::shared windows: ####################
+</pre></div>
+</td></tr></table></div>
+<p>However, there has been no change in the number of shared windows, despite the application of the masks. This is because:</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Recall that statistics are calculated for each evaluation frequency. Therefore masks are applied on an evaluation frequency basis rather than decimation level.</p>
+</div>
+<p>The loop below can demonstrate the effect of masks on the number of windows for each evaluation frequency.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># the number of windows for each evaluation frequency will be different when masks are applied</span>
+<span class="c1"># loop over the evaluation frequencies and print the number of windows that will be processed</span>
+<span class="c1"># save the information to a file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;usingWindowSelector.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">numDecimationLevels</span> <span class="o">=</span> <span class="n">decimationParameters</span><span class="o">.</span><span class="n">numLevels</span>
+    <span class="n">numFrequenciesPerLevel</span> <span class="o">=</span> <span class="n">decimationParameters</span><span class="o">.</span><span class="n">freqPerLevel</span>
+    <span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numDecimationLevels</span><span class="p">):</span>
+        <span class="n">evaluationFrequencies</span> <span class="o">=</span> <span class="n">decimationParameters</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span>
+            <span class="n">declevel</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">eIdx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numFrequenciesPerLevel</span><span class="p">):</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;Decimation level = {}, evaluation frequency = {:.3f}, number of windows = {:d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">declevel</span><span class="p">,</span>
+                    <span class="n">evaluationFrequencies</span><span class="p">[</span><span class="n">eIdx</span><span class="p">],</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">getWindowsForFreq</span><span class="p">(</span><span class="n">declevel</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">)),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The output from this loop is shown below.</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Decimation level = 0, evaluation frequency = 32.000, number of windows = 20563
+Decimation level = 0, evaluation frequency = 22.627, number of windows = 17550
+Decimation level = 0, evaluation frequency = 16.000, number of windows = 17907
+Decimation level = 0, evaluation frequency = 11.314, number of windows = 19102
+Decimation level = 0, evaluation frequency = 8.000, number of windows = 21295
+Decimation level = 1, evaluation frequency = 5.657, number of windows = 2944
+Decimation level = 1, evaluation frequency = 4.000, number of windows = 2445
+Decimation level = 1, evaluation frequency = 2.828, number of windows = 2267
+Decimation level = 1, evaluation frequency = 2.000, number of windows = 2303
+Decimation level = 1, evaluation frequency = 1.414, number of windows = 2164
+Decimation level = 2, evaluation frequency = 1.000, number of windows = 216
+Decimation level = 2, evaluation frequency = 0.707, number of windows = 222
+Decimation level = 2, evaluation frequency = 0.500, number of windows = 183
+Decimation level = 2, evaluation frequency = 0.354, number of windows = 125
+Decimation level = 2, evaluation frequency = 0.250, number of windows = 111
+Decimation level = 3, evaluation frequency = 0.177, number of windows = 1
+Decimation level = 3, evaluation frequency = 0.125, number of windows = 5
+Decimation level = 3, evaluation frequency = 0.088, number of windows = 9
+Decimation level = 3, evaluation frequency = 0.062, number of windows = 69
+Decimation level = 3, evaluation frequency = 0.044, number of windows = 131
+Decimation level = 4, evaluation frequency = 0.031, number of windows = 25
+Decimation level = 4, evaluation frequency = 0.022, number of windows = 43
+Decimation level = 4, evaluation frequency = 0.016, number of windows = 48
+Decimation level = 4, evaluation frequency = 0.011, number of windows = 44
+Decimation level = 4, evaluation frequency = 0.008, number of windows = 43
+Decimation level = 5, evaluation frequency = 0.006, number of windows = 1
+Decimation level = 5, evaluation frequency = 0.004, number of windows = 3
+Decimation level = 5, evaluation frequency = 0.003, number of windows = 2
+Decimation level = 5, evaluation frequency = 0.002, number of windows = 2
+Decimation level = 5, evaluation frequency = 0.001, number of windows = 2
+Decimation level = 6, evaluation frequency = 0.001, number of windows = 0
+Decimation level = 6, evaluation frequency = 0.001, number of windows = 0
+Decimation level = 6, evaluation frequency = 0.000, number of windows = 0
+Decimation level = 6, evaluation frequency = 0.000, number of windows = 0
+Decimation level = 6, evaluation frequency = 0.000, number of windows = 0
+Decimation level = 7, evaluation frequency = 0.000, number of windows = 0
+Decimation level = 7, evaluation frequency = 0.000, number of windows = 0
+Decimation level = 7, evaluation frequency = 0.000, number of windows = 0
+Decimation level = 7, evaluation frequency = 0.000, number of windows = 0
+Decimation level = 7, evaluation frequency = 0.000, number of windows = 0
+</pre></div>
+</td></tr></table></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To see how to use date and time constraints in the processing of magnetotelluric data, see  <a class="reference internal" href="date-time-constraints.html"><span class="doc">Date and time constraints</span></a>.</p>
+</div>
+</div>
+<div class="section" id="complete-example-script">
+<h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the complete example script is provided below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="c1"># load project and configuration file</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
+
+<span class="c1"># get decimation parameters</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getDecimationParameters</span>
+
+<span class="n">decimationParameters</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">decimationParameters</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># get the window parameters</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getWindowParameters</span>
+
+<span class="n">windowParameters</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decimationParameters</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">windowParameters</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getWindowSelector</span>
+
+<span class="n">decimationParameters</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">windowParameters</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decimationParameters</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">getWindowSelector</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">decimationParameters</span><span class="p">,</span> <span class="n">windowParameters</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># add a site and print the information to the terminal</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">setSites</span><span class="p">([</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># calculate shared windows</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
+
+<span class="c1"># currently using every window, but how might this change with a date or time constraint</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">addDateConstraint</span><span class="p">(</span><span class="s2">&quot;2012-02-11&quot;</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printDatetimeConstraints</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
+
+<span class="c1"># reset datetime constraints</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">resetDatetimeConstraints</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">addDatetimeConstraint</span><span class="p">(</span><span class="s2">&quot;2012-02-10 19:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2012-02-11 08:00:00&quot;</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printDatetimeConstraints</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
+
+<span class="c1"># can add a mask</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">addWindowMask</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;coh70_100&quot;</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printWindowMasks</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
+
+<span class="c1"># the number of windows for each evaluation frequency will be different when masks are applied</span>
+<span class="c1"># loop over the evaluation frequencies and print the number of windows that will be processed</span>
+<span class="c1"># save the information to a file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;usingWindowSelector.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">numDecimationLevels</span> <span class="o">=</span> <span class="n">decimationParameters</span><span class="o">.</span><span class="n">numLevels</span>
+    <span class="n">numFrequenciesPerLevel</span> <span class="o">=</span> <span class="n">decimationParameters</span><span class="o">.</span><span class="n">freqPerLevel</span>
+    <span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numDecimationLevels</span><span class="p">):</span>
+        <span class="n">evaluationFrequencies</span> <span class="o">=</span> <span class="n">decimationParameters</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span>
+            <span class="n">declevel</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">eIdx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numFrequenciesPerLevel</span><span class="p">):</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">&quot;Decimation level = {}, evaluation frequency = {:.3f}, number of windows = {:d}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">declevel</span><span class="p">,</span>
+                    <span class="n">evaluationFrequencies</span><span class="p">[</span><span class="n">eIdx</span><span class="p">],</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">getWindowsForFreq</span><span class="p">(</span><span class="n">declevel</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">)),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="date-time-constraints.html" class="btn btn-neutral float-right" title="Date and time constraints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mask-processing.html" class="btn btn-neutral float-left" title="Processing with masks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
