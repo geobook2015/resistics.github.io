@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.ioHandlers.dataReaderSpam &mdash; resistics  documentation</title>
+  <title>resistics.ioHandlers.dataReaderSpam &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -89,10 +90,11 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
@@ -210,12 +212,12 @@
 
 <span class="sd">    Methods</span>
 <span class="sd">    -------</span>
-<span class="sd">    __init__(dataPath)</span>
-<span class="sd">        Initialise with path to the data directory</span>
 <span class="sd">    setParameters()</span>
 <span class="sd">        Set parameters specific to a data format</span>
 <span class="sd">    getUnscaledSamples(**kwargs)</span>
 <span class="sd">        Get raw, unscaled data</span>
+<span class="sd">    getDataFilesForSamples(startSample, endSample)</span>
+<span class="sd">        Get the data files that contribute to the requested samples so they can be read</span>
 <span class="sd">    getPhysicalSamples(**kwargs)</span>
 <span class="sd">        Get data in physical units</span>
 <span class="sd">    spamHeaders()</span>
@@ -306,9 +308,8 @@
         <span class="k">for</span> <span class="n">dFile</span><span class="p">,</span> <span class="n">sToRead</span><span class="p">,</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dataFilesToRead</span><span class="p">,</span> <span class="n">samplesToRead</span><span class="p">,</span> <span class="n">scalings</span><span class="p">):</span>
             <span class="c1"># get samples - this is inclusive</span>
             <span class="n">dSamples</span> <span class="o">=</span> <span class="n">sToRead</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">sToRead</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">dSamplesRead</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">dSamples</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">recChannels</span><span class="p">[</span><span class="n">dFile</span><span class="p">]</span>
-            <span class="p">)</span>  <span class="c1"># because spam files always record 5 channels</span>
+            <span class="c1"># spam files always record 5 channels</span>
+            <span class="n">dSamplesRead</span> <span class="o">=</span> <span class="n">dSamples</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">recChannels</span><span class="p">[</span><span class="n">dFile</span><span class="p">]</span> 
             <span class="c1"># read the data</span>
             <span class="n">byteOff</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span><span class="p">[</span><span class="n">dFile</span><span class="p">]</span>
@@ -366,7 +367,7 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataReaderSPAM.getDataFilesForSamples"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.dataReaderSpam.html#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getDataFilesForSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getDataFilesForSamples</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">startSample</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">endSample</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Get the data files that have to be read to cover the sample range </span>
 <span class="sd">        </span>
@@ -450,8 +451,8 @@
             <span class="n">startSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span>
             <span class="n">endSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="c1"># Ais applied in getUnscaledSamples to convert to mV - this is for ease of calculation and because each data file in the run might have a separate scaling</span>
-        <span class="c1"># so all that is left is to divide by the dipole length in km and remove the average</span>
+        <span class="c1"># Scalars are applied in getUnscaledSamples to convert to mV - this is for ease of calculation and because each data file in the run might have a separate scaling</span>
+        <span class="c1"># all that is left is to divide by the dipole length in km and remove the average</span>
         <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">chan</span> <span class="o">==</span> <span class="s2">&quot;Ex&quot;</span><span class="p">:</span>
                 <span class="c1"># multiply by 1000/self.getChanDx same as dividing by dist in km</span>
@@ -561,9 +562,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">headersList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">chanHeadersList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chanHeaders</span><span class="p">)</span>
 
-        <span class="c1"># check to make sure no gaps</span>
-        <span class="c1"># calculate out the sample ranges</span>
-        <span class="c1"># and list the data files for each sample</span>
+        <span class="c1"># check to make sure no gaps, calculate out the sample ranges and list the data files for each sample</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mergeHeaders</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headersList</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeadersList</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataReaderSPAM.readHeaderXTR"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.dataReaderSpam.html#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTR">[docs]</a>    <span class="k">def</span> <span class="nf">readHeaderXTR</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headerFile</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -579,20 +578,20 @@
 
 <span class="sd">        For electric channels, the scaling begins with the scaling provided in the header file in the DATA section. This incorporates any gain occuring in the device. This scaling is further amended by a conversion to mV and polarity reversal,</span>
 
-<span class="sd">        .. code-block:: text</span>
+<span class="sd">        .. math::</span>
 <span class="sd">        </span>
-<span class="sd">            scaling = read scaling from DATA section of header file</span>
-<span class="sd">            scaling = 1000 * scaling , </span>
-<span class="sd">            scaling = -1000 * scaling ,</span>
-<span class="sd">            ts_lsb = scaling ,</span>
+<span class="sd">            scaling = read scaling from DATA section of header file \\</span>
+<span class="sd">            scaling = 1000 * scaling , \\</span>
+<span class="sd">            scaling = -1000 * scaling , \\</span>
+<span class="sd">            ts_lsb = scaling , </span>
 <span class="sd">        </span>
 <span class="sd">        where the reason for the 1000 factor in line 2 is not clear, nor is the polarity reversal. However, this information was provided by people more familiar with the data format.</span>
 <span class="sd">        </span>
 <span class="sd">        For magnetic channels, the scaling in the header file DATA section is ignored. This is because it includes a static gain correction, which would be duplicated at the calibration stage. Therefore, this is not included at this point.</span>
 
-<span class="sd">        .. code-block:: text </span>
+<span class="sd">        .. math:: </span>
 <span class="sd">        </span>
-<span class="sd">            scaling = -1000 ,</span>
+<span class="sd">            scaling = -1000 , \\</span>
 <span class="sd">            ts_lsb = scaling ,</span>
 <span class="sd">        </span>
 <span class="sd">        This scaling converts the magnetic data from V to mV.</span>
@@ -850,21 +849,19 @@
         <span class="n">numSamples</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">header</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">headersList</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
-                    <span class="s2">&quot;Not all datasets in </span><span class="si">{}</span><span class="s2"> have the same sample frequency&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                    <span class="s2">&quot;Not all datasets in </span><span class="si">{}</span><span class="s2"> have the same sample frequency.</span><span class="se">\n</span><span class="s2">Exiting...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span>
-                    <span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;Exiting&quot;</span><span class="p">)</span>
-                <span class="n">exit</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;meas_channels&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;meas_channels&quot;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
-                    <span class="s2">&quot;Not all datasets in </span><span class="si">{}</span><span class="s2"> have the same number of channels&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                    <span class="s2">&quot;Not all datasets in </span><span class="si">{}</span><span class="s2"> have the same number of channels.</span><span class="se">\n</span><span class="s2">Exiting...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span>
-                    <span class="p">)</span>
+                    <span class="p">),</span>
+                    <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;Exiting&quot;</span><span class="p">)</span>
-                <span class="n">exit</span><span class="p">()</span>
             <span class="c1"># now store startTimes, stopTimes and numSamples</span>
             <span class="c1"># do this as datetimes, will be easier</span>
             <span class="n">startString</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;start_date&quot;</span><span class="p">],</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">])</span>
@@ -903,7 +900,10 @@
                 <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># if did not pass check, then exit</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>
-            <span class="n">exit</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                <span class="s2">&quot;Gaps in data. All data for a single recording must be continuous. Exiting...&quot;</span><span class="p">,</span>
+                <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="c1"># make sure there are no gaps</span>
         <span class="n">totalSamples</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numSamples</span><span class="p">)</span>
@@ -994,7 +994,6 @@
             <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Data File List&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printDataFileList</span><span class="p">(),</span>
         <span class="p">)</span></div></div>
-
 </pre></div>
 
            </div>

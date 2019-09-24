@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Masks &mdash; resistics  documentation</title>
+  <title>Masks &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Processing with masks" href="mask-processing.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="project-environment.html">The project environment</a></li>
@@ -373,7 +375,7 @@
 <p>Once the masked windows are calculated, they can then be viewed using the <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.view" title="resistics.dataObjects.maskData.MaskData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData" title="resistics.dataObjects.maskData.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>. When using the <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.view" title="resistics.dataObjects.maskData.MaskData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method, the decimation level has to be specified. In the example above, this has been set to 0, which is the first decimation level. The resultant plot is shown below.</p>
 <div class="align-center figure" id="id1">
 <img alt="alternate text" src="../_images/maskData_128_coh_dec0.png" />
-<p class="caption"><span class="caption-text">Mask data plot for 128 Hz data using coherence constraints of 0.70-1.00</span></p>
+<p class="caption"><span class="caption-text">Mask data plot for 128 Hz data using coherence constraints of 0.70-1.00</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <p>The bar chart at the bottom shows the number of masked windows for each evaluation frequency in the decimation level, plus the total number of masked windows for the decimation level. The top plot shows all the masked windows for the decimation level and which ones of those are masked for the individual evaluation frequencies. Poor quality time windows will generally be masked across all the evaluation frequencies.</p>
 <p>The same process can be repeated for the 4096 Hz data.</p>
@@ -401,7 +403,7 @@
 <p>The mask data plot for the 4096 Hz data is shown below.</p>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../_images/maskData_4096_coh_dec0.png" />
-<p class="caption"><span class="caption-text">Mask data plot for 4096 Hz data using coherence constraints of 0.70-1.00</span></p>
+<p class="caption"><span class="caption-text">Mask data plot for 4096 Hz data using coherence constraints of 0.70-1.00</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <p>Calculating masks with more than a single statistic can be done too. However, it is important to remember that <strong>only time windows which satisfy all the constraints</strong> will be used in the transfer function calculation. In the below example, a new mask is calculated using two statistics, coherence and transfer function.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>40
@@ -442,7 +444,7 @@
 <p>This produces the plot:</p>
 <div class="align-center figure" id="id3">
 <img alt="alternate text" src="../_images/maskData_128_coh_tf_dec0.png" />
-<p class="caption"><span class="caption-text">Mask data plot for 128 Hz data using coherence constraints of 0.70-1.00 and constraints on the transfer function values calculated on an individual window basis.</span></p>
+<p class="caption"><span class="caption-text">Mask data plot for 128 Hz data using coherence constraints of 0.70-1.00 and constraints on the transfer function values calculated on an individual window basis.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <p>Notice that adding more constraints has increased the number of masked windows as expected. Repeating the exercise with the 4096 Hz data:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>58
@@ -481,7 +483,7 @@
 <p>This produces the plot:</p>
 <div class="align-center figure" id="id4">
 <img alt="alternate text" src="../_images/maskData_4096_coh_tf_dec0.png" />
-<p class="caption"><span class="caption-text">Mask data plot for 4096 Hz data using coherence constraints of 0.70-1.00 and constraints on the transfer function values calculated on an individual window basis.</span></p>
+<p class="caption"><span class="caption-text">Mask data plot for 4096 Hz data using coherence constraints of 0.70-1.00 and constraints on the transfer function values calculated on an individual window basis.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <p>Here, the constraints have masked many windows for evaluation frequencies 1024 Hz and 724.077344 Hz. This is almost certainly over-zealous for these two evaluation frequencies (but to better understand how over-zealous read further down).</p>
 <p>Up until now, all mask constraints have been specified globally (i.e. as applying to all evaluation frequencies). However, statistic constraints can be defined in a more targeted manner, at evaluation frequencies that are noisier than others. More targeted constraints can be specified using the listed methods.</p>
@@ -577,11 +579,11 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 </td></tr></table></div>
 <div class="align-center figure" id="id5">
 <img alt="alternate text" src="../_images/statistic_4096_nomask_view.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic data without masking</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic data without masking</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id6">
 <img alt="alternate text" src="../_images/statistic_4096_maskcoh_view.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic data with masking (constraints on only coherence)</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic data with masking (constraints on only coherence)</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 <p>Ideally, the effect of masking should lead to more consistency in the various components of the transfer function, with less scatter. In this case, coherence based time window masking has reduced the scatter around the average value, which will lead to an improvement in the robust regression for transfer funciton estimation.</p>
 <p>Histograms of transfer function statistic data:</p>
@@ -598,11 +600,11 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 </td></tr></table></div>
 <div class="align-center figure" id="id7">
 <img alt="alternate text" src="../_images/statistic_4096_nomask_hist.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic histogram without masking</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic histogram without masking</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id8">
 <img alt="alternate text" src="../_images/statistic_4096_maskcoh_hist.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on only coherence)</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on only coherence)</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
 <p>For the transfer function statistic, Gaussian distributions across the windows is an indication that the overall transfer function estimate will be good. In situations where window-by-window transfer function estimates are not near Gaussian distributed, the resultant overall transfer function estimation will normally be poor. Here, the data is quite well distributed.</p>
 <p>Crossplots of transfer function statistic data:</p>
@@ -661,11 +663,11 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 </td></tr></table></div>
 <div class="align-center figure" id="id9">
 <img alt="alternate text" src="../_images/statistic_4096_nomask_crossplot.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic crossplot without masking</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic crossplot without masking</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id10">
 <img alt="alternate text" src="../_images/statistic_4096_maskcoh_crossplot.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic crossplot with masking (constraints on only coherence)</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic crossplot with masking (constraints on only coherence)</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </div>
 <p>Plotting the window-by-window transfer function estimation in the complex plane should ideally yield a tight scatter of points around an average point. Where this is not the case, the overall transfer function estimate will tend to be poor. In this case, the data is good.</p>
 <p>Repeating the same process with the second mask that was calculated (using both coherence and transfer function constraints) is easily done.</p>
@@ -712,15 +714,15 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 </td></tr></table></div>
 <div class="align-center figure" id="id11">
 <img alt="alternate text" src="../_images/statistic_4096_maskcoh_tf_view.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic with masking (constraints on both coherence and transfer function)</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id12">
 <img alt="alternate text" src="../_images/statistic_4096_maskcoh_tf_hist.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id13">
 <img alt="alternate text" src="../_images/statistic_4096_maskcoh_tf_crossplot.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic crossplot with masking (constraints on both coherence and transfer function)</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic crossplot with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
 </div>
 <p>As suggested earlier, adding the extra mask constraints for this evaluation frequency was over-zealous, mainly due to the ExHyImag and EyHxImag constraints. Only a handful of time windows meet these constraints and the transfer function estimate at this evaluation frequency is likely to be poorer than when simply using the coherence mask.</p>
 <p>Remember that statistic data is saved for each individual time series measurement directory. Hence, currently only the statistic values from one time series recordings are being considered. To really understand how masking windows will influence the transfer function calculation, the effect on the statistics for all time series measurements at a single sampling frequency in a site needs to be considered. This information can be plotted using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a> and  <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatisticHistogram" title="resistics.project.projectStatistics.viewStatisticHistogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticHistogram()</span></code></a> of the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> module. An example is provided below.</p>
@@ -788,11 +790,11 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <p>The result plots are shown below.</p>
 <div class="align-center figure" id="id14">
 <img alt="alternate text" src="../_images/stat_coherence_site1_128_000_dec0_efreq0_dec8_5_coh70_100.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id15">
 <img alt="alternate text" src="../_images/statHist_coherence_site1_128_000_dec0_efreq0_dec8_5_coh70_100.png" />
-<p class="caption"><span class="caption-text">Transfer function statistic crossplot with masking (constraints on both coherence and transfer function)</span></p>
+<p class="caption"><span class="caption-text">Transfer function statistic crossplot with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
 </div>
 <p>Now that masks have been calculated, the next stage is to use the masks in the transfer function estimation, which is demonstrated in the <a class="reference internal" href="mask-processing.html"><span class="doc">Processing with masks</span></a> section.</p>
 </div>

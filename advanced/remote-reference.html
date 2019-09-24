@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Remote reference processing &mdash; resistics  documentation</title>
+  <title>Remote reference processing &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Remote reference statistics" href="remote-reference-statistics.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../advanced.html">Advanced</a><ul class="current">
@@ -180,6 +182,551 @@
             
   <div class="section" id="remote-reference-processing">
 <h1>Remote reference processing<a class="headerlink" href="#remote-reference-processing" title="Permalink to this headline">¶</a></h1>
+<p>Remote reference processing can help achieve notably better transfer functions in the presence of electromagnetic (EM) noise or when the signal to noise ratio within the magnetotelluric deadband is poor. To be able to perform remote reference processing, the following is required:</p>
+<ul class="simple">
+<li>The local site and the remote site must be at the same sampling frequency</li>
+<li>The local site and remote site must have a period of time with concurrent recording</li>
+</ul>
+<p>The example here will deal with following:</p>
+<ul class="simple">
+<li>A local site recorded in northern Switzerland in 2016 and named M6. The sampling frequencys recorded at M6 include 65536, 16384, 4096, 512 and 128 Hz. The sampling frequency of interest for remote reference processing is 128 Hz and the format is ATS.</li>
+<li>A remote site permanently stationed in Germany. The sampling frequency of this data is 250 Hz and the format is SPAM. The site for the remote reference SPAM data will be called RemoteSPAM.</li>
+</ul>
+<p>Magnetotelluric data from northern Switzerland is noisy, particularly in the dead band due to the poor signal to noise ratio when accouting for the environmental noise, but at other evaluation frequencies too. Further, there is biasing and coherent sources of eletromagnetic noise. The hope is to use remote reference processing to help improve the impedance tensor estimates.</p>
+<p>Begin as usual by creating our project and two sites to put our data in.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+
+<span class="c1"># define the project path. The project will be created under this project path.</span>
+<span class="c1"># If the path does not exist, it will be created</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;remoteProject&quot;</span><span class="p">)</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">newProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;2016-01-18 00:00:00&quot;</span><span class="p">)</span>
+
+<span class="c1"># let&#39;s create 2 sites</span>
+<span class="c1"># M6 is the location of interest. Remote is a remote reference station.</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;M6&quot;</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;RemoteSPAM&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>After placing the data in the relevant folders, the project looks like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exampleProject
+├── calData
+├── timeData
+│   |── M6
+|   |   |── meas_2016-02-15_15-00-03
+│   |   |── meas_2016-02-15_15-02-03
+|   |   |── meas_2016-02-15_15-04-03
+|   |   |── meas_2016-02-15_15-08-03
+|   |   |── meas_2016-02-15_15-08-03
+|   |   |── meas_2016-02-15_15-08-03
+|   |   |── meas_2016-02-15_15-08-03
+|   |   |── meas_2016-02-15_15-28-06
+|   |   |── meas_2016-02-16_02-00-00
+|   |   |── meas_2016-02-16_02-35-00
+|   |   |── meas_2016-02-17_02-00-00
+|   |   |── meas_2016-02-17_02-35-00
+|   |   |── meas_2016-02-18_02-00-00
+|   |   |── meas_2016-02-18_02-35-00
+|   |   |── meas_2016-02-19_02-00-00
+|   |   |── meas_2016-02-19_02-35-00
+|   |   |── meas_2016-02-20_02-00-00
+|   |   |── meas_2016-02-20_02-35-00
+|   |   |── meas_2016-02-21_02-00-00
+|   |   └── meas_2016-02-21_02-35-00
+│   └── RemoteSPAM
+|       └── run2
+├── specData
+├── statData
+├── maskData
+├── transFuncData
+├── images
+└── mtProj.prj
+</pre></div>
+</div>
+<p>And printing out the project information and site information for the  using shows the following result:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre></div></td><td class="code"><div class="highlight"><pre><span></span>21:50:32 ProjectData: ####################
+21:50:32 ProjectData: PROJECTDATA INFO BEGIN
+21:50:32 ProjectData: ####################
+21:50:32 ProjectData: Time data path = remoteProject\timeData
+21:50:32 ProjectData: Spectra data path = remoteProject\specData
+21:50:32 ProjectData: Statistics data path = remoteProject\statData
+21:50:32 ProjectData: Mask data path = remoteProject\maskData
+21:50:32 ProjectData: TransFunc data path = remoteProject\transFuncData
+21:50:32 ProjectData: Calibration data path = remoteProject\calData
+21:50:32 ProjectData: Images data path = remoteProject\images
+21:50:32 ProjectData: Reference time = 2016-01-18 00:00:00
+21:50:32 ProjectData: Project start time = 2016-02-11 00:00:00.003200
+21:50:32 ProjectData: Project stop time = 2016-03-17 23:59:59.999200
+21:50:32 ProjectData: Project found 2 sites:
+21:50:32 ProjectData: M6            start: 2016-02-15 15:00:03      end: 2016-02-21 06:27:12.375000
+21:50:32 ProjectData: RemoteSPAM    start: 2016-02-11 00:00:00.003200       end: 2016-03-17 23:59:59.999200
+21:50:32 ProjectData: Sampling frequencies found in project (Hz): 128.0, 250.0, 512.0, 4096.0, 16384.0, 65536.0
+21:50:32 ProjectData: ####################
+21:50:32 ProjectData: PROJECTDATA INFO END
+21:50:32 ProjectData: ####################
+
+22:00:30 SiteData: ####################
+22:00:30 SiteData: SITEDATA INFO BEGIN
+22:00:30 SiteData: ####################
+22:00:30 SiteData: Site = M6
+22:00:30 SiteData: Time data path = remoteProject\timeData\M6
+22:00:30 SiteData: Spectra data path = remoteProject\specData\M6
+22:00:30 SiteData: Statistics data path = remoteProject\statData\M6
+22:00:30 SiteData: TransFunc data path = remoteProject\transFuncData\M6
+22:00:30 SiteData: Site start time = 2016-02-15 15:00:03
+22:00:30 SiteData: Site stop time = 2016-02-21 06:27:12.375000
+22:00:30 SiteData: Sampling frequencies recorded = 128.00000000, 512.00000000, 4096.00000000, 16384.00000000, 65536.00000000
+22:00:30 SiteData: Number of measurement files = 17
+22:00:30 SiteData: Measurement          Sample Frequency (Hz)           Start Time              End Time
+22:00:30 SiteData: meas_2016-02-15_15-00-03             65536.0         2016-02-15 15:00:03             2016-02-15 15:01:02.999985
+22:00:30 SiteData: meas_2016-02-15_15-02-03             16384.0         2016-02-15 15:02:03             2016-02-15 15:03:02.999939
+22:00:30 SiteData: meas_2016-02-15_15-04-03             4096.0          2016-02-15 15:04:03             2016-02-15 15:07:02.999756
+22:00:30 SiteData: meas_2016-02-15_15-08-03             512.0           2016-02-15 15:08:03             2016-02-15 15:13:02.998047
+22:00:30 SiteData: meas_2016-02-15_15-28-06             128.0           2016-02-15 15:28:06             2016-02-16 01:54:59.992188
+22:00:30 SiteData: meas_2016-02-16_02-00-00             4096.0          2016-02-16 02:00:00             2016-02-16 02:29:59.999756
+22:00:30 SiteData: meas_2016-02-16_02-35-00             128.0           2016-02-16 02:35:00             2016-02-17 01:54:59.992188
+22:00:30 SiteData: meas_2016-02-17_02-00-00             4096.0          2016-02-17 02:00:00             2016-02-17 02:29:59.999756
+22:00:30 SiteData: meas_2016-02-17_02-35-00             128.0           2016-02-17 02:35:00             2016-02-18 01:54:59.992188
+22:00:30 SiteData: meas_2016-02-18_02-00-00             4096.0          2016-02-18 02:00:00             2016-02-18 02:29:59.999756
+22:00:30 SiteData: meas_2016-02-18_02-35-00             128.0           2016-02-18 02:35:00             2016-02-19 01:54:59.992188
+22:00:30 SiteData: meas_2016-02-19_02-00-00             4096.0          2016-02-19 02:00:00             2016-02-19 02:29:59.999756
+22:00:30 SiteData: meas_2016-02-19_02-35-00             128.0           2016-02-19 02:35:00             2016-02-20 01:54:59.992188
+22:00:30 SiteData: meas_2016-02-20_02-00-00             4096.0          2016-02-20 02:00:00             2016-02-20 02:29:59.999756
+22:00:30 SiteData: meas_2016-02-20_02-35-00             128.0           2016-02-20 02:35:00             2016-02-21 01:54:59.992188
+22:00:30 SiteData: meas_2016-02-21_02-00-00             4096.0          2016-02-21 02:00:00             2016-02-21 02:29:59.999756
+22:00:30 SiteData: meas_2016-02-21_02-35-00             128.0           2016-02-21 02:35:00             2016-02-21 06:27:12.375000
+22:00:30 SiteData: ####################
+22:00:30 SiteData: SITEDATA INFO END
+22:00:30 SiteData: ####################
+
+22:01:15 SiteData: ####################
+22:01:15 SiteData: SITEDATA INFO BEGIN
+22:01:15 SiteData: ####################
+22:01:15 SiteData: Site = RemoteSPAM
+22:01:15 SiteData: Time data path = remoteProject\timeData\RemoteSPAM
+22:01:15 SiteData: Spectra data path = remoteProject\specData\RemoteSPAM
+22:01:15 SiteData: Statistics data path = remoteProject\statData\RemoteSPAM
+22:01:15 SiteData: TransFunc data path = remoteProject\transFuncData\RemoteSPAM
+22:01:15 SiteData: Site start time = 2016-02-11 00:00:00.003200
+22:01:15 SiteData: Site stop time = 2016-03-17 23:59:59.999200
+22:01:15 SiteData: Sampling frequencies recorded = 250.00000000
+22:01:15 SiteData: Number of measurement files = 1
+22:01:15 SiteData: Measurement          Sample Frequency (Hz)           Start Time              End Time
+22:01:15 SiteData: run2         250.0           2016-02-11 00:00:00.003200              2016-03-17 23:59:59.999200
+22:01:15 SiteData: ####################
+22:01:15 SiteData: SITEDATA INFO END
+22:01:15 SiteData: ####################
+</pre></div>
+</td></tr></table></div>
+<p>As stated earlier, the project consists of:</p>
+<ul class="simple">
+<li>local site M6 with several sampling frequencies</li>
+<li>remote site RemoteSPAM with a single sampling frequency of 250 Hz</li>
+</ul>
+<p>Recall, the remote data will be used as a remote reference for the 128 Hz data at local site M6. Therefore, the first step is to pre-process the remote data (for more information about pre-processing in resistics, see <a class="reference internal" href="pre-process.html"><span class="doc">Pre-processing timeseries data</span></a>). For SPAM data, this means:</p>
+<ul class="simple">
+<li>Interpolation on to the second</li>
+<li>Resampling to 128 Hz</li>
+</ul>
+<p>As usual, the project is loaded in. Information is printed out about each site and then the remote reference data is pre-processed using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">preprocess()</span></code> method.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
+
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;remoteProject&quot;</span><span class="p">)</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="c1"># get information about the local site</span>
+<span class="n">siteLocal</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;M6&quot;</span><span class="p">)</span>
+<span class="n">siteLocal</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="c1"># get information about the SPAM data remote reference</span>
+<span class="n">siteRemote</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;RemoteSPAM&quot;</span><span class="p">)</span>
+<span class="n">siteRemote</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># want to resample the RemoteSPAM data to 128 Hz</span>
+<span class="c1"># SPAM data want to resample onto the second</span>
+<span class="c1"># to make sure the times are matching, we can loop through the 128Hz measurements of M6 and use those times</span>
+<span class="n">meas128</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurements</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">meas128</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurementStart</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurementEnd</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+    <span class="n">postpend</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurementStart</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">_%H-%M-%S&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Processing data from {} to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
+    <span class="n">preProcess</span><span class="p">(</span>
+        <span class="n">proj</span><span class="p">,</span>
+        <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;RemoteSPAM&quot;</span><span class="p">,</span>
+        <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
+        <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span>
+        <span class="n">interp</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">resamp</span><span class="o">=</span><span class="p">{</span><span class="mi">250</span><span class="p">:</span> <span class="mi">128</span><span class="p">},</span>
+        <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+        <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">postpend</span><span class="o">=</span><span class="n">postpend</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>Of particular interest is this part of the of the process:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># want to resample the RemoteSPAM data to 128 Hz</span>
+<span class="c1"># SPAM data want to resample onto the second</span>
+<span class="c1"># to make sure the times are matching, we can loop through the 128Hz measurements of M6 and use those times</span>
+<span class="n">meas128</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurements</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">meas128</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurementStart</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurementEnd</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+    <span class="n">postpend</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurementStart</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">_%H-%M-%S&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Processing data from {} to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
+    <span class="n">preProcess</span><span class="p">(</span>
+        <span class="n">proj</span><span class="p">,</span>
+        <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;RemoteSPAM&quot;</span><span class="p">,</span>
+        <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
+        <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span>
+        <span class="n">interp</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">resamp</span><span class="o">=</span><span class="p">{</span><span class="mi">250</span><span class="p">:</span> <span class="mi">128</span><span class="p">},</span>
+        <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+        <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">postpend</span><span class="o">=</span><span class="n">postpend</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>Here, the 128 Hz measurements of site M6 are being looped over. The start and end time of each of these measurements is being taken and remote data for only that period is being pre-processed. The purpose of this is to save space and only pre-process data concurrent with 128 Hz data at the local site.</p>
+<p>In the pre-processing, the 250 Hz SPAM data is being interpolated onto the second and resampled from 250 Hz to 128 Hz. The pre-processed data directories will be saved to a new site named “Remote” and each measurement directory is has the start time of the measurement post pended to it.</p>
+<p>Printing out project information and site information for the new Remote site after pre-processing gives:</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45</pre></div></td><td class="code"><div class="highlight"><pre><span></span>22:36:32 ProjectData: ####################
+22:36:32 ProjectData: PROJECTDATA INFO BEGIN
+22:36:32 ProjectData: ####################
+22:36:32 ProjectData: Time data path = remoteProject\timeData
+22:36:32 ProjectData: Spectra data path = remoteProject\specData
+22:36:32 ProjectData: Statistics data path = remoteProject\statData
+22:36:32 ProjectData: Mask data path = remoteProject\maskData
+22:36:32 ProjectData: TransFunc data path = remoteProject\transFuncData
+22:36:32 ProjectData: Calibration data path = remoteProject\calData
+22:36:32 ProjectData: Images data path = remoteProject\images
+22:36:32 ProjectData: Reference time = 2016-01-18 00:00:00
+22:36:32 ProjectData: Project start time = 2016-02-11 00:00:00.003200
+22:36:32 ProjectData: Project stop time = 2016-03-17 23:59:59.999200
+22:36:32 ProjectData: Project found 3 sites:
+22:36:32 ProjectData: M6                start: 2016-02-15 15:00:03      end: 2016-02-21 06:27:12.375000
+22:36:32 ProjectData: Remote            start: 2016-02-15 15:28:06      end: 2016-02-21 06:27:11.992188
+22:36:32 ProjectData: RemoteSPAM                start: 2016-02-11 00:00:00.003200       end: 2016-03-17 23:59:59.999200
+22:36:32 ProjectData: Sampling frequencies found in project (Hz): 128.0, 250.0, 512.0, 4096.0, 16384.0, 65536.0
+22:36:32 ProjectData: ####################
+22:36:32 ProjectData: PROJECTDATA INFO END
+22:36:32 ProjectData: ####################
+
+22:37:16 SiteData: ####################
+22:37:16 SiteData: SITEDATA INFO BEGIN
+22:37:16 SiteData: ####################
+22:37:16 SiteData: Site = Remote
+22:37:16 SiteData: Time data path = remoteProject\timeData\Remote
+22:37:16 SiteData: Spectra data path = remoteProject\specData\Remote
+22:37:16 SiteData: Statistics data path = remoteProject\statData\Remote
+22:37:16 SiteData: TransFunc data path = remoteProject\transFuncData\Remote
+22:37:16 SiteData: Site start time = 2016-02-15 15:28:06
+22:37:16 SiteData: Site stop time = 2016-02-21 06:27:11.992188
+22:37:16 SiteData: Sampling frequencies recorded = 128.00000000
+22:37:16 SiteData: Number of measurement files = 7
+22:37:16 SiteData: Measurement          Sample Frequency (Hz)           Start Time              End Time
+22:37:16 SiteData: run2_2016-02-15_15-28-06             128.0           2016-02-15 15:28:06             2016-02-16 01:54:58.992188
+22:37:16 SiteData: run2_2016-02-16_02-35-00             128.0           2016-02-16 02:35:00             2016-02-17 01:54:58.992188
+22:37:16 SiteData: run2_2016-02-17_02-35-00             128.0           2016-02-17 02:35:00             2016-02-18 01:54:58.992188
+22:37:16 SiteData: run2_2016-02-18_02-35-00             128.0           2016-02-18 02:35:00             2016-02-19 01:54:58.992188
+22:37:16 SiteData: run2_2016-02-19_02-35-00             128.0           2016-02-19 02:35:00             2016-02-20 01:54:58.992188
+22:37:16 SiteData: run2_2016-02-20_02-35-00             128.0           2016-02-20 02:35:00             2016-02-21 01:54:58.992188
+22:37:16 SiteData: run2_2016-02-21_02-35-00             128.0           2016-02-21 02:35:00             2016-02-21 06:27:11.992188
+22:37:16 SiteData: ####################
+22:37:16 SiteData: SITEDATA INFO END
+22:37:16 SiteData: ####################
+</pre></div>
+</td></tr></table></div>
+<p>And the project structure looks like the below.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exampleProject
+├── calData
+├── timeData
+│   |── M6
+|   |   |── meas_2016-02-15_15-00-03
+│   |   |── meas_2016-02-15_15-02-03
+|   |   |── meas_2016-02-15_15-04-03
+|   |   |── meas_2016-02-15_15-08-03
+|   |   |── meas_2016-02-15_15-08-03
+|   |   |── meas_2016-02-15_15-08-03
+|   |   |── meas_2016-02-15_15-08-03
+|   |   |── meas_2016-02-15_15-28-06
+|   |   |── meas_2016-02-16_02-00-00
+|   |   |── meas_2016-02-16_02-35-00
+|   |   |── meas_2016-02-17_02-00-00
+|   |   |── meas_2016-02-17_02-35-00
+|   |   |── meas_2016-02-18_02-00-00
+|   |   |── meas_2016-02-18_02-35-00
+|   |   |── meas_2016-02-19_02-00-00
+|   |   |── meas_2016-02-19_02-35-00
+|   |   |── meas_2016-02-20_02-00-00
+|   |   |── meas_2016-02-20_02-35-00
+|   |   |── meas_2016-02-21_02-00-00
+|   |   └── meas_2016-02-21_02-35-00
+│   |── RemoteSPAM
+|   |   └── run2
+|   └── Remote
+|       |── run2_2016-02-15_15-28-06
+|       |── run2_2016-02-16_02-35-00
+|       |── run2_2016-02-17_02-35-00
+|       |── run2_2016-02-18_02-35-00
+|       |── run2_2016-02-19_02-35-00
+|       |── run2_2016-02-20_02-35-00
+|       └── run2_2016-02-21_02-35-00
+├── specData
+├── statData
+├── maskData
+├── transFuncData
+├── images
+└── mtProj.prj
+</pre></div>
+</div>
+<p>To plot the data, the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.viewTime" title="resistics.project.projectTime.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code></a> method can be used as normal and outlined in more detail <a class="reference internal" href="../tutorial/viewing-data.html"><span class="doc">here</span></a>.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
+<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPresentationFonts</span><span class="p">())</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span>
+    <span class="n">startDate</span><span class="o">=</span><span class="s2">&quot;2016-02-17 04:05:00&quot;</span><span class="p">,</span>
+    <span class="n">endDate</span><span class="o">=</span><span class="s2">&quot;2016-02-17 04:15:00&quot;</span><span class="p">,</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;viewTimePreprocess.png&quot;</span><span class="p">))</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span>
+    <span class="n">startDate</span><span class="o">=</span><span class="s2">&quot;2016-02-17 04:05:00&quot;</span><span class="p">,</span>
+    <span class="n">endDate</span><span class="o">=</span><span class="s2">&quot;2016-02-17 04:15:00&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lpfilt&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>First the data is plotted without any filtering and then with a 4 Hz low pass filter. The two plots are shown below.</p>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="../_images/viewTimePreprocess.png" />
+<p class="caption"><span class="caption-text">Site M6 vs. Remote unfiltered. Site M6 is much noisier and has significant high amplitude powerline noise consistent with a developed area.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id2">
+<img alt="alternate text" src="../_images/viewTimePreprocessLowPass.png" />
+<p class="caption"><span class="caption-text">Site M6 vs. Remote filtered to 4 Hz. The longer period data is easier to see here, though M6 still has much more noise in the recordings.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>The next step is to process the data, in the first instance using simple single site processing. Single site processing should be familiar from the <a class="reference internal" href="../tutorial.html"><span class="doc">Tutorial</span></a>.</p>
 <p>Coming soon…</p>
 </div>
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.ioHandlers.dataReaderSpam module &mdash; resistics  documentation</title>
+  <title>resistics.ioHandlers.dataReaderSpam module &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.ioHandlers.dataWriter module" href="resistics.ioHandlers.dataWriter.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -108,6 +110,8 @@
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderATS.html">resistics.ioHandlers.dataReaderATS module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderAscii.html">resistics.ioHandlers.dataReaderAscii module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderInternal.html">resistics.ioHandlers.dataReaderInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderLemiB423.html">resistics.ioHandlers.dataReaderLemiB423 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderLemiB423E.html">resistics.ioHandlers.dataReaderLemiB423E module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderPhoenix.html">resistics.ioHandlers.dataReaderPhoenix module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">resistics.ioHandlers.dataReaderSpam module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataWriter.html">resistics.ioHandlers.dataWriter module</a></li>
@@ -217,7 +221,7 @@
 <p class="rubric">Notes</p>
 <p>Getting unscaled samples for SPAM data removes the gain rather than return exactly the values in the data files. In cases where there are multiple data files, it is not necessary that they have been recorded with the same gain. Therefore, to ensure consistency when looking at raw data, the gain is removed at the getUnscaledSamples stage rather than getPhysicalSamples, where it would have probably been more appropriate. This means that getUnscaledSamples returns data where all channels are in mV.</p>
 <p>The scalings to convert the raw data to mV are stored in the ts_lsb chan header and calculated out as the header files are being read.</p>
-<div class="admonition-todo admonition" id="index-0">
+<div class="admonition-todo admonition" id="id1">
 <p class="first admonition-title">Todo</p>
 <p class="last">Implement reading of XTRX header files</p>
 </div>
@@ -226,17 +230,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>recChannels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
-<dd><p class="first last">Channels in each data file</p>
+<dt><strong>recChannels</strong><span class="classifier">Dict</span></dt><dd><p>Channels in each data file</p>
 </dd>
-<dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.float32</span></dt>
-<dd><p class="first last">The data type</p>
+<dt><strong>dtype</strong><span class="classifier">np.float32</span></dt><dd><p>The data type</p>
 </dd>
-<dt><strong>numHeaderFiles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of header files</p>
+<dt><strong>numHeaderFiles</strong><span class="classifier">int</span></dt><dd><p>The number of header files</p>
 </dd>
-<dt><strong>numDataFiles</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of data files</p>
+<dt><strong>numDataFiles</strong><span class="classifier">int</span></dt><dd><p>The number of data files</p>
 </dd>
 </dl>
 </td>
@@ -244,20 +244,20 @@
 </tbody>
 </table>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils">
+<table border="1" class="docutils align-default">
 <colgroup>
-<col width="43%" />
-<col width="57%" />
+<col width="39%" />
+<col width="61%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><strong>__init__(dataPath)</strong></td>
-<td>Initialise with path to the data directory</td>
-</tr>
-<tr class="row-even"><td><strong>setParameters()</strong></td>
+<tr class="row-odd"><td><strong>setParameters()</strong></td>
 <td>Set parameters specific to a data format</td>
 </tr>
-<tr class="row-odd"><td><strong>getUnscaledSamples(**kwargs)</strong></td>
+<tr class="row-even"><td><strong>getUnscaledSamples(**kwargs)</strong></td>
 <td>Get raw, unscaled data</td>
+</tr>
+<tr class="row-odd"><td><strong>getDataFilesForSamples(startSample, endSample)</strong></td>
+<td>Get the data files that contribute to the requested samples so they can be read</td>
 </tr>
 <tr class="row-even"><td><strong>getPhysicalSamples(**kwargs)</strong></td>
 <td>Get data in physical units</td>
@@ -293,15 +293,14 @@
 </table>
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.chanDefaults">
-<code class="descname">chanDefaults</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.chanDefaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.chanDefaults" title="Permalink to this definition">¶</a></dt>
+<code class="descname">chanDefaults</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.chanDefaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.chanDefaults" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get defaults for channel headers</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Dict[str, Any]</strong></dt>
-<dd><p class="first last">Dictionary of headers for channels and default values</p>
+<dt>Dict[str, Any]</dt><dd><p>Dictionary of headers for channels and default values</p>
 </dd>
 </dl>
 </td>
@@ -312,25 +311,22 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getDataFilesForSamples">
-<code class="descname">getDataFilesForSamples</code><span class="sig-paren">(</span><em>startSample</em>, <em>endSample</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[List[int]], List[float]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.getDataFilesForSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getDataFilesForSamples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getDataFilesForSamples</code><span class="sig-paren">(</span><em>self</em>, <em>startSample: int</em>, <em>endSample: int</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[List[int]], List[float]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.getDataFilesForSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getDataFilesForSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the data files that have to be read to cover the sample range</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Starting sample of the sample range</p>
+<dt><strong>startSample</strong><span class="classifier">int</span></dt><dd><p>Starting sample of the sample range</p>
 </dd>
-<dt><strong>endSamples</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Ending sample of the sample range</p>
+<dt><strong>endSamples</strong><span class="classifier">int</span></dt><dd><p>Ending sample of the sample range</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>dataFilesToRead</strong></dt>
-<dd><p class="first last">Time data object</p>
+<dt>dataFilesToRead</dt><dd><p>Time data object</p>
 </dd>
 </dl>
 </td>
@@ -341,7 +337,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getPhysicalSamples">
-<code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data scaled to physical values</p>
 <p>resistics uses field units, meaning physical samples will return the following:</p>
 <ul class="simple">
@@ -354,30 +350,23 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of channels to return if not all are required</p>
+<dt><strong>chans</strong><span class="classifier">List[str]</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
-<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">First sample to return</p>
+<dt><strong>startSample</strong><span class="classifier">int</span></dt><dd><p>First sample to return</p>
 </dd>
-<dt><strong>endSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Last sample to return</p>
+<dt><strong>endSample</strong><span class="classifier">int</span></dt><dd><p>Last sample to return</p>
 </dd>
-<dt><strong>remaverage</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Remove average from the data</p>
+<dt><strong>remaverage</strong><span class="classifier">bool</span></dt><dd><p>Remove average from the data</p>
 </dd>
-<dt><strong>remzeros</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Remove zeroes from the data</p>
+<dt><strong>remzeros</strong><span class="classifier">bool</span></dt><dd><p>Remove zeroes from the data</p>
 </dd>
-<dt><strong>remnans: bool</strong></dt>
-<dd><p class="first last">Remove NanNs from the data</p>
+<dt><strong>remnans: bool</strong></dt><dd><p>Remove NanNs from the data</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>TimeData</strong></dt>
-<dd><p class="first last">Time data object</p>
+<dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
 </td>
@@ -391,7 +380,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getUnscaledSamples">
-<code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw data from data file, returned in mV</p>
 <p>SPAM raw data is single precision float with unit Volts. Calling this applies the ts_lsb calculated when the headers are read. This is because when a recording consists of multiple data files, each channel of each data file might have a different scaling. The only way to make the data consistent is to apply the ts_lsb scaling.</p>
 <p>Therefore, this method returns the data in mV for all channels.</p>
@@ -400,21 +389,17 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str], optional</span></dt>
-<dd><p class="first last">List of channels to return if not all are required</p>
+<dt><strong>chans</strong><span class="classifier">List[str], optional</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
-<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">First sample to return</p>
+<dt><strong>startSample</strong><span class="classifier">int, optional</span></dt><dd><p>First sample to return</p>
 </dd>
-<dt><strong>endSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">Last sample to return</p>
+<dt><strong>endSample</strong><span class="classifier">int, optional</span></dt><dd><p>Last sample to return</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>TimeData</strong></dt>
-<dd><p class="first last">Time data object</p>
+<dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
 </td>
@@ -425,7 +410,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.headersFromRawFile">
-<code class="descname">headersFromRawFile</code><span class="sig-paren">(</span><em>rawFile: str, headers: Dict[KT, VT]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.headersFromRawFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.headersFromRawFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">headersFromRawFile</code><span class="sig-paren">(</span><em>self</em>, <em>rawFile: str</em>, <em>headers: Dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.headersFromRawFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.headersFromRawFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read headers from the raw data files</p>
 <p>Read the headers from the raw file and figure out the data byte offset.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -433,11 +418,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>rawFile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The .RAW data file</p>
+<dt><strong>rawFile</strong><span class="classifier">str</span></dt><dd><p>The .RAW data file</p>
 </dd>
-<dt><strong>headers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
-<dd><p class="first last">A headers dictionary</p>
+<dt><strong>headers</strong><span class="classifier">Dict</span></dt><dd><p>A headers dictionary</p>
 </dd>
 </dl>
 </td>
@@ -450,7 +433,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.mergeHeaders">
-<code class="descname">mergeHeaders</code><span class="sig-paren">(</span><em>headersList: List[T], chanHeadersList: List[T]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.mergeHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.mergeHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mergeHeaders</code><span class="sig-paren">(</span><em>self</em>, <em>headersList: List</em>, <em>chanHeadersList: List</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.mergeHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.mergeHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Merge headers from all the header files</p>
 <p>Checks all the header files to see if there are any gaps and calculates the sample ranges for each file together with the total number of samples. Sets the start and end time of the recording and class variables datetimeStart and datetimeStop.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -458,11 +441,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>headersList</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd><p class="first last">List of headers from each data file</p>
+<dt><strong>headersList</strong><span class="classifier">List</span></dt><dd><p>List of headers from each data file</p>
 </dd>
-<dt><strong>chanHeadersList :</strong></dt>
-<dd><p class="first last">List of chan headers from each data file</p>
+<dt><strong>chanHeadersList :</strong></dt><dd><p>List of chan headers from each data file</p>
 </dd>
 </dl>
 </td>
@@ -473,21 +454,20 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileInfo">
-<code class="descname">printDataFileInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.printDataFileInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileInfo" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printDataFileInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.printDataFileInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print a list of the data files</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileList">
-<code class="descname">printDataFileList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.printDataFileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileList" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printDataFileList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.printDataFileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.printDataFileList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Information about the data files as a list of strings</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>List[str]</strong></dt>
-<dd><p class="first last">List of information about the data files</p>
+<dt>List[str]</dt><dd><p>List of information about the data files</p>
 </dd>
 </dl>
 </td>
@@ -498,7 +478,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeader">
-<code class="descname">readHeader</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeader" title="Permalink to this definition">¶</a></dt>
+<code class="descname">readHeader</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read header files</p>
 <p>For SPAM data, the may be more than one header file as data can be split up into smaller files as it is recorded. In that case, the header information should be somehow merged.</p>
 <p>All sampling frequencies should be the same</p>
@@ -506,7 +486,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTR">
-<code class="descname">readHeaderXTR</code><span class="sig-paren">(</span><em>headerFile: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.readHeaderXTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTR" title="Permalink to this definition">¶</a></dt>
+<code class="descname">readHeaderXTR</code><span class="sig-paren">(</span><em>self</em>, <em>headerFile: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.readHeaderXTR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a XTR header file</p>
 <p>The raw data for SPAM is in single precision Volts. However, if there are multiple data files for a single recording, each one may have a different gain. Therefore, a scaling has to be calculated for each data file and channel. This scaling will convert all channels to mV.</p>
 <p>For the most part, this method only reads recording information. However, it does additionally calculate out the lsb scaling and store it in the ts_lsb channel header. More information is provided in the notes.</p>
@@ -515,8 +495,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>headerFile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The XTR header file to read in</p>
+<dt><strong>headerFile</strong><span class="classifier">str</span></dt><dd><p>The XTR header file to read in</p>
 </dd>
 </dl>
 </td>
@@ -526,24 +505,22 @@
 <p class="rubric">Notes</p>
 <p>The raw data for SPAM is in single precision floats and record the raw Voltage measurements of the sensors. However, if there are multiple data files for a single continuous recording, each one may have a different gain. Therefore, a scaling has to be calculated for each data file.</p>
 <p>For electric channels, the scaling begins with the scaling provided in the header file in the DATA section. This incorporates any gain occuring in the device. This scaling is further amended by a conversion to mV and polarity reversal,</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>scaling = read scaling from DATA section of header file
-scaling = 1000 * scaling , 
-scaling = -1000 * scaling ,
-ts_lsb = scaling ,
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[scaling = read scaling from DATA section of header file \
+scaling = 1000 * scaling , \
+scaling = -1000 * scaling , \
+ts_lsb = scaling , \]</div>
 <p>where the reason for the 1000 factor in line 2 is not clear, nor is the polarity reversal. However, this information was provided by people more familiar with the data format.</p>
 <p>For magnetic channels, the scaling in the header file DATA section is ignored. This is because it includes a static gain correction, which would be duplicated at the calibration stage. Therefore, this is not included at this point.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>scaling = -1000 ,
-ts_lsb = scaling ,
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[scaling = -1000 , \
+ts_lsb = scaling ,\]</div>
 <p>This scaling converts the magnetic data from V to mV.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTRX">
-<code class="descname">readHeaderXTRX</code><span class="sig-paren">(</span><em>headerFile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.readHeaderXTRX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTRX" title="Permalink to this definition">¶</a></dt>
+<code class="descname">readHeaderXTRX</code><span class="sig-paren">(</span><em>self</em>, <em>headerFile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.readHeaderXTRX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.readHeaderXTRX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a XTRX header files</p>
 <p>XTRX are newer header files and will supercede XTR</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -551,8 +528,7 @@ ts_lsb = scaling ,
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>headerFile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The XTRX header file to read in</p>
+<dt><strong>headerFile</strong><span class="classifier">str</span></dt><dd><p>The XTRX header file to read in</p>
 </dd>
 </dl>
 </td>
@@ -563,24 +539,22 @@ ts_lsb = scaling ,
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.setParameters">
-<code class="descname">setParameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.setParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setParameters</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.setParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set some data reader parameters for reading SPAM data</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.spamHeaders">
-<code class="descname">spamHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[List[str], Dict[str, str]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.spamHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.spamHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="descname">spamHeaders</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], Dict[str, str]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReaderSpam.html#DataReaderSPAM.spamHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReaderSpam.DataReaderSPAM.spamHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the sections in SPAM header files (XTR and XTRX)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>sections</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">The sections in the header files</p>
+<dt><strong>sections</strong><span class="classifier">List[str]</span></dt><dd><p>The sections in the header files</p>
 </dd>
-<dt><strong>sectionHeaders</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict[str, str]</span></dt>
-<dd><p class="first last">The headers in each section to be read in</p>
+<dt><strong>sectionHeaders</strong><span class="classifier">Dict[str, str]</span></dt><dd><p>The headers in each section to be read in</p>
 </dd>
 </dl>
 </td>

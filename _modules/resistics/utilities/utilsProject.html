@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.utilities.utilsProject &mdash; resistics  documentation</title>
+  <title>resistics.utilities.utilsProject &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -89,10 +90,11 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
@@ -455,7 +457,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    options : Dict</span>
+<span class="sd">    options : Dict[str, bool]</span>
 <span class="sd">        User specified options for polarity reversal</span>
 <span class="sd">    timeData : TimeData</span>
 <span class="sd">        Time data to polarity reverse</span>
@@ -477,6 +479,36 @@
     <span class="kn">from</span> <span class="nn">resistics.utilities.utilsMath</span> <span class="k">import</span> <span class="n">polarityReversal</span>
 
     <span class="n">timeData</span> <span class="o">=</span> <span class="n">polarityReversal</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">timeData</span></div>
+
+
+<div class="viewcode-block" id="applyScaleOptions"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsProject.html#resistics.utilities.utilsProject.applyScaleOptions">[docs]</a><span class="k">def</span> <span class="nf">applyScaleOptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">timeData</span><span class="p">:</span> <span class="n">TimeData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Scale the time data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        User specified options for scaling</span>
+<span class="sd">    timeData : TimeData</span>
+<span class="sd">        Time data to polarity reverse</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TimeData</span>
+<span class="sd">        Polarity reversed time data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">],</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="c1"># no polarity reversal to be performed</span>
+        <span class="k">return</span> <span class="n">timeData</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># not specified in the right way</span>
+        <span class="k">return</span> <span class="n">timeData</span>
+
+    <span class="kn">from</span> <span class="nn">resistics.utilities.utilsMath</span> <span class="k">import</span> <span class="n">scale</span>
+
+    <span class="n">timeData</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">timeData</span></div>
 
 

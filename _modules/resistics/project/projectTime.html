@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.project.projectTime &mdash; resistics  documentation</title>
+  <title>resistics.project.projectTime &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -89,10 +90,11 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
@@ -186,6 +188,7 @@
     <span class="n">checkDateOptions</span><span class="p">,</span>
     <span class="n">getCalibrator</span><span class="p">,</span>
     <span class="n">applyPolarisationReversalOptions</span><span class="p">,</span>
+    <span class="n">applyScaleOptions</span><span class="p">,</span>
     <span class="n">applyCalibrationOptions</span><span class="p">,</span>
     <span class="n">applyFilterOptions</span><span class="p">,</span>
     <span class="n">applyInterpolationOptions</span><span class="p">,</span>
@@ -242,11 +245,13 @@
 <span class="sd">    outputsite : str, optional</span>
 <span class="sd">        A site to output the preprocessed time data to. If this site does not exist, it will be created</span>
 <span class="sd">    polreverse :  Dict[str, bool]</span>
-<span class="sd">        Keys are channels and values are boolean flags for reversing        </span>
+<span class="sd">        Keys are channels and values are boolean flags for reversing </span>
+<span class="sd">    scale : Dict[str, float]</span>
+<span class="sd">        Keys are channels and values are floats to multiply the channel data by       </span>
 <span class="sd">    calibrate : bool, optional</span>
 <span class="sd">        Boolean flag for calibrating the data. Default is false and setting to True will calibrate where files can be found.</span>
 <span class="sd">    normalise : bool, optional</span>
-<span class="sd">        Boolean flag for normalising the data. Default is false and setting to True will normalise each channel individually.</span>
+<span class="sd">        Boolean flag for normalising the data. Default is False and setting to True will normalise each channel independently.</span>
 <span class="sd">    filter : Dict, optional</span>
 <span class="sd">        Filtering options in a dictionary</span>
 <span class="sd">    notch : List[float], optional</span>
@@ -256,18 +261,19 @@
 <span class="sd">    interp : bool, optional</span>
 <span class="sd">        Boolean flag for interpolating the data on to the second, so that sampling is coincident with seconds. This is not always the case. For example, SPAM data is not necessarily sampled on the second, whereas ATS data is. This function is useful when combining data of multiple formats. Interpolation does not change the sampling rate. Default is False.</span>
 <span class="sd">    prepend : str, optional</span>
-<span class="sd">        String to prepend to the output folder</span>
+<span class="sd">        String to prepend to the output folder. Default is &quot;proc&quot;.</span>
 <span class="sd">    postpend : str, optional</span>
-<span class="sd">        String to postpend to the output folder</span>
+<span class="sd">        String to postpend to the output folder. Default is empty.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span> <span class="n">List</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSites</span><span class="p">()</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">()</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;outputsite&quot;</span><span class="p">]:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">False</span>    
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;calibrate&quot;</span><span class="p">]:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;normalise&quot;</span><span class="p">]:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -283,6 +289,9 @@
     <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{}</span><span class="s2"> = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
     <span class="n">projectBlock</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]]</span>
 
     <span class="c1"># outputting to another site</span>
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;outputsite&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
@@ -337,9 +346,9 @@
                     <span class="k">continue</span>
                 <span class="c1"># if the data contributes, copy in the data if relevant</span>
                 <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]:</span>
-                    <span class="n">startTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+                    <span class="n">startTime</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]:</span>
-                    <span class="n">stopTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+                    <span class="n">stopTime</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span>
 
                 <span class="c1"># calculate the samples</span>
                 <span class="n">sampleStart</span><span class="p">,</span> <span class="n">sampleEnd</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">time2sample</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
@@ -353,6 +362,7 @@
 
                 <span class="c1"># apply options</span>
                 <span class="n">applyPolarisationReversalOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
+                <span class="n">applyScaleOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
                 <span class="n">applyCalibrationOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">cal</span><span class="p">,</span> <span class="n">timeData</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
                 <span class="n">applyFilterOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
                 <span class="n">applyNotchOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
@@ -406,7 +416,7 @@
 <span class="sd">    calibrate : bool, optional</span>
 <span class="sd">        Boolean flag to calibrate data</span>
 <span class="sd">    normalise : bool, optional</span>
-<span class="sd">        Boolean flag to normalise the data</span>
+<span class="sd">        Boolean flag to normalise the data. Default is False and setting to True will normalise each channel independently.</span>
 <span class="sd">    notch : List[float], optional</span>
 <span class="sd">        List of frequencies to notch out</span>
 <span class="sd">    filter : Dict, optional</span>
@@ -429,7 +439,7 @@
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">sites</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">()</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">]</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">False</span>    
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;calibrate&quot;</span><span class="p">]:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;normalise&quot;</span><span class="p">]:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -472,10 +482,8 @@
             <span class="n">sampleStart</span><span class="p">,</span> <span class="n">sampleStop</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">time2sample</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
             <span class="c1"># as the samples returned from time2sample are rounded use sample2time to get the appropriate start and end times for those samples</span>
             <span class="n">readStart</span><span class="p">,</span> <span class="n">readStop</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">sample2time</span><span class="p">(</span><span class="n">sampleStart</span><span class="p">,</span> <span class="n">sampleStop</span><span class="p">)</span>
-            <span class="c1"># get the data</span>
-            <span class="n">timeData</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span>
-                <span class="n">readStart</span><span class="p">,</span> <span class="n">readStop</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="c1"># get the data for any available channels meaning even those sites with missing channels can be plotted</span>
+            <span class="n">timeData</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">readStart</span><span class="p">,</span> <span class="n">readStop</span><span class="p">)</span>
 
             <span class="n">projectText</span><span class="p">(</span>
                 <span class="s2">&quot;Plotting measurement </span><span class="si">{}</span><span class="s2"> of site </span><span class="si">{}</span><span class="s2"> between </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>

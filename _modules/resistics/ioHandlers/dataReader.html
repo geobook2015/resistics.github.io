@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.ioHandlers.dataReader &mdash; resistics  documentation</title>
+  <title>resistics.ioHandlers.dataReader &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -89,10 +90,11 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
@@ -205,8 +207,6 @@
 <span class="sd">        Dictionary mapping header words to values</span>
 <span class="sd">    chans : List[str]</span>
 <span class="sd">        List of channels</span>
-<span class="sd">    numChannels : int</span>
-<span class="sd">        Number of channels</span>
 <span class="sd">    chanHeaders : List	</span>
 <span class="sd">        Headers specific to channels</span>
 <span class="sd">    chanMap : Dict</span>
@@ -344,7 +344,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">dataPath</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chans</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -489,8 +488,9 @@
 <span class="sd">            Array of gains for channels</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">gain1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">):</span>
+        <span class="n">numChannels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumChannels</span><span class="p">()</span>
+        <span class="n">gain1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numChannels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numChannels</span><span class="p">):</span>
             <span class="n">gain1</span><span class="p">[</span><span class="n">iChan</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanGain1</span><span class="p">(</span><span class="n">iChan</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">gain1</span></div>
 
@@ -503,8 +503,9 @@
 <span class="sd">            Array of gains for channels</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">gain2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numChannels</span><span class="p">):</span>
+        <span class="n">numChannels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumChannels</span><span class="p">()</span>
+        <span class="n">gain2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numChannels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numChannels</span><span class="p">):</span>
             <span class="n">gain2</span><span class="p">[</span><span class="n">iChan</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanGain2</span><span class="p">(</span><span class="n">iChan</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">gain2</span></div>
 
@@ -515,6 +516,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        chans: List[str], optional</span>
 <span class="sd">            List of channels for which chan headers are wanted</span>
+<span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        chanHeaders : List</span>
@@ -879,12 +881,15 @@
 
         <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time2sample</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">)</span>
+        <span class="c1"># pop out start and end time to avoid repeated options</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;startSample&quot;</span><span class="p">)</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;endSample&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
-            <span class="n">chans</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">],</span> <span class="n">startSample</span><span class="o">=</span><span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="n">endSample</span>
+            <span class="n">startSample</span><span class="o">=</span><span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="n">endSample</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataReader.getPhysicalSamples"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.dataReader.html#resistics.ioHandlers.dataReader.DataReader.getPhysicalSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getPhysicalSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get data scaled to physical values</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Get data scaled to physical values</span>
 <span class="sd">        </span>
 <span class="sd">        Depending on the data format, the scalings required to convert to field physical units is different. The method in the base DataReader class covers ATS and internal file format.</span>
 
@@ -900,17 +905,17 @@
 <span class="sd">        -----</span>
 <span class="sd">        The raw data units for ATS data are in counts. To get data in field units, ATS data is first multipled by the least significat bit (lsb) defined in the header files,</span>
 
-<span class="sd">        .. code-block:: text  </span>
+<span class="sd">        .. math::  </span>
 <span class="sd">        </span>
-<span class="sd">            data = data * leastSignificantBit,</span>
+<span class="sd">            data = data * lsb,</span>
 <span class="sd">        </span>
 <span class="sd">        giving data in mV. The lsb includes the gain removal, so no separate gain removal needs to be performed.</span>
 <span class="sd">        </span>
 <span class="sd">        For electrical channels, there is additional step of dividing by the electrode spacing, which is provided in metres. The extra factor of a 1000 is to convert this to km to give mV/km for electric channels</span>
 <span class="sd">        </span>
-<span class="sd">        .. code-block:: text  </span>
+<span class="sd">        .. math::   </span>
 <span class="sd">            </span>
-<span class="sd">            data = (1000 * data)/electrodeSpacing</span>
+<span class="sd">            data = \frac{1000 * data}{electrodeSpacing}</span>
 <span class="sd">        </span>
 <span class="sd">        Finally, to get magnetic channels in nT, the magnetic channels need to be calibrated.</span>
 
@@ -1023,8 +1028,11 @@
 
         <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time2sample</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">)</span>
+        <span class="c1"># pop out start and end time to avoid repeated options        </span>
+        <span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;startSample&quot;</span><span class="p">)</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;endSample&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">(</span>
-            <span class="n">chans</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">],</span> <span class="n">startSample</span><span class="o">=</span><span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="n">endSample</span>
+            <span class="n">startSample</span><span class="o">=</span><span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="n">endSample</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataReader.parseGetDataKeywords"><a class="viewcode-back" href="../../../api/resistics.ioHandlers.dataReader.html#resistics.ioHandlers.dataReader.DataReader.parseGetDataKeywords">[docs]</a>    <span class="k">def</span> <span class="nf">parseGetDataKeywords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keywords</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
@@ -1048,6 +1056,7 @@
         <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumSamples</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStartDatetime</span><span class="p">()</span>
         <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endTime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStopDatetime</span><span class="p">()</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>

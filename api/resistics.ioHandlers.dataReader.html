@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.ioHandlers.dataReader module &mdash; resistics  documentation</title>
+  <title>resistics.ioHandlers.dataReader module &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.ioHandlers.dataReaderATS module" href="resistics.ioHandlers.dataReaderATS.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -108,6 +110,8 @@
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderATS.html">resistics.ioHandlers.dataReaderATS module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderAscii.html">resistics.ioHandlers.dataReaderAscii module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderInternal.html">resistics.ioHandlers.dataReaderInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderLemiB423.html">resistics.ioHandlers.dataReaderLemiB423 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderLemiB423E.html">resistics.ioHandlers.dataReaderLemiB423E module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderPhoenix.html">resistics.ioHandlers.dataReaderPhoenix module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderSpam.html">resistics.ioHandlers.dataReaderSpam module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataWriter.html">resistics.ioHandlers.dataWriter module</a></li>
@@ -223,38 +227,25 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>dataPath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to the data folder.</p>
+<dt><strong>dataPath</strong><span class="classifier">str</span></dt><dd><p>Path to the data folder.</p>
 </dd>
-<dt><strong>headers</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
-<dd><p class="first last">Dictionary mapping header words to values</p>
+<dt><strong>headers</strong><span class="classifier">Dict</span></dt><dd><p>Dictionary mapping header words to values</p>
 </dd>
-<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of channels</p>
+<dt><strong>chans</strong><span class="classifier">List[str]</span></dt><dd><p>List of channels</p>
 </dd>
-<dt><strong>numChannels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Number of channels</p>
+<dt><strong>chanHeaders</strong><span class="classifier">List</span></dt><dd><p>Headers specific to channels</p>
 </dd>
-<dt><strong>chanHeaders</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd><p class="first last">Headers specific to channels</p>
+<dt><strong>chanMap</strong><span class="classifier">Dict</span></dt><dd><p>Map from channel name to index for chanHeaders</p>
 </dd>
-<dt><strong>chanMap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
-<dd><p class="first last">Map from channel name to index for chanHeaders</p>
+<dt><strong>comments</strong><span class="classifier">List[str]</span></dt><dd><p>List of comments associated with data</p>
 </dd>
-<dt><strong>comments</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of comments associated with data</p>
+<dt><strong>headerF</strong><span class="classifier">List[str]</span></dt><dd><p>List of header files (with extension .hdr)</p>
 </dd>
-<dt><strong>headerF</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of header files (with extension .hdr)</p>
+<dt><strong>dataF</strong><span class="classifier">List[str]</span></dt><dd><p>List of data files (with extension .npy)</p>
 </dd>
-<dt><strong>dataF</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of data files (with extension .npy)</p>
+<dt><strong>dataByteOffset</strong><span class="classifier">int</span></dt><dd><p>Number of bytes to offset before reading</p>
 </dd>
-<dt><strong>dataByteOffset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Number of bytes to offset before reading</p>
-</dd>
-<dt><strong>dataByteSize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Byte size of a single data value</p>
+<dt><strong>dataByteSize</strong><span class="classifier">int</span></dt><dd><p>Byte size of a single data value</p>
 </dd>
 </dl>
 </td>
@@ -262,7 +253,7 @@
 </tbody>
 </table>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils">
+<table border="1" class="docutils align-default">
 <colgroup>
 <col width="44%" />
 <col width="56%" />
@@ -431,18 +422,16 @@
 </table>
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.boolHeaders">
-<code class="descname">boolHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.boolHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.boolHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="descname">boolHeaders</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.boolHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.boolHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of headers which are expected to have boolean values</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>boolGlobal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of global boolean headers</p>
+<dt><strong>boolGlobal</strong><span class="classifier">List[str]</span></dt><dd><p>List of global boolean headers</p>
 </dd>
-<dt><strong>boolChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of chan boolean headers</p>
+<dt><strong>boolChan</strong><span class="classifier">List[str]</span></dt><dd><p>List of chan boolean headers</p>
 </dd>
 </dl>
 </td>
@@ -453,15 +442,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.checkChan">
-<code class="descname">checkChan</code><span class="sig-paren">(</span><em>chan: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.checkChan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.checkChan" title="Permalink to this definition">¶</a></dt>
+<code class="descname">checkChan</code><span class="sig-paren">(</span><em>self</em>, <em>chan: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.checkChan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.checkChan" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check channel exists in data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>chan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Channel to check</p>
+<dt><strong>chan</strong><span class="classifier">str</span></dt><dd><p>Channel to check</p>
 </dd>
 </dl>
 </td>
@@ -472,24 +460,22 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.checkFiles">
-<code class="descname">checkFiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.checkFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.checkFiles" title="Permalink to this definition">¶</a></dt>
+<code class="descname">checkFiles</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.checkFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.checkFiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check to make sure data files found</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.floatHeaders">
-<code class="descname">floatHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.floatHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.floatHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="descname">floatHeaders</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.floatHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.floatHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of headers which are expected to have boolean values</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>floatGlobal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of global float headers</p>
+<dt><strong>floatGlobal</strong><span class="classifier">List[str]</span></dt><dd><p>List of global float headers</p>
 </dd>
-<dt><strong>floatChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of chan float headers</p>
+<dt><strong>floatChan</strong><span class="classifier">List[str]</span></dt><dd><p>List of chan float headers</p>
 </dd>
 </dl>
 </td>
@@ -500,13 +486,13 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.formatHeaderData">
-<code class="descname">formatHeaderData</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.formatHeaderData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.formatHeaderData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">formatHeaderData</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.formatHeaderData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.formatHeaderData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format header data to the correct formats</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanChopper">
-<code class="descname">getChanChopper</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanChopper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanChopper" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanChopper</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanChopper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanChopper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channel chopper</p>
 <p>The chopper is an amplifier present in some instruments. There might be different calibration files for chopper on or off.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -514,8 +500,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>bool</strong></dt>
-<dd><p class="first last">Flag designating whether chopper is on or off</p>
+<dt>bool</dt><dd><p>Flag designating whether chopper is on or off</p>
 </dd>
 </dl>
 </td>
@@ -526,15 +511,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanDataFile">
-<code class="descname">getChanDataFile</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanDataFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanDataFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanDataFile</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanDataFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanDataFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the data file for the channel</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>str</strong></dt>
-<dd><p class="first last">Data file for the channel</p>
+<dt>str</dt><dd><p>Data file for the channel</p>
 </dd>
 </dl>
 </td>
@@ -545,15 +529,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanDx">
-<code class="descname">getChanDx</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanDx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanDx" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanDx</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanDx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanDx" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the electric channel spacing in the x direction</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>float</strong></dt>
-<dd><p class="first last">Electric channel spacing in x direction in metres</p>
+<dt>float</dt><dd><p>Electric channel spacing in x direction in metres</p>
 </dd>
 </dl>
 </td>
@@ -564,15 +547,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanDy">
-<code class="descname">getChanDy</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanDy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanDy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanDy</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanDy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanDy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the electric channel spacing in the y direction</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>float</strong></dt>
-<dd><p class="first last">Electric channel spacing in y direction in metres</p>
+<dt>float</dt><dd><p>Electric channel spacing in y direction in metres</p>
 </dd>
 </dl>
 </td>
@@ -583,15 +565,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanDz">
-<code class="descname">getChanDz</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanDz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanDz" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanDz</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanDz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanDz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the electric channel spacing in the z direction</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>float</strong></dt>
-<dd><p class="first last">Electric channel spacing in z direction in metres</p>
+<dt>float</dt><dd><p>Electric channel spacing in z direction in metres</p>
 </dd>
 </dl>
 </td>
@@ -602,15 +583,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanGain1">
-<code class="descname">getChanGain1</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanGain1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanGain1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanGain1</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanGain1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanGain1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channel gain 1</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>int</strong></dt>
-<dd><p class="first last">Channel gain 1</p>
+<dt>int</dt><dd><p>Channel gain 1</p>
 </dd>
 </dl>
 </td>
@@ -621,15 +601,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanGain2">
-<code class="descname">getChanGain2</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanGain2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanGain2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanGain2</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanGain2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanGain2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channel gain 2</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>int</strong></dt>
-<dd><p class="first last">Channel gain 2</p>
+<dt>int</dt><dd><p>Channel gain 2</p>
 </dd>
 </dl>
 </td>
@@ -640,30 +619,27 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanHeader">
-<code class="descname">getChanHeader</code><span class="sig-paren">(</span><em>chan</em>, <em>header</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanHeader" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanHeader</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em>, <em>header</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanHeader" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanHeaders">
-<code class="descname">getChanHeaders</code><span class="sig-paren">(</span><em>chans: List[str] = []</em><span class="sig-paren">)</span> &#x2192; Tuple[List[T], Dict[KT, VT]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanHeaders</code><span class="sig-paren">(</span><em>self</em>, <em>chans: List[str] = []</em><span class="sig-paren">)</span> &#x2192; Tuple[List, Dict]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channel headers</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>chans: List[str], optional</strong></dt>
-<dd><p class="first last">List of channels for which chan headers are wanted</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>chans: List[str], optional</strong></dt><dd><p>List of channels for which chan headers are wanted</p>
 </dd>
-<dt><strong>Returns</strong></dt>
-<dd></dd>
-<dt><strong>——-</strong></dt>
-<dd></dd>
-<dt><strong>chanHeaders</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List</span></dt>
-<dd><p class="first last">List of channel headers</p>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>chanHeaders</strong><span class="classifier">List</span></dt><dd><p>List of channel headers</p>
 </dd>
-<dt><strong>chanMap</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
-<dd><p class="first last">Map from channel to index for the chanHeaders</p>
+<dt><strong>chanMap</strong><span class="classifier">Dict</span></dt><dd><p>Map from channel to index for the chanHeaders</p>
 </dd>
 </dl>
 </td>
@@ -674,15 +650,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanLSB">
-<code class="descname">getChanLSB</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanLSB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanLSB" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanLSB</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanLSB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanLSB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channel least significant bit</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>float</strong></dt>
-<dd><p class="first last">Channel least significant bit</p>
+<dt>float</dt><dd><p>Channel least significant bit</p>
 </dd>
 </dl>
 </td>
@@ -693,20 +668,19 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanMap">
-<code class="descname">getChanMap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanMap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanMap</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanMap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanSampleFreq">
-<code class="descname">getChanSampleFreq</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanSampleFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanSampleFreq" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanSampleFreq</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanSampleFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanSampleFreq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channel sampling frequency</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>float</strong></dt>
-<dd><p class="first last">Sampling frequency in Hz</p>
+<dt>float</dt><dd><p>Sampling frequency in Hz</p>
 </dd>
 </dl>
 </td>
@@ -717,15 +691,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanSamples">
-<code class="descname">getChanSamples</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanSamples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanSamples</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channel number of samples</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>int</strong></dt>
-<dd><p class="first last">Channel number of samples</p>
+<dt>int</dt><dd><p>Channel number of samples</p>
 </dd>
 </dl>
 </td>
@@ -736,15 +709,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanScalingApplied">
-<code class="descname">getChanScalingApplied</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanScalingApplied"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanScalingApplied" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanScalingApplied</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanScalingApplied"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanScalingApplied" title="Permalink to this definition">¶</a></dt>
 <dd><p>A flag to mark whether a channel has the lsb applied</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>bool</strong></dt>
-<dd><p class="first last">Flag to designate whether channel lsb applied</p>
+<dt>bool</dt><dd><p>Flag to designate whether channel lsb applied</p>
 </dd>
 </dl>
 </td>
@@ -755,15 +727,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanSensor">
-<code class="descname">getChanSensor</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanSensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanSensor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanSensor</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanSensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanSensor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channel sensor type</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>str</strong></dt>
-<dd><p class="first last">Channel sensor type</p>
+<dt>str</dt><dd><p>Channel sensor type</p>
 </dd>
 </dl>
 </td>
@@ -774,15 +745,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanSerial">
-<code class="descname">getChanSerial</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanSerial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanSerial" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanSerial</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanSerial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanSerial" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channel serial number</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>str</strong></dt>
-<dd><p class="first last">Channel serial number</p>
+<dt>str</dt><dd><p>Channel serial number</p>
 </dd>
 </dl>
 </td>
@@ -793,15 +763,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChanType">
-<code class="descname">getChanType</code><span class="sig-paren">(</span><em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanType" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChanType</code><span class="sig-paren">(</span><em>self</em>, <em>chan</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChanType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChanType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the channel type (electric or magnetic)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>str</strong></dt>
-<dd><p class="first last">String of channel type</p>
+<dt>str</dt><dd><p>String of channel type</p>
 </dd>
 </dl>
 </td>
@@ -812,15 +781,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChannels">
-<code class="descname">getChannels</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChannels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChannels" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChannels</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChannels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChannels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get channels in data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>List[str]</strong></dt>
-<dd><p class="first last">Data channels</p>
+<dt>List[str]</dt><dd><p>Data channels</p>
 </dd>
 </dl>
 </td>
@@ -831,15 +799,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getChoppers">
-<code class="descname">getChoppers</code><span class="sig-paren">(</span><em>chans: List[str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, bool]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChoppers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChoppers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getChoppers</code><span class="sig-paren">(</span><em>self, chans: List[str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, bool]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getChoppers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getChoppers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get choppers for multiple chans</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Dict[str, str]</strong></dt>
-<dd><p class="first last">Dictionary with channels as keys and the serials numbers as values</p>
+<dt>Dict[str, str]</dt><dd><p>Dictionary with channels as keys and the serials numbers as values</p>
 </dd>
 </dl>
 </td>
@@ -850,15 +817,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getComments">
-<code class="descname">getComments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getComments" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getComments</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getComments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a deepcopy of the comments</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>List[str]</strong></dt>
-<dd><p class="first last">Dataset comments as a list of strings</p>
+<dt>List[str]</dt><dd><p>Dataset comments as a list of strings</p>
 </dd>
 </dl>
 </td>
@@ -869,28 +835,24 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getDataTimes">
-<code class="descname">getDataTimes</code><span class="sig-paren">(</span><em>timeStart</em>, <em>timeEnd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getDataTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getDataTimes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getDataTimes</code><span class="sig-paren">(</span><em>self</em>, <em>timeStart</em>, <em>timeEnd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getDataTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getDataTimes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks and converts a date range to make sure it’s within data start and end</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>timeStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
-<dd><p class="first last">Start time of date range</p>
+<dt><strong>timeStart</strong><span class="classifier">datetime, str</span></dt><dd><p>Start time of date range</p>
 </dd>
-<dt><strong>timeEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
-<dd><p class="first last">End time of date range</p>
+<dt><strong>timeEnd</strong><span class="classifier">datetime, str</span></dt><dd><p>End time of date range</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>timeStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
-<dd><p class="first last">Checked and corrected start time of data range</p>
+<dt><strong>timeStart</strong><span class="classifier">datetime, str</span></dt><dd><p>Checked and corrected start time of data range</p>
 </dd>
-<dt><strong>timeEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
-<dd><p class="first last">Checked and corrected end time of data range</p>
+<dt><strong>timeEnd</strong><span class="classifier">datetime, str</span></dt><dd><p>Checked and corrected end time of data range</p>
 </dd>
 </dl>
 </td>
@@ -901,15 +863,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getGain1">
-<code class="descname">getGain1</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getGain1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getGain1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getGain1</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getGain1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getGain1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get value of gain 1</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>np.ndarray</strong></dt>
-<dd><p class="first last">Array of gains for channels</p>
+<dt>np.ndarray</dt><dd><p>Array of gains for channels</p>
 </dd>
 </dl>
 </td>
@@ -920,15 +881,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getGain2">
-<code class="descname">getGain2</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getGain2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getGain2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getGain2</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getGain2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getGain2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get value of gain 2</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>np.ndarray</strong></dt>
-<dd><p class="first last">Array of gains for channels</p>
+<dt>np.ndarray</dt><dd><p>Array of gains for channels</p>
 </dd>
 </dl>
 </td>
@@ -939,15 +899,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getHeaders">
-<code class="descname">getHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict[KT, VT]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getHeaders</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the data headers</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Dict</strong></dt>
-<dd><p class="first last">Data headers</p>
+<dt>Dict</dt><dd><p>Data headers</p>
 </dd>
 </dl>
 </td>
@@ -958,15 +917,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getNumChannels">
-<code class="descname">getNumChannels</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getNumChannels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getNumChannels" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getNumChannels</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getNumChannels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getNumChannels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get number of channels in the data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>int</strong></dt>
-<dd><p class="first last">Number of channels</p>
+<dt>int</dt><dd><p>Number of channels</p>
 </dd>
 </dl>
 </td>
@@ -977,15 +935,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getNumSamples">
-<code class="descname">getNumSamples</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getNumSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getNumSamples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getNumSamples</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getNumSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getNumSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get number of samples</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>int</strong></dt>
-<dd><p class="first last">Number of samples</p>
+<dt>int</dt><dd><p>Number of samples</p>
 </dd>
 </dl>
 </td>
@@ -996,7 +953,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getPhysicalData">
-<code class="descname">getPhysicalData</code><span class="sig-paren">(</span><em>startTime</em>, <em>endTime</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getPhysicalData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getPhysicalData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getPhysicalData</code><span class="sig-paren">(</span><em>self</em>, <em>startTime</em>, <em>endTime</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getPhysicalData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getPhysicalData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get physical data from data file between a start and end data</p>
 <p>Calculates the start and end sample given the data range and returns getPhysicalSamples for that sample range.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1004,30 +961,23 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>startTime</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime</span></dt>
-<dd><p class="first last">Start time of data to read</p>
+<dt><strong>startTime</strong><span class="classifier">datetime</span></dt><dd><p>Start time of data to read</p>
 </dd>
-<dt><strong>endTime</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime</span></dt>
-<dd><p class="first last">End time of data to read</p>
+<dt><strong>endTime</strong><span class="classifier">datetime</span></dt><dd><p>End time of data to read</p>
 </dd>
-<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of channels to return if not all are required</p>
+<dt><strong>chans</strong><span class="classifier">List[str]</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
-<dt><strong>remaverage</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Remove average from the data</p>
+<dt><strong>remaverage</strong><span class="classifier">bool</span></dt><dd><p>Remove average from the data</p>
 </dd>
-<dt><strong>remzeros</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Remove zeroes from the data</p>
+<dt><strong>remzeros</strong><span class="classifier">bool</span></dt><dd><p>Remove zeroes from the data</p>
 </dd>
-<dt><strong>remnans: bool</strong></dt>
-<dd><p class="first last">Remove NanNs from the data</p>
+<dt><strong>remnans: bool</strong></dt><dd><p>Remove NanNs from the data</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>TimeData</strong></dt>
-<dd><p class="first last">Time data object</p>
+<dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
 </td>
@@ -1038,7 +988,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getPhysicalSamples">
-<code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data scaled to physical values</p>
 <p>Depending on the data format, the scalings required to convert to field physical units is different. The method in the base DataReader class covers ATS and internal file format.</p>
 <p>resistics will always provide physical samples in field units. That means</p>
@@ -1053,30 +1003,23 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of channels to return if not all are required</p>
+<dt><strong>chans</strong><span class="classifier">List[str]</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
-<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">First sample to return</p>
+<dt><strong>startSample</strong><span class="classifier">int</span></dt><dd><p>First sample to return</p>
 </dd>
-<dt><strong>endSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Last sample to return</p>
+<dt><strong>endSample</strong><span class="classifier">int</span></dt><dd><p>Last sample to return</p>
 </dd>
-<dt><strong>remaverage</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Remove average from the data</p>
+<dt><strong>remaverage</strong><span class="classifier">bool</span></dt><dd><p>Remove average from the data</p>
 </dd>
-<dt><strong>remzeros</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Remove zeroes from the data</p>
+<dt><strong>remzeros</strong><span class="classifier">bool</span></dt><dd><p>Remove zeroes from the data</p>
 </dd>
-<dt><strong>remnans: bool</strong></dt>
-<dd><p class="first last">Remove NanNs from the data</p>
+<dt><strong>remnans: bool</strong></dt><dd><p>Remove NanNs from the data</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>TimeData</strong></dt>
-<dd><p class="first last">Time data object</p>
+<dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
 </td>
@@ -1085,28 +1028,25 @@
 </table>
 <p class="rubric">Notes</p>
 <p>The raw data units for ATS data are in counts. To get data in field units, ATS data is first multipled by the least significat bit (lsb) defined in the header files,</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>data = data * leastSignificantBit,
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[data = data * lsb,\]</div>
 <p>giving data in mV. The lsb includes the gain removal, so no separate gain removal needs to be performed.</p>
 <p>For electrical channels, there is additional step of dividing by the electrode spacing, which is provided in metres. The extra factor of a 1000 is to convert this to km to give mV/km for electric channels</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>data = (1000 * data)/electrodeSpacing
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[data = \frac{1000 * data}{electrodeSpacing}\]</div>
 <p>Finally, to get magnetic channels in nT, the magnetic channels need to be calibrated.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getSampleFreq">
-<code class="descname">getSampleFreq</code><span class="sig-paren">(</span><em>integer: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getSampleFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getSampleFreq" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getSampleFreq</code><span class="sig-paren">(</span><em>self</em>, <em>integer: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getSampleFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getSampleFreq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data sampling frequency in Hz</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>float, int</strong></dt>
-<dd><p class="first last">Sampling frequency</p>
+<dt>float, int</dt><dd><p>Sampling frequency</p>
 </dd>
 </dl>
 </td>
@@ -1117,15 +1057,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getSampleRate">
-<code class="descname">getSampleRate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getSampleRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getSampleRate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getSampleRate</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getSampleRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getSampleRate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data sampling rate in  s</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>float</strong></dt>
-<dd><p class="first last">Sampling rate in s</p>
+<dt>float</dt><dd><p>Sampling rate in s</p>
 </dd>
 </dl>
 </td>
@@ -1136,15 +1075,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getSensors">
-<code class="descname">getSensors</code><span class="sig-paren">(</span><em>chans: List[str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getSensors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getSensors" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getSensors</code><span class="sig-paren">(</span><em>self, chans: List[str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getSensors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getSensors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get sensors for multiple chans</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Dict[str, str]</strong></dt>
-<dd><p class="first last">Dictionary with channels as keys and the sensor types as values</p>
+<dt>Dict[str, str]</dt><dd><p>Dictionary with channels as keys and the sensor types as values</p>
 </dd>
 </dl>
 </td>
@@ -1155,15 +1093,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getSerials">
-<code class="descname">getSerials</code><span class="sig-paren">(</span><em>chans: List[str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getSerials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getSerials" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getSerials</code><span class="sig-paren">(</span><em>self, chans: List[str]</em><span class="sig-paren">)</span> &#x2192; Dict[str, str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getSerials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getSerials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get serials for multiple chans</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Dict[str, str]</strong></dt>
-<dd><p class="first last">Dictionary with channels as keys and the serials numbers as values</p>
+<dt>Dict[str, str]</dt><dd><p>Dictionary with channels as keys and the serials numbers as values</p>
 </dd>
 </dl>
 </td>
@@ -1174,15 +1111,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getStartDatetime">
-<code class="descname">getStartDatetime</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; datetime.datetime<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getStartDatetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getStartDatetime" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getStartDatetime</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; datetime.datetime<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getStartDatetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getStartDatetime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get datetime of first sample</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>datetime</strong></dt>
-<dd><p class="first last">Date and time of first sample</p>
+<dt>datetime</dt><dd><p>Date and time of first sample</p>
 </dd>
 </dl>
 </td>
@@ -1193,15 +1129,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getStopDatetime">
-<code class="descname">getStopDatetime</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; datetime.datetime<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getStopDatetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getStopDatetime" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getStopDatetime</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; datetime.datetime<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getStopDatetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getStopDatetime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get datetime of last sample</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>datetime</strong></dt>
-<dd><p class="first last">Date and time of last sample</p>
+<dt>datetime</dt><dd><p>Date and time of last sample</p>
 </dd>
 </dl>
 </td>
@@ -1212,7 +1147,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getUnscaledData">
-<code class="descname">getUnscaledData</code><span class="sig-paren">(</span><em>startTime</em>, <em>endTime</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getUnscaledData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getUnscaledData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getUnscaledData</code><span class="sig-paren">(</span><em>self</em>, <em>startTime</em>, <em>endTime</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getUnscaledData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getUnscaledData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw data from data file between a start and end date</p>
 <p>Calculates the start and end sample given the data range and returns getUnscaledSamples for that sample range.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1220,21 +1155,17 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>startTime</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime</span></dt>
-<dd><p class="first last">Start time of data to read</p>
+<dt><strong>startTime</strong><span class="classifier">datetime</span></dt><dd><p>Start time of data to read</p>
 </dd>
-<dt><strong>endTime</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime</span></dt>
-<dd><p class="first last">End time of data to read</p>
+<dt><strong>endTime</strong><span class="classifier">datetime</span></dt><dd><p>End time of data to read</p>
 </dd>
-<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str], optional</span></dt>
-<dd><p class="first last">List of channels to return if not all are required</p>
+<dt><strong>chans</strong><span class="classifier">List[str], optional</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>TimeData</strong></dt>
-<dd><p class="first last">Time data object</p>
+<dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
 </td>
@@ -1245,7 +1176,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.getUnscaledSamples">
-<code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.timeData.TimeData<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw data from data file</p>
 <p>Depending on the data format, this could be raw counts or in some physical unit. The method implemented in the base DataReader can read from ATS and internal files. SPAM and Phoenix data readers have their own implementations.</p>
 <p>The raw data units for ATS and internal data formats are as follows:</p>
@@ -1258,21 +1189,17 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>chans</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str], optional</span></dt>
-<dd><p class="first last">List of channels to return if not all are required</p>
+<dt><strong>chans</strong><span class="classifier">List[str], optional</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
-<dt><strong>startSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">First sample to return</p>
+<dt><strong>startSample</strong><span class="classifier">int, optional</span></dt><dd><p>First sample to return</p>
 </dd>
-<dt><strong>endSample</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
-<dd><p class="first last">Last sample to return</p>
+<dt><strong>endSample</strong><span class="classifier">int, optional</span></dt><dd><p>Last sample to return</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>TimeData</strong></dt>
-<dd><p class="first last">Time data object</p>
+<dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
 </td>
@@ -1283,18 +1210,16 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.intHeaders">
-<code class="descname">intHeaders</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.intHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.intHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="descname">intHeaders</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str]]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.intHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.intHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of headers which are expected to have integer values</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>intGlobal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of global integer headers</p>
+<dt><strong>intGlobal</strong><span class="classifier">List[str]</span></dt><dd><p>List of global integer headers</p>
 </dd>
-<dt><strong>intChan</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of chan integer headers</p>
+<dt><strong>intChan</strong><span class="classifier">List[str]</span></dt><dd><p>List of chan integer headers</p>
 </dd>
 </dl>
 </td>
@@ -1305,22 +1230,20 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.parseGetDataKeywords">
-<code class="descname">parseGetDataKeywords</code><span class="sig-paren">(</span><em>keywords</em><span class="sig-paren">)</span> &#x2192; Dict[KT, VT]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.parseGetDataKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.parseGetDataKeywords" title="Permalink to this definition">¶</a></dt>
+<code class="descname">parseGetDataKeywords</code><span class="sig-paren">(</span><em>self</em>, <em>keywords</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.parseGetDataKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.parseGetDataKeywords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse the get data keywords</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>keywords</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Dict</span></dt>
-<dd><p class="first last">The keywords passed to get data methods</p>
+<dt><strong>keywords</strong><span class="classifier">Dict</span></dt><dd><p>The keywords passed to get data methods</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Dict</strong></dt>
-<dd><p class="first last">A dictionary of parsed keywords with defaults where nothing is provided by the user</p>
+<dt>Dict</dt><dd><p>A dictionary of parsed keywords with defaults where nothing is provided by the user</p>
 </dd>
 </dl>
 </td>
@@ -1331,7 +1254,7 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.prepare">
-<code class="descname">prepare</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.prepare"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.prepare" title="Permalink to this definition">¶</a></dt>
+<code class="descname">prepare</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.prepare"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.prepare" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set some intial values</p>
 <p>This method does some checks and prepares some of the storage for the channels.</p>
 <p class="rubric">Notes</p>
@@ -1341,21 +1264,20 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.printComments">
-<code class="descname">printComments</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.printComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.printComments" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printComments</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.printComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.printComments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print out dataset comments</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.printCommentsList">
-<code class="descname">printCommentsList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.printCommentsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.printCommentsList" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printCommentsList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.printCommentsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.printCommentsList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dataset comments as a list of strings</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of strings with information</p>
+<dt><strong>out</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
 </td>
@@ -1366,15 +1288,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.printList" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">List[str]</span></dt>
-<dd><p class="first last">List of strings with information</p>
+<dt><strong>out</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
 </td>
@@ -1385,14 +1306,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.readHeader">
-<code class="descname">readHeader</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.readHeader" title="Permalink to this definition">¶</a></dt>
+<code class="descname">readHeader</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.readHeader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to read header data and populate reader information</p>
 <p>This is implemented in child classes as all header formats are different</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.sample2time">
-<code class="descname">sample2time</code><span class="sig-paren">(</span><em>sampleStart: int</em>, <em>sampleEnd: int</em><span class="sig-paren">)</span> &#x2192; Tuple[datetime.datetime, datetime.datetime]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.sample2time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.sample2time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sample2time</code><span class="sig-paren">(</span><em>self</em>, <em>sampleStart: int</em>, <em>sampleEnd: int</em><span class="sig-paren">)</span> &#x2192; Tuple[datetime.datetime, datetime.datetime]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.sample2time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.sample2time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a start and end sample to start and end times</p>
 <p>Note: The first sample is zero</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1400,21 +1321,17 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>sampleStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The starting sample for the sample range</p>
+<dt><strong>sampleStart</strong><span class="classifier">int</span></dt><dd><p>The starting sample for the sample range</p>
 </dd>
-<dt><strong>sampleEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The ending sample for the sample range</p>
+<dt><strong>sampleEnd</strong><span class="classifier">int</span></dt><dd><p>The ending sample for the sample range</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>timeStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
-<dd><p class="first last">Corresponding start time of date range</p>
+<dt><strong>timeStart</strong><span class="classifier">datetime, str</span></dt><dd><p>Corresponding start time of date range</p>
 </dd>
-<dt><strong>timeEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
-<dd><p class="first last">Corresponding end time of date range</p>
+<dt><strong>timeEnd</strong><span class="classifier">datetime, str</span></dt><dd><p>Corresponding end time of date range</p>
 </dd>
 </dl>
 </td>
@@ -1425,21 +1342,18 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.setChanHeader">
-<code class="descname">setChanHeader</code><span class="sig-paren">(</span><em>chan: str</em>, <em>headerName: str</em>, <em>headerVal: Any</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.setChanHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.setChanHeader" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setChanHeader</code><span class="sig-paren">(</span><em>self</em>, <em>chan: str</em>, <em>headerName: str</em>, <em>headerVal: Any</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.setChanHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.setChanHeader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a channel header value</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>channel</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The channel</p>
+<dt><strong>channel</strong><span class="classifier">str</span></dt><dd><p>The channel</p>
 </dd>
-<dt><strong>headerName</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The name of the header to set</p>
+<dt><strong>headerName</strong><span class="classifier">str</span></dt><dd><p>The name of the header to set</p>
 </dd>
-<dt><strong>headerVal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Any</span></dt>
-<dd><p class="first last">Header value</p>
+<dt><strong>headerVal</strong><span class="classifier">Any</span></dt><dd><p>Header value</p>
 </dd>
 </dl>
 </td>
@@ -1450,18 +1364,16 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.setHeader">
-<code class="descname">setHeader</code><span class="sig-paren">(</span><em>headerName: str</em>, <em>headerVal: Any</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.setHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.setHeader" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setHeader</code><span class="sig-paren">(</span><em>self</em>, <em>headerName: str</em>, <em>headerVal: Any</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.setHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.setHeader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a header value</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>headerName</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The name of the header to set</p>
+<dt><strong>headerName</strong><span class="classifier">str</span></dt><dd><p>The name of the header to set</p>
 </dd>
-<dt><strong>headerVal</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Any</span></dt>
-<dd><p class="first last">Header value</p>
+<dt><strong>headerVal</strong><span class="classifier">Any</span></dt><dd><p>Header value</p>
 </dd>
 </dl>
 </td>
@@ -1472,14 +1384,14 @@
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.setParameters">
-<code class="descname">setParameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.setParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setParameters</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.setParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set data reader parameters</p>
 <p>This will vary for the different data formats. By default, setup for the internal data format.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.dataReader.DataReader.time2sample">
-<code class="descname">time2sample</code><span class="sig-paren">(</span><em>timeStart: Union[str, datetime.datetime], timeEnd: Union[str, datetime.datetime]</em><span class="sig-paren">)</span> &#x2192; Tuple[int, int]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.time2sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.time2sample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">time2sample</code><span class="sig-paren">(</span><em>self, timeStart: Union[str, datetime.datetime], timeEnd: Union[str, datetime.datetime]</em><span class="sig-paren">)</span> &#x2192; Tuple[int, int]<a class="reference internal" href="../_modules/resistics/ioHandlers/dataReader.html#DataReader.time2sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.dataReader.DataReader.time2sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a start and end time to start and end samples</p>
 <p>Note: The first sample is zero</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1487,21 +1399,17 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>timeStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
-<dd><p class="first last">Start time of date range</p>
+<dt><strong>timeStart</strong><span class="classifier">datetime, str</span></dt><dd><p>Start time of date range</p>
 </dd>
-<dt><strong>timeEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">datetime, str</span></dt>
-<dd><p class="first last">End time of date range</p>
+<dt><strong>timeEnd</strong><span class="classifier">datetime, str</span></dt><dd><p>End time of date range</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>sampleStart</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The correspoding start sample for timeStart</p>
+<dt><strong>sampleStart</strong><span class="classifier">int</span></dt><dd><p>The correspoding start sample for timeStart</p>
 </dd>
-<dt><strong>sampleEnd</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The corresponding end sample for timeEnd</p>
+<dt><strong>sampleEnd</strong><span class="classifier">int</span></dt><dd><p>The corresponding end sample for timeEnd</p>
 </dd>
 </dl>
 </td>

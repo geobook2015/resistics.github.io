@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.calculators.spectrumCalculator module &mdash; resistics  documentation</title>
+  <title>resistics.calculators.spectrumCalculator module &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.calculators.statisticCalculator module" href="resistics.calculators.statisticCalculator.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -207,23 +209,17 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>sampleFreq</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd><p class="first last">Sample frequency of the data</p>
+<dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>Sample frequency of the data</p>
 </dd>
-<dt><strong>numSamples</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The number of samples in each window</p>
+<dt><strong>numSamples</strong><span class="classifier">int</span></dt><dd><p>The number of samples in each window</p>
 </dd>
-<dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool (true)</span></dt>
-<dd><p class="first last">Flag for applying a window function before fourier transform</p>
+<dt><strong>window</strong><span class="classifier">bool (true)</span></dt><dd><p>Flag for applying a window function before fourier transform</p>
 </dd>
-<dt><strong>windowFunc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">Window function to apply to time data before fourier transform</p>
+<dt><strong>windowFunc</strong><span class="classifier">np.ndarray</span></dt><dd><p>Window function to apply to time data before fourier transform</p>
 </dd>
-<dt><strong>dataArray</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd><p class="first last">numpy array to copy data into before performing fourier transform</p>
+<dt><strong>dataArray</strong><span class="classifier">np.ndarray</span></dt><dd><p>numpy array to copy data into before performing fourier transform</p>
 </dd>
-<dt><strong>ffotObj</strong> <span class="classifier-delimiter">:</span> <span class="classifier">pyfftw.FFTW</span></dt>
-<dd><p class="first last">fourier transform object</p>
+<dt><strong>ffotObj</strong><span class="classifier">pyfftw.FFTW</span></dt><dd><p>fourier transform object</p>
 </dd>
 </dl>
 </td>
@@ -231,7 +227,7 @@
 </tbody>
 </table>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils">
+<table border="1" class="docutils align-default">
 <colgroup>
 <col width="31%" />
 <col width="69%" />
@@ -250,22 +246,20 @@
 </table>
 <dl class="method">
 <dt id="resistics.calculators.spectrumCalculator.SpectrumCalculator.calcFourierCoeff">
-<code class="descname">calcFourierCoeff</code><span class="sig-paren">(</span><em>timeData: resistics.dataObjects.timeData.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.spectrumData.SpectrumData<a class="reference internal" href="../_modules/resistics/calculators/spectrumCalculator.html#SpectrumCalculator.calcFourierCoeff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.calculators.spectrumCalculator.SpectrumCalculator.calcFourierCoeff" title="Permalink to this definition">¶</a></dt>
+<code class="descname">calcFourierCoeff</code><span class="sig-paren">(</span><em>self</em>, <em>timeData: resistics.dataObjects.timeData.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.spectrumData.SpectrumData<a class="reference internal" href="../_modules/resistics/calculators/spectrumCalculator.html#SpectrumCalculator.calcFourierCoeff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.calculators.spectrumCalculator.SpectrumCalculator.calcFourierCoeff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fast fourier transform of timeData</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>timeData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">TimeData</span></dt>
-<dd><p class="first last">A TimeData object</p>
+<dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>A TimeData object</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>specData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">SpectrumData</span></dt>
-<dd><p class="first last">A SpectrumData object</p>
+<dt><strong>specData</strong><span class="classifier">SpectrumData</span></dt><dd><p>A SpectrumData object</p>
 </dd>
 </dl>
 </td>
@@ -276,15 +270,14 @@
 
 <dl class="method">
 <dt id="resistics.calculators.spectrumCalculator.SpectrumCalculator.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[T]<a class="reference internal" href="../_modules/resistics/calculators/spectrumCalculator.html#SpectrumCalculator.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.calculators.spectrumCalculator.SpectrumCalculator.printList" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="../_modules/resistics/calculators/spectrumCalculator.html#SpectrumCalculator.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.calculators.spectrumCalculator.SpectrumCalculator.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>out</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
-<dd><p class="first last">List of strings with information</p>
+<dt><strong>out</strong><span class="classifier">list</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
 </td>

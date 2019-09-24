@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.utilities.utilsRobust module &mdash; resistics  documentation</title>
+  <title>resistics.utilities.utilsRobust module &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.utilities.utilsSmooth module" href="resistics.utilities.utilsSmooth.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -202,20 +204,65 @@
             
   <div class="section" id="module-resistics.utilities.utilsRobust">
 <span id="resistics-utilities-utilsrobust-module"></span><h1>resistics.utilities.utilsRobust module<a class="headerlink" href="#module-resistics.utilities.utilsRobust" title="Permalink to this headline">¶</a></h1>
+<p>The source for these functions is Robust Statisitics, Huber, 2009
+in general, linear regression is# have observations y and predictors A
+y is multiple observations/response
+x are the independent variables and is unknown
+and y is a linear function of x =&gt; y = Ax
+y = nobs
+A = nobs * nregressors
+x = nregressors</p>
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.andrewsWaveLocationWeights">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">andrewsWaveLocationWeights</code><span class="sig-paren">(</span><em>r</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#andrewsWaveLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.andrewsWaveLocationWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">andrewsWaveLocationWeights</code><span class="sig-paren">(</span><em>r: numpy.ndarray</em>, <em>k: float</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#andrewsWaveLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.andrewsWaveLocationWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Andrews Wave location weights</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>r</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals</p>
+</dd>
+<dt><strong>k</strong><span class="classifier">float</span></dt><dd><p>Tuning parameter</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>The robust weights</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.bisquareLocationWeights">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">bisquareLocationWeights</code><span class="sig-paren">(</span><em>r</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#bisquareLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.bisquareLocationWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="resistics.utilities.utilsRobust.bisquareScaleWeights">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">bisquareScaleWeights</code><span class="sig-paren">(</span><em>r</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#bisquareScaleWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.bisquareScaleWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">bisquareLocationWeights</code><span class="sig-paren">(</span><em>r: numpy.ndarray</em>, <em>k: float</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#bisquareLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.bisquareLocationWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bisquare location weights</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>r</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals</p>
+</dd>
+<dt><strong>k</strong><span class="classifier">float</span></dt><dd><p>Tuning parameter</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>The robust weights</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.calculateDistCMH">
@@ -224,13 +271,48 @@
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.chatterjeeMachler">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">chatterjeeMachler</code><span class="sig-paren">(</span><em>A</em>, <em>y</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#chatterjeeMachler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.chatterjeeMachler" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">chatterjeeMachler</code><span class="sig-paren">(</span><em>A: numpy.ndarray</em>, <em>y: numpy.ndarray</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; Tuple<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#chatterjeeMachler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.chatterjeeMachler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Robust bounded influence solver</p>
+<p>Solves for <span class="math notranslate nohighlight">\(x\)</span> where,</p>
+<div class="math notranslate nohighlight">
+\[y = Ax .\]</div>
+<p>Being a bounded influence operator, should be robust against both outliers in dependent and independent variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>A</strong><span class="classifier">np.ndarray</span></dt><dd><p>Predictors, size nobs*nregressors</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">np.ndarray</span></dt><dd><p>Observations, size nobs</p>
+</dd>
+<dt><strong>intercept</strong><span class="classifier">bool, optional</span></dt><dd><p>True or False for adding an intercept term</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong><span class="classifier">np.ndarray</span></dt><dd><p>Values in x</p>
+</dd>
+<dt><strong>resids</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals = y - Ax</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>Weights used in robust regression</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.chatterjeeMachlerHadi">
 <code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">chatterjeeMachlerHadi</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#chatterjeeMachlerHadi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.chatterjeeMachlerHadi" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Regression based on Hadi distances</p>
+<p># Another regression method based on Hadi distances
+# implemented from the paper A Re-Weighted Least Squares Method for Robust Regression Estimation
+# Billor, Hadi</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.chatterjeeMachlerMod">
@@ -239,118 +321,468 @@
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.defaultDictionary">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">defaultDictionary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#defaultDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.defaultDictionary" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="resistics.utilities.utilsRobust.delta">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">delta</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#delta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.delta" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">defaultDictionary</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#defaultDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.defaultDictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Robust regression defaults</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>Dict</dt><dd><p>Default regression options</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.eps">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">eps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#eps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.eps" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">eps</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#eps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Small number</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>float</dt><dd><p>A small number for quitting robust regression</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.getRobustLocationWeights">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">getRobustLocationWeights</code><span class="sig-paren">(</span><em>r</em>, <em>weight</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#getRobustLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.getRobustLocationWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="resistics.utilities.utilsRobust.getRobustScaleWeights">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">getRobustScaleWeights</code><span class="sig-paren">(</span><em>r</em>, <em>weight</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#getRobustScaleWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.getRobustScaleWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">getRobustLocationWeights</code><span class="sig-paren">(</span><em>r: numpy.ndarray</em>, <em>weight: str</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#getRobustLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.getRobustLocationWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Robust weighting schemes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>r</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals</p>
+</dd>
+<dt><strong>weight</strong><span class="classifier">str</span></dt><dd><p>The type of weighting to use</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>The robust weights</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.hampelLocationWeights">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">hampelLocationWeights</code><span class="sig-paren">(</span><em>r</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#hampelLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.hampelLocationWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">hampelLocationWeights</code><span class="sig-paren">(</span><em>r: numpy.ndarray</em>, <em>k: float</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#hampelLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.hampelLocationWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hampel location weights</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>r</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals</p>
+</dd>
+<dt><strong>k</strong><span class="classifier">float</span></dt><dd><p>Tuning parameter</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>The robust weights</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.hermitianTranspose">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">hermitianTranspose</code><span class="sig-paren">(</span><em>mat</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#hermitianTranspose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.hermitianTranspose" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">hermitianTranspose</code><span class="sig-paren">(</span><em>mat: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#hermitianTranspose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.hermitianTranspose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hermitian transpose (transpose and complex conjugation)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>np.ndarray</strong></dt><dd><p>Vector, matrix to Hermitian transpose</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>np.ndarray</dt><dd><p>Hermitian transpose</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.huberLocationWeights">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">huberLocationWeights</code><span class="sig-paren">(</span><em>r</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#huberLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.huberLocationWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">huberLocationWeights</code><span class="sig-paren">(</span><em>r: numpy.ndarray</em>, <em>k: float</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#huberLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.huberLocationWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Huber location weights</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>r</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals</p>
+</dd>
+<dt><strong>k</strong><span class="classifier">float</span></dt><dd><p>Tuning parameter</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>The robust weights</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.initialFromDict">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">initialFromDict</code><span class="sig-paren">(</span><em>initDict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#initialFromDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.initialFromDict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">initialFromDict</code><span class="sig-paren">(</span><em>initDict: Dict</em><span class="sig-paren">)</span> &#x2192; Tuple<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#initialFromDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.initialFromDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns initial model from provided initial model dictionary</p>
+<p>Helps for two stage robust regression.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>Dict</strong></dt><dd><p>Initial model to use for robust regression with the parameters, residuals and scale estimate</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>parameters</strong><span class="classifier">np.ndarray</span></dt><dd></dd>
+<dt><strong>resids</strong><span class="classifier">np.ndarray</span></dt><dd><p>The residuals</p>
+</dd>
+<dt><strong>scale</strong><span class="classifier">float</span></dt><dd><p>Initial estimate of scale</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.leastSquaresLocationWeights">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">leastSquaresLocationWeights</code><span class="sig-paren">(</span><em>r</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#leastSquaresLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.leastSquaresLocationWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">leastSquaresLocationWeights</code><span class="sig-paren">(</span><em>r: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#leastSquaresLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.leastSquaresLocationWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Least squares weights, which are all equal to 1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>r</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>The robust weights</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.maxIter">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">maxIter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#maxIter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.maxIter" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="resistics.utilities.utilsRobust.mestimate">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">mestimate</code><span class="sig-paren">(</span><em>data</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#mestimate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.mestimate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">maxIter</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#maxIter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.maxIter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of iterations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>int</dt><dd><p>The maximum number of iterations</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.mestimateModel">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">mestimateModel</code><span class="sig-paren">(</span><em>A</em>, <em>y</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#mestimateModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.mestimateModel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">mestimateModel</code><span class="sig-paren">(</span><em>A: numpy.ndarray</em>, <em>y: numpy.ndarray</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; Tuple<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#mestimateModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.mestimateModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mestimate robust least squares</p>
+<p>Solves for <span class="math notranslate nohighlight">\(x\)</span> where,</p>
+<div class="math notranslate nohighlight">
+\[y = Ax .\]</div>
+<p>Good method for dependent outliers (in <span class="math notranslate nohighlight">\(y\)</span>). Not robust against independent outliers (leverage points)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>A</strong><span class="classifier">np.ndarray</span></dt><dd><p>Predictors, size nobs*nregressors</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">np.ndarray</span></dt><dd><p>Observations, size nobs</p>
+</dd>
+<dt><strong>initial :</strong></dt><dd></dd>
+<dt><strong>scale</strong><span class="classifier">optional</span></dt><dd><p>A scale estimate</p>
+</dd>
+<dt><strong>intercept</strong><span class="classifier">bool, optional</span></dt><dd><p>True or False for adding an intercept term</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong><span class="classifier">np.ndarray</span></dt><dd><p>Values in x</p>
+</dd>
+<dt><strong>resids</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals = y - Ax</p>
+</dd>
+<dt><strong>scale</strong><span class="classifier">float</span></dt><dd><p>Robust measure of variance</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>Weights used in robust regression</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.mmestimateModel">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">mmestimateModel</code><span class="sig-paren">(</span><em>A</em>, <em>y</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#mmestimateModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.mmestimateModel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">mmestimateModel</code><span class="sig-paren">(</span><em>A: numpy.ndarray</em>, <em>y: numpy.ndarray</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#mmestimateModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.mmestimateModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>2 stage M estimate</p>
+<p>Solves for <span class="math notranslate nohighlight">\(x\)</span> where,</p>
+<div class="math notranslate nohighlight">
+\[y = Ax .\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>A</strong><span class="classifier">np.ndarray</span></dt><dd><p>Predictors, size nobs*nregressors</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">np.ndarray</span></dt><dd><p>Observations, size nobs</p>
+</dd>
+<dt><strong>initial</strong><span class="classifier">Dict</span></dt><dd><p>Initial solution with parameters, scale and residuals</p>
+</dd>
+<dt><strong>scale</strong><span class="classifier">optional</span></dt><dd><p>A scale estimate</p>
+</dd>
+<dt><strong>intercept</strong><span class="classifier">bool, optional</span></dt><dd><p>True or False for adding an intercept term</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong><span class="classifier">np.ndarray</span></dt><dd><p>Values in x</p>
+</dd>
+<dt><strong>resids</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals = y - Ax</p>
+</dd>
+<dt><strong>scale</strong><span class="classifier">float</span></dt><dd><p>Robust measure of variance</p>
+</dd>
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>Weights used in robust regression</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.olsModel">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">olsModel</code><span class="sig-paren">(</span><em>A</em>, <em>y</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#olsModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.olsModel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="resistics.utilities.utilsRobust.parseKeywords">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">parseKeywords</code><span class="sig-paren">(</span><em>keywords</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#parseKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.parseKeywords" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">olsModel</code><span class="sig-paren">(</span><em>A</em>, <em>y</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; Tuple<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#olsModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.olsModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ordinary least squares</p>
+<p>Solves for <span class="math notranslate nohighlight">\(x\)</span> where,</p>
+<div class="math notranslate nohighlight">
+\[y = Ax .\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>A</strong><span class="classifier">np.ndarray</span></dt><dd><p>Predictors, size nobs*nregressors</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">np.ndarray</span></dt><dd><p>Observations, size nobs</p>
+</dd>
+<dt><strong>intercept</strong><span class="classifier">bool, optional</span></dt><dd><p>True or False for adding an intercept term</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>params</strong><span class="classifier">np.ndarray</span></dt><dd><p>Least squares solution</p>
+</dd>
+<dt><strong>resids</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals</p>
+</dd>
+<dt><strong>squareResid</strong><span class="classifier">np.ndarray</span></dt><dd><p>Square residuals</p>
+</dd>
+<dt><strong>rank</strong><span class="classifier">int</span></dt><dd><p>Rank of matrix A</p>
+</dd>
+<dt><strong>s</strong><span class="classifier">np.ndarray</span></dt><dd><p>Singular values of A</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.sampleMAD">
 <code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">sampleMAD</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#sampleMAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.sampleMAD" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Median absolute deviation</p>
+<p>The standard deviation is not robust against outliers, hence use the MAD.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>np.ndarray</strong></dt><dd><p>Data for which to calculate MAD</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>float</dt><dd><p>The MAD</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.sampleMAD0">
 <code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">sampleMAD0</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#sampleMAD0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.sampleMAD0" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Median absolute deviation using an estimate of the location as 0</p>
+<p>When the location estimate is zero (rather than the median), the MAD essentially reduces to a median. This should be over non zero data. Useful for calculating variance of residuals.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>np.ndarray</strong></dt><dd><p>Data for which to calculate MAD. This is often residuals when using 0 as an estimate of location.</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>float</dt><dd><p>The MAD using zero as an esimate of location</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.sampleMedian">
 <code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">sampleMedian</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#sampleMedian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.sampleMedian" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="resistics.utilities.utilsRobust.smestimateModel">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">smestimateModel</code><span class="sig-paren">(</span><em>A</em>, <em>y</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#smestimateModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.smestimateModel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="resistics.utilities.utilsRobust.threeSigmaMAD">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">threeSigmaMAD</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#threeSigmaMAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.threeSigmaMAD" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate the median of an array</p>
+<p>Mean is not a robust estimator of locations as it can be broken by a single outlying value. The median is a more robust choice.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>np.ndarray</strong></dt><dd><p>Data for which to calculate median</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>float</dt><dd><p>The median</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.trimmedMeanLocationWeights">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">trimmedMeanLocationWeights</code><span class="sig-paren">(</span><em>r</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#trimmedMeanLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.trimmedMeanLocationWeights" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">trimmedMeanLocationWeights</code><span class="sig-paren">(</span><em>r: numpy.ndarray</em>, <em>k: float</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#trimmedMeanLocationWeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.trimmedMeanLocationWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trimmed mean location weights</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>r</strong><span class="classifier">np.ndarray</span></dt><dd><p>Residuals</p>
+</dd>
+<dt><strong>k</strong><span class="classifier">float</span></dt><dd><p>Tuning parameter</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>weights</strong><span class="classifier">np.ndarray</span></dt><dd><p>The robust weights</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="resistics.utilities.utilsRobust.weightLS">
-<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">weightLS</code><span class="sig-paren">(</span><em>A</em>, <em>y</em>, <em>weights</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#weightLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.weightLS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">resistics.utilities.utilsRobust.</code><code class="descname">weightLS</code><span class="sig-paren">(</span><em>A: numpy.ndarray</em>, <em>y: numpy.ndarray</em>, <em>weights: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray]<a class="reference internal" href="../_modules/resistics/utilities/utilsRobust.html#weightLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.utilities.utilsRobust.weightLS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform A and y using the weights to perform a weighted least squares</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{weights} y = \sqrt{weights} A x ,\]</div>
+<p>is equivalent to,</p>
+<div class="math notranslate nohighlight">
+\[A^H weights y = A^H weights A x ,\]</div>
+<p>where <span class="math notranslate nohighlight">\(A^H\)</span> is the hermitian transpose.</p>
+<p>In this method, both y and A are multipled by the square root of the weights and then returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>y</strong><span class="classifier">np.ndarray</span></dt><dd><p>Observations</p>
+</dd>
+<dt><strong>A</strong><span class="classifier">np.ndarray</span></dt><dd><p>Regressors</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>y</strong><span class="classifier">np.ndarray</span></dt><dd><p>Observations multipled by the square root of the weights</p>
+</dd>
+<dt><strong>A</strong><span class="classifier">np.ndarray</span></dt><dd><p>Regressors multipled by the square root of the weights</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 

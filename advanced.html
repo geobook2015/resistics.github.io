@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Advanced &mdash; resistics  documentation</title>
+  <title>Advanced &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Pre-processing timeseries data" href="advanced/pre-process.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced</a><ul>
@@ -178,8 +180,53 @@
             
   <div class="section" id="advanced">
 <h1>Advanced<a class="headerlink" href="#advanced" title="Permalink to this headline">¶</a></h1>
-<p>This section introduces some of the more advanced features of Resistics including inter-operability of different data formats, remote reference processing, remote reference statistics and more.</p>
+<p>This section introduces some of the more advanced features of resistics. These advanced processing methods still use the high-level resistics API. Examples of using lower level APIs can be seen in the <a class="reference internal" href="cookbook.html"><span class="doc">Cookbook</span></a>. For data reading, the low level API is outlined in <a class="reference internal" href="formats/timeseries.html"><span class="doc">time series data</span></a>. To read in various calibration file formats, see <a class="reference internal" href="formats/calibration.html"><span class="doc">calibration data</span></a>.</p>
+<p>More detail is given about the advanced processing methods below and in the corresponding subsections.</p>
+<div class="section" id="pre-processing">
+<h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h2>
+<p>There are several use cases requiring pre-processing of time series data. Common ones include scaling of channel data, resampling of time series data, interpolating time data on to the second and others. In the project environment, these are managed by the <a class="reference internal" href="api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method of the <a class="reference internal" href="api/resistics.project.projectTime.html#module-resistics.project.projectTime" title="resistics.project.projectTime"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectTime</span></code></a> module.</p>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advanced/pre-process.html">Pre-processing timeseries data</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="remote-reference-processing">
+<h2>Remote reference processing<a class="headerlink" href="#remote-reference-processing" title="Permalink to this headline">¶</a></h2>
+<p>Remote reference processing is no longer an advanced method. However, the example included in this section demonstrates inter-operability of different data formats, remote reference processing, remote reference statistics and more, which are all discussed in further detail in the given links.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advanced/remote-reference.html">Remote reference processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/remote-reference-statistics.html">Remote reference statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/remote-reference-masking.html">Remote reference masking</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="intersite-processing">
+<h2>Intersite processing<a class="headerlink" href="#intersite-processing" title="Permalink to this headline">¶</a></h2>
+<p>Intersite processing can be useful in certain cases. For more details on intersite processing and why this is useful, see the paper,</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://www.researchgate.net/publication/260919094_The_Telluric-Magnetotelluric_Method">The Telluric-Magnetotelluric Method</a></div>
+<div class="line">John F. Hermance, Richard E. Thayer</div>
+<div class="line"><em>Geophysics</em></div>
+<div class="line"><em>Volume 40 Issue 4</em></div>
+<div class="line"><em>Pages 664-668</em></div>
+<div class="line"><a class="reference external" href="https://doi.org/10.1190/1.1440557">https://doi.org/10.1190/1.1440557</a></div>
+</div>
+<p>and more recently,</p>
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://https://earth-planets-space.springeropen.com/articles/10.1186/s40623-015-0327-7">Introducing inter-site phase tensors tosuppress galvanic distortion in the telluric method</a></div>
+<div class="line">Jenneke Bakker, Alexey Kuvshinov, Friedemann Samrock, Alexey Geraskin, Oleg Pankratov</div>
+<div class="line"><em>Earth Planets and Space</em></div>
+<div class="line"><em>Volume 67 Article 160</em></div>
+<div class="line"><a class="reference external" href="https://doi.org/10.1186/s40623-015-0327-7">https://doi.org/10.1186/s40623-015-0327-7</a></div>
+</div>
+<p>Examples are given in the below link.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="advanced/intersite-transfer-function.html">Intersite transfer functions</a></li>
+</ul>
+</div>
 </div>
 </div>
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Phoenix timeseries &mdash; resistics  documentation</title>
+  <title>Phoenix timeseries &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="ASCII timeseries" href="ascii-timeseries.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../formats.html">Data formats</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../timeseries.html">Timeseries data</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="ATS-timeseries.html">ATS timeseries</a></li>
@@ -206,7 +208,7 @@
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p>The scaling currently applied for phoenix data has not been verified and requires further testing. Therefore, it is not currently known what</p>
+<p>The scaling currently applied for phoenix data has not been verified and requires further testing. Therefore, it is not currently known how to calibrate the data.</p>
 <p class="last">Phoenix binary formatted calibration files are also not supported but ASCII files can be used instead as required.</p>
 </div>
 <p>Phoenix recordings are opened in resistics using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderPhoenix.html#resistics.ioHandlers.dataReaderPhoenix.DataReaderPhoenix" title="resistics.ioHandlers.dataReaderPhoenix.DataReaderPhoenix"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderPhoenix</span></code></a> class. An example is provided below:</p>
@@ -372,7 +374,7 @@
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
 <img alt="alternate text" src="../../_images/phoenixUnscaled.png" />
-<p class="caption"><span class="caption-text">Viewing unscaled data</span></p>
+<p class="caption"><span class="caption-text">Viewing unscaled data</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <p>Unscaled data is generally not of use. More useful is data scaled to physically meaningful units. Resistics uses magnetotelluric field units and the method,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">phoenixReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
@@ -398,7 +400,7 @@
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../../_images/phoenixPhysical.png" />
-<p class="caption"><span class="caption-text">Viewing physically scaled data</span></p>
+<p class="caption"><span class="caption-text">Viewing physically scaled data</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <p>There are a few helpful methods built in to resistics for manipulating timeseries data. These are generally in <a class="reference internal" href="../../api/resistics.utilities.html#module-resistics.utilities" title="resistics.utilities"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utilities</span></code></a>. In the example below, the time data is high pass filtered 4 Hz and then plotted.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>34
@@ -422,7 +424,7 @@
 </td></tr></table></div>
 <div class="align-center figure" id="id3">
 <img alt="alternate text" src="../../_images/phoenixFiltered.png" />
-<p class="caption"><span class="caption-text">Viewing physically scaled and then high pass filtered data</span></p>
+<p class="caption"><span class="caption-text">Viewing physically scaled and then high pass filtered data</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <p>The phoenix reader has a helpful function for reformatting the continuous phoenix channel to the internal binary data format. The below example shows how this is done:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>44
@@ -500,7 +502,7 @@ Dataset written to timeData\phoenixInternal\meas_ts5_2011-11-13-17-04-02_2011-11
 </td></tr></table></div>
 <div class="align-center figure" id="id4">
 <img alt="alternate text" src="../../_images/phoenix_vs_internal_continuous.png" />
-<p class="caption"><span class="caption-text">Phoenix original data versus the reformatted data in the internal data format</span></p>
+<p class="caption"><span class="caption-text">Phoenix original data versus the reformatted data in the internal data format</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="complete-example-script">
 <h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>

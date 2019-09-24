@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ASCII timeseries &mdash; resistics  documentation</title>
+  <title>ASCII timeseries &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Internal binary format" href="internal-binary-format.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../formats.html">Data formats</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../timeseries.html">Timeseries data</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="ATS-timeseries.html">ATS timeseries</a></li>
@@ -485,7 +487,7 @@ echopper = 0
 <p>Time data can be plotted by using the class <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData.view" title="resistics.dataObjects.timeData.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method. By passing a matplotlib figure to this, the layout can be controlled as required. The resulting image is:</p>
 <div class="align-center figure" id="id1">
 <img alt="alternate text" src="../../_images/ascii.png" />
-<p class="caption"><span class="caption-text">Viewing ASCII data</span></p>
+<p class="caption"><span class="caption-text">Viewing ASCII data</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <p>Ascii time data objects are like any other time data objects returned by the other data readers. The time data object can be written out in the internal binary format to increase reading speed and reduce storage cost. This can be done with the <a class="reference internal" href="../../api/resistics.ioHandlers.dataWriterInternal.html#resistics.ioHandlers.dataWriterInternal.DataWriterInternal" title="resistics.ioHandlers.dataWriterInternal.DataWriterInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataWriterInternal</span></code></a> class.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>36
@@ -510,7 +512,7 @@ echopper = 0
 4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2018-01-01 12:00:00 to 2018-01-11 10:53:18 read in from measurement timeData\ascii, samples 0 to 429999
 Sampling frequency 0.5
 Remove zeros: False, remove nans: False, remove average: True
-Dataset written to timeData\asciiInternal on 2019-03-24 16:52:42.451012
+Dataset written to timeData\asciiInternal on 2019-09-07 17:07:23.105610
 </pre></div>
 </td></tr></table></div>
 <p>To validate the output against the input, the internally formatted data can be read back in using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderInternal.html#resistics.ioHandlers.dataReaderInternal.DataReaderInternal" title="resistics.ioHandlers.dataReaderInternal.DataReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderInternal</span></code></a> class and compared to the original ASCII data.</p>
@@ -550,7 +552,7 @@ Dataset written to timeData\asciiInternal on 2019-03-24 16:52:42.451012
 <p>Reading in the internal data is very similar to reading in the ASCII data. Another benefit of creating a figure and passing it through to the <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData.view" title="resistics.dataObjects.timeData.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method is that multiple datasets can be plotted on the same figure. The final data comparison figure is shown below.</p>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../../_images/ascii_vs_internal.png" />
-<p class="caption"><span class="caption-text">ASCII data and the binary internal format</span></p>
+<p class="caption"><span class="caption-text">ASCII data and the binary internal format</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="complete-example-script">
 <h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>

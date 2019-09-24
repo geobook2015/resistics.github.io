@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.ioHandlers.statisticIO module &mdash; resistics  documentation</title>
+  <title>resistics.ioHandlers.statisticIO module &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.ioHandlers.transferFunctionReader module" href="resistics.ioHandlers.transferFunctionReader.html" />
@@ -66,7 +67,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -91,10 +92,11 @@
             
             
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
@@ -108,6 +110,8 @@
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderATS.html">resistics.ioHandlers.dataReaderATS module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderAscii.html">resistics.ioHandlers.dataReaderAscii module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderInternal.html">resistics.ioHandlers.dataReaderInternal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderLemiB423.html">resistics.ioHandlers.dataReaderLemiB423 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderLemiB423E.html">resistics.ioHandlers.dataReaderLemiB423E module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderPhoenix.html">resistics.ioHandlers.dataReaderPhoenix module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataReaderSpam.html">resistics.ioHandlers.dataReaderSpam module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.ioHandlers.dataWriter.html">resistics.ioHandlers.dataWriter module</a></li>
@@ -213,8 +217,7 @@ project -&gt; statData -&gt; site -&gt; meas -&gt; specdir -&gt; statdir</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>dataPath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Path to mask file directory</p>
+<dt><strong>dataPath</strong><span class="classifier">str</span></dt><dd><p>Path to mask file directory</p>
 </dd>
 </dl>
 </td>
@@ -222,7 +225,7 @@ project -&gt; statData -&gt; site -&gt; meas -&gt; specdir -&gt; statdir</p>
 </tbody>
 </table>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils">
+<table border="1" class="docutils align-default">
 <colgroup>
 <col width="5%" />
 <col width="95%" />
@@ -238,34 +241,28 @@ project -&gt; statData -&gt; site -&gt; meas -&gt; specdir -&gt; statdir</p>
 </table>
 <dl class="method">
 <dt id="resistics.ioHandlers.statisticIO.StatisticIO.getFileNames">
-<code class="descname">getFileNames</code><span class="sig-paren">(</span><em>datapath: str</em>, <em>filename: str</em>, <em>inc: int</em><span class="sig-paren">)</span> &#x2192; Tuple[str, str, str]<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.getFileNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.getFileNames" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getFileNames</code><span class="sig-paren">(</span><em>self</em>, <em>datapath: str</em>, <em>filename: str</em>, <em>inc: int</em><span class="sig-paren">)</span> &#x2192; Tuple[str, str, str]<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.getFileNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.getFileNames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the statistic file name</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>datapath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The datapath to the statistics data</p>
+<dt><strong>datapath</strong><span class="classifier">str</span></dt><dd><p>The datapath to the statistics data</p>
 </dd>
-<dt><strong>filename</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The filename of the statistics data</p>
+<dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>The filename of the statistics data</p>
 </dd>
-<dt><strong>inc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The increment level, usually the decimation level</p>
+<dt><strong>inc</strong><span class="classifier">int</span></dt><dd><p>The increment level, usually the decimation level</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>statFile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of the statistics data file</p>
+<dt><strong>statFile</strong><span class="classifier">str</span></dt><dd><p>Name of the statistics data file</p>
 </dd>
-<dt><strong>infoFile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of the statistics info file</p>
+<dt><strong>infoFile</strong><span class="classifier">str</span></dt><dd><p>Name of the statistics info file</p>
 </dd>
-<dt><strong>commentFile</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">Name of the statistics comments file</p>
+<dt><strong>commentFile</strong><span class="classifier">str</span></dt><dd><p>Name of the statistics comments file</p>
 </dd>
 </dl>
 </td>
@@ -276,15 +273,14 @@ project -&gt; statData -&gt; site -&gt; meas -&gt; specdir -&gt; statdir</p>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.statisticIO.StatisticIO.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.printList" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get class information as a list of strings</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>List[str]</strong></dt>
-<dd><p class="first last">Class information as a list of strings</p>
+<dt>List[str]</dt><dd><p>Class information as a list of strings</p>
 </dd>
 </dl>
 </td>
@@ -295,25 +291,22 @@ project -&gt; statData -&gt; site -&gt; meas -&gt; specdir -&gt; statdir</p>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.statisticIO.StatisticIO.read">
-<code class="descname">read</code><span class="sig-paren">(</span><em>statName: str</em>, <em>inc: int</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.statisticData.StatisticData<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.read" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read</code><span class="sig-paren">(</span><em>self</em>, <em>statName: str</em>, <em>inc: int</em><span class="sig-paren">)</span> &#x2192; resistics.dataObjects.statisticData.StatisticData<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a statistic file</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>statName</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The statistic name</p>
+<dt><strong>statName</strong><span class="classifier">str</span></dt><dd><p>The statistic name</p>
 </dd>
-<dt><strong>inc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The increment, usually the decimation level</p>
+<dt><strong>inc</strong><span class="classifier">int</span></dt><dd><p>The increment, usually the decimation level</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>StatisticData</strong></dt>
-<dd><p class="first last">A statistic data object</p>
+<dt>StatisticData</dt><dd><p>A statistic data object</p>
 </dd>
 </dl>
 </td>
@@ -324,15 +317,14 @@ project -&gt; statData -&gt; site -&gt; meas -&gt; specdir -&gt; statdir</p>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.statisticIO.StatisticIO.setDatapath">
-<code class="descname">setDatapath</code><span class="sig-paren">(</span><em>datapath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.setDatapath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.setDatapath" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setDatapath</code><span class="sig-paren">(</span><em>self</em>, <em>datapath: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.setDatapath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.setDatapath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the datapath</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>datapath</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd><p class="first last">The path to the statistic data</p>
+<dt><strong>datapath</strong><span class="classifier">str</span></dt><dd><p>The path to the statistic data</p>
 </dd>
 </dl>
 </td>
@@ -343,18 +335,16 @@ project -&gt; statData -&gt; site -&gt; meas -&gt; specdir -&gt; statdir</p>
 
 <dl class="method">
 <dt id="resistics.ioHandlers.statisticIO.StatisticIO.write">
-<code class="descname">write</code><span class="sig-paren">(</span><em>statData: resistics.dataObjects.statisticData.StatisticData</em>, <em>inc: int</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.write" title="Permalink to this definition">¶</a></dt>
+<code class="descname">write</code><span class="sig-paren">(</span><em>self</em>, <em>statData: resistics.dataObjects.statisticData.StatisticData</em>, <em>inc: int</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/ioHandlers/statisticIO.html#StatisticIO.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.ioHandlers.statisticIO.StatisticIO.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write a statistic file</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>statData</strong> <span class="classifier-delimiter">:</span> <span class="classifier">StatisticData</span></dt>
-<dd><p class="first last">The statistic data to write out</p>
+<dt><strong>statData</strong><span class="classifier">StatisticData</span></dt><dd><p>The statistic data to write out</p>
 </dd>
-<dt><strong>inc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The increment, usually the decimation level</p>
+<dt><strong>inc</strong><span class="classifier">int</span></dt><dd><p>The increment, usually the decimation level</p>
 </dd>
 </dl>
 </td>

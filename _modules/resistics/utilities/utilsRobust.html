@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.utilities.utilsRobust &mdash; resistics  documentation</title>
+  <title>resistics.utilities.utilsRobust &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -89,10 +90,11 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
@@ -166,27 +168,60 @@
            <div itemprop="articleBody">
             
   <h1>Source code for resistics.utilities.utilsRobust</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The source for these functions is Robust Statisitics, Huber, 2009</span>
+<span class="sd">in general, linear regression is# have observations y and predictors A</span>
+<span class="sd">y is multiple observations/response</span>
+<span class="sd">x are the independent variables and is unknown</span>
+<span class="sd">and y is a linear function of x =&gt; y = Ax</span>
+<span class="sd">y = nobs</span>
+<span class="sd">A = nobs * nregressors</span>
+<span class="sd">x = nregressors</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">numpy.linalg</span> <span class="k">as</span> <span class="nn">linalg</span>
 <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="c1"># get the print</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPrint</span> <span class="k">import</span> <span class="o">*</span>
-
-<span class="c1"># The source for these functions is Robust Statisitics, Huber, 2009</span>
-<span class="c1"># in general, linear regression is# have observations y and predictors A</span>
-<span class="c1"># y is multiple observations/response</span>
-<span class="c1"># x are the independent variables and is unknown</span>
-<span class="c1"># and y is a linear function of x =&gt; y = Ax</span>
-<span class="c1"># y = nobs</span>
-<span class="c1"># A = nobs * nregressors</span>
-<span class="c1"># x = nregressors</span>
+<span class="c1"># import from package</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsChecks</span> <span class="k">import</span> <span class="n">parseKeywords</span>
 
 
-<span class="c1"># 2 STAGE ROBUST ESTIMATES</span>
-<div class="viewcode-block" id="mmestimateModel"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.mmestimateModel">[docs]</a><span class="k">def</span> <span class="nf">mmestimateModel</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># get options</span>
-    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="viewcode-block" id="mmestimateModel"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.mmestimateModel">[docs]</a><span class="k">def</span> <span class="nf">mmestimateModel</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;2 stage M estimate</span>
+
+<span class="sd">    Solves for :math:`x` where,</span>
+
+<span class="sd">    .. math::        </span>
+<span class="sd">        y = Ax .</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : np.ndarray</span>
+<span class="sd">        Predictors, size nobs*nregressors</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        Observations, size nobs</span>
+<span class="sd">    initial : Dict</span>
+<span class="sd">        Initial solution with parameters, scale and residuals</span>
+<span class="sd">    scale : optional</span>
+<span class="sd">        A scale estimate</span>
+<span class="sd">    intercept : bool, optional</span>
+<span class="sd">        True or False for adding an intercept term</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    params : np.ndarray</span>
+<span class="sd">        Values in x</span>
+<span class="sd">    resids : np.ndarray</span>
+<span class="sd">        Residuals = y - Ax</span>
+<span class="sd">    scale : float</span>
+<span class="sd">        Robust measure of variance</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        Weights used in robust regression   </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">defaultDictionary</span><span class="p">(),</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">printkw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">intercept</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span>
     <span class="c1"># this uses an initial mestimate with huber to give a measure of scale</span>
     <span class="c1"># and then a second with bisquare or hampel weights</span>
@@ -215,43 +250,41 @@
     <span class="k">return</span> <span class="n">params2</span><span class="p">,</span> <span class="n">resids2</span><span class="p">,</span> <span class="n">scale2</span><span class="p">,</span> <span class="n">weights2</span></div>
 
 
-<div class="viewcode-block" id="smestimateModel"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.smestimateModel">[docs]</a><span class="k">def</span> <span class="nf">smestimateModel</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># this uses an initial mestimate with huber to give a measure of scale</span>
-    <span class="c1"># and then a second with bisquare or hampel weights</span>
-    <span class="n">params</span><span class="p">,</span> <span class="n">residuals</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">mestimateModel</span><span class="p">(</span>
-        <span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s2">&quot;huber&quot;</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>
-    <span class="c1"># now do another, but with a different weighting function</span>
-    <span class="n">params2</span><span class="p">,</span> <span class="n">residuals2</span><span class="p">,</span> <span class="n">scale2</span><span class="p">,</span> <span class="n">weights2</span> <span class="o">=</span> <span class="n">mestimateModel</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span></div>
+<div class="viewcode-block" id="mestimateModel"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.mestimateModel">[docs]</a><span class="k">def</span> <span class="nf">mestimateModel</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Mestimate robust least squares</span>
 
+<span class="sd">    Solves for :math:`x` where,</span>
 
-<span class="c1"># def reWLS(A, y, **kwargs):</span>
-<span class="c1"># 	# begin with a bounded S-estimate</span>
-<span class="c1"># 	# then compute the REWLS</span>
-<span class="c1"># 	components = setimateModel(A, y, kwargs)</span>
+<span class="sd">    .. math::        </span>
+<span class="sd">        y = Ax .</span>
 
-<span class="c1"># 	# now do the REWLS iterations</span>
+<span class="sd">    Good method for dependent outliers (in :math:`y`). Not robust against independent outliers (leverage points)</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : np.ndarray</span>
+<span class="sd">        Predictors, size nobs*nregressors</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        Observations, size nobs</span>
+<span class="sd">    initial : </span>
+<span class="sd">    scale : optional</span>
+<span class="sd">        A scale estimate</span>
+<span class="sd">    intercept : bool, optional</span>
+<span class="sd">        True or False for adding an intercept term</span>
 
-<span class="c1"># ORDINARY LEAST SQUARES</span>
-<div class="viewcode-block" id="olsModel"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.olsModel">[docs]</a><span class="k">def</span> <span class="nf">olsModel</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]:</span>
-        <span class="c1"># add a constant term for the intercept</span>
-        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">),</span> <span class="n">A</span><span class="p">))</span>
-    <span class="n">params</span><span class="p">,</span> <span class="n">squareResid</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">resids</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">resids</span><span class="p">,</span> <span class="n">squareResid</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">s</span></div>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    params : np.ndarray</span>
+<span class="sd">        Values in x</span>
+<span class="sd">    resids : np.ndarray</span>
+<span class="sd">        Residuals = y - Ax</span>
+<span class="sd">    scale : float</span>
+<span class="sd">        Robust measure of variance</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        Weights used in robust regression    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-
-<span class="c1"># ROBUST LEAST SQUARES</span>
-<span class="c1"># mestimate model</span>
-<span class="c1"># good for dependent outliers</span>
-<span class="c1"># not robust against independent outliers (called leverage points)</span>
-<div class="viewcode-block" id="mestimateModel"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.mestimateModel">[docs]</a><span class="k">def</span> <span class="nf">mestimateModel</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># get options</span>
-    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">defaultDictionary</span><span class="p">(),</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">printkw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="c1"># calculate the leverage</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -323,63 +356,76 @@
     <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">resids</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">weights</span></div>
 
 
-<span class="c1"># this is the s-estimate</span>
-<span class="c1"># which has a different scaling version</span>
-<span class="c1"># def sestimateModel(A, y, **kwargs):</span>
-<span class="c1"># 	# get options</span>
-<span class="c1"># 	options = parseKeywords(kwargs)</span>
-<span class="c1"># 	#generalPrint(&quot;S-Estimate&quot;, &quot;Using weight function = {}&quot;.format(weightFnc))</span>
-<span class="c1"># 	if options[&quot;intercept&quot;] == True:</span>
-<span class="c1"># 		# add column of ones for constant term</span>
-<span class="c1"># 		A = np.hstack((np.ones(shape=(A.shape[0],1), dtype=&quot;complex&quot;), A))</span>
+<div class="viewcode-block" id="olsModel"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.olsModel">[docs]</a><span class="k">def</span> <span class="nf">olsModel</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Ordinary least squares</span>
 
-<span class="c1"># 	# see whether to do an initial OLS model or whether one is provided</span>
-<span class="c1"># 	if options[&quot;initial&quot;]:</span>
-<span class="c1"># 		params, resids, scale = initialFromDict(options[&quot;initial&quot;])</span>
-<span class="c1"># 	else:</span>
-<span class="c1"># 		params, resids, squareResid, rank, s = olsModel(A, y)</span>
-<span class="c1"># 		scale = sampleMAD0(resids)</span>
+<span class="sd">    Solves for :math:`x` where,</span>
 
-<span class="c1"># 	# standardised residuals and weights</span>
-<span class="c1"># 	resids = resids/scale</span>
-<span class="c1"># 	weights = getRobustLocationWeights(resids, options[&quot;weights&quot;])</span>
+<span class="sd">    .. math::       </span>
+<span class="sd">        y = Ax .</span>
 
-<span class="c1"># 	# iteratively weighted least squares</span>
-<span class="c1"># 	iteration = 0</span>
-<span class="c1"># 	while iteration &lt; options[&quot;maxiter&quot;]:</span>
-<span class="c1"># 		# do the weighted least-squares</span>
-<span class="c1"># 		Anew, ynew = weightLS(A, y, weights)</span>
-<span class="c1"># 		componentsNew, squareResidNew, rankNew, sNew = linalg.lstsq(Anew, ynew)</span>
-<span class="c1"># 		residualsNew = y - np.dot(A, componentsNew)</span>
-<span class="c1"># 		# now for s estimate, the new scale is calculated differently</span>
-<span class="c1"># 		scale = sestimateScale(residualsNew)</span>
-<span class="c1"># 		# standardised residuals</span>
-<span class="c1"># 		residualsNew = residualsNew/scale</span>
-<span class="c1"># 		weightsNew = getRobustLocationWeights(residualsNew, weightFnc)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : np.ndarray</span>
+<span class="sd">        Predictors, size nobs*nregressors</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        Observations, size nobs</span>
+<span class="sd">    intercept : bool, optional</span>
+<span class="sd">        True or False for adding an intercept term</span>
 
-<span class="c1"># 		# increment iteration</span>
-<span class="c1"># 		iteration = iteration + 1</span>
-<span class="c1"># 		weights = weightsNew</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    params : np.ndarray</span>
+<span class="sd">        Least squares solution</span>
+<span class="sd">    resids : np.ndarray</span>
+<span class="sd">        Residuals</span>
+<span class="sd">    squareResid : np.ndarray</span>
+<span class="sd">        Square residuals</span>
+<span class="sd">    rank : int</span>
+<span class="sd">        Rank of matrix A</span>
+<span class="sd">    s : np.ndarray</span>
+<span class="sd">        Singular values of A</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="c1"># 		# check to see whether the change is smaller than the tolerance</span>
-<span class="c1"># 		change = linalg.norm(componentsNew-components)/linalg.norm(componentsNew)</span>
-<span class="c1"># 		changeResids = linalg.norm(residualsNew-residuals)/linalg.norm(residualsNew)</span>
-<span class="c1"># 		if changeResids &lt; eps():</span>
-<span class="c1"># 			# update components</span>
-<span class="c1"># 			components = componentsNew</span>
-<span class="c1"># 			break</span>
-<span class="c1"># 		# update components</span>
-<span class="c1"># 		components = componentsNew</span>
-
-<span class="c1"># 	#generalPrint(&quot;S-Estimate&quot;, &quot;Robust regression quit after {} iterations&quot;.format(iteration))</span>
-<span class="c1"># 	# at the end, return the components</span>
-<span class="c1"># 	return components, weights</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">defaultDictionary</span><span class="p">(),</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">printkw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]:</span>
+        <span class="c1"># add a constant term for the intercept</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">),</span> <span class="n">A</span><span class="p">))</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">squareResid</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">resids</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">resids</span><span class="p">,</span> <span class="n">squareResid</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">s</span></div>
 
 
-<span class="c1"># a bounded influence estimator</span>
-<div class="viewcode-block" id="chatterjeeMachler"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.chatterjeeMachler">[docs]</a><span class="k">def</span> <span class="nf">chatterjeeMachler</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># get options</span>
-    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="viewcode-block" id="chatterjeeMachler"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.chatterjeeMachler">[docs]</a><span class="k">def</span> <span class="nf">chatterjeeMachler</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Robust bounded influence solver</span>
+<span class="sd">    </span>
+<span class="sd">    Solves for :math:`x` where,</span>
+
+<span class="sd">    .. math::  </span>
+<span class="sd">        y = Ax .</span>
+
+<span class="sd">    Being a bounded influence operator, should be robust against both outliers in dependent and independent variables.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A : np.ndarray</span>
+<span class="sd">        Predictors, size nobs*nregressors</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        Observations, size nobs</span>
+<span class="sd">    intercept : bool, optional</span>
+<span class="sd">        True or False for adding an intercept term</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    params : np.ndarray</span>
+<span class="sd">        Values in x</span>
+<span class="sd">    resids : np.ndarray</span>
+<span class="sd">        Residuals = y - Ax</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        Weights used in robust regression     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">defaultDictionary</span><span class="p">(),</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">printkw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="c1"># generalPrint(&quot;S-Estimate&quot;, &quot;Using weight function = {}&quot;.format(weightFnc))</span>
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
         <span class="c1"># add column of ones for constant term</span>
@@ -414,7 +460,7 @@
         <span class="n">residsNew</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">paramsNew</span><span class="p">)</span>
         <span class="c1"># check residsNew to make sure not all zeros (i.e. will happen in undetermined or equally determined system)</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">residsNew</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">():</span>
-            <span class="c1"># then return everything here</span>
+            <span class="c1"># return everything here</span>
             <span class="k">return</span> <span class="n">paramsNew</span><span class="p">,</span> <span class="n">residsNew</span><span class="p">,</span> <span class="n">weights</span>
         <span class="n">residsAbs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">residsNew</span><span class="p">)</span>
         <span class="n">residsMedian</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">residsAbs</span><span class="p">)</span>
@@ -474,7 +520,7 @@
     <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 
     <span class="c1"># get options</span>
-    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">defaultDictionary</span><span class="p">(),</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">printkw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="c1"># generalPrint(&quot;S-Estimate&quot;, &quot;Using weight function = {}&quot;.format(weightFnc))</span>
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
         <span class="c1"># add column of ones for constant term</span>
@@ -554,12 +600,17 @@
     <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">resids</span><span class="p">,</span> <span class="n">weights</span></div>
 
 
-<span class="c1"># Another regression method based on Hadi distances</span>
-<span class="c1"># implemented from the paper A Re-Weighted Least Squares Method for Robust Regression Estimation</span>
-<span class="c1"># Billor, Hadi</span>
 <div class="viewcode-block" id="chatterjeeMachlerHadi"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.chatterjeeMachlerHadi">[docs]</a><span class="k">def</span> <span class="nf">chatterjeeMachlerHadi</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Regression based on Hadi distances</span>
+
+
+
+<span class="sd">    # Another regression method based on Hadi distances</span>
+<span class="sd">    # implemented from the paper A Re-Weighted Least Squares Method for Robust Regression Estimation</span>
+<span class="sd">    # Billor, Hadi    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># basic info</span>
-    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">defaultDictionary</span><span class="p">(),</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">printkw</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># for the distances, will use absX - do this before adding intercept term</span>
     <span class="c1"># a column of all ones will cause problems with non full rank covariance matrices</span>
@@ -719,18 +770,36 @@
     <span class="k">return</span> <span class="n">dist</span></div>
 
 
-<span class="c1"># a bounded influence estimator</span>
-<span class="c1"># this is good against leverage points</span>
-<span class="c1"># def schweppeModel(A, y, **kwargs):</span>
+<div class="viewcode-block" id="weightLS"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.weightLS">[docs]</a><span class="k">def</span> <span class="nf">weightLS</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Transform A and y using the weights to perform a weighted least squares</span>
 
+<span class="sd">    .. math::</span>
+<span class="sd">        \sqrt{weights} y = \sqrt{weights} A x ,</span>
+<span class="sd">    </span>
+<span class="sd">    is equivalent to,</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::     </span>
+<span class="sd">        A^H weights y = A^H weights A x ,</span>
+<span class="sd">    </span>
+<span class="sd">    where :math:`A^H` is the hermitian transpose.</span>
 
-<span class="c1"># helper functions</span>
-<span class="c1"># Weighted least squares:</span>
-<span class="c1"># sqrt(weights) * y = sqrt(weights) * A * x</span>
-<span class="c1"># is equivalent to</span>
-<span class="c1"># A&#39; *weights* y = A&#39; * weights * A x (note A&#39; transpose is the hermitian transpose)</span>
-<span class="c1"># i.e. both y and A are multiplied the square root of the weights</span>
-<div class="viewcode-block" id="weightLS"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.weightLS">[docs]</a><span class="k">def</span> <span class="nf">weightLS</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+<span class="sd">    In this method, both y and A are multipled by the square root of the weights and then returned.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        Observations</span>
+<span class="sd">    A : np.ndarray</span>
+<span class="sd">        Regressors</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        Observations multipled by the square root of the weights</span>
+<span class="sd">    A : np.ndarray</span>
+<span class="sd">        Regressors multipled by the square root of the weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">ynew</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span>
     <span class="n">Anew</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
@@ -738,46 +807,55 @@
     <span class="k">return</span> <span class="n">Anew</span><span class="p">,</span> <span class="n">ynew</span></div>
 
 
-<span class="c1"># calculate various values for returning</span>
-<span class="c1"># from the robust regression solution</span>
-<span class="c1"># this includes residuals and variances for</span>
-<span class="c1"># error calculations</span>
-<span class="c1"># def varsForReturn(residuals):</span>
+<div class="viewcode-block" id="hermitianTranspose"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.hermitianTranspose">[docs]</a><span class="k">def</span> <span class="nf">hermitianTranspose</span><span class="p">(</span><span class="n">mat</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Hermitian transpose (transpose and complex conjugation)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Vector, matrix to Hermitian transpose</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Hermitian transpose</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-
-<div class="viewcode-block" id="hermitianTranspose"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.hermitianTranspose">[docs]</a><span class="k">def</span> <span class="nf">hermitianTranspose</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">mat</span><span class="p">))</span></div>
 
 
-<span class="c1"># simple function that returns the intial model</span>
-<span class="c1"># from a provided initial model dictionary</span>
-<span class="c1"># this helps for two stage robust regression methods</span>
-<div class="viewcode-block" id="initialFromDict"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.initialFromDict">[docs]</a><span class="k">def</span> <span class="nf">initialFromDict</span><span class="p">(</span><span class="n">initDict</span><span class="p">):</span>
+<div class="viewcode-block" id="initialFromDict"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.initialFromDict">[docs]</a><span class="k">def</span> <span class="nf">initialFromDict</span><span class="p">(</span><span class="n">initDict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Returns initial model from provided initial model dictionary</span>
+<span class="sd">    </span>
+<span class="sd">    Helps for two stage robust regression.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Dict</span>
+<span class="sd">        Initial model to use for robust regression with the parameters, residuals and scale estimate</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    parameters : np.ndarray</span>
+<span class="sd">        </span>
+<span class="sd">    resids : np.ndarray</span>
+<span class="sd">        The residuals</span>
+<span class="sd">    scale : float</span>
+<span class="sd">        Initial estimate of scale</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">return</span> <span class="n">initDict</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">],</span> <span class="n">initDict</span><span class="p">[</span><span class="s2">&quot;resids&quot;</span><span class="p">],</span> <span class="n">initDict</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="parseKeywords"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.parseKeywords">[docs]</a><span class="k">def</span> <span class="nf">parseKeywords</span><span class="p">(</span><span class="n">keywords</span><span class="p">):</span>
-    <span class="c1"># general function to parse keywords</span>
-    <span class="c1"># can be used in a number of different algorithms</span>
-    <span class="c1"># and there will simply be redundant keywords</span>
-    <span class="n">outDict</span> <span class="o">=</span> <span class="n">defaultDictionary</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">keywords</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">outDict</span>
+<div class="viewcode-block" id="defaultDictionary"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.defaultDictionary">[docs]</a><span class="k">def</span> <span class="nf">defaultDictionary</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Robust regression defaults</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Dict</span>
+<span class="sd">        Default regression options</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="s2">&quot;weights&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
-        <span class="n">outDict</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;maxiter&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
-        <span class="n">outDict</span><span class="p">[</span><span class="s2">&quot;maxiter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;maxiter&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;initial&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
-        <span class="n">outDict</span><span class="p">[</span><span class="s2">&quot;initial&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;initial&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;scale&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
-        <span class="n">outDict</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;intercept&quot;</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
-        <span class="n">outDict</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">keywords</span><span class="p">[</span><span class="s2">&quot;intercept&quot;</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">outDict</span></div>
-
-
-<div class="viewcode-block" id="defaultDictionary"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.defaultDictionary">[docs]</a><span class="k">def</span> <span class="nf">defaultDictionary</span><span class="p">():</span>
     <span class="n">outDict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">outDict</span><span class="p">[</span><span class="s2">&quot;weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;bisquare&quot;</span>
     <span class="n">outDict</span><span class="p">[</span><span class="s2">&quot;maxiter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">maxIter</span><span class="p">()</span>
@@ -787,11 +865,22 @@
     <span class="k">return</span> <span class="n">outDict</span></div>
 
 
-<span class="c1">######################</span>
-<span class="c1">### LOCATION WEIGHTING FUNCTIONS</span>
-<span class="c1">### Functions for re-weighting least squares rows</span>
-<span class="c1">######################</span>
-<div class="viewcode-block" id="getRobustLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.getRobustLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">getRobustLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">weight</span><span class="p">):</span>
+<div class="viewcode-block" id="getRobustLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.getRobustLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">getRobustLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Robust weighting schemes</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : np.ndarray</span>
+<span class="sd">        Residuals</span>
+<span class="sd">    weight : str</span>
+<span class="sd">        The type of weighting to use</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        The robust weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># the second argument, k, is a tuning constant</span>
     <span class="k">if</span> <span class="n">weight</span> <span class="o">==</span> <span class="s2">&quot;huber&quot;</span><span class="p">:</span>
         <span class="n">k</span> <span class="o">=</span> <span class="mf">1.345</span>
@@ -815,25 +904,68 @@
         <span class="k">return</span> <span class="n">bisquareLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span></div>
 
 
-<span class="c1"># relying on numpy doing the right thing</span>
-<span class="c1"># when dividing by zero</span>
-<div class="viewcode-block" id="huberLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.huberLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">huberLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="viewcode-block" id="huberLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.huberLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">huberLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Huber location weights</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : np.ndarray</span>
+<span class="sd">        Residuals</span>
+<span class="sd">    k : float</span>
+<span class="sd">        Tuning parameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        The robust weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">r</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">:</span>
+            <span class="c1"># relying on numpy doing the right thing when dividing by zero</span>
             <span class="n">weights</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="n">val</span>
     <span class="k">return</span> <span class="n">weights</span><span class="o">.</span><span class="n">real</span></div>
 
 
-<div class="viewcode-block" id="bisquareLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.bisquareLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">bisquareLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>  <span class="c1"># biweight</span>
+<div class="viewcode-block" id="bisquareLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.bisquareLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">bisquareLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Bisquare location weights</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : np.ndarray</span>
+<span class="sd">        Residuals</span>
+<span class="sd">    k : float</span>
+<span class="sd">        Tuning parameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        The robust weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">ones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
     <span class="n">threshR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">ones</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">r</span> <span class="o">/</span> <span class="n">k</span><span class="p">))</span>
     <span class="c1"># threshR = np.maximum(-1*ones, threshR)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">threshR</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">real</span></div>
-    <span class="c1"># for scale weights</span>
 
 
-<div class="viewcode-block" id="hampelLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.hampelLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">hampelLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="viewcode-block" id="hampelLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.hampelLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">hampelLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Hampel location weights</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : np.ndarray</span>
+<span class="sd">        Residuals</span>
+<span class="sd">    k : float</span>
+<span class="sd">        Tuning parameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        The robust weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">a</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="mi">4</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">k</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
@@ -847,14 +979,44 @@
     <span class="k">return</span> <span class="n">weights</span><span class="o">.</span><span class="n">real</span></div>
 
 
-<div class="viewcode-block" id="trimmedMeanLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.trimmedMeanLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">trimmedMeanLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="viewcode-block" id="trimmedMeanLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.trimmedMeanLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">trimmedMeanLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Trimmed mean location weights</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : np.ndarray</span>
+<span class="sd">        Residuals</span>
+<span class="sd">    k : float</span>
+<span class="sd">        Tuning parameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        The robust weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
     <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">k</span><span class="p">)</span>
     <span class="n">weights</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">weights</span><span class="o">.</span><span class="n">real</span></div>
 
 
-<div class="viewcode-block" id="andrewsWaveLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.andrewsWaveLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">andrewsWaveLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<div class="viewcode-block" id="andrewsWaveLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.andrewsWaveLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">andrewsWaveLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Andrews Wave location weights</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : np.ndarray</span>
+<span class="sd">        Residuals</span>
+<span class="sd">    k : float</span>
+<span class="sd">        Tuning parameter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        The robust weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
     <span class="n">testVal</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">r</span><span class="p">)):</span>
@@ -863,54 +1025,79 @@
     <span class="k">return</span> <span class="n">weights</span><span class="o">.</span><span class="n">real</span></div>
 
 
-<span class="c1"># least squares has no weighting</span>
-<div class="viewcode-block" id="leastSquaresLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.leastSquaresLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">leastSquaresLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<div class="viewcode-block" id="leastSquaresLocationWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.leastSquaresLocationWeights">[docs]</a><span class="k">def</span> <span class="nf">leastSquaresLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Least squares weights, which are all equal to 1</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : np.ndarray</span>
+<span class="sd">        Residuals</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weights : np.ndarray</span>
+<span class="sd">        The robust weights</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span></div>
 
 
-<span class="c1">######################</span>
-<span class="c1">### SCALE WEIGHTING FUNCTIONS</span>
-<span class="c1">### Functions for re-weighting least squares rows</span>
-<span class="c1">######################</span>
-<div class="viewcode-block" id="getRobustScaleWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.getRobustScaleWeights">[docs]</a><span class="k">def</span> <span class="nf">getRobustScaleWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">weight</span><span class="p">):</span>
-    <span class="c1"># k is a tuning parameter</span>
-    <span class="c1"># k = 1.56</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="mf">4.685</span>
-    <span class="k">return</span> <span class="n">bisquareScaleWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="bisquareScaleWeights"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.bisquareScaleWeights">[docs]</a><span class="k">def</span> <span class="nf">bisquareScaleWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-    <span class="c1"># r = r/k</span>
-    <span class="n">tmp1</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="n">tmp2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">tmp1</span><span class="p">,</span> <span class="n">tmp2</span><span class="p">)</span></div>
-
-
-<span class="c1"># def sestimateScale(r, k):</span>
-
-<span class="c1"># def alphaTrimmedScale(r, k):</span>
-
-
-<span class="c1"># LOCATION ESTIMATORS</span>
-<span class="c1"># The mean is not a robust estimator of location</span>
-<span class="c1"># These are other methods of location estimation</span>
-<span class="c1"># SCALE ESTIMATORS</span>
-<span class="c1"># equivalent, the sd is not a robust measurement of</span>
-<span class="c1"># dispersion</span>
 <div class="viewcode-block" id="sampleMedian"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.sampleMedian">[docs]</a><span class="k">def</span> <span class="nf">sampleMedian</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the median of an array</span>
+
+<span class="sd">    Mean is not a robust estimator of locations as it can be broken by a single outlying value. The median is a more robust choice.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Data for which to calculate median</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The median</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="sampleMAD"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.sampleMAD">[docs]</a><span class="k">def</span> <span class="nf">sampleMAD</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="c1"># the MAD is the median</span>
+    <span class="sd">&quot;&quot;&quot;Median absolute deviation</span>
+
+<span class="sd">    The standard deviation is not robust against outliers, hence use the MAD.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Data for which to calculate MAD</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The MAD    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">absData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">mad</span> <span class="o">=</span> <span class="n">sampleMedian</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">absData</span> <span class="o">-</span> <span class="n">sampleMedian</span><span class="p">(</span><span class="n">absData</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">mad</span> <span class="o">/</span> <span class="mf">0.67448975019608171</span></div>
 
 
-<span class="c1"># this uses an estimate of the location as 0</span>
 <div class="viewcode-block" id="sampleMAD0"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.sampleMAD0">[docs]</a><span class="k">def</span> <span class="nf">sampleMAD0</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="c1"># the MAD is the median - this should be over non zero data</span>
+    <span class="sd">&quot;&quot;&quot;Median absolute deviation using an estimate of the location as 0</span>
+
+<span class="sd">    When the location estimate is zero (rather than the median), the MAD essentially reduces to a median. This should be over non zero data. Useful for calculating variance of residuals.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Data for which to calculate MAD. This is often residuals when using 0 as an estimate of location. </span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The MAD using zero as an esimate of location   </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">absData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">inputIndices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">absData</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">)</span>
     <span class="n">mad</span> <span class="o">=</span> <span class="n">sampleMedian</span><span class="p">(</span><span class="n">absData</span><span class="p">[</span><span class="n">inputIndices</span><span class="p">])</span>
@@ -918,65 +1105,27 @@
     <span class="k">return</span> <span class="n">mad</span> <span class="o">/</span> <span class="mf">0.67448975019608171</span></div>
 
 
-<span class="c1"># compute the m-estimate of location and scale</span>
-<span class="c1"># through iteration, beginning with sample median for mean</span>
-<span class="c1"># and madn for dispersion</span>
-<div class="viewcode-block" id="mestimate"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.mestimate">[docs]</a><span class="k">def</span> <span class="nf">mestimate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">location</span> <span class="o">=</span> <span class="s2">&quot;bisquare&quot;</span>
-    <span class="n">scale</span> <span class="o">=</span> <span class="s2">&quot;bisquare&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;location&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="n">location</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;scale&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="n">scale</span> <span class="o">=</span> <span class="n">kwards</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span>
-    <span class="n">mean</span> <span class="o">=</span> <span class="n">sampleMedian</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">sampleMAD</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="viewcode-block" id="eps"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.eps">[docs]</a><span class="k">def</span> <span class="nf">eps</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Small number</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        A small number for quitting robust regression</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span>
-    <span class="k">while</span> <span class="n">iteration</span> <span class="o">&lt;</span> <span class="n">maxIter</span><span class="p">():</span>
-        <span class="c1"># calculate outlyingness</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
-        <span class="c1"># calculate new set of weights using window function</span>
-        <span class="n">weights1</span> <span class="o">=</span> <span class="n">getRobustLocationWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
-        <span class="n">weights2</span> <span class="o">=</span> <span class="n">getRobustScaleWeights</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
-        <span class="c1"># now weight the data (observations)</span>
-        <span class="c1"># in calculation of new mean and sigma</span>
-        <span class="n">new_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights1</span> <span class="o">*</span> <span class="n">data</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights1</span><span class="p">)</span>
-        <span class="n">new_sigma2</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">delta</span><span class="p">())</span>
-        <span class="n">new_sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">new_sigma2</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">new_mean</span> <span class="o">-</span> <span class="n">mean</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">()</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">:</span>
-            <span class="k">break</span>
-
-        <span class="c1"># if not breaking, update mean and sigma</span>
-        <span class="n">mean</span> <span class="o">=</span> <span class="n">new_mean</span>
-        <span class="n">sigma</span> <span class="o">=</span> <span class="n">new_sigma</span>
-    <span class="c1"># return mean and sigma</span>
-    <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">sigma</span></div>
-
-
-<span class="c1"># SIGMA FUNCTIONS</span>
-<span class="c1"># Robust measures of outlyingness</span>
-<div class="viewcode-block" id="threeSigmaMAD"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.threeSigmaMAD">[docs]</a><span class="k">def</span> <span class="nf">threeSigmaMAD</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="c1"># calculate deviation from MAD</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">sampleMedian</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="o">/</span> <span class="n">sampleMAD</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
-
-
-<span class="c1"># ROBUST CORRELATION</span>
-<span class="c1"># For measuring similarity between datasets</span>
-
-
-<span class="c1"># A FEW USEFUL NUMBERS</span>
-<div class="viewcode-block" id="eps"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.eps">[docs]</a><span class="k">def</span> <span class="nf">eps</span><span class="p">():</span>
-    <span class="c1"># A small number of stopping iterations</span>
     <span class="k">return</span> <span class="mf">0.0001</span></div>
 
 
-<div class="viewcode-block" id="delta"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.delta">[docs]</a><span class="k">def</span> <span class="nf">delta</span><span class="p">():</span>
-    <span class="k">return</span> <span class="mf">0.5</span></div>
+<div class="viewcode-block" id="maxIter"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.maxIter">[docs]</a><span class="k">def</span> <span class="nf">maxIter</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Maximum number of iterations</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        The maximum number of iterations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-
-<div class="viewcode-block" id="maxIter"><a class="viewcode-back" href="../../../api/resistics.utilities.utilsRobust.html#resistics.utilities.utilsRobust.maxIter">[docs]</a><span class="k">def</span> <span class="nf">maxIter</span><span class="p">():</span>
     <span class="k">return</span> <span class="mi">100</span></div>
 </pre></div>
 

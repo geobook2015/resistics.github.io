@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.project.projectSpectra &mdash; resistics  documentation</title>
+  <title>resistics.project.projectSpectra &mdash; resistics 0.0.6.dev2 documentation</title>
   
 
   
@@ -26,7 +26,8 @@
         <script type="text/javascript" src="../../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -35,7 +36,7 @@
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css\custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.0.5
+                0.0.6
               </div>
             
           
@@ -89,10 +90,11 @@
             
             
               <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
@@ -200,6 +202,7 @@
     <span class="n">getDecimationParameters</span><span class="p">,</span>
     <span class="n">getWindowParameters</span><span class="p">,</span>
     <span class="n">applyPolarisationReversalOptions</span><span class="p">,</span>
+    <span class="n">applyScaleOptions</span><span class="p">,</span>
     <span class="n">applyCalibrationOptions</span><span class="p">,</span>
     <span class="n">applyFilterOptions</span><span class="p">,</span>
     <span class="n">applyNotchOptions</span><span class="p">,</span>
@@ -274,6 +277,8 @@
 <span class="sd">        The channels for which to calculate out the spectra</span>
 <span class="sd">    polreverse :  Dict[str, bool]</span>
 <span class="sd">        Keys are channels and values are boolean flags for reversing</span>
+<span class="sd">    scale : Dict[str, float]</span>
+<span class="sd">        Keys are channels and values are floats to multiply the channel data by</span>
 <span class="sd">    calibrate : bool, optional</span>
 <span class="sd">        Flag whether to calibrate the data or not</span>
 <span class="sd">    notch : List[float], optional</span>
@@ -289,7 +294,8 @@
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSites</span><span class="p">()</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSampleFreqs</span><span class="p">()</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">False</span>    
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;polreverse&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">False</span>       
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;calibrate&quot;</span><span class="p">]:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;notch&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -339,6 +345,7 @@
 
                 <span class="c1"># apply various options</span>
                 <span class="n">applyPolarisationReversalOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
+                <span class="n">applyScaleOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
                 <span class="n">applyCalibrationOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">cal</span><span class="p">,</span> <span class="n">timeData</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
                 <span class="n">applyFilterOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
                 <span class="n">applyNotchOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
