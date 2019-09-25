@@ -99,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../roadmap.html">Roadmap</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
@@ -693,7 +694,7 @@
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">addColourbar</span><span class="p">(</span><span class="n">scat</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">colourtitle</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">])</span> 
+                <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">])</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">fig</span></div>
@@ -784,7 +785,7 @@
 
         <span class="c1"># show if the figure is not in keywords</span>
         <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">])</span>            
+            <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">])</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">fig</span></div>
@@ -927,6 +928,131 @@
                     <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;colortitle&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;colortitle&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="s2">&quot;Value&quot;</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">addColourbar</span><span class="p">(</span><span class="n">scat</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">colourtitle</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="StatisticData.densityplot"><a class="viewcode-back" href="../../../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.densityplot">[docs]</a>    <span class="k">def</span> <span class="nf">densityplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eFreqI</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Plots density plots of statistic components for evaluation frequency index</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        By default, the density plots plotted are</span>
+<span class="sd">        statistic component 1 vs statistic component 2</span>
+<span class="sd">        statistic component 3 vs statistic component 4</span>
+<span class="sd">        etc</span>
+
+<span class="sd">        But density plots can be explicity set by using the crossplots keyword. They should be specified as a list of a list of strings</span>
+<span class="sd">        e.g.</span>
+<span class="sd">        crossplots = [[component2, component3], [component1, component4]]</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eFreqI : int</span>
+<span class="sd">            Evaluation frequency index</span>
+<span class="sd">        maskwindows : List, np.ndarray</span>
+<span class="sd">            Global windows to exclude              </span>
+<span class="sd">        crossplots : List[List[str]], optional</span>
+<span class="sd">            The parameters to crossplot</span>
+<span class="sd">        fig : matplotlib.pyplot.figure, optional</span>
+<span class="sd">            A figure object</span>
+<span class="sd">        plotfonts : Dict, optional</span>
+<span class="sd">            A dictionary of plot fonts</span>
+<span class="sd">        label : str, optional</span>
+<span class="sd">            Label for the plots</span>
+<span class="sd">        xlim : List, optional</span>
+<span class="sd">            Limits for the x axis</span>
+<span class="sd">        ylim : List, optional</span>
+<span class="sd">            Limits for the y axis</span>
+<span class="sd">        colortitle : str, optional</span>
+<span class="sd">            Title for the colourbar</span>
+<span class="sd">        legened : bool</span>
+<span class="sd">            Boolean flag for adding a legend</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt.figure</span>
+<span class="sd">            Matplotlib figure object            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">kde</span>
+
+        <span class="c1"># deal with maskwindows, which are global indices</span>
+        <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;maskwindows&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;maskwindows&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+
+        <span class="c1"># figure out the crossplots</span>
+        <span class="k">if</span> <span class="s2">&quot;crossplots&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">crossplots</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;crossplots&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">crossplots</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+
+        <span class="c1"># plot parameters</span>
+        <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRowsCols</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxcols</span><span class="p">,</span> <span class="n">numStats</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">crossplots</span><span class="p">))</span>
+        <span class="n">eFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">eFreqI</span><span class="p">]</span>
+
+        <span class="n">plotfonts</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;plotfonts&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">getViewFonts</span><span class="p">()</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fig&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span>
+            <span class="k">else</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">ncols</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">nrows</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> density plots for evaluation frequency: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">statName</span><span class="p">,</span> <span class="n">eFreq</span><span class="p">),</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">set_y</span><span class="p">(</span><span class="mf">0.98</span><span class="p">)</span>
+
+        <span class="c1"># now plot the data</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">cplot</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">crossplots</span><span class="p">):</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> vs. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cplot</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;label&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="n">eFreq</span>
+
+            <span class="c1"># get plot data</span>
+            <span class="n">plotI1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">plotData1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">plotI1</span><span class="p">])</span>
+            <span class="n">plotI2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">plotData2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">plotI2</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">plotIndices</span><span class="p">:</span>
+                <span class="n">plotData1</span> <span class="o">=</span> <span class="n">plotData1</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
+                <span class="n">plotData2</span> <span class="o">=</span> <span class="n">plotData2</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
+
+            <span class="c1"># gaussian kde</span>
+            <span class="n">nbins</span> <span class="o">=</span> <span class="mi">300</span>
+            <span class="n">gk</span> <span class="o">=</span> <span class="n">kde</span><span class="o">.</span><span class="n">gaussian_kde</span><span class="p">([</span><span class="n">plotData1</span><span class="p">,</span> <span class="n">plotData2</span><span class="p">])</span>
+            <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span>
+                <span class="n">plotData1</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="p">:</span> <span class="n">plotData1</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="p">:</span> <span class="n">nbins</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">,</span>
+                <span class="n">plotData2</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="p">:</span> <span class="n">plotData2</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="p">:</span> <span class="n">nbins</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="n">zi</span> <span class="o">=</span> <span class="n">gk</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xi</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">yi</span><span class="o">.</span><span class="n">flatten</span><span class="p">()]))</span>
+            <span class="n">pcol</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span>
+                <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">zi</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xi</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">shading</span><span class="o">=</span><span class="s2">&quot;gouraud&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colorbar2dOther</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">zi</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xi</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pcol</span><span class="p">)</span>
+
+            <span class="c1"># x axis options</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisLabel&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;xlim&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">])</span>
+            <span class="c1"># y axis options</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisLabel&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">&quot;ylim&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;ylim&quot;</span><span class="p">])</span>
+            <span class="c1"># set tick sizes</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">()</span> <span class="o">+</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_yticklabels</span><span class="p">():</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;axisTicks&quot;</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+            <span class="c1"># legend</span>
+            <span class="k">if</span> <span class="s2">&quot;legend&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="c1"># show if the figure is not in keywords</span>
+        <span class="k">if</span> <span class="s2">&quot;fig&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.92</span><span class="p">])</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">fig</span></div>
