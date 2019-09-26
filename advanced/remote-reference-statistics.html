@@ -192,8 +192,718 @@
 <li>“RR_resPhase”</li>
 </ul>
 <p>More information on each of these is given in <a class="reference internal" href="../features/remote-statistics.html"><span class="doc">remote reference statistics</span></a>.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Remote reference statistics are always saved with the local site.</p>
+</div>
+<div class="section" id="calculating-and-viewing-remote-reference-statistics">
+<h2>Calculating and viewing remote reference statistics<a class="headerlink" href="#calculating-and-viewing-remote-reference-statistics" title="Permalink to this headline">¶</a></h2>
 <p>Begin by loading the project and calculate the remote statistics using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.calculateRemoteStatistics" title="resistics.project.projectStatistics.calculateRemoteStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateRemoteStatistics()</span></code></a> of module <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a>. The <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.calculateRemoteStatistics" title="resistics.project.projectStatistics.calculateRemoteStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateRemoteStatistics()</span></code></a> method will calculate the remote reference statistics for <code class="code python docutils literal notranslate"><span class="name"><span class="pre">sites</span></span><span class="operator"><span class="pre">=</span></span><span class="punctuation"><span class="pre">[</span></span><span class="literal string double"><span class="pre">“M6”</span></span><span class="punctuation"><span class="pre">]</span></span></code> and at sampling frequencies <code class="code python docutils literal notranslate"><span class="name"><span class="pre">sampleFreqs</span></span><span class="operator"><span class="pre">=</span></span><span class="punctuation"><span class="pre">[</span></span><span class="literal number integer"><span class="pre">128</span></span><span class="punctuation"><span class="pre">]</span></span></code> using the remote site “Remote”. In this instance, all the remote statistics are being calculated.</p>
-<p>Work in progress…</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">calculateRemoteStatistics</span><span class="p">,</span>
+    <span class="n">viewStatistic</span><span class="p">,</span>
+    <span class="n">viewStatisticHistogram</span><span class="p">,</span>
+    <span class="n">viewStatisticDensityplot</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsStandard</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+
+<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsStandard</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;remoteProject&quot;</span><span class="p">)</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
+
+<span class="n">calculateRemoteStatistics</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotestats</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;RR_coherence&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_coherenceEqn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_absvalEqn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_transferFunction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_resPhase&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>To get an idea how the remote reference is changing the impedance tensor values, the impedance tensor estimates for each window for the single site and remote reference processing can now be plotted. To do this, the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatisticDensityplot" title="resistics.project.projectStatistics.viewStatisticDensityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticDensityplot()</span></code></a> of module <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> is used. This method plots 2-D histograms of statistic data cross pairs. In the following code snippet, density plots are being saved for the first evaluation frequency of decimation levels 0, 1, 2 and 3. Limits for x and y axes are also being set explicitly.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">lims</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatisticDensityplot</span><span class="p">(</span>
+        <span class="n">proj</span><span class="p">,</span>
+        <span class="s2">&quot;M6&quot;</span><span class="p">,</span>
+        <span class="mi">128</span><span class="p">,</span>
+        <span class="s2">&quot;RR_transferFunction&quot;</span><span class="p">,</span>
+        <span class="n">declevel</span><span class="o">=</span><span class="n">declevel</span><span class="p">,</span>
+        <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;ExHyRealRR&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyImagRR&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;EyHxRealRR&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxImagRR&quot;</span><span class="p">]],</span>
+        <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+        <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;densityPlot_remoteRef_{}.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">declevel</span><span class="p">)))</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatisticDensityplot</span><span class="p">(</span>
+        <span class="n">proj</span><span class="p">,</span>
+        <span class="s2">&quot;M6&quot;</span><span class="p">,</span>
+        <span class="mi">128</span><span class="p">,</span>
+        <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span>
+        <span class="n">declevel</span><span class="o">=</span><span class="n">declevel</span><span class="p">,</span>
+        <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;ExHyReal&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyImag&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;EyHxReal&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxImag&quot;</span><span class="p">]],</span>
+        <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+        <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;densityPlot_singleSite_{}.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">declevel</span><span class="p">)))</span>
+</pre></div>
+</td></tr></table></div>
+<p>For single site statistics, the window-by-window impedance tensor estimates are calculated in the “transferFunction” statistic. This has components: ExHxReal, ExHxImag, ExHyReal, ExHyImag, EyHxReal, EyHxImag, EyHyReal, EyHyImag. For the density plot, the cross pairs ExHyReal vs. ExHyImag and EyHxReal vs. EyHxImag are plotted. This is essentially the E<sub>x</sub>-H<sub>y</sub> and E<sub>y</sub>-H<sub>x</sub> polarisations of the single site impedance tensor estimates plotted in the complex plane.</p>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="../_images/densityPlot_singleSite_0.png" />
+<p class="caption"><span class="caption-text">Density plot of single site, window-by-window, impedance tensor E<sub>x</sub>-H<sub>y</sub> and E<sub>y</sub>-H<sub>x</sub> estimates for decimation level 0, evaluation frequency 32 Hz or period 0.03125 seconds.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>For remote reference statistics, the window-by-window impedance tensor estimates are calculated in the “RR_transferFunction” statistic. This has components: ExHxRealRR, ExHxImagRR, ExHyRealRR, ExHyImagRR, EyHxRealRR, EyHxImagRR, EyHyRealRR, EyHyImagRR. For the density plot, the cross pairs ExHyRealRR vs. ExHyImagRR and EyHxRealRR vs. EyHxImagRR are plotted. This is essentially the E<sub>x</sub>-H<sub>y</sub> and E<sub>y</sub>-H<sub>x</sub> polarisations of the remote reference impedance tensor estimates plotted in the complex plane.</p>
+<div class="align-center figure" id="id2">
+<img alt="alternate text" src="../_images/densityPlot_remoteRef_0.png" />
+<p class="caption"><span class="caption-text">Density plot of remote reference, window-by-window, impedance tensor E<sub>x</sub>-H<sub>y</sub> and E<sub>y</sub>-H<sub>x</sub> estimates for decimation level 0, evaluation frequency 32 Hz or period 0.03125 seconds.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>The same plots for decimation level 2 are shown below.</p>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="../_images/densityPlot_singleSite_2.png" />
+<p class="caption"><span class="caption-text">Density plot of single site, window-by-window, impedance tensor E<sub>x</sub>-H<sub>y</sub> and E<sub>y</sub>-H<sub>x</sub> estimates for decimation level 2, evaluation frequency 0.25 Hz or period 4 seconds.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="../_images/densityPlot_remoteRef_2.png" />
+<p class="caption"><span class="caption-text">Density plot of remote reference, window-by-window, impedance tensor E<sub>x</sub>-H<sub>y</sub> and E<sub>y</sub>-H<sub>x</sub> estimates for decimation level 2, evaluation frequency 0.25 Hz or period 4 seconds.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<p>The plots demonstrate how adding a remote reference is having an impact on the impedance tensor estimates. Particularly the plots for decimation level 2 (period 4 seconds) in the dead band show that the by adding the remote reference, not only are the impedance tensor estimates changing, but the spread is becoming larger. Below are the single site impedance tensor estimates for Site M6 and the standard remote reference imepdance tensor estimate for Site M6. Visible in the impedance tensor plots is that the single site phase is smooth (though probably biased) in the dead band, whilst for the same periods, the remote reference estimates show significantly more noise. This is due to the greater spread in window-by-window impedance tensor estimates apparent in the remote reference processing.</p>
+<div class="align-center figure" id="id5">
+<img alt="alternate text" src="../_images/singleSiteM6_128.png" />
+<p class="caption"><span class="caption-text">Single site impedance tensor estimates for Site M6 at 128 Hz</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id6">
+<img alt="alternate text" src="../_images/remoteReferenceM6.png" />
+<p class="caption"><span class="caption-text">Standard remote reference impedance tensor estimate for Site M6.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="masking-with-remote-reference-statistics">
+<h2>Masking with remote reference statistics<a class="headerlink" href="#masking-with-remote-reference-statistics" title="Permalink to this headline">¶</a></h2>
+<p>Now, the remote reference statistics can be used to generate a mask. The easiest one to use is the remote reference equivalent of coherence. The statistic for this is “RR_coherenceEqn”. Below, a mask is generated for “RR_coherenceEqn” required a minimum coherence of 0.8 for the pairs “ExHyR-HyHyR” and “EyHxR-HxHxR”.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># create a mask that uses some of the remote reference statistics that were calculated</span>
+<span class="c1"># get a mask data object and specify the sampling frequency to mask (128Hz)</span>
+<span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;RR_coherenceEqn&quot;</span><span class="p">])</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span>
+    <span class="s2">&quot;RR_coherenceEqn&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;ExHyR-HyHyR&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;EyHxR-HxHxR&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]}</span>
+<span class="p">)</span>
+<span class="c1"># finally, lets give maskData a name, which will relate to the output file</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;rr_cohEqn_80_100&quot;</span>
+<span class="n">calculateMask</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">])</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Because remote reference statistics are always associated with the local site, any masks generated from them are also saved to the local site.</p>
+</div>
+<p>Now, the Site M6 can be remote reference processed using the new mask and the impedance tensor estimate plotted.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process with masks</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotesite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;M6&quot;</span><span class="p">:</span> <span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">},</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
+
+<span class="n">plotOptionsTF</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptionsTF</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;remoteReferenceM6_128_RR_coh.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id7">
+<img alt="alternate text" src="../_images/remoteReferenceM6_128_RR_coh.png" />
+<p class="caption"><span class="caption-text">Remote reference impedance tensor estimate for Site M6 using a mask created from remote reference statistics.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<p>It is also possible to see how the mask has affected the density plot but providing a mask into the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatisticDensityplot" title="resistics.project.projectStatistics.viewStatisticDensityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticDensityplot()</span></code></a> of module <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a>. An example is shown below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># see how the masks changed the density plot</span>
+<span class="n">lims</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatisticDensityplot</span><span class="p">(</span>
+        <span class="n">proj</span><span class="p">,</span>
+        <span class="s2">&quot;M6&quot;</span><span class="p">,</span>
+        <span class="mi">128</span><span class="p">,</span>
+        <span class="s2">&quot;RR_transferFunction&quot;</span><span class="p">,</span>
+        <span class="n">declevel</span><span class="o">=</span><span class="n">declevel</span><span class="p">,</span>
+        <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;ExHyRealRR&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyImagRR&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;EyHxRealRR&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxImagRR&quot;</span><span class="p">]],</span>
+        <span class="n">maskname</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">,</span>
+        <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+        <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;densityPlot_remoteRef_{}_mask.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">declevel</span><span class="p">)))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id8">
+<img alt="alternate text" src="../_images/densityPlot_remoteRef_2_mask.png" />
+<p class="caption"><span class="caption-text">The effect of masking on the density plot for remote reference impedance tensor estimates for Site M6 and decimation level 2, evaluation frequency 0.25 Hz and period 4 seconds.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="masks-and-date-or-time-constraints">
+<h2>Masks and date or time constraints<a class="headerlink" href="#masks-and-date-or-time-constraints" title="Permalink to this headline">¶</a></h2>
+<p>Recall, however, that masks can be combined with other masks as well as with datetime constraints. In the following example, the remote reference processing is performed again, but with the addition of a datetime constraint which includes only data recorded during the night.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process with masks and datetime constraints</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotesite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;M6&quot;</span><span class="p">:</span> <span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">},</span>
+    <span class="n">datetimes</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;20:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="s2">&quot;07:00:00&quot;</span><span class="p">}],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100_night&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100_night&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptionsTF</span><span class="p">,</span>    
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;remoteReferenceM6_128_RR_coh_datetime.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id9">
+<img alt="alternate text" src="../_images/remoteReferenceM6_128_RR_coh_datetime.png" />
+<p class="caption"><span class="caption-text">Remote reference impedance tensor estimate for Site M6 using a mask created from remote reference statistics and with additional time constraints.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+<p>The new impedance tensor esimate appears better at the low decimation levels where there are plently of windows and worse at the high decimation levels where it is reducing the number of windows which can be included in the processing. The remote reference processing can be performed again, but this time applying the time constraints only to decimation levels 0 and 1.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process with masks and datetime constraints, but only for decimation levels 0 and 1</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotesite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;M6&quot;</span><span class="p">:</span> <span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">},</span>
+    <span class="n">datetimes</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;20:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="s2">&quot;07:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;levels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+    <span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100_night2&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100_night2&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptionsTF</span><span class="p">,</span>    
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;remoteReferenceM6_128_RR_coh_datetime_01.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<div class="align-center figure" id="id10">
+<img alt="alternate text" src="../_images/remoteReferenceM6_128_RR_coh_datetime_01.png" />
+<p class="caption"><span class="caption-text">Remote reference impedance tensor estimate for Site M6 using a mask created from remote reference statistics and with additional time constraints only applied to decimation levels 0 and 1.</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="complete-example-script">
+<h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the complete example script is provided below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">calculateRemoteStatistics</span><span class="p">,</span>
+    <span class="n">viewStatistic</span><span class="p">,</span>
+    <span class="n">viewStatisticHistogram</span><span class="p">,</span>
+    <span class="n">viewStatisticDensityplot</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsStandard</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+
+<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsStandard</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;remoteProject&quot;</span><span class="p">)</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
+
+<span class="n">calculateRemoteStatistics</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotestats</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;RR_coherence&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_coherenceEqn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_absvalEqn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_transferFunction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;RR_resPhase&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">lims</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatisticDensityplot</span><span class="p">(</span>
+        <span class="n">proj</span><span class="p">,</span>
+        <span class="s2">&quot;M6&quot;</span><span class="p">,</span>
+        <span class="mi">128</span><span class="p">,</span>
+        <span class="s2">&quot;RR_transferFunction&quot;</span><span class="p">,</span>
+        <span class="n">declevel</span><span class="o">=</span><span class="n">declevel</span><span class="p">,</span>
+        <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;ExHyRealRR&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyImagRR&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;EyHxRealRR&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxImagRR&quot;</span><span class="p">]],</span>
+        <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+        <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;densityPlot_remoteRef_{}.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">declevel</span><span class="p">)))</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatisticDensityplot</span><span class="p">(</span>
+        <span class="n">proj</span><span class="p">,</span>
+        <span class="s2">&quot;M6&quot;</span><span class="p">,</span>
+        <span class="mi">128</span><span class="p">,</span>
+        <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span>
+        <span class="n">declevel</span><span class="o">=</span><span class="n">declevel</span><span class="p">,</span>
+        <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;ExHyReal&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyImag&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;EyHxReal&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxImag&quot;</span><span class="p">]],</span>
+        <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+        <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;densityPlot_singleSite_{}.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">declevel</span><span class="p">)))</span>
+
+<span class="c1"># create a mask that uses some of the remote reference statistics that were calculated</span>
+<span class="c1"># get a mask data object and specify the sampling frequency to mask (128Hz)</span>
+<span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;RR_coherenceEqn&quot;</span><span class="p">])</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span>
+    <span class="s2">&quot;RR_coherenceEqn&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;ExHyR-HyHyR&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;EyHxR-HxHxR&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]}</span>
+<span class="p">)</span>
+<span class="c1"># finally, lets give maskData a name, which will relate to the output file</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;rr_cohEqn_80_100&quot;</span>
+<span class="n">calculateMask</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">])</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># process with masks</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotesite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;M6&quot;</span><span class="p">:</span> <span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">},</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
+
+<span class="n">plotOptionsTF</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptionsTF</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;remoteReferenceM6_128_RR_coh.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># see how the masks changed the density plot</span>
+<span class="n">lims</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatisticDensityplot</span><span class="p">(</span>
+        <span class="n">proj</span><span class="p">,</span>
+        <span class="s2">&quot;M6&quot;</span><span class="p">,</span>
+        <span class="mi">128</span><span class="p">,</span>
+        <span class="s2">&quot;RR_transferFunction&quot;</span><span class="p">,</span>
+        <span class="n">declevel</span><span class="o">=</span><span class="n">declevel</span><span class="p">,</span>
+        <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;ExHyRealRR&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyImagRR&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;EyHxRealRR&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxImagRR&quot;</span><span class="p">]],</span>
+        <span class="n">maskname</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">,</span>
+        <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">],</span> <span class="n">lims</span><span class="p">[</span><span class="n">declevel</span><span class="p">]],</span>
+        <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+        <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;densityPlot_remoteRef_{}_mask.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">declevel</span><span class="p">)))</span>
+
+<span class="c1"># process with masks and datetime constraints</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotesite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;M6&quot;</span><span class="p">:</span> <span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">},</span>
+    <span class="n">datetimes</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;20:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="s2">&quot;07:00:00&quot;</span><span class="p">}],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100_night&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100_night&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptionsTF</span><span class="p">,</span>    
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;remoteReferenceM6_128_RR_coh_datetime.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># process with masks and datetime constraints, but only for decimation levels 0 and 1</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotesite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;M6&quot;</span><span class="p">:</span> <span class="s2">&quot;rr_cohEqn_80_100&quot;</span><span class="p">},</span>
+    <span class="n">datetimes</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;20:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="s2">&quot;07:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;levels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+    <span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100_night2&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_cohEqn_80_100_night2&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptionsTF</span><span class="p">,</span>    
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;remoteReferenceM6_128_RR_coh_datetime_01.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 
 

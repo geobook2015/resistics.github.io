@@ -194,6 +194,8 @@
 <li>A remote site permanently stationed in Germany. The sampling frequency of this data is 250 Hz and the format is SPAM. The site for the remote reference SPAM data will be called RemoteSPAM.</li>
 </ul>
 <p>Magnetotelluric data from northern Switzerland is noisy, particularly in the dead band due to the poor signal to noise ratio when accouting for the environmental noise, but at other evaluation frequencies too. Further, there is biasing and coherent sources of eletromagnetic noise. The hope is to use remote reference processing to help improve the impedance tensor estimates.</p>
+<div class="section" id="setting-up-the-project">
+<h2>Setting up the project<a class="headerlink" href="#setting-up-the-project" title="Permalink to this headline">¶</a></h2>
 <p>Begin as usual by creating our project and two sites to put our data in.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -401,6 +403,9 @@
 22:01:15 SiteData: ####################
 </pre></div>
 </td></tr></table></div>
+</div>
+<div class="section" id="pre-processing">
+<h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this headline">¶</a></h2>
 <p>As stated earlier, the project consists of:</p>
 <ul class="simple">
 <li>local site M6 with several sampling frequencies</li>
@@ -727,6 +732,9 @@
 <img alt="alternate text" src="../_images/viewTimePreprocessLowPass.png" />
 <p class="caption"><span class="caption-text">Site M6 vs. Remote filtered to 4 Hz. The longer period data is easier to see here, though M6 still has much more noise in the recordings.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
+</div>
+<div class="section" id="single-site-impedance-tensor">
+<h2>Single site impedance tensor<a class="headerlink" href="#single-site-impedance-tensor" title="Permalink to this headline">¶</a></h2>
 <p>The next step is to process the data, in the first instance using simple single site processing. Single site processing should be familiar from the <a class="reference internal" href="../tutorial.html"><span class="doc">Tutorial</span></a> and begins with calculating the spectra and continues with calculating the magnetotellruic transfer function and plotting the impedance tensor.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -817,7 +825,11 @@
 <img alt="alternate text" src="../_images/singleSiteRemote_128.png" />
 <p class="caption"><span class="caption-text">Single site impedance tensor estimates for the Remote site at 128 Hz</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
-<p>Neither of the estimates are great. Site Remote looks poor and noisy. Site M6 appears to be biased in the dead band with the phase going to near 0. However, for the time being, continue to perform standard remote reference processing using the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.processProject" title="resistics.project.projectTransferFunction.processProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code></a> method of module <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#module-resistics.project.projectTransferFunction" title="resistics.project.projectTransferFunction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectTransferFunction</span></code></a>.</p>
+<p>Neither of the estimates are great. Site Remote looks poor and noisy. Site M6 appears to be biased in the dead band with the phase going to near 0. However, for the time being, continue to perform standard remote reference processing.</p>
+</div>
+<div class="section" id="remote-reference-impedance-tensor">
+<h2>Remote reference impedance tensor<a class="headerlink" href="#remote-reference-impedance-tensor" title="Permalink to this headline">¶</a></h2>
+<p>Standard remote reference processing is performed using the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.processProject" title="resistics.project.projectTransferFunction.processProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code></a> method of module <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#module-resistics.project.projectTransferFunction" title="resistics.project.projectTransferFunction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectTransferFunction</span></code></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -853,6 +865,9 @@
 <img alt="alternate text" src="../_images/remoteReferenceM6.png" />
 <p class="caption"><span class="caption-text">Standard remote reference impedance tensor estimate for Site M6.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
+</div>
+<div class="section" id="single-site-statistics">
+<h2>Single site statistics<a class="headerlink" href="#single-site-statistics" title="Permalink to this headline">¶</a></h2>
 <p>As a next step, calculate single site statistics separately for M6 and Remote, produce a simple coherence mask with a threshold of 0.8 and redo the single site processing. For more information about statistics, please see the <a class="reference internal" href="../tutorial.html"><span class="doc">tutorial</span></a> and <a class="reference internal" href="../tutorial/statistics.html"><span class="doc">statistics</span></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>54
 55
@@ -887,7 +902,7 @@
 84
 85
 86</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s calculate some single site statistics</span>
-<span class="n">calculateStatistics</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span> <span class="n">stats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;transferFunction&quot;</span><span class="p">])</span>
+<span class="n">calculateStatistics</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span> <span class="n">stats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">])</span>
 
 <span class="c1"># calculate masks</span>
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
@@ -979,6 +994,9 @@
 <p class="caption"><span class="caption-text">Remote reference impedance tensor estimates for Site M6 at 128 Hz using a coherency mask on the Remote data excluding windows with coherence E<sub>x</sub>-H<sub>y</sub> or E<sub>y</sub>-H<sub>x</sub> below 0.8.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </div>
 <p>The resultant remote reference impedance tensor estimate for Site M6 has improved in some places, mainly in the E<sub>y</sub>-H<sub>x</sub> polarisation. However, after a period of 10<sup>2</sup> seconds, the results are poor. This matches the single site impedance tensor for Remote after 10<sup>2</sup> seconds, where the results are equally incorrect, possibly because of too few windows.</p>
+</div>
+<div class="section" id="date-and-time-constraints">
+<h2>Date and time constraints<a class="headerlink" href="#date-and-time-constraints" title="Permalink to this headline">¶</a></h2>
 <p>Finally, another way to restrict the data being used for remote reference processing is to use datetime restrictions. Datetime restrictions were introduced in the <a class="reference internal" href="../tutorial.html"><span class="doc">tutorial</span></a> and <a class="reference internal" href="../tutorial/date-time-constraints.html"><span class="doc">datetime constraints</span></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>110
 111
@@ -1028,6 +1046,401 @@
 <p class="caption"><span class="caption-text">Remote reference impedance tensor estimates of Site M6 with datetime constraints using only night time data.</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </div>
 <p>In the next section, remote reference statistics will be introduced. These are different to single site statistics in that they combine data from the local site and remote reference site.</p>
+</div>
+<div class="section" id="complete-example-scripts">
+<h2>Complete example scripts<a class="headerlink" href="#complete-example-scripts" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the complete example scripts are provided below.</p>
+<p>For pre-processing:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
+
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;remoteProject&quot;</span><span class="p">)</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="c1"># get information about the local site</span>
+<span class="n">siteLocal</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;M6&quot;</span><span class="p">)</span>
+<span class="n">siteLocal</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="c1"># get information about the SPAM data remote reference</span>
+<span class="n">siteRemote</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;RemoteSPAM&quot;</span><span class="p">)</span>
+<span class="n">siteRemote</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># want to resample the RemoteSPAM data to 128 Hz</span>
+<span class="c1"># SPAM data want to resample onto the second</span>
+<span class="c1"># to make sure the times are matching, we can loop through the 128Hz measurements of M6 and use those times</span>
+<span class="n">meas128</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurements</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">meas128</span><span class="p">:</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurementStart</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurementEnd</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+    <span class="n">postpend</span> <span class="o">=</span> <span class="n">siteLocal</span><span class="o">.</span><span class="n">getMeasurementStart</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">_%H-%M-%S&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Processing data from {} to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
+    <span class="n">preProcess</span><span class="p">(</span>
+        <span class="n">proj</span><span class="p">,</span>
+        <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;RemoteSPAM&quot;</span><span class="p">,</span>
+        <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
+        <span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">,</span>
+        <span class="n">interp</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">resamp</span><span class="o">=</span><span class="p">{</span><span class="mi">250</span><span class="p">:</span> <span class="mi">128</span><span class="p">},</span>
+        <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+        <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">postpend</span><span class="o">=</span><span class="n">postpend</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
+<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPresentationFonts</span><span class="p">())</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span>
+    <span class="n">startDate</span><span class="o">=</span><span class="s2">&quot;2016-02-17 04:05:00&quot;</span><span class="p">,</span>
+    <span class="n">endDate</span><span class="o">=</span><span class="s2">&quot;2016-02-17 04:15:00&quot;</span><span class="p">,</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;viewTimePreprocess.png&quot;</span><span class="p">))</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span>
+    <span class="n">startDate</span><span class="o">=</span><span class="s2">&quot;2016-02-17 04:05:00&quot;</span><span class="p">,</span>
+    <span class="n">endDate</span><span class="o">=</span><span class="s2">&quot;2016-02-17 04:15:00&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lpfilt&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;viewTimePreprocessLowPass.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+<p>For estimating imepdance tensors:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span><span class="p">,</span> <span class="n">viewStatistic</span>
+<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+
+<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;remoteProject&quot;</span><span class="p">)</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
+
+<span class="c1"># calculate spectrum using standard options</span>
+<span class="n">calculateSpectra</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">])</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+
+<span class="c1"># single site processing</span>
+<span class="n">processProject</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">])</span>
+
+<span class="c1"># 128 Hz impedance tensor estimates</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;singleSiteM6_128.png&quot;</span><span class="p">))</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;singleSiteRemote_128.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># all sampling frequencies for M6</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">False</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;singleSiteM6_all.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># perform standard remote reference runs - remember to call the output something else</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span> <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span> <span class="n">remotesite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr&quot;</span>
+<span class="p">)</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;remoteReferenceM6.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># let&#39;s calculate some single site statistics</span>
+<span class="n">calculateStatistics</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span> <span class="n">stats</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">])</span>
+
+<span class="c1"># calculate masks</span>
+<span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">])</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]})</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;coh80_100&quot;</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="n">maskData</span><span class="o">.</span><span class="n">printConstraints</span><span class="p">()</span>
+<span class="c1"># calculate</span>
+<span class="n">calculateMask</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">])</span>
+
+<span class="c1"># single site processing again</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;M6&quot;</span><span class="p">:</span> <span class="s2">&quot;coh80_100&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">:</span> <span class="s2">&quot;coh80_100&quot;</span><span class="p">},</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh80_100&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">,</span> <span class="s2">&quot;Remote&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh80_100&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;singleSiteM6_128_coh80.png&quot;</span><span class="p">))</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;singleSiteRemote_128_coh80.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># remote reference processing with masks</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotesite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Remote&quot;</span><span class="p">:</span> <span class="s2">&quot;coh80_100&quot;</span><span class="p">},</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_coh80_100&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_coh80_100&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;remoteReferenceM6_128_coh80.png&quot;</span><span class="p">))</span>
+
+<span class="c1"># remote reference processing with datetime constraints</span>
+<span class="n">processProject</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">remotesite</span><span class="o">=</span><span class="s2">&quot;Remote&quot;</span><span class="p">,</span>
+    <span class="n">datetimes</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="s2">&quot;20:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;stop&quot;</span><span class="p">:</span> <span class="s2">&quot;07:00:00&quot;</span><span class="p">}],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_night&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;M6&quot;</span><span class="p">],</span>
+    <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;rr_night&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">imagePath</span><span class="p">,</span> <span class="s2">&quot;remoteReferenceM6_128_coh80_datetimes.png&quot;</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 </div>
 
 
