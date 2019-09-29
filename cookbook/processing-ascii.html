@@ -19,42 +19,40 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
+  
+  
     
 
   
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Processing Phoenix data" href="processing-phoenix.html" />
+    <link rel="next" title="Processing Lemi B423 data" href="processing-lemi-b423.html" />
     <link rel="prev" title="Cookbook" href="../cookbook.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
-            <a href="../index.html" class="icon icon-home"> resistics
+            <a href="../index.html"> resistics
           
 
           
@@ -75,7 +73,7 @@
           
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search..." />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -102,8 +100,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../cookbook.html">Cookbook</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Processing ASCII data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="processing-phoenix.html">Processing Phoenix data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="processing-lemi-b423.html">Processing Lemi B423 data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="processing-phoenix.html">Processing Phoenix data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="statistic-plotting.html">Statistic plotting</a></li>
 </ul>
 </li>
@@ -157,7 +155,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html">resistics</a> &raquo;</li>
         
           <li><a href="../cookbook.html">Cookbook</a> &raquo;</li>
         
@@ -212,13 +210,9 @@
  8
  9
 10
-11
-12
-13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span> <span class="c1"># import the project path</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
 
-<span class="c1"># define project path</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
 <span class="c1"># define reference time for project</span>
 <span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2018-01-01 00:00:00&quot;</span>
 <span class="c1"># create a new project and print infomation</span>
@@ -266,10 +260,10 @@
 14
 15
 16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span>
 <span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriter</span> <span class="kn">import</span> <span class="n">DataWriter</span>
 
-<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">,</span> <span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas&quot;</span><span class="p">)</span>
+<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">projectPath</span> <span class="o">/</span> <span class="s2">&quot;timeData&quot;</span> <span class="o">/</span> <span class="s2">&quot;site1&quot;</span> <span class="o">/</span> <span class="s2">&quot;meas&quot;</span>
 <span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriter</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
 <span class="n">chan2FileMap</span> <span class="o">=</span> <span class="p">{</span>
@@ -348,31 +342,31 @@
 22
 23
 24
-25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load the project</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="s2">&quot;asciiProject&quot;</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;projectTimeline&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;projectTimeline&quot;</span><span class="p">)</span>
 
 <span class="c1"># view site data</span>
 <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;siteTimeline&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;siteTimeline&quot;</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewTime</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2018-01-03 00:00:00&quot;</span><span class="p">,</span>
     <span class="s2">&quot;2018-01-05 00:00:00&quot;</span><span class="p">,</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;viewTime&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
@@ -384,7 +378,7 @@
 <p class="caption"><span class="caption-text">Site timeline.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id3">
-<img alt="alternate text" src="../_images/timeData_2018-01-03_00-00-00__2018-01-05_00-00-00.png" />
+<img alt="alternate text" src="../_images/viewTime1.png" />
 <p class="caption"><span class="caption-text">Visualising time series.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <p>The next step is to calculate out the spectra and then produce a spectra stack plot, which will help in assessing the quality of the data.</p>
@@ -406,7 +400,8 @@
 42
 43
 44
-45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate spectrum using standard options</span>
+45
+46</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate spectrum using standard options</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
 
 <span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">calibrate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
@@ -416,25 +411,25 @@
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsSpec</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsSpec</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewSpectraStack</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewSpectraStack</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="s2">&quot;meas&quot;</span><span class="p">,</span>
     <span class="n">coherences</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hx&quot;</span><span class="p">]],</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;viewSpectraStack&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The spectra stack is shown below:</p>
 <div class="align-center figure" id="id4">
-<img alt="alternate text" src="../_images/spectraStack_site1_meas_dec0_spectra.png" />
+<img alt="alternate text" src="../_images/viewSpectraStack.png" />
 <p class="caption"><span class="caption-text">The spectra stack.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <p>The easiest way to process the ascii data is using the default parameterisation, much like in <a class="reference internal" href="../tutorial/up-and-running.html"><span class="doc">Up and running</span></a>.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>47
-48
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>48
 49
 50
 51
@@ -452,7 +447,9 @@
 63
 64
 65
-66</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the spectra to estimate the transfer function</span>
+66
+67
+68</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process the spectra to estimate the transfer function</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
 
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">])</span>
@@ -461,22 +458,23 @@
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">360</span><span class="p">,</span> <span class="mi">360</span><span class="p">]</span>
-<span class="n">viewImpedance</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
     <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_default&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>This gives the below impedance tensor estimate.</p>
 <div class="align-center figure" id="id5">
-<a class="reference internal image-reference" href="../_images/transFunction_site1_spectra.png"><img alt="alternate text" src="../_images/transFunction_site1_spectra.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../_images/impedance_default.png"><img alt="alternate text" src="../_images/impedance_default.png" style="width: 400px;" /></a>
 <p class="caption"><span class="caption-text">The impedance tensor estimate.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <p>Looking at the phase estimates, the phase for the ExHy component is in the wrong quadrant. This is generally due to a different polarity convention, which can be fixed by performing a polarity reversal, which is shown below.</p>
@@ -484,9 +482,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">A polarity reversal sounds impressive but is simply a multiplication by -1. This does not change impedance tensor magnitude (therefore the apparent resistivity) but will have an impact on the phase.</p>
 </div>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>68
-69
-70
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>70
 71
 72
 73
@@ -495,23 +491,27 @@
 76
 77
 78
-79</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate the tipper</span>
+79
+80
+81
+82</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate the tipper</span>
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">)</span>
 
 <span class="c1"># plot the tipper</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewTipper</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTipper</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
-<span class="n">viewTipper</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewTipper</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">,</span> <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_default_withHz&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The tipper estimate is shown below.</p>
 <div class="align-center figure" id="id6">
-<img alt="alternate text" src="../_images/tipper_site1_spectra_withHz.png" />
+<img alt="alternate text" src="../_images/impedance_default_withHz.png" />
 <p class="caption"><span class="caption-text">The tipper estimate.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="changing-the-default-parameters">
@@ -555,12 +555,10 @@ minoverlapsize = 32
 3
 4
 5
-6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1">#  load the project and also provide a config file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;asciiconfig.ini&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
@@ -570,7 +568,8 @@ minoverlapsize = 32
 <p class="last">As the new configuration file includes new windowing parameters, a new set of spectra will be calculated out. The <strong>specdir</strong> option in the configuration deals with this.</p>
 </div>
 <p>The first task it to view the time series data with a polarity reversal. This can be done by specifying the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">polreverse</span></span></code> keyword for <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.viewTime" title="resistics.project.projectTime.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code></a> as demonstrated below.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 9
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
+ 9
 10
 11
 12
@@ -585,18 +584,19 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewTime</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2018-01-03 00:00:00&quot;</span><span class="p">,</span>
     <span class="s2">&quot;2018-01-05 00:00:00&quot;</span><span class="p">,</span>
     <span class="n">polreverse</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;viewTime_polreverse&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id7">
-<img alt="alternate text" src="../_images/timeData_2018-01-03_00-00-00__2018-01-05_00-00-00.1.png" />
+<img alt="alternate text" src="../_images/viewTime_polreverse.png" />
 <p class="caption"><span class="caption-text">Visualising time series with H<sub>y</sub> multiplied by -1.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 <p>Following a similar scheme as the default example, the spectra can be calculated and a spectra stack plotted. However, the polarity reversal needs to be specified when calculating the spectra, as is done in the below example.</p>
@@ -619,7 +619,8 @@ minoverlapsize = 32
 38
 39
 40
-41</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate spectrum using the new configuration</span>
+41
+42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate spectrum using the new configuration</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
 
 <span class="n">calculateSpectra</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">calibrate</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">polreverse</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
@@ -630,25 +631,25 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsSpec</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewSpectraStack</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewSpectraStack</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="s2">&quot;meas&quot;</span><span class="p">,</span>
     <span class="n">coherences</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hx&quot;</span><span class="p">]],</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;viewSpectraStack_config_polreverse&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id8">
-<img alt="alternate text" src="../_images/spectraStack_site1_meas_dec0_dec8_5.png" />
+<img alt="alternate text" src="../_images/viewSpectraStack_config_polreverse.png" />
 <p class="caption"><span class="caption-text">The spectra stack for the new configuration using 8 decimation levels and 5 evalution frequencies per level.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
 <p>As this configuration has fewer samples in a window, the resolution in frequency domain will be worse in comparison to the default parameters, which is clear from the plot.</p>
 <p>Finally, the spectra can be processed to estimate the impedance tensor and tipper. First, the impedance tensor.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>43
-44
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>44
 45
 46
 47
@@ -666,7 +667,9 @@ minoverlapsize = 32
 59
 60
 61
-62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate impedance tensor</span>
+62
+63
+64</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate impedance tensor</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
 
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">])</span>
@@ -675,10 +678,10 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
-<span class="n">viewImpedance</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
@@ -686,17 +689,16 @@ minoverlapsize = 32
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span>
     <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_config&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The impedance tensor estimate is shown below and now the phases are all in the correct quadrants.</p>
 <div class="align-center figure" id="id9">
-<a class="reference internal image-reference" href="../_images/transFunction_site1_dec8_5.png"><img alt="alternate text" src="../_images/transFunction_site1_dec8_5.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../_images/impedance_config.png"><img alt="alternate text" src="../_images/impedance_config.png" style="width: 400px;" /></a>
 <p class="caption"><span class="caption-text">The impedance tensor estimate using 8 decimation levels and 5 evaluation frequencies per level.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </div>
 <p>And for the tipper:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>64
-65
-66
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>66
 67
 68
 69
@@ -706,23 +708,23 @@ minoverlapsize = 32
 73
 74
 75
-76</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process for the tipper</span>
+76
+77</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># process for the tipper</span>
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewTipper</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTipper</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">()</span>
-<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
-<span class="n">viewTipper</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewTipper</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">,</span> <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_config_withHz&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id10">
-<img alt="alternate text" src="../_images/tipper_site1_dec8_5_withHz.png" />
+<img alt="alternate text" src="../_images/impedance_config_withHz.png" />
 <p class="caption"><span class="caption-text">The tipper estimate using 8 decimation levels and 5 evaluation frequencies per level.</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </div>
 <p>The next question to ask is whether statistics could improve the result.</p>
@@ -735,28 +737,27 @@ minoverlapsize = 32
 3
 4
 5
-6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1">#  load the project and also provide a config file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;asciiconfig.ini&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
 <p>For more information about statistics, see the <a class="reference internal" href="../tutorial/statistics.html"><span class="doc">Statistics</span></a> section of the tutorial. Two statistics are calculated out here: coherence and transfer function.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 9
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
+ 9
 10
-11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate statistics</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate statistics</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
 
 <span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Next create a mask to perform simple coherence based rejection of time windows and view the mask.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>14
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
+14
 15
 16
 17
@@ -773,6 +774,7 @@ minoverlapsize = 32
 <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;coh30_100&quot;</span>
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;maskcoh&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id11">
@@ -781,7 +783,8 @@ minoverlapsize = 32
 </div>
 <p>More interesting plots can be made of statistics with masks as demonstrated in the <a class="reference internal" href="../tutorial/masks.html"><span class="doc">Masks</span></a> section of the tutorial, but this is left as an exercise.</p>
 <p>Finally, calculate the impedance tensor estimate with the mask applied to exclude some windows.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>25
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>24
+25
 26
 27
 28
@@ -803,35 +806,34 @@ minoverlapsize = 32
 44
 45
 46
-47
-48</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate impedance tensor</span>
+47</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate impedance tensor</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
 
 <span class="n">processProject</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span> <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span><span class="p">},</span> <span class="n">postpend</span><span class="o">=</span><span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span>
 <span class="p">)</span>
-<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
 <span class="c1"># plot transfer function and save the plot</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
-<span class="n">viewImpedance</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">postpend</span><span class="o">=</span><span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span><span class="p">,</span>
     <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
     <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_config_masked&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id12">
-<a class="reference internal image-reference" href="../_images/transFunction_site1_dec8_5_coh30_100.png"><img alt="alternate text" src="../_images/transFunction_site1_dec8_5_coh30_100.png" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="../_images/impedance_config_masked.png"><img alt="alternate text" src="../_images/impedance_config_masked.png" style="width: 400px;" /></a>
 <p class="caption"><span class="caption-text">The impedance tensor estimate with masks applied.</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
 </div>
 <p>If aspects of this example using ASCII data were not clear, please see the <a class="reference internal" href="../tutorial.html"><span class="doc">Tutorial</span></a> for more information about resistics, <a class="reference internal" href="../formats.html"><span class="doc">Data formats</span></a> for data supported by resistics and <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> for an overview of the more advanced functionality of resistics.</p>
@@ -851,13 +853,9 @@ minoverlapsize = 32
  8
  9
 10
-11
-12
-13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span> <span class="c1"># import the project path</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
 
-<span class="c1"># define project path</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
 <span class="c1"># define reference time for project</span>
 <span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2018-01-01 00:00:00&quot;</span>
 <span class="c1"># create a new project and print infomation</span>
@@ -885,10 +883,10 @@ minoverlapsize = 32
 14
 15
 16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span>
 <span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriter</span> <span class="kn">import</span> <span class="n">DataWriter</span>
 
-<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">,</span> <span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas&quot;</span><span class="p">)</span>
+<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">projectPath</span> <span class="o">/</span> <span class="s2">&quot;timeData&quot;</span> <span class="o">/</span> <span class="s2">&quot;site1&quot;</span> <span class="o">/</span> <span class="s2">&quot;meas&quot;</span>
 <span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriter</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
 <span class="n">chan2FileMap</span> <span class="o">=</span> <span class="p">{</span>
@@ -983,31 +981,34 @@ minoverlapsize = 32
 76
 77
 78
-79</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+79
+80
+81
+82</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load the project</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="s2">&quot;asciiProject&quot;</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;projectTimeline&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;projectTimeline&quot;</span><span class="p">)</span>
 
 <span class="c1"># view site data</span>
 <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;siteTimeline&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;siteTimeline&quot;</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewTime</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2018-01-03 00:00:00&quot;</span><span class="p">,</span>
     <span class="s2">&quot;2018-01-05 00:00:00&quot;</span><span class="p">,</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;viewTime&quot;</span><span class="p">)</span>
 
 <span class="c1"># calculate spectrum using standard options</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
@@ -1019,15 +1020,16 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsSpec</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsSpec</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewSpectraStack</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewSpectraStack</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="s2">&quot;meas&quot;</span><span class="p">,</span>
     <span class="n">coherences</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hx&quot;</span><span class="p">]],</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;viewSpectraStack&quot;</span><span class="p">)</span>
 
 <span class="c1"># process the spectra to estimate the transfer function</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
@@ -1038,17 +1040,18 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">360</span><span class="p">,</span> <span class="mi">360</span><span class="p">]</span>
-<span class="n">viewImpedance</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
     <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_default&quot;</span><span class="p">)</span>
 
 <span class="c1"># calculate the tipper</span>
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">)</span>
@@ -1057,11 +1060,12 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewTipper</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTipper</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
-<span class="n">viewTipper</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewTipper</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">,</span> <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_default_withHz&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Run with a configuration file:</p>
@@ -1140,11 +1144,11 @@ minoverlapsize = 32
 73
 74
 75
-76</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+76
+77</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1">#  load the project and also provide a config file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;asciiconfig.ini&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
@@ -1152,14 +1156,15 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewTime</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;2018-01-03 00:00:00&quot;</span><span class="p">,</span>
     <span class="s2">&quot;2018-01-05 00:00:00&quot;</span><span class="p">,</span>
     <span class="n">polreverse</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;viewTime_polreverse&quot;</span><span class="p">)</span>
 
 <span class="c1"># calculate spectrum using the new configuration</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
@@ -1172,15 +1177,16 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsSpec</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewSpectraStack</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewSpectraStack</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="s2">&quot;meas&quot;</span><span class="p">,</span>
     <span class="n">coherences</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hx&quot;</span><span class="p">]],</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;viewSpectraStack_config_polreverse&quot;</span><span class="p">)</span>
 
 <span class="c1"># calculate impedance tensor</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
@@ -1191,10 +1197,10 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
-<span class="n">viewImpedance</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
@@ -1202,6 +1208,7 @@ minoverlapsize = 32
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span>
     <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_config&quot;</span><span class="p">)</span>
 
 <span class="c1"># process for the tipper</span>
 <span class="n">processProject</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">)</span>
@@ -1209,13 +1216,12 @@ minoverlapsize = 32
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewTipper</span>
 <span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTipper</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTipper</span><span class="p">()</span>
-<span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
-<span class="n">viewTipper</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewTipper</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;withHz&quot;</span><span class="p">,</span> <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_config_withHz&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Run with statistics:</p>
@@ -1265,12 +1271,10 @@ minoverlapsize = 32
 44
 45
 46
-47
-48</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+47</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1">#  load the project and also provide a config file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;asciiProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;asciiconfig.ini&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
@@ -1288,7 +1292,7 @@ minoverlapsize = 32
 <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;coh30_100&quot;</span>
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maskcoh&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;maskcoh&quot;</span><span class="p">)</span>
 
 <span class="c1"># calculate impedance tensor</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
@@ -1296,24 +1300,24 @@ minoverlapsize = 32
 <span class="n">processProject</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="n">outchans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span> <span class="n">masks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;site1&quot;</span><span class="p">:</span> <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span><span class="p">},</span> <span class="n">postpend</span><span class="o">=</span><span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span>
 <span class="p">)</span>
-<span class="n">projData</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
 <span class="c1"># plot transfer function and save the plot</span>
 <span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span>
+<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
-<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">()</span>
+<span class="n">plotoptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;xlim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
 <span class="n">plotoptions</span><span class="p">[</span><span class="s2">&quot;phase_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
-<span class="n">viewImpedance</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">postpend</span><span class="o">=</span><span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span><span class="p">,</span>
     <span class="n">oneplot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
     <span class="n">polarisations</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHx&quot;</span><span class="p">],</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotoptions</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_config_masked&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -1327,10 +1331,10 @@ minoverlapsize = 32
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="processing-phoenix.html" class="btn btn-neutral float-right" title="Processing Phoenix data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="processing-lemi-b423.html" class="btn btn-neutral float-right" title="Processing Lemi B423 data" accesskey="n" rel="next">Next</a>
       
       
-        <a href="../cookbook.html" class="btn btn-neutral float-left" title="Cookbook" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../cookbook.html" class="btn btn-neutral" title="Cookbook" accesskey="p" rel="prev">Previous</a>
       
     </div>
   
@@ -1339,11 +1343,11 @@ minoverlapsize = 32
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Neeraj Shah
+        &copy; Copyright 2019, Neeraj Shah.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
 
 </footer>
 
@@ -1356,16 +1360,37 @@ minoverlapsize = 32
   
 
 
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.6.dev2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

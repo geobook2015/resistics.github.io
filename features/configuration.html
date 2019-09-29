@@ -19,42 +19,40 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
+  
+  
     
 
   
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Configuration Parameters" href="configuration/parameters.html" />
+    <link rel="next" title="Comments" href="comments.html" />
     <link rel="prev" title="Features" href="../features.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
+
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search">
           
 
           
-            <a href="../index.html" class="icon icon-home"> resistics
+            <a href="../index.html"> resistics
           
 
           
@@ -75,7 +73,7 @@
           
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search..." />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -97,13 +95,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Configuration files</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="configuration/parameters.html">Configuration Parameters</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Configuration files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="comments.html">Comments</a></li>
 <li class="toctree-l2"><a class="reference internal" href="statistics.html">Statistics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remote-statistics.html">Statistics calculated with a remote reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remote-statistics.html">Remote reference statistics</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
@@ -160,7 +155,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html">resistics</a> &raquo;</li>
         
           <li><a href="../features.html">Features</a> &raquo;</li>
         
@@ -259,7 +254,7 @@ boostrap = True
 windowfunc = hamming
 </pre></div>
 </td></tr></table></div>
-<p>Configuration files are separated into several sections which describe which part of the process the parameters affect. The parameters are detailed in the <a class="reference internal" href="configuration/parameters.html"><span class="doc">configuration parameters</span></a> section. The first thing to note is that all configuration files have a name. This is to help traceability. Configuration names are always entered into dataset comments.</p>
+<p>Configuration files are separated into several sections which describe which part of the process the parameters affect. The parameters are detailed in the <a class="reference internal" href="#configuration-parameters"><span class="std std-ref">Configuration parameters</span></a> section. The first thing to note is that all configuration files have a name. This is to help traceability. Configuration names are always entered into dataset comments.</p>
 <p>A good way to begin creating a custom configuration file is to copy the default parameterisation. This can be done by using the inbuilt <a class="reference internal" href="../api/resistics.utilities.utilsConfig.html#resistics.utilities.utilsConfig.copyDefaultConfig" title="resistics.utilities.utilsConfig.copyDefaultConfig"><code class="xref py py-meth docutils literal notranslate"><span class="pre">copyDefaultConfig()</span></code></a> functionality:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -343,7 +338,357 @@ minoverlapsize = 64
 23:17:45 ConfigData:    Defaulted options = intercept, boostrap, windowfunc
 </pre></div>
 </div>
-<div class="toctree-wrapper compound">
+<div class="section" id="configuration-parameters">
+<h2>Configuration parameters<a class="headerlink" href="#configuration-parameters" title="Permalink to this headline">¶</a></h2>
+<p>A detailed explanation of parameters available for configuration is given below.</p>
+<div class="section" id="general">
+<h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<p>These parameters are general and not tied to any specific section.</p>
+<div class="topic">
+<p class="topic-title first">name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“default”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">A name for the configuration. This will be saved in comment files.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="calibration">
+<h3>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h3>
+<p>Parameters related to calibration data and calibrating of time data.</p>
+<div class="topic">
+<p class="topic-title first">extend</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool (True or False)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">True</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Extrapolate out calibration data to cover a greater range of frequencies.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">usetheoretical</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool (True or False)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Use a theoretical calibration for magnetic channels when a matching calibration file is not found.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="decimation">
+<h3>Decimation<a class="headerlink" href="#decimation" title="Permalink to this headline">¶</a></h3>
+<p>Parameters to define the decimation scheme to use. Note that depending on the length of timeseries recording, not all decimation levels may be calculated.</p>
+<div class="topic">
+<p class="topic-title first">numlevels</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">7 (min=1, max=10)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Number of decimation levels.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">minsamples</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">100 (min=50)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Minimum number of samples required to continue decimation.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="frequencies">
+<h3>Frequencies<a class="headerlink" href="#frequencies" title="Permalink to this headline">¶</a></h3>
+<p>Evaluation frequency related parameters. If evaluation frequencies are not explicitly supplied, then they are automatically selected internally.</p>
+<div class="topic">
+<p class="topic-title first">frequencies</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[float] (comma separated list of floats)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Evaluation frequencies specified as a comma separated list of floats.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">perlevel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">7 (min=1, max=10)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Number of evaluation frequencies per decimation level.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="window">
+<h3>Window<a class="headerlink" href="#window" title="Permalink to this headline">¶</a></h3>
+<p>Timeseries windowing parameters. This defines how the timeseries data will be windowed and the overlap between windows. Resistics will automatically calculate window sizes using windowfactor and overlapfraction. If for any decimation level, the calculation results in a window size less than minwindowsize or overlap lower than the minoverlapsize, the window and overlap sizes will be set to their minimum allowable values.</p>
+<p>Window and overlap sizes can be set explicitly using the windowsizes and overlap sizes. If windowsizes are explicitly set, overlapsizes needs to be set too.</p>
+<div class="topic">
+<p class="topic-title first">minwindows</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">5 (min=1)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Minimum windows required for a decimation level before decimation is ended.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">windowfactor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">2 (min=1)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The factor which defines window size. The window size is calculated as: sampling frequency at decimation level / windowfactor.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">minwindowsize</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">512 (min=32)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The minimum allowable size of a window in samples.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">minoverlapsize</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">128 (min=8)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The minimum allowable overlap size.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">overlapfraction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">0.25 (min=0, max=0.5)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The fraction of the windowsize to use as overlap size.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">windowsizes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[int] of size equal to number of decimation levels</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Explicitly specify the window sizes as a comma separated list.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">overlapsizes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[int] of size equal to number of decimation levels</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Explicitly specify the overlap sizes as a comma separated list.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="spectra">
+<h3>Spectra<a class="headerlink" href="#spectra" title="Permalink to this headline">¶</a></h3>
+<p>Parameters related to calculating timeseries fourier spectra.</p>
+<div class="topic">
+<p class="topic-title first">specdir</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“spectra”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">The spectra directory to write out to. This allows each configuration file to be related to a different run of the data.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">applywindow</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool (True or False)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">True</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Window the data before performing the fourier transform.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">windowfunction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">string. One of “barthann”, “bartlett”, “blackman”, “blackmanharis”, “bohman”, “chebwin”, “hamming”, “hann”, “nuttall”, “parzen”.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“hamming”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Window function to apply before doing the fourier transform</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="statistics">
+<h3>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h3>
+<p>Parameters related to calculating timeseries fourier spectra.</p>
+<div class="topic">
+<p class="topic-title first">stats</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[str]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“coherence”, “transferFunction”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Comma separated list of statistics to calculate.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">remotestats</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">List[str]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“RR_coherence” , “RR_transferFunction”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Comma separated list of remote reference statistics to calculate</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="solver">
+<h3>Solver<a class="headerlink" href="#solver" title="Permalink to this headline">¶</a></h3>
+<p>Solution parameters</p>
+<div class="topic">
+<p class="topic-title first">intercept</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool (True or False)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Boolean flag for including an intercept in the least squares problem.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="topic">
+<p class="topic-title first">windowfunc</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str. One of “barthann”, “bartlett”, “blackman”, “blackmanharis”, “bohman”, “chebwin”, “hamming”, “hann”, “nuttall”, “parzen”.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Default value:</th><td class="field-body">“hamming”</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Description:</th><td class="field-body">Window function used for</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 
@@ -355,10 +700,10 @@ minoverlapsize = 64
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="configuration/parameters.html" class="btn btn-neutral float-right" title="Configuration Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="comments.html" class="btn btn-neutral float-right" title="Comments" accesskey="n" rel="next">Next</a>
       
       
-        <a href="../features.html" class="btn btn-neutral float-left" title="Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../features.html" class="btn btn-neutral" title="Features" accesskey="p" rel="prev">Previous</a>
       
     </div>
   
@@ -367,11 +712,11 @@ minoverlapsize = 64
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Neeraj Shah
+        &copy; Copyright 2019, Neeraj Shah.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
 
 </footer>
 
@@ -384,16 +729,37 @@ minoverlapsize = 64
   
 
 
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.6.dev2',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
