@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Masks &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Masks &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -115,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -293,42 +292,40 @@
 2
 3
 4
-5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load project and configuration file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>To generate new mask data, the method  <a class="reference internal" href="../api/resistics.project.projectMask.html#resistics.project.projectMask.newMaskData" title="resistics.project.projectMask.newMaskData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">newMaskData()</span></code></a> in module <a class="reference internal" href="../api/resistics.project.projectMask.html#module-resistics.project.projectMask" title="resistics.project.projectMask"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectMask</span></code></a> is used. To create a new mask, the sampling frequency to which the mask applies must be specified.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
+<p>To generate new mask data, the method  <a class="reference internal" href="../api/resistics.project.mask.html#resistics.project.mask.newMaskData" title="resistics.project.mask.newMaskData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">newMaskData()</span></code></a> in project module <a class="reference internal" href="../api/resistics.project.mask.html#module-resistics.project.mask" title="resistics.project.mask"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mask</span></code></a> is used. To create a new mask, the sampling frequency to which the mask applies must be specified.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 7
+ 8
  9
-10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get a mask data object and specify the sampling frequency to mask (128Hz)</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span>
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get a mask data object and specify the sampling frequency to mask (128Hz)</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span>
 
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>The method <a class="reference internal" href="../api/resistics.project.projectMask.html#resistics.project.projectMask.newMaskData" title="resistics.project.projectMask.newMaskData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">newMaskData()</span></code></a> returns a <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData" title="resistics.dataObjects.maskData.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a> object, which will hold information about the statistics to use and the constraints.</p>
+<p>The method <a class="reference internal" href="../api/resistics.project.mask.html#resistics.project.mask.newMaskData" title="resistics.project.mask.newMaskData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">newMaskData()</span></code></a> returns a <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a> object, which will hold information about the statistics to use and the constraints.</p>
 <p>The next step is to set the statistics to use for excluding windows. These statistics must already be calculated and were so in the <a class="reference internal" href="statistics.html"><span class="doc">Statistics</span></a> section.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>12
-13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># set the statistics to use in our masking - these must already be calculated out</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># set the statistics to use in our masking - these must already be calculated out</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">])</span>
 </pre></div>
 </td></tr></table></div>
 <p>After the statistics are chosen, the constraints can be defined.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>14
-15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># window must have the coherence parameters &quot;cohExHy&quot; and &quot;cohEyHx&quot; both between 0.7 and 1.0</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># window must have the coherence parameters &quot;cohExHy&quot; and &quot;cohEyHx&quot; both between 0.7 and 1.0</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]})</span>
 </pre></div>
 </td></tr></table></div>
 <p>In the above example, a mask is being created that requires the E<sub>x</sub>-H<sub>y</sub> coherence <strong>and</strong> the E<sub>y</sub>-H<sub>x</sub> coherence to be between 0.70 and 1.00 for a time window. If this is not the case, then the time window will be masked (excluded) for the transfer funciton calculation.</p>
-<p>Before writing out a mask dataset, the <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData" title="resistics.dataObjects.maskData.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a> instance should be given a name.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># give maskData a name, which will relate to the output file</span>
+<p>Before writing out a mask dataset, the <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a> instance should be given a name.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># give maskData a name, which will relate to the output file</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;coh70_100&quot;</span>
 </pre></div>
 </td></tr></table></div>
@@ -342,10 +339,10 @@
 <li>The info file: coh70_100_128_000.info</li>
 <li>The mask data file: coh70_100_128_000.npy</li>
 </ul>
-<p>The <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData" title="resistics.dataObjects.maskData.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a> parameters can be viewed by using the <a class="reference internal" href="../api/resistics.dataObjects.dataObject.html#resistics.dataObjects.dataObject.DataObject.printInfo" title="resistics.dataObjects.dataObject.DataObject.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method of the <a class="reference internal" href="../api/resistics.dataObjects.dataObject.html#resistics.dataObjects.dataObject.DataObject" title="resistics.dataObjects.dataObject.DataObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataObject</span></code></a> parent class. The masking constraints can be printed to the terminal using the <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.printConstraints" title="resistics.dataObjects.maskData.MaskData.printConstraints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printConstraints()</span></code></a> method.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>18
-19
-20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># print info to see what has been added</span>
+<p>The <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a> parameters can be viewed by using the <a class="reference internal" href="../api/resistics.common.base.html#resistics.common.base.ResisticsBase.printInfo" title="resistics.common.base.ResisticsBase.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method of the <a class="reference internal" href="../api/resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResisticsBase</span></code></a> parent class. The masking constraints can be printed to the terminal using the <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.printConstraints" title="resistics.mask.data.MaskData.printConstraints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printConstraints()</span></code></a> method.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># print info to see what has been added</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">printConstraints</span><span class="p">()</span>
 </pre></div>
@@ -356,29 +353,30 @@
 <li>The statistics to use for masking</li>
 <li>The constraints for the statistics</li>
 </ul>
-<p>However, the windows to mask have not yet been calculated. This is achieved by using the <a class="reference internal" href="../api/resistics.project.projectMask.html#resistics.project.projectMask.calculateMask" title="resistics.project.projectMask.calculateMask"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateMask()</span></code></a> method of the module <a class="reference internal" href="../api/resistics.project.projectMask.html#module-resistics.project.projectMask" title="resistics.project.projectMask"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectMask</span></code></a>. This method runs through the pre-calculated statistic data for all data of the given sampling frequency in a site and finds and saves the windows which do not meet the constraints.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>22
+<p>However, the windows to mask have not yet been calculated. This is achieved by using the <a class="reference internal" href="../api/resistics.project.mask.html#resistics.project.mask.calculateMask" title="resistics.project.mask.calculateMask"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateMask()</span></code></a> method of the project module <a class="reference internal" href="../api/resistics.project.mask.html#module-resistics.project.mask" title="resistics.project.mask"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mask</span></code></a>. This method runs through the pre-calculated statistic data for all data of the given sampling frequency in a site and finds and saves the windows which do not meet the constraints.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>21
+22
 23
 24
 25
-26
-27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate a file of masked windows for the sampling frequency associated with the maskData</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">calculateMask</span>
+26</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate a file of masked windows for the sampling frequency associated with the maskData</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">calculateMask</span>
 
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maskData_128_coh_dec0&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingMasks_maskData_128_coh_dec0&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>As statistics are calculated on an evaluation frequency basis, masked windows are calculated for each evaluation frequency too.</p>
-<p>Once the masked windows are calculated, they can then be viewed using the <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.view" title="resistics.dataObjects.maskData.MaskData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData" title="resistics.dataObjects.maskData.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>. When using the <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.view" title="resistics.dataObjects.maskData.MaskData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method, the decimation level has to be specified. In the example above, this has been set to 0, which is the first decimation level. The resultant plot is shown below.</p>
+<p>Once the masked windows are calculated, they can then be viewed using the <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.view" title="resistics.mask.data.MaskData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>. When using the <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.view" title="resistics.mask.data.MaskData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method, the decimation level has to be specified. In the example above, this has been set to 0, which is the first decimation level. The resultant plot is shown below.</p>
 <div class="align-center figure" id="id1">
-<img alt="alternate text" src="../_images/maskData_128_coh_dec0.png" />
+<img alt="alternate text" src="../_images/usingMasks_maskData_128_coh_dec0.png" />
 <p class="caption"><span class="caption-text">Mask data plot for 128 Hz data using coherence constraints of 0.70-1.00</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <p>The bar chart at the bottom shows the number of masked windows for each evaluation frequency in the decimation level, plus the total number of masked windows for the decimation level. The top plot shows all the masked windows for the decimation level and which ones of those are masked for the individual evaluation frequencies. Poor quality time windows will generally be masked across all the evaluation frequencies.</p>
 <p>The same process can be repeated for the 4096 Hz data.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>29
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>28
+29
 30
 31
 32
@@ -386,8 +384,7 @@
 34
 35
 36
-37
-38</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># do the same for 4096 Hz</span>
+37</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># do the same for 4096 Hz</span>
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">])</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]})</span>
@@ -396,16 +393,17 @@
 <span class="n">maskData</span><span class="o">.</span><span class="n">printConstraints</span><span class="p">()</span>
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maskData_4096_coh_dec0&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingMasks_maskData_4096_coh_dec0&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The mask data plot for the 4096 Hz data is shown below.</p>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../_images/maskData_4096_coh_dec0.png" />
+<img alt="alternate text" src="../_images/usingMasks_maskData_4096_coh_dec0.png" />
 <p class="caption"><span class="caption-text">Mask data plot for 4096 Hz data using coherence constraints of 0.70-1.00</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <p>Calculating masks with more than a single statistic can be done too. However, it is important to remember that <strong>only time windows which satisfy all the constraints</strong> will be used in the transfer function calculation. In the below example, a new mask is calculated using two statistics, coherence and transfer function.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>40
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>39
+40
 41
 42
 43
@@ -420,8 +418,7 @@
 52
 53
 54
-55
-56</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate out statistics again, but this time use both transfer function and coherence</span>
+55</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate out statistics again, but this time use both transfer function and coherence</span>
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">])</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]})</span>
@@ -437,16 +434,17 @@
 <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span>
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maskData_128_coh_tf_dec0&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingMasks_maskData_128_coh_tf_dec0&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>This produces the plot:</p>
 <div class="align-center figure" id="id3">
-<img alt="alternate text" src="../_images/maskData_128_coh_tf_dec0.png" />
+<img alt="alternate text" src="../_images/usingMasks_maskData_128_coh_tf_dec0.png" />
 <p class="caption"><span class="caption-text">Mask data plot for 128 Hz data using coherence constraints of 0.70-1.00 and constraints on the transfer function values calculated on an individual window basis.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <p>Notice that adding more constraints has increased the number of masked windows as expected. Repeating the exercise with the 4096 Hz data:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>58
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>57
+58
 59
 60
 61
@@ -460,8 +458,7 @@
 69
 70
 71
-72
-73</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
+72</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">])</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]})</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">addConstraint</span><span class="p">(</span>
@@ -476,19 +473,19 @@
 <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span>
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maskData_4096_coh_tf_dec0&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingMasks_maskData_4096_coh_tf_dec0&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>This produces the plot:</p>
 <div class="align-center figure" id="id4">
-<img alt="alternate text" src="../_images/maskData_4096_coh_tf_dec0.png" />
+<img alt="alternate text" src="../_images/usingMasks_maskData_4096_coh_tf_dec0.png" />
 <p class="caption"><span class="caption-text">Mask data plot for 4096 Hz data using coherence constraints of 0.70-1.00 and constraints on the transfer function values calculated on an individual window basis.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <p>Here, the constraints have masked many windows for evaluation frequencies 1024 Hz and 724.077344 Hz. This is almost certainly over-zealous for these two evaluation frequencies (but to better understand how over-zealous read further down).</p>
 <p>Up until now, all mask constraints have been specified globally (i.e. as applying to all evaluation frequencies). However, statistic constraints can be defined in a more targeted manner, at evaluation frequencies that are noisier than others. More targeted constraints can be specified using the listed methods.</p>
 <ol class="arabic simple">
-<li><a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.addConstraintLevel" title="resistics.dataObjects.maskData.MaskData.addConstraintLevel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintLevel()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData" title="resistics.dataObjects.maskData.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>, which allows setting constraints just for a specific decimation level.</li>
-<li><a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.addConstraintFreq" title="resistics.dataObjects.maskData.MaskData.addConstraintFreq"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintFreq()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData" title="resistics.dataObjects.maskData.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>, which allows setting constraints for a specific evaluation frequency.</li>
+<li><a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.addConstraintLevel" title="resistics.mask.data.MaskData.addConstraintLevel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintLevel()</span></code></a> method of <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>, which allows setting constraints just for a specific decimation level.</li>
+<li><a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.addConstraintFreq" title="resistics.mask.data.MaskData.addConstraintFreq"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintFreq()</span></code></a> method of <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>, which allows setting constraints for a specific evaluation frequency.</li>
 </ol>
 <p>Using the second option requires specification of decimation level and evaluation frequency. In resistics, these are generally specified using indices as shown in the <a class="reference internal" href="statistics.html"><span class="doc">Statistics</span></a> section.</p>
 <div class="admonition important">
@@ -519,7 +516,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <div class="section" id="the-impact-of-masks-on-statistics">
 <h2>The impact of masks on statistics<a class="headerlink" href="#the-impact-of-masks-on-statistics" title="Permalink to this headline">¶</a></h2>
 <p>A more useful visualisation of masks is to see how removing selected time windows effects the statistics. In the <a class="reference internal" href="statistics.html"><span class="doc">Statistics</span></a> section, the plotting of statistics was demonstrated. Plotting statistics with masks applied is similar.</p>
-<p>Load the project and use the <a class="reference internal" href="../api/resistics.project.projectMask.html#resistics.project.projectMask.getMaskData" title="resistics.project.projectMask.getMaskData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getMaskData()</span></code></a> method of the <a class="reference internal" href="../api/resistics.project.projectMask.html#module-resistics.project.projectMask" title="resistics.project.projectMask"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectMask</span></code></a> module to open up a previous calculated mask dataset at a sampling frequency of 4096 Hz.</p>
+<p>Load the project and use the <a class="reference internal" href="../api/resistics.project.mask.html#resistics.project.mask.getMaskData" title="resistics.project.mask.getMaskData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getMaskData()</span></code></a> method of the <a class="reference internal" href="../api/resistics.project.mask.html#module-resistics.project.mask" title="resistics.project.mask"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mask</span></code></a> module to open up a previous calculated mask dataset at a sampling frequency of 4096 Hz.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -529,34 +526,32 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
  7
  8
  9
-10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load project and configuration file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 
 <span class="c1"># get mask data</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">getMaskData</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">getMaskData</span>
 
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">getMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Next, get a set of masked windows for an evaluation frequency of 1024 Hz, which translates to decimation level 0 and evaluation frequency index 0.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>12
-13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get the masked windows for decimation level 0 and evaluation frequency index 0</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get the masked windows for decimation level 0 and evaluation frequency index 0</span>
 <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">getMaskWindowsFreq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>To be able to plot the statistic data, this needs to be loaded too and can be by using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.getStatisticData" title="resistics.project.projectStatistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> method of module <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a>. For more information, see the <a class="reference internal" href="statistics.html"><span class="doc">Statistics</span></a> section.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
+<p>To be able to plot the statistic data, this needs to be loaded too and can be by using the <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.getStatisticData" title="resistics.project.statistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> method of project module <a class="reference internal" href="../api/resistics.project.statistics.html#module-resistics.project.statistics" title="resistics.project.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a>. For more information, see the <a class="reference internal" href="statistics.html"><span class="doc">Statistics</span></a> section.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>14
+15
 16
 17
 18
-19
-20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get statistic data</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">getStatisticData</span>
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get statistic data</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">getStatisticData</span>
 
 <span class="n">statData</span> <span class="o">=</span> <span class="n">getStatisticData</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-05-00&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span>
@@ -565,49 +560,50 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 </td></tr></table></div>
 <p>Now the statistic data can be plotted with the mask data. In the examples below, the statistic data is plotted both with and without masking to demonstrate the difference.</p>
 <p>Viewing transfer function statistic data:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>22
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>21
+22
 23
 24
-25
-26</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view masked statistic data again but this with constraints on both coherence and transfer function</span>
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view masked statistic data again but this with constraints on both coherence and transfer function</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_nomask_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_nomask_view&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_view&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id5">
-<img alt="alternate text" src="../_images/statistic_4096_nomask_view.png" />
+<img alt="alternate text" src="../_images/masksAndStats_statistic_4096_nomask_view.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic data without masking</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id6">
-<img alt="alternate text" src="../_images/statistic_4096_maskcoh_view.png" />
+<img alt="alternate text" src="../_images/masksAndStats_statistic_4096_maskcoh_view.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic data with masking (constraints on only coherence)</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 <p>Ideally, the effect of masking should lead to more consistency in the various components of the transfer function, with less scatter. In this case, coherence based time window masking has reduced the scatter around the average value, which will lead to an improvement in the robust regression for transfer funciton estimation.</p>
 <p>Histograms of transfer function statistic data:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>27
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>26
+27
 28
 29
-30
-31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># histogram</span>
+30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># histogram</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_nomask_hist&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_nomask_hist&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_hist&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_hist&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id7">
-<img alt="alternate text" src="../_images/statistic_4096_nomask_hist.png" />
+<img alt="alternate text" src="../_images/masksAndStats_statistic_4096_nomask_hist.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic histogram without masking</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id8">
-<img alt="alternate text" src="../_images/statistic_4096_maskcoh_hist.png" />
+<img alt="alternate text" src="../_images/masksAndStats_statistic_4096_maskcoh_hist.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on only coherence)</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
 <p>For the transfer function statistic, Gaussian distributions across the windows is an indication that the overall transfer function estimate will be good. In situations where window-by-window transfer function estimates are not near Gaussian distributed, the resultant overall transfer function estimation will normally be poor. Here, the data is quite well distributed.</p>
 <p>Crossplots of transfer function statistic data:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>32
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>31
+32
 33
 34
 35
@@ -631,8 +627,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 53
 54
 55
-56
-57</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># crossplot</span>
+56</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># crossplot</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
     <span class="mi">0</span><span class="p">,</span>
     <span class="n">crossplots</span><span class="o">=</span><span class="p">[</span>
@@ -644,7 +639,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_nomask_crossplot&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_nomask_crossplot&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
     <span class="mi">0</span><span class="p">,</span>
     <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span>
@@ -657,20 +652,21 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_crossplot&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_crossplot&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id9">
-<img alt="alternate text" src="../_images/statistic_4096_nomask_crossplot.png" />
+<img alt="alternate text" src="../_images/masksAndStats_statistic_4096_nomask_crossplot.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic crossplot without masking</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id10">
-<img alt="alternate text" src="../_images/statistic_4096_maskcoh_crossplot.png" />
+<img alt="alternate text" src="../_images/masksAndStats_statistic_4096_maskcoh_crossplot.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic crossplot with masking (constraints on only coherence)</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </div>
 <p>Plotting the window-by-window transfer function estimation in the complex plane should ideally yield a tight scatter of points around an average point. Where this is not the case, the overall transfer function estimate will tend to be poor. In this case, the data is good.</p>
 <p>Repeating the same process with the second mask that was calculated (using both coherence and transfer function constraints) is easily done.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>59
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>58
+59
 60
 61
 62
@@ -688,14 +684,13 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 74
 75
 76
-77
-78</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view statistic data again but this time exclude the masked windows</span>
+77</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view statistic data again but this time exclude the masked windows</span>
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">getMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
 <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">getMaskWindowsFreq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_tf_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_tf_view&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_tf_hist&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_tf_hist&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
     <span class="mi">0</span><span class="p">,</span>
     <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span>
@@ -708,67 +703,70 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_tf_crossplot&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_tf_crossplot&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id11">
-<img alt="alternate text" src="../_images/statistic_4096_maskcoh_tf_view.png" />
+<img alt="alternate text" src="../_images/masksAndStats_statistic_4096_maskcoh_tf_view.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id12">
-<img alt="alternate text" src="../_images/statistic_4096_maskcoh_tf_hist.png" />
+<img alt="alternate text" src="../_images/masksAndStats_statistic_4096_maskcoh_tf_hist.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id13">
-<img alt="alternate text" src="../_images/statistic_4096_maskcoh_tf_crossplot.png" />
+<img alt="alternate text" src="../_images/masksAndStats_statistic_4096_maskcoh_tf_crossplot.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic crossplot with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
 </div>
 <p>As suggested earlier, adding the extra mask constraints for this evaluation frequency was over-zealous, mainly due to the ExHyImag and EyHxImag constraints. Only a handful of time windows meet these constraints and the transfer function estimate at this evaluation frequency is likely to be poorer than when simply using the coherence mask.</p>
-<p>Remember that statistic data is saved for each individual time series measurement directory. Hence, currently only the statistic values from one time series recordings are being considered. To really understand how masking windows will influence the transfer function calculation, the effect on the statistics for all time series measurements at a single sampling frequency in a site needs to be considered. This information can be plotted using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a> and  <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatisticHistogram" title="resistics.project.projectStatistics.viewStatisticHistogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticHistogram()</span></code></a> of the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> module. An example is provided below.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># if there are more than one data folder for the same site at the same sampling frequency</span>
+<p>Remember that statistic data is saved for each individual time series measurement directory. Hence, currently only the statistic values from one time series recordings are being considered. To really understand how masking windows will influence the transfer function calculation, the effect on the statistics for all time series measurements at a single sampling frequency in a site needs to be considered. This information can be plotted using the <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic" title="resistics.project.statistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a> and  <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticHistogram" title="resistics.project.statistics.viewStatisticHistogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticHistogram()</span></code></a> of the project <a class="reference internal" href="../api/resistics.project.statistics.html#module-resistics.project.statistics" title="resistics.project.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a> module. An example is provided below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># if there are more than one data folder for the same site at the same sampling frequency</span>
 <span class="c1"># the better way to plot statistics with masks is using the methods in projectStatistics</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span><span class="p">,</span> <span class="n">viewStatisticHistogram</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsStandard</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span><span class="p">,</span> <span class="n">viewStatisticHistogram</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsStandard</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsStandard</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewStatistic</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="mi">128</span><span class="p">,</span>
     <span class="s2">&quot;coherence&quot;</span><span class="p">,</span>
     <span class="n">maskname</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_projstat_128_maskcoh_coh_view&quot;</span><span class="p">)</span>
 <span class="n">viewStatisticHistogram</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
@@ -776,10 +774,11 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="s2">&quot;coherence&quot;</span><span class="p">,</span>
     <span class="n">maskname</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>    
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_projstat_128_maskcoh_coh_hist&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="admonition warning">
@@ -788,11 +787,11 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 </div>
 <p>The result plots are shown below.</p>
 <div class="align-center figure" id="id14">
-<img alt="alternate text" src="../_images/stat_coherence_site1_128_000_dec0_efreq0_dec8_5_coh70_100.png" />
+<img alt="alternate text" src="../_images/masksAndStats_projstat_128_maskcoh_coh_view.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic histogram with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id15">
-<img alt="alternate text" src="../_images/statHist_coherence_site1_128_000_dec0_efreq0_dec8_5_coh70_100.png" />
+<img alt="alternate text" src="../_images/masksAndStats_projstat_128_maskcoh_coh_hist.png" />
 <p class="caption"><span class="caption-text">Transfer function statistic crossplot with masking (constraints on both coherence and transfer function)</span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
 </div>
 <p>Now that masks have been calculated, the next stage is to use the masks in the transfer function estimation, which is demonstrated in the <a class="reference internal" href="mask-processing.html"><span class="doc">Processing with masks</span></a> section.</p>
@@ -873,16 +872,14 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 70
 71
 72
-73
-74</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+73</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load project and configuration file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 
 <span class="c1"># get a mask data object and specify the sampling frequency to mask (128Hz)</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span>
 
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
 <span class="c1"># set the statistics to use in our masking - these must already be calculated out</span>
@@ -896,11 +893,11 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <span class="n">maskData</span><span class="o">.</span><span class="n">printConstraints</span><span class="p">()</span>
 
 <span class="c1"># calculate a file of masked windows for the sampling frequency associated with the maskData</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">calculateMask</span>
 
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maskData_128_coh_dec0&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingMasks_maskData_128_coh_dec0&quot;</span><span class="p">)</span>
 
 <span class="c1"># do the same for 4096 Hz</span>
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
@@ -911,7 +908,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <span class="n">maskData</span><span class="o">.</span><span class="n">printConstraints</span><span class="p">()</span>
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maskData_4096_coh_dec0&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingMasks_maskData_4096_coh_dec0&quot;</span><span class="p">)</span>
 
 <span class="c1"># calculate out statistics again, but this time use both transfer function and coherence</span>
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
@@ -929,7 +926,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span>
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maskData_128_coh_tf_dec0&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingMasks_maskData_128_coh_tf_dec0&quot;</span><span class="p">)</span>
 
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">])</span>
@@ -946,7 +943,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <span class="n">maskData</span><span class="o">.</span><span class="n">maskName</span> <span class="o">=</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span>
 <span class="n">calculateMask</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">maskData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;maskData_4096_coh_tf_dec0&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingMasks_maskData_4096_coh_tf_dec0&quot;</span><span class="p">)</span>
 
 </pre></div>
 </td></tr></table></div>
@@ -1057,22 +1054,22 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 104
 105
 106
-107</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+107
+108</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load project and configuration file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 
 <span class="c1"># get mask data</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">getMaskData</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">getMaskData</span>
 
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">getMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
 <span class="c1"># get the masked windows for decimation level 0 and evaluation frequency index 0</span>
 <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">getMaskWindowsFreq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># get statistic data</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">getStatisticData</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">getStatisticData</span>
 
 <span class="n">statData</span> <span class="o">=</span> <span class="n">getStatisticData</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-05-00&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span>
@@ -1080,14 +1077,14 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 
 <span class="c1"># view masked statistic data again but this with constraints on both coherence and transfer function</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_nomask_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_nomask_view&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_view&quot;</span><span class="p">)</span>
 <span class="c1"># histogram</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_nomask_hist&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_nomask_hist&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_hist&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_hist&quot;</span><span class="p">)</span>
 <span class="c1"># crossplot</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
     <span class="mi">0</span><span class="p">,</span>
@@ -1100,7 +1097,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_nomask_crossplot&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_nomask_crossplot&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
     <span class="mi">0</span><span class="p">,</span>
     <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span>
@@ -1113,15 +1110,15 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_crossplot&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_crossplot&quot;</span><span class="p">)</span>
 
 <span class="c1"># view statistic data again but this time exclude the masked windows</span>
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">getMaskData</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
 <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">maskData</span><span class="o">.</span><span class="n">getMaskWindowsFreq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_tf_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_tf_view&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_tf_hist&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_tf_hist&quot;</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
     <span class="mi">0</span><span class="p">,</span>
     <span class="n">maskwindows</span><span class="o">=</span><span class="n">maskWindows</span><span class="p">,</span>
@@ -1134,25 +1131,26 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_4096_maskcoh_tf_crossplot&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_statistic_4096_maskcoh_tf_crossplot&quot;</span><span class="p">)</span>
 
 <span class="c1"># if there are more than one data folder for the same site at the same sampling frequency</span>
 <span class="c1"># the better way to plot statistics with masks is using the methods in projectStatistics</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span><span class="p">,</span> <span class="n">viewStatisticHistogram</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsStandard</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span><span class="p">,</span> <span class="n">viewStatisticHistogram</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsStandard</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsStandard</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
-<span class="n">viewStatistic</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="mi">128</span><span class="p">,</span>
     <span class="s2">&quot;coherence&quot;</span><span class="p">,</span>
     <span class="n">maskname</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_projstat_128_maskcoh_coh_view&quot;</span><span class="p">)</span>
 <span class="n">viewStatisticHistogram</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
@@ -1160,10 +1158,11 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="s2">&quot;coherence&quot;</span><span class="p">,</span>
     <span class="n">maskname</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>    
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;masksAndStats_projstat_128_maskcoh_coh_hist&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -1211,7 +1210,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

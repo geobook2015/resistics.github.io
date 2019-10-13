@@ -1,0 +1,1039 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.time.reader_spam &mdash; resistics 0.0.6.dev3 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search..." />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../case-studies.html">Case studies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog / backlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">resistics</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.time.reader_spam</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.time.reader_spam</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">resistics.common.checks</span> <span class="k">import</span> <span class="n">isMagnetic</span><span class="p">,</span> <span class="n">isElectric</span><span class="p">,</span> <span class="n">consistentChans</span>
+<span class="kn">from</span> <span class="nn">resistics.common.print</span> <span class="k">import</span> <span class="n">blockPrint</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader</span> <span class="k">import</span> <span class="n">TimeReader</span>
+<span class="kn">from</span> <span class="nn">resistics.time.data</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.time.clean</span> <span class="k">import</span> <span class="n">removeZeros</span><span class="p">,</span> <span class="n">removeZerosSingle</span><span class="p">,</span> <span class="n">removeNansSingle</span>
+
+
+<div class="viewcode-block" id="TimeReaderSPAM"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM">[docs]</a><span class="k">class</span> <span class="nc">TimeReaderSPAM</span><span class="p">(</span><span class="n">TimeReader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Data reader for SPAM data</span>
+
+<span class="sd">    SPAM data has the following characteristics:</span>
+
+<span class="sd">    - SPAM raw data is single precision floats with unit Volts. </span>
+<span class="sd">    - Getting unscaled samples returns data with unit mV for both the electric and magnetic fields. This is because gain is removed in unscaled samples to ensure consistency when a single recording is made up of multiple data files, each with different gain settings</span>
+<span class="sd">    - The start time in XTR files is the time of the first sample in the data</span>
+<span class="sd">    - The end time in XTR files is the time of the last sample in the data</span>
+
+<span class="sd">    In situations where a SPAM dataset is recorded in multiple small files, it is required that the recording is continuous. </span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    recChannels : Dict</span>
+<span class="sd">        Channels in each data file</span>
+<span class="sd">    dtype : np.float32</span>
+<span class="sd">        The data type</span>
+<span class="sd">    numHeaderFiles : int</span>
+<span class="sd">        The number of header files</span>
+<span class="sd">    numDataFiles : int</span>
+<span class="sd">        The number of data files</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    setParameters()</span>
+<span class="sd">        Set parameters specific to a data format</span>
+<span class="sd">    getUnscaledSamples(**kwargs)</span>
+<span class="sd">        Get raw, unscaled data</span>
+<span class="sd">    getDataFilesForSamples(startSample, endSample)</span>
+<span class="sd">        Get the data files that contribute to the requested samples so they can be read</span>
+<span class="sd">    getPhysicalSamples(**kwargs)</span>
+<span class="sd">        Get data in physical units</span>
+<span class="sd">    spamHeaders()</span>
+<span class="sd">        Get sections and section headers to be read in for SPAM data</span>
+<span class="sd">    chanDefaults()</span>
+<span class="sd">        Get defaults values for channel headers</span>
+<span class="sd">    readHeader()</span>
+<span class="sd">        Read SPAM header files</span>
+<span class="sd">    readHeaderXTR(headerFile)</span>
+<span class="sd">        Read a XTR header file</span>
+<span class="sd">    readHeaderXTRX(headerFile)</span>
+<span class="sd">        Read a XTRX header files</span>
+<span class="sd">    headersFromRawFile(rawFile, headers)</span>
+<span class="sd">        Read headers from the data files</span>
+<span class="sd">    mergeHeaders(headersList, chanHeadersList)</span>
+<span class="sd">        Merge the headers from all the data files</span>
+<span class="sd">    printDataFileList()</span>
+<span class="sd">        Get data file information as a list of strings</span>
+<span class="sd">    printDataFiles()</span>
+<span class="sd">        Print data file information to terminal</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Getting unscaled samples for SPAM data removes the gain rather than return exactly the values in the data files. In cases where there are multiple data files, it is not necessary that they have been recorded with the same gain. Therefore, to ensure consistency when looking at raw data, the gain is removed at the getUnscaledSamples stage rather than getPhysicalSamples, where it would have probably been more appropriate. This means that getUnscaledSamples returns data where all channels are in mV.</span>
+
+<span class="sd">    The scalings to convert the raw data to mV are stored in the ts_lsb chan header and calculated out as the header files are being read.</span>
+
+<span class="sd">    .. todo::</span>
+<span class="sd">        Implement reading of XTRX header files</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TimeReaderSPAM.setParameters"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set some data reader parameters for reading SPAM data&quot;&quot;&quot;</span>
+        <span class="c1"># get a list of the header and data files in the folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headerF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.XTR&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headerF</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headerF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.XTRX&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.RAW&quot;</span><span class="p">))</span>
+        <span class="c1"># data byte information might be different for each file</span>
+        <span class="c1"># so it is a dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recChannels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="c1"># data type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+        <span class="c1"># get the number of data files and header files - this should be equal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numHeaderFiles</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headerF</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numDataFiles</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.getUnscaledSamples"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.getUnscaledSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getUnscaledSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get raw data from data file, returned in mV</span>
+
+<span class="sd">        SPAM raw data is single precision float with unit Volts. Calling this applies the ts_lsb calculated when the headers are read. This is because when a recording consists of multiple data files, each channel of each data file might have a different scaling. The only way to make the data consistent is to apply the ts_lsb scaling.  </span>
+<span class="sd">        </span>
+<span class="sd">        Therefore, this method returns the data in mV for all channels.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chans : List[str], optional</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        startSample : int, optional</span>
+<span class="sd">            First sample to return</span>
+<span class="sd">        endSample : int, optional</span>
+<span class="sd">            Last sample to return</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialise chans, startSample and endSample with the whole dataset</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># get the files to read and the samples to take from them, in the correct order</span>
+        <span class="n">dataFilesToRead</span><span class="p">,</span> <span class="n">samplesToRead</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFilesForSamples</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">numSamples</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="c1"># set up the dictionary to hold the data</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numSamples</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># loop through chans and get data</span>
+        <span class="n">sampleCounter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">dFile</span><span class="p">,</span> <span class="n">sToRead</span><span class="p">,</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dataFilesToRead</span><span class="p">,</span> <span class="n">samplesToRead</span><span class="p">,</span> <span class="n">scalings</span><span class="p">):</span>
+            <span class="c1"># get samples - this is inclusive</span>
+            <span class="n">dSamples</span> <span class="o">=</span> <span class="n">sToRead</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">sToRead</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="c1"># spam files always record 5 channels</span>
+            <span class="n">dSamplesRead</span> <span class="o">=</span> <span class="n">dSamples</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">recChannels</span><span class="p">[</span><span class="n">dFile</span><span class="p">]</span>
+            <span class="c1"># read the data</span>
+            <span class="n">byteOff</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span><span class="p">[</span><span class="n">dFile</span><span class="p">]</span>
+                <span class="o">+</span> <span class="n">sToRead</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">recChannels</span><span class="p">[</span><span class="n">dFile</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span>
+            <span class="p">)</span>
+            <span class="n">dFilePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="n">dFile</span><span class="p">)</span>
+            <span class="n">dataRead</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
+                <span class="n">dFilePath</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+                <span class="n">offset</span><span class="o">=</span><span class="n">byteOff</span><span class="p">,</span>
+                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">dSamplesRead</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="c1"># now need to unpack this</span>
+            <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+                <span class="c1"># check to make sure channel exists</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">checkChan</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                <span class="c1"># get the channel index - the chanIndex should give the right order in the data file</span>
+                <span class="c1"># as it is the same order as in the header file</span>
+                <span class="n">chanIndex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+                <span class="c1"># use the range sampleCounter -&gt; sampleCounter +  dSamples, because this actually means sampleCounter + dSamples - 1 as python ranges are not inclusive of the end value</span>
+                <span class="c1"># scale by the lsb scalar here - note that these can be different for each file in the run</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">][</span><span class="n">sampleCounter</span> <span class="p">:</span> <span class="n">sampleCounter</span> <span class="o">+</span> <span class="n">dSamples</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">dataRead</span><span class="p">[</span><span class="n">chanIndex</span> <span class="p">:</span> <span class="n">dSamplesRead</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">recChannels</span><span class="p">[</span><span class="n">dFile</span><span class="p">]]</span>
+                    <span class="o">*</span> <span class="n">scalar</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="c1"># increment sample counter</span>
+            <span class="n">sampleCounter</span> <span class="o">=</span> <span class="n">sampleCounter</span> <span class="o">+</span> <span class="n">dSamples</span>  <span class="c1"># get ready for the next data read</span>
+
+        <span class="c1"># return data</span>
+        <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample2time</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">comments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Unscaled data </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2"> read in from measurement </span><span class="si">{}</span><span class="s2">, samples </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">startTime</span><span class="p">,</span>
+                <span class="n">stopTime</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Data read from </span><span class="si">{}</span><span class="s2"> files in total&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataFilesToRead</span><span class="p">)))</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Data scaled to mV for all channels using scalings in header files&quot;</span>
+        <span class="p">)</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sampling frequency </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">TimeData</span><span class="p">(</span>
+            <span class="n">sampleFreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">(),</span>
+            <span class="n">startTime</span><span class="o">=</span><span class="n">startTime</span><span class="p">,</span>
+            <span class="n">stopTime</span><span class="o">=</span><span class="n">stopTime</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="n">comments</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.getDataFilesForSamples"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.getDataFilesForSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getDataFilesForSamples</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">startSample</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">endSample</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Get the data files that have to be read to cover the sample range </span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        startSample : int</span>
+<span class="sd">            Starting sample of the sample range</span>
+<span class="sd">        endSamples : int</span>
+<span class="sd">            Ending sample of the sample range</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dataFilesToRead</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># have the datafiles saved in sample order beginning with the earliest first</span>
+        <span class="c1"># go through each datafile and find the range to be read</span>
+        <span class="n">dataFilesToRead</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">samplesToRead</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">scalings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">dFile</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span><span class="p">):</span>
+            <span class="n">fileStartSamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">fileEndSamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fileStartSamp</span> <span class="o">&gt;</span> <span class="n">endSample</span> <span class="ow">or</span> <span class="n">fileEndSamp</span> <span class="o">&lt;</span> <span class="n">startSample</span><span class="p">:</span>
+                <span class="k">continue</span>  <span class="c1"># nothing to read from this file</span>
+            <span class="c1"># in this case, there is some overlap with the samples to read</span>
+            <span class="n">dataFilesToRead</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dFile</span><span class="p">)</span>
+            <span class="n">readFrom</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># i.e. the first sample in the datafile</span>
+            <span class="n">readTo</span> <span class="o">=</span> <span class="n">fileEndSamp</span> <span class="o">-</span> <span class="n">fileStartSamp</span>  <span class="c1"># this the last sample in the file</span>
+            <span class="k">if</span> <span class="n">fileStartSamp</span> <span class="o">&lt;</span> <span class="n">startSample</span><span class="p">:</span>
+                <span class="n">readFrom</span> <span class="o">=</span> <span class="n">startSample</span> <span class="o">-</span> <span class="n">fileStartSamp</span>
+            <span class="k">if</span> <span class="n">fileEndSamp</span> <span class="o">&gt;</span> <span class="n">endSample</span><span class="p">:</span>
+                <span class="n">readTo</span> <span class="o">=</span> <span class="n">endSample</span> <span class="o">-</span> <span class="n">fileStartSamp</span>
+            <span class="c1"># this is an inclusive number readFrom to readTo including readTo</span>
+            <span class="n">samplesToRead</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">readFrom</span><span class="p">,</span> <span class="n">readTo</span><span class="p">])</span>
+            <span class="n">scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalings</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">dataFilesToRead</span><span class="p">,</span> <span class="n">samplesToRead</span><span class="p">,</span> <span class="n">scalings</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.getPhysicalSamples"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.getPhysicalSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getPhysicalSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get data scaled to physical values</span>
+<span class="sd">        </span>
+<span class="sd">        resistics uses field units, meaning physical samples will return the following:</span>
+
+<span class="sd">        - Electrical channels in mV/km</span>
+<span class="sd">        - Magnetic channels in mV</span>
+<span class="sd">        - To get magnetic fields in nT, calibration needs to be performed</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The method getUnscaledSamples multiplies the raw data by the ts_lsb converting it to mV. Because gain is removed when getting the unscaledSamples and all channel data is in mV, the only calculation that has to be done is to divide by the dipole lengths (east-west spacing and north-south spacing).</span>
+<span class="sd">        </span>
+<span class="sd">        To get magnetic fields in nT, they have to be calibrated.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chans : List[str]</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        startSample : int</span>
+<span class="sd">            First sample to return</span>
+<span class="sd">        endSample : int</span>
+<span class="sd">            Last sample to return</span>
+<span class="sd">        remaverage : bool</span>
+<span class="sd">            Remove average from the data</span>
+<span class="sd">        remzeros : bool</span>
+<span class="sd">            Remove zeroes from the data</span>
+<span class="sd">        remnans: bool</span>
+<span class="sd">            Remove NanNs from the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialise chans, startSample and endSample with the whole dataset</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># get data</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
+            <span class="n">chans</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">],</span>
+            <span class="n">startSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span>
+            <span class="n">endSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="c1"># Scalars are applied in getUnscaledSamples to convert to mV - this is for ease of calculation and because each data file in the run might have a separate scaling</span>
+        <span class="c1"># all that is left is to divide by the dipole length in km and remove the average</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">chan</span> <span class="o">==</span> <span class="s2">&quot;Ex&quot;</span><span class="p">:</span>
+                <span class="c1"># multiply by 1000/self.getChanDx same as dividing by dist in km</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDx</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+                    <span class="s2">&quot;Dividing channel </span><span class="si">{}</span><span class="s2"> by electrode distance </span><span class="si">{}</span><span class="s2"> km to give mV/km&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">chan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDx</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.0</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">chan</span> <span class="o">==</span> <span class="s2">&quot;Ey&quot;</span><span class="p">:</span>
+                <span class="c1"># multiply by 1000/self.getChanDy same as dividing by dist in km</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDy</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+                    <span class="s2">&quot;Dividing channel </span><span class="si">{}</span><span class="s2"> by electrode distance </span><span class="si">{}</span><span class="s2"> km to give mV/km&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">chan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDy</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.0</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="c1"># if remove zeros - False by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">removeZerosSingle</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
+            <span class="c1"># if remove nans - False by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">removeNansSingle</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
+            <span class="c1"># remove the average from the data - True by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
+                    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="c1"># add comments</span>
+        <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+            <span class="s2">&quot;Remove zeros: </span><span class="si">{}</span><span class="s2">, remove nans: </span><span class="si">{}</span><span class="s2">, remove average: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">timeData</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.spamHeaders"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.spamHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">spamHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Get the sections in SPAM header files (XTR and XTRX)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sections : List[str]</span>
+<span class="sd">            The sections in the header files</span>
+<span class="sd">        sectionHeaders : Dict[str, str]</span>
+<span class="sd">            The headers in each section to be read in </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;STATUS&quot;</span><span class="p">,</span> <span class="s2">&quot;TITLE&quot;</span><span class="p">,</span> <span class="s2">&quot;PROJECT&quot;</span><span class="p">,</span> <span class="s2">&quot;FILE&quot;</span><span class="p">,</span> <span class="s2">&quot;SITE&quot;</span><span class="p">,</span> <span class="s2">&quot;CHANNAME&quot;</span><span class="p">,</span> <span class="s2">&quot;DATA&quot;</span><span class="p">]</span>
+        <span class="n">sectionHeaders</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sectionHeaders</span><span class="p">[</span><span class="s2">&quot;STATUS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;STATUS&quot;</span><span class="p">]</span>
+        <span class="n">sectionHeaders</span><span class="p">[</span><span class="s2">&quot;TITLE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AUTHOR&quot;</span><span class="p">,</span> <span class="s2">&quot;VERSION&quot;</span><span class="p">,</span> <span class="s2">&quot;DATE&quot;</span><span class="p">,</span> <span class="s2">&quot;COMMENT&quot;</span><span class="p">]</span>
+        <span class="n">sectionHeaders</span><span class="p">[</span><span class="s2">&quot;FILE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;FREQBAND&quot;</span><span class="p">,</span> <span class="s2">&quot;DATE&quot;</span><span class="p">]</span>
+        <span class="n">sectionHeaders</span><span class="p">[</span><span class="s2">&quot;CHANNAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ITEMS&quot;</span><span class="p">,</span> <span class="s2">&quot;NAME&quot;</span><span class="p">]</span>
+        <span class="n">sectionHeaders</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ITEMS&quot;</span><span class="p">,</span> <span class="s2">&quot;CHAN&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">sections</span><span class="p">,</span> <span class="n">sectionHeaders</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.chanDefaults"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.chanDefaults">[docs]</a>    <span class="k">def</span> <span class="nf">chanDefaults</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Get defaults for channel headers</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict[str, Any]</span>
+<span class="sd">            Dictionary of headers for channels and default values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">chanH</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;gain_stage1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;gain_stage2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;hchopper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># this depends on sample frequency</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;echopper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># channel output information (sensor_type, channel_type, ts_lsb, pos_x1, pos_x2, pos_y1, pos_y2, pos_z1, pos_z2, sensor_sernum)</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;sensor_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># the lsb/scaling is not applied. data is raw voltage which needs to be scaled</span>
+        <span class="c1"># an lsb is constructed from the scaling in the XTR/XTRX file to take the data to mV</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;scaling_applied&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># check this</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_x1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_x2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_y1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_y2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_z1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_z2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;sensor_sernum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">chanH</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.readHeader"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.readHeader">[docs]</a>    <span class="k">def</span> <span class="nf">readHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Read header files</span>
+
+<span class="sd">        For SPAM data, the may be more than one header file as data can be split up into smaller files as it is recorded. In that case, the header information should be somehow merged.</span>
+<span class="sd">    </span>
+<span class="sd">        All sampling frequencies should be the same</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># read header files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headersList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chanHeadersList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">headerFile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headerF</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;xtrx&quot;</span> <span class="ow">in</span> <span class="n">headerFile</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">headers</span><span class="p">,</span> <span class="n">chanHeaders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readHeaderXTRX</span><span class="p">(</span><span class="n">headerFile</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">headers</span><span class="p">,</span> <span class="n">chanHeaders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readHeaderXTR</span><span class="p">(</span><span class="n">headerFile</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headersList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeadersList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chanHeaders</span><span class="p">)</span>
+
+        <span class="c1"># check to make sure no gaps, calculate out the sample ranges and list the data files for each sample</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mergeHeaders</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headersList</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeadersList</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.readHeaderXTR"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.readHeaderXTR">[docs]</a>    <span class="k">def</span> <span class="nf">readHeaderXTR</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headerFile</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Read a XTR header file</span>
+
+<span class="sd">        The raw data for SPAM is in single precision Volts. However, if there are multiple data files for a single recording, each one may have a different gain. Therefore, a scaling has to be calculated for each data file and channel. This scaling will convert all channels to mV. </span>
+
+<span class="sd">        For the most part, this method only reads recording information. However, it does additionally calculate out the lsb scaling and store it in the ts_lsb channel header. More information is provided in the notes.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The raw data for SPAM is in single precision floats and record the raw Voltage measurements of the sensors. However, if there are multiple data files for a single continuous recording, each one may have a different gain. Therefore, a scaling has to be calculated for each data file. </span>
+
+<span class="sd">        For electric channels, the scaling begins with the scaling provided in the header file in the DATA section. This incorporates any gain occuring in the device. This scaling is further amended by a conversion to mV and polarity reversal,</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">        </span>
+<span class="sd">            scaling = read scaling from DATA section of header file \\</span>
+<span class="sd">            scaling = 1000 * scaling , \\</span>
+<span class="sd">            scaling = -1000 * scaling , \\</span>
+<span class="sd">            ts_lsb = scaling , </span>
+<span class="sd">        </span>
+<span class="sd">        where the reason for the 1000 factor in line 2 is not clear, nor is the polarity reversal. However, this information was provided by people more familiar with the data format.</span>
+<span class="sd">        </span>
+<span class="sd">        For magnetic channels, the scaling in the header file DATA section is ignored. This is because it includes a static gain correction, which would be duplicated at the calibration stage. Therefore, this is not included at this point.</span>
+
+<span class="sd">        .. math:: </span>
+<span class="sd">        </span>
+<span class="sd">            scaling = -1000 , \\</span>
+<span class="sd">            ts_lsb = scaling ,</span>
+<span class="sd">        </span>
+<span class="sd">        This scaling converts the magnetic data from V to mV.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        headerFile : str</span>
+<span class="sd">            The XTR header file to read in</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">headerFile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">sectionLines</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># let&#39;s get data</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="c1"># continue if line is empty</span>
+            <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="s2">&quot;[&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">sec</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">sectionLines</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sectionLines</span><span class="p">[</span><span class="n">sec</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="c1"># the base class is built around a set of headers based on ATS headers</span>
+        <span class="c1"># though this is a bit more work here, it saves lots of code repetition</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># recording information (start_time, start_date, stop_time, stop_date, ats_data_file)</span>
+        <span class="n">fileLine</span> <span class="o">=</span> <span class="n">sectionLines</span><span class="p">[</span><span class="s2">&quot;FILE&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fileSplit</span> <span class="o">=</span> <span class="n">fileLine</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">fileSplit</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">timeLine</span> <span class="o">=</span> <span class="n">sectionLines</span><span class="p">[</span><span class="s2">&quot;FILE&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">timeSplit</span> <span class="o">=</span> <span class="n">timeLine</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="c1"># these are the unix time stamps</span>
+        <span class="n">startDate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">timeSplit</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">timeSplit</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">datetimeStart</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="n">startDate</span><span class="p">)</span>
+        <span class="n">stopDate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">timeSplit</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">timeSplit</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">datetimeStop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="n">stopDate</span><span class="p">)</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;start_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStart</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStart</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># here calculate number of samples</span>
+        <span class="n">deltaSeconds</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetimeStop</span> <span class="o">-</span> <span class="n">datetimeStart</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+        <span class="c1"># calculate number of samples - have to add one because the time given in SPAM recording is the actual time of the last sample</span>
+        <span class="n">numSamples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">deltaSeconds</span> <span class="o">*</span> <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="c1"># put these in headers for ease of future calculations in merge headers</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numSamples</span>
+        <span class="c1"># spam datasets only have the one data file for all channels</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fileSplit</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># data information (meas_channels, sample_freq)</span>
+        <span class="n">chanLine</span> <span class="o">=</span> <span class="n">sectionLines</span><span class="p">[</span><span class="s2">&quot;CHANNAME&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># this gets reformatted to an int later</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;meas_channels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chanLine</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">numChansInt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;meas_channels&quot;</span><span class="p">])</span>
+        <span class="c1"># deal with the channel headers</span>
+        <span class="n">chanHeaders</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numChansInt</span><span class="p">):</span>
+            <span class="n">chanH</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanDefaults</span><span class="p">()</span>
+            <span class="c1"># set the sample frequency from the main headers</span>
+            <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">]</span>
+            <span class="c1"># line data - read through the data in the correct channel order</span>
+            <span class="n">chanLine</span> <span class="o">=</span> <span class="n">sectionLines</span><span class="p">[</span><span class="s2">&quot;CHANNAME&quot;</span><span class="p">][</span><span class="n">iChan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">chanSplit</span> <span class="o">=</span> <span class="n">chanLine</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">dataLine</span> <span class="o">=</span> <span class="n">sectionLines</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">][</span><span class="n">iChan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">dataSplit</span> <span class="o">=</span> <span class="n">dataLine</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="c1"># channel input information (gain_stage1, gain_stage2, hchopper, echopper)</span>
+            <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;gain_stage1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;gain_stage2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="c1"># channel output information (sensor_type, channel_type, ts_lsb, pos_x1, pos_x2, pos_y1, pos_y2, pos_z1, pos_z2, sensor_sernum)</span>
+            <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fileSplit</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numSamples</span>
+
+            <span class="c1"># channel information</span>
+            <span class="c1"># spams often use Bx, By - use H within the software as a whole</span>
+            <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">consistentChans</span><span class="p">(</span><span class="n">chanSplit</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="c1"># the sensor number is a bit of a hack - want MFSXXe or something - add MFS in front of the sensor number - this is liable to break</span>
+            <span class="c1"># at the same time, set the chopper</span>
+            <span class="n">calLine</span> <span class="o">=</span> <span class="n">sectionLines</span><span class="p">[</span><span class="s2">&quot;200</span><span class="si">{}</span><span class="s2">003&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iChan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">calSplit</span> <span class="o">=</span> <span class="n">calLine</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">isMagnetic</span><span class="p">(</span><span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]):</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;sensor_sernum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calSplit</span><span class="p">[</span>
+                    <span class="mi">2</span>
+                <span class="p">]</span>  <span class="c1"># the last three digits is the serial number</span>
+                <span class="n">sensorType</span> <span class="o">=</span> <span class="n">calSplit</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;sensor_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;MFS</span><span class="si">{:02d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sensorType</span><span class="p">))</span>
+                <span class="k">if</span> <span class="s2">&quot;LF&quot;</span> <span class="ow">in</span> <span class="n">calSplit</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;hchopper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;sensor_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ELC00&quot;</span>
+                <span class="k">if</span> <span class="s2">&quot;LF&quot;</span> <span class="ow">in</span> <span class="n">calLine</span><span class="p">:</span>
+                    <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;echopper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="c1"># data is raw voltage of sensors</span>
+            <span class="c1"># both E and H fields need polarity reversal (from email with Reinhard)</span>
+            <span class="c1"># get scaling from headers</span>
+            <span class="n">scaling</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dataSplit</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">isElectric</span><span class="p">(</span><span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]):</span>
+                <span class="c1"># the factor of 1000 is not entirely clear</span>
+                <span class="n">lsb</span> <span class="o">=</span> <span class="mf">1000.0</span> <span class="o">*</span> <span class="n">scaling</span>
+                <span class="c1"># volts to millivolts and a minus to switch polarity giving data in mV</span>
+                <span class="n">lsb</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1000.0</span> <span class="o">*</span> <span class="n">lsb</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># volts to millivolts and a minus to switch polarity giving data in mV</span>
+                <span class="c1"># scaling in header file is ignored because it duplicates static gain correction in calibration</span>
+                <span class="n">lsb</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1000.0</span>
+            <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lsb</span>
+
+            <span class="c1"># the distances</span>
+            <span class="k">if</span> <span class="n">chanSplit</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Ex&quot;</span><span class="p">:</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_x1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dataSplit</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_x2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_x1&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">chanSplit</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Ey&quot;</span><span class="p">:</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_y1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dataSplit</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_y2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_y1&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">chanSplit</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Ez&quot;</span><span class="p">:</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_z1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dataSplit</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_z2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chanH</span><span class="p">[</span><span class="s2">&quot;pos_z1&quot;</span><span class="p">]</span>
+
+            <span class="c1"># append chanHeaders to the list</span>
+            <span class="n">chanHeaders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chanH</span><span class="p">)</span>
+
+        <span class="c1"># check information from raw file headers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headersFromRawFile</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">],</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="c1"># return the headers and chanHeaders from this file</span>
+        <span class="k">return</span> <span class="n">headers</span><span class="p">,</span> <span class="n">chanHeaders</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.readHeaderXTRX"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.readHeaderXTRX">[docs]</a>    <span class="k">def</span> <span class="nf">readHeaderXTRX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headerFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read a XTRX header files</span>
+
+<span class="sd">        XTRX are newer header files and will supercede XTR</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        headerFile : str</span>
+<span class="sd">            The XTRX header file to read in</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Support for XTRX files has not yet been implemented&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.headersFromRawFile"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.headersFromRawFile">[docs]</a>    <span class="k">def</span> <span class="nf">headersFromRawFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawFile</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Read headers from the raw data files</span>
+<span class="sd">        </span>
+<span class="sd">        Read the headers from the raw file and figure out the data byte offset.     </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rawFile : str</span>
+<span class="sd">            The .RAW data file</span>
+<span class="sd">        headers : Dict</span>
+<span class="sd">            A headers dictionary</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Open with encoding ISO-8859-1 because it has a value for all bytes unlike other encoding. In particular, want to find number of samples and the size of the header. The extended header is ignored.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dFile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="n">rawFile</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;ISO-8859-1&quot;</span><span class="p">)</span>
+        <span class="n">generalHeaderString</span> <span class="o">=</span> <span class="n">dFile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>  <span class="c1"># this should be long enough</span>
+        <span class="n">generalSplit</span> <span class="o">=</span> <span class="n">generalHeaderString</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="c1"># read GENERAL HEADER</span>
+        <span class="n">generalHeader</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;recLength&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">generalSplit</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;fileType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">generalSplit</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;wordLength&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">generalSplit</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">generalSplit</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;procId&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">generalSplit</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;numCh&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">generalSplit</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;totalRec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">generalSplit</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;firstEvent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">generalSplit</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;numEvent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">generalSplit</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+        <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;extend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">generalSplit</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
+
+        <span class="c1"># read EVENT HEADER - there can be multiple of these, but normally only the one</span>
+        <span class="c1"># Multiple events are largely deprecated. Only a single event is used</span>
+        <span class="n">eventHeaders</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fileSize</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="n">rawFile</span><span class="p">))</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;firstEvent&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ir</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;numEvent&quot;</span><span class="p">]):</span>
+            <span class="n">seekPt</span> <span class="o">=</span> <span class="p">(</span><span class="n">record</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;recLength&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">seekPt</span> <span class="o">&gt;</span> <span class="n">fileSize</span><span class="p">:</span>
+                <span class="c1"># seek from beginning of file</span>
+                <span class="n">dFile</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">seekPt</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="c1"># read extra to make sure</span>
+                <span class="n">eventString</span> <span class="o">=</span> <span class="n">dFile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+                <span class="n">eventSplit</span> <span class="o">=</span> <span class="n">eventString</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">eH</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;startms&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;stopms&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;cvalue1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;cvalue2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;cvalue3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;EHInfile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;nextEH&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;previousEH&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;numData&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;startData&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">11</span><span class="p">])</span>
+                <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;extended&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eventSplit</span><span class="p">[</span><span class="mi">12</span><span class="p">])</span>
+                <span class="n">eventHeaders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eH</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;nextEH&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;totalRec&quot;</span><span class="p">]:</span>
+                    <span class="n">record</span> <span class="o">=</span> <span class="n">eH</span><span class="p">[</span><span class="s2">&quot;nextEH&quot;</span><span class="p">]</span>  <span class="c1"># set to go to next eH</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>  <span class="c1"># otherwise break out of for loops</span>
+        <span class="c1"># close the data file</span>
+        <span class="n">dFile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c1"># now compare number of samples with that calculated previously</span>
+        <span class="k">if</span> <span class="n">eventHeaders</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;numData&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;Data file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dFile</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                <span class="s2">&quot;Number of samples in raw file header </span><span class="si">{}</span><span class="s2"> does not equal that calculated from data </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">eventHeaders</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;numData&quot;</span><span class="p">],</span> <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;Number of samples calculated from data will be used&quot;</span><span class="p">)</span>
+        <span class="c1"># set the byte offset for the file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span><span class="p">[</span><span class="n">rawFile</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">eventHeaders</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;startData&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="p">)</span> <span class="o">*</span> <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;recLength&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recChannels</span><span class="p">[</span><span class="n">rawFile</span><span class="p">]</span> <span class="o">=</span> <span class="n">generalHeader</span><span class="p">[</span><span class="s2">&quot;numCh&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.mergeHeaders"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.mergeHeaders">[docs]</a>    <span class="k">def</span> <span class="nf">mergeHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headersList</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">chanHeadersList</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Merge headers from all the header files</span>
+
+<span class="sd">        Checks all the header files to see if there are any gaps and calculates the sample ranges for each file together with the total number of samples. Sets the start and end time of the recording and class variables datetimeStart and datetimeStop.        </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        headersList : List</span>
+<span class="sd">            List of headers from each data file</span>
+<span class="sd">        chanHeadersList :</span>
+<span class="sd">            List of chan headers from each data file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># take the first header as an example</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">headersList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span> <span class="o">=</span> <span class="n">chanHeadersList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">headersList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># just fill in the data file list and data ranges</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scalings</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">cHeader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">:</span>
+                <span class="n">tmp</span><span class="p">[</span><span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+            <span class="k">return</span>  <span class="c1"># then there was only one file - no need to do all the below</span>
+
+        <span class="c1"># make sure that all headers have the same sample rate</span>
+        <span class="c1"># and save the start and stop times and dates</span>
+        <span class="n">startTimes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">stopTimes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">numSamples</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">header</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">headersList</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                    <span class="s2">&quot;Not all datasets in </span><span class="si">{}</span><span class="s2"> have the same sample frequency.</span><span class="se">\n</span><span class="s2">Exiting...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span>
+                    <span class="p">),</span>
+                    <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;meas_channels&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;meas_channels&quot;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                    <span class="s2">&quot;Not all datasets in </span><span class="si">{}</span><span class="s2"> have the same number of channels.</span><span class="se">\n</span><span class="s2">Exiting...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span>
+                    <span class="p">),</span>
+                    <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="c1"># now store startTimes, stopTimes and numSamples</span>
+            <span class="c1"># do this as datetimes, will be easier</span>
+            <span class="n">startString</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;start_date&quot;</span><span class="p">],</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">])</span>
+            <span class="n">stopString</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;stop_date&quot;</span><span class="p">],</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;stop_time&quot;</span><span class="p">])</span>
+            <span class="n">datetimeStart</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">startString</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">datetimeStop</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">stopString</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">startTimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datetimeStart</span><span class="p">)</span>
+            <span class="n">stopTimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">datetimeStop</span><span class="p">)</span>
+            <span class="n">numSamples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
+        <span class="c1"># check the start and end times</span>
+        <span class="n">sampleTime</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;sample_freq&quot;</span><span class="p">])</span>
+        <span class="c1"># sort by start times</span>
+        <span class="n">sortIndices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">startTimes</span><span class="p">))),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">startTimes</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="c1"># now sort stop times by the same indices</span>
+        <span class="n">check</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numHeaderFiles</span><span class="p">):</span>
+            <span class="c1"># get the stop time of the previous dataset</span>
+            <span class="n">stopTimePrev</span> <span class="o">=</span> <span class="n">stopTimes</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+            <span class="n">startTimeNow</span> <span class="o">=</span> <span class="n">startTimes</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">startTimeNow</span> <span class="o">!=</span> <span class="n">stopTimePrev</span> <span class="o">+</span> <span class="n">sampleTime</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                    <span class="s2">&quot;There is a gap between the datafiles in </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                    <span class="s2">&quot;Please separate out datasets with gaps into separate folders&quot;</span>
+                <span class="p">)</span>
+                <span class="c1"># print out where the gap was found</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;Gap found between datafiles:&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                    <span class="s2">&quot;1. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">headersList</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]][</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">])</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                    <span class="s2">&quot;2. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">headersList</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">])</span>
+                <span class="p">)</span>
+                <span class="c1"># set check as false</span>
+                <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># if did not pass check, then exit</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                <span class="s2">&quot;Gaps in data. All data for a single recording must be continuous. Exiting...&quot;</span><span class="p">,</span>
+                <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="c1"># make sure there are no gaps</span>
+        <span class="n">totalSamples</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numSamples</span><span class="p">)</span>
+
+        <span class="c1"># get a list of all the datafiles, scalings and the sample ranges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scalings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c1"># now need some sort of lookup table to say where the sample ranges are</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numHeaderFiles</span><span class="p">):</span>
+            <span class="n">iSort</span> <span class="o">=</span> <span class="n">sortIndices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># get the sorted index</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">headersList</span><span class="p">[</span><span class="n">iSort</span><span class="p">][</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">])</span>
+            <span class="n">startSample</span> <span class="o">=</span> <span class="n">sample</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">endSample</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">startSample</span> <span class="o">+</span> <span class="n">numSamples</span><span class="p">[</span><span class="n">iSort</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="p">)</span>  <span class="c1"># -1 because this is inclusive of the start sample</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span><span class="p">])</span>
+            <span class="c1"># increment sample</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="n">endSample</span>
+            <span class="c1"># save the scalings for each chan</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">cHeader</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeadersList</span><span class="p">[</span><span class="n">iSort</span><span class="p">]:</span>
+                <span class="n">tmp</span><span class="p">[</span><span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+        <span class="c1"># now set the LSB information for the chanHeaders</span>
+        <span class="c1"># i.e. if they change, this should reflect that</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">)):</span>
+            <span class="n">chan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]</span>
+            <span class="n">lsbSet</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalings</span><span class="p">:</span>
+                <span class="n">lsbSet</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">scalar</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lsbSet</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">lsbSet</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                    <span class="s2">&quot;Multiple different LSB values found for chan </span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">chan</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">lsbSet</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                    <span class="s2">&quot;This is handled, but the header information given will show only a single LSB value&quot;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">lsbSet</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># set start and end time for headers and chan headers</span>
+        <span class="c1"># do the same with number of samples</span>
+        <span class="n">datetimeStart</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">startTimes</span><span class="p">)</span>
+        <span class="n">datetimeStop</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">stopTimes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;start_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStart</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStart</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;stop_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">totalSamples</span>
+        <span class="c1"># set datafiles = the whole list of datafiles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span>
+        <span class="k">for</span> <span class="n">iChan</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="s2">&quot;start_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStart</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStart</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+                <span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="s2">&quot;stop_date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="s2">&quot;stop_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">totalSamples</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chanHeaders</span><span class="p">[</span><span class="n">iChan</span><span class="p">][</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.printDataFileList"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.printDataFileList">[docs]</a>    <span class="k">def</span> <span class="nf">printDataFileList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Information about the data files as a list of strings</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            List of information about the data files</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">textLst</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Data File</span><span class="se">\t\t</span><span class="s2">Sample Ranges&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dFile</span><span class="p">,</span> <span class="n">sRanges</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span><span class="p">):</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\t\t</span><span class="si">{}</span><span class="s2"> - </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dFile</span><span class="p">,</span> <span class="n">sRanges</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sRanges</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Total samples = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getNumSamples</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="TimeReaderSPAM.printDataFileInfo"><a class="viewcode-back" href="../../../api/resistics.time.reader_spam.html#resistics.time.reader_spam.TimeReaderSPAM.printDataFileInfo">[docs]</a>    <span class="k">def</span> <span class="nf">printDataFileInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Print a list of the data files&quot;&quot;&quot;</span>
+        <span class="n">blockPrint</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Data File List&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printDataFileList</span><span class="p">(),</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.6.dev3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

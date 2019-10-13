@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Power Spectral Density &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Power spectral density &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -32,8 +32,8 @@
   <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Coherence" href="coherences.html" />
-    <link rel="prev" title="Statistics" href="../statistics.html" /> 
+    <link rel="next" title="Coherence" href="coherence.html" />
+    <link rel="prev" title="Absolute value" href="absval.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -91,19 +91,19 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../features.html">Features</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../configuration.html">Configuration files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../comments.html">Comments</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../statistics.html">Statistics</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Power Spectral Density</a></li>
-<li class="toctree-l3"><a class="reference internal" href="coherences.html">Coherence</a></li>
-<li class="toctree-l3"><a class="reference internal" href="partialCoherence.html">Partial Coherences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polarisationDirection.html">Polarisation Directions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="transferFunction.html">Transfer Functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="resistivityPhase.html">Resistivity and Phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="absval.html">Absolute value</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Power spectral density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coherence.html">Coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partialCoherence.html">Partial coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polarisationDirection.html">Polarisation directions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="transferFunction.html">Transfer functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistivityPhase.html">Resistivity and phase</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../remote-statistics.html">Remote reference statistics</a></li>
@@ -115,7 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -169,7 +169,7 @@
         
           <li><a href="../statistics.html">Statistics</a> &raquo;</li>
         
-      <li>Power Spectral Density</li>
+      <li>Power spectral density</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -189,10 +189,38 @@
            <div itemprop="articleBody">
             
   <div class="section" id="power-spectral-density">
-<h1>Power Spectral Density<a class="headerlink" href="#power-spectral-density" title="Permalink to this headline">¶</a></h1>
+<h1>Power spectral density<a class="headerlink" href="#power-spectral-density" title="Permalink to this headline">¶</a></h1>
+<p>The power spectral density of a timeseries represents the distribution of power across its frequency components (<a class="reference external" href="https://en.wikipedia.org/wiki/Spectral_density">Wikipedia</a>). However, what the power spectral density statistic measures in resistics in the how the power spectral density of a single frequency (some evaluation frequency) varies over the time of the recording. It is a proxy for the energy of the eletromagnetic data (volume, amplitude).</p>
+<p>It is not immediately true that either high power spectral density or low power spectral density windows are either bad or good. However, the transfer function estimates are calculated through regression, which will minimise a loss function, usually mean square error or a variant thereof. By having large values in the regression problem, it is possible that estimates are skewed by trying to minimise losses for a minority of high power windows.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>The resistics name for the power spectral density statistic is: <strong>powerSpectralDensity</strong>.</p>
+<p>The components of the power spectral density statistic are:</p>
+<ul class="last simple">
+<li>power spectral density of E<sub>x</sub>, psd E<sub>x</sub></li>
+<li>power spectral density of E<sub>y</sub>, psd E<sub>y</sub></li>
+<li>power spectral density of H<sub>x</sub>, psd H<sub>x</sub></li>
+<li>power spectral density of H<sub>y</sub>, psd H<sub>y</sub></li>
+</ul>
+</div>
+<p>An example is provided below of power spectral density variation over time for a measurement sampled at 4096 Hz and for the evaluation frequency 1024 Hz. There are numerous windows with higher values than the general.</p>
 <div class="align-center figure" id="id1">
-<img alt="alternate text" src="../../_images/timePowerSpectralDensity.png" />
-<p class="caption"><span class="caption-text">An example of coherence pairs plotted over time</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<img alt="alternate text" src="../../_images/M1_powerSpectralDensity_view_4096.png" />
+<p class="caption"><span class="caption-text">Power spectral density plotted over time for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>The same thing can be seen on the histograms, which show many values bunched up together and than a minority of high power outliers.</p>
+<div class="align-center figure" id="id2">
+<img alt="alternate text" src="../../_images/M1_powerSpectralDensity_histogram_4096.png" />
+<p class="caption"><span class="caption-text">Power spectral density histogram for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>A second example is shown from a measurement at 128 Hz for evaluation frequency 32 Hz. This has a strange trend with quite periodic bursts of high power in the electric channels. These are almost certainly not from a standard magnetotelluric source or energy and are likely noise of some form. Ideally, these windows should be removed from further processing.</p>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="../../_images/Remote_powerSpectralDensity_view_128.png" />
+<p class="caption"><span class="caption-text">Power spectral density plotted over time for evaluation frequency 32 Hz</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="../../_images/Remote_powerSpectralDensity_histogram_128.png" />
+<p class="caption"><span class="caption-text">Power spectral density histogram for evaluation frequency 32 Hz</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 
@@ -204,10 +232,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="coherences.html" class="btn btn-neutral float-right" title="Coherence" accesskey="n" rel="next">Next</a>
+        <a href="coherence.html" class="btn btn-neutral float-right" title="Coherence" accesskey="n" rel="next">Next</a>
       
       
-        <a href="../statistics.html" class="btn btn-neutral" title="Statistics" accesskey="p" rel="prev">Previous</a>
+        <a href="absval.html" class="btn btn-neutral" title="Absolute value" accesskey="p" rel="prev">Previous</a>
       
     </div>
   
@@ -238,7 +266,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Tutorial &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
@@ -115,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donate.html">Donate</a></li>
@@ -186,17 +185,27 @@
             
   <div class="section" id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<p>The tutorial assumes knowledge of magnetotelluric (MT) theory and terminology. Before embarking on the tutorial, a quick refresher is provided of magnetotelluric theory and the general magnetotelluric data processing flow which resistics follows. The dataset for the tutorial is available for those who would like to follow along. A link can be found <a class="reference internal" href="#working-through-the-tutorial"><span class="std std-ref">here</span></a>.</p>
 <div class="section" id="magnetotelluric-theory">
 <h2>Magnetotelluric theory<a class="headerlink" href="#magnetotelluric-theory" title="Permalink to this headline">¶</a></h2>
-<p>This tutorial assumes knowledge of magnetotelluric theory. However, a quick refresher is provided.</p>
-<p>The magnetotelluric method uses natural variations in the geoelectric and geomagnetic fields to estimate the electrical properties of the subsurface. Electrodes and induction coils measure the time varying fields. Using these measurements, magnetotellurics poses a linear, time invariant system in the frequency domain.</p>
+<p>Magnetotellurics (MT) is a passive geophysical method for estimating the electrical properties of the subsurface. The MT method uses variations in the natural geoelectric and geomagnetic fields as the source of energy.</p>
+<p>In the field, electrodes are used to measure potential difference variations  in the x direction (E<sub>x</sub>) and y direction (E<sub>y</sub>). Induction coils measure variations of the geomagnetic field in the x, y and z directions (H<sub>x</sub>, H<sub>y</sub> and H<sub>z</sub> respectively). Commonly, x represents East-West and y represents North-South, though only orthongonality is really required. The vertical direction is represented by z.</p>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="_images/mtSetup.png" />
+<p class="caption"><span class="caption-text">An example magnetotelluric setup in the field</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>Using these measurements, magnetotellurics poses a linear, time invariant system in the frequency domain.</p>
 <div class="math notranslate nohighlight">
 \begin{eqnarray}
 E_x &amp; = &amp; Z_{xx} H_x + Z_{xy} H_y \\
 E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
-\end{eqnarray}</div><p>Z<sub>xx</sub>, Z<sub>xy</sub>, Z<sub>yx</sub> and Z<sub>yy</sub> are the components of the 2-D impedance tensor with magnetic channels as input and electric channels as output. The components of the impedance tensor describe volumetrically averaged electrical properites of the subsurface. The frequency for which the impedance tensor is calculated defines the</p>
-<p>In addition, the tipper,</p>
-<p>Good references for magnetotelluric theory are:</p>
+\end{eqnarray}</div><p>Z<sub>xx</sub>, Z<sub>xy</sub>, Z<sub>yx</sub> and Z<sub>yy</sub> are the components of the 2-D impedance tensor with magnetic channels as input and electric channels as output. The components of the impedance tensor describe volumetrically averaged electrical properites of the subsurface. The frequency for which the impedance tensor is calculated is a proxy for the depth of the volume (the penetration depth or skin depth).</p>
+<p>Another parameter of interest is the ratio of vertical to horizontal magnetic fields, often called the “tipper”, “tipper vectors” or “induction arrows”. For the tipper, the inputs are again the horizontal magnetic fields H<sub>x</sub> and H<sub>y</sub>, but in this case, the output is the vertical magnetic field H<sub>z</sub>. The tipper has two components, T<sub>x</sub> and T<sub>y</sub>, which are both complex valued. The equation for the tipper is given below.</p>
+<div class="math notranslate nohighlight">
+\begin{eqnarray}
+H_z &amp; = &amp; T_{x} H_x + T_{y} H_y
+\end{eqnarray}</div><p>Vertical magnetic fields are generated by lateral conductivity gradients. The ratio of horizontal to vertical magnetic fields indicates lateral variations in conductivity.</p>
+<p>There are several assumptions made for magnetotellurics. For a clear outline of these assumptions, please see the following references:</p>
 <ul class="simple">
 <li>Wikipedia: <a class="reference external" href="https://en.wikipedia.org/wiki/Magnetotellurics">https://en.wikipedia.org/wiki/Magnetotellurics</a></li>
 <li>Practical Magnetotellurics (Simpson and Bahr)</li>
@@ -204,10 +213,122 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 <li>Models and Methods of Magnetotellurics (Berdichevsky and Dmitriev)</li>
 </ul>
 </div>
-<div class="section" id="first-steps-with-resistics">
-<h2>First steps with resistics<a class="headerlink" href="#first-steps-with-resistics" title="Permalink to this headline">¶</a></h2>
-<p>To install resistics, follow the instructions in the <a class="reference internal" href="installation.html"><span class="doc">installation</span></a> section.</p>
-<p>The following sections detail basic features and requirements of resistics. Resistics is a project based package, which means the first step in learning how to use the package is to set up a new project and place the time data files in the appropriate location. A dataset has been made available for new starters to practice with. This includes two recordings, one at 128Hz and the other at 4096Hz. The dataset is available here:</p>
+<div class="section" id="processing-theory">
+<h2>Processing theory<a class="headerlink" href="#processing-theory" title="Permalink to this headline">¶</a></h2>
+<p>Magnetotelluric processing is the task of taking geoelectric and geomagnetic field values recorded in the field and estimating the impedance tensor or tipper. The overarching aim is summarised in the below image.</p>
+<div class="align-center figure" id="id2">
+<img alt="alternate text" src="_images/processing_aim.png" />
+<p class="caption"><span class="caption-text">The aim is to take magnetotelluric time series data and from it, calculate the apparent resistivy, phase and other parameters</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>The general resistics workflow to estimate the impedance tensor or tipper is shown below. There are two important steps:</p>
+<ul class="simple">
+<li>Conversion to frequency domain</li>
+<li>Regression to calculate elements of transfer function (i.e. impedance tensor or tipper)</li>
+</ul>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>The transfer function is the general term for a function describing the relationship between the inputs and outputs of a linear, time invariant system. Both the impedance tensor and the tipper are transfer functions, describing the relationships between different systems as described above. For more information, see: <a class="reference external" href="https://en.wikipedia.org/wiki/Transfer_function">https://en.wikipedia.org/wiki/Transfer_function</a>.</p>
+<p class="last">Often, transfer function and/or impedance tensor/tipper are used interchangeably.</p>
+</div>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="_images/processingFlow_1.png" />
+<p class="caption"><span class="caption-text">A basic magnetotelluric workflow</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>Recall, in the frequency domain the magnetotelluric formulation is a linear, time invariant system, meaning it can be solved using linear regression (or robust linear regression). Therefore, the data is converted is windowed and converted into the frequency domain before doing the regression and finding the components of the transfer function (i.e. the impedance tensor or the tipper).</p>
+<p>The time series data is windowed to have more samples in the linear regression problem. For the windowing, resistics has default parameters. However, users can specify different windowing schemes to either reduce or increase the number of windows available.</p>
+<p>Transfer functions could be (and can be using <a class="reference internal" href="tutorial/statistics.html"><span class="doc">statistics</span></a>) calculated out for each time window individually. Alternatively, one estimate of the transfer function can be made by using the equations from each and every time window to give an over-determined linear regression setup.</p>
+<p>The components of the transfer function are a function of frequency. Strictly, it is possible to estimate the coefficients of the transfer function for every frequency in the frequency spectra. However, this is generally unrequired. Therefore, a set of evaluation frequencies are defined (resistics uses a default set, but it can be overridden by users) for which the transfer function is estimated.</p>
+<p>In addition to the basic workflow, resistics has more functions to select or reject time sections. The expanded workflow is shown below.</p>
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="_images/processingFlow_2.png" />
+<p class="caption"><span class="caption-text">Extending the workflow with more data selection options</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<p>Using statistics and masks allows users to reject time windows that do not meet a specificed set of constraints. Further, the time windows to use can be selected by defining a time range. For example, it is often beneficial in eletromagnetically noisy environments to select time windows during the night when cultural electromagnetic noise might be at a minimum.</p>
+<p>One missing step in the above workflows is decimation. Decimation is a means to estimate the transfer function at increasing longer periods (or lower frequencies). By decimating the data before windowing and spectra calculation, the resolution at lower frequencies is improved in the frequency domain. Therefore, the transfer function can be better estimated at longer periods (lower frequencies).</p>
+<div class="align-center figure" id="id5">
+<img alt="alternate text" src="_images/processingFlow_3.png" />
+<p class="caption"><span class="caption-text">Adding decimation to the processing workflow</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<p>Evaluation frequencies need to be defined for each decimation level. Evaluation frequencies are usually on a log scale, though they can be customised in resistics.</p>
+<p>The apparent resistivity, phase and other parameters are generally the first step on a longer journey to model the electrical resistivity of the subsurface. This can be done using either a 1-D, 2-D and 3-D inversion depdending on the number of measurements and their orientation.</p>
+</div>
+<div class="section" id="working-through-the-tutorial">
+<h2>Working through the tutorial<a class="headerlink" href="#working-through-the-tutorial" title="Permalink to this headline">¶</a></h2>
+<p>To install resistics, follow the instructions in the <a class="reference internal" href="installation.html"><span class="doc">installation</span></a>.</p>
+<p>The following tutorial sections detail basic features and requirements of resistics.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/project-environment.html">The project environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/viewing-data.html">Viewing timeseries data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/up-and-running.html">Up and running</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tipper.html">Calculating the tipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/viewing-spectra.html">Viewing spectra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/multiple-spectra.html">Multiple spectra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/configuration-files.html">Using configuration files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/statistics.html">Statistics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/masks.html">Masks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/mask-processing.html">Processing with masks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/recap-and-deeper-dive.html">Recap and deeper dive</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/date-time-constraints.html">Date and time constraints</a></li>
+</ul>
+</div>
+<p>Resistics is a project based package, which means the first step in learning how to use the package is to set up a new project and place the time data files in the appropriate location.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In the tutorial examples, the first line will usually be an import of datapaths. For example, in the script to create a project.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">newProject</span>
+
+<span class="c1"># define reference time for project</span>
+<span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2012-02-10 00:00:00&quot;</span>
+<span class="c1"># create a new project and print infomation</span>
+<span class="n">projData</span> <span class="o">=</span> <span class="n">newProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">referenceTime</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="c1"># create a new site</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
+<span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+</pre></div>
+</td></tr></table></div>
+<p>This is purely to help separate the tutorial data from the resistics repository. The datapaths defined in datapaths.py are shown below.</p>
+<div class="last highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">datapath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;E:/&quot;</span><span class="p">,</span> <span class="s2">&quot;magnetotellurics&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="s2">&quot;resisticsdata&quot;</span><span class="p">,</span> <span class="s2">&quot;tutorial&quot;</span><span class="p">)</span>
+<span class="n">projectPath</span> <span class="o">=</span> <span class="n">datapath</span> <span class="o">/</span> <span class="s2">&quot;tutorialProject&quot;</span>
+<span class="n">imagePath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">)</span>
+
+<span class="c1"># doc paths</span>
+<span class="n">docPath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;_static&quot;</span><span class="p">,</span> <span class="s2">&quot;examples&quot;</span><span class="p">,</span> <span class="s2">&quot;tutorial&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In most example cases, the images will neither be saved or shown, and the figure will be saved explicitly. This is to help the documentation process. Usually, the best way is to use the save option when viewing images to save the images to the project “images” folder. For example:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;simpleRun_viewimp_default&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p class="last">In the above code snippet, the save option could be set to <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code> to save the image to the “images” folder. Then the explicit save would not be required.</p>
+</div>
+<p>A dataset has been made available for new starters to practice with. This includes two recordings, one at 128Hz and the other at 4096Hz. The dataset is available here:</p>
 <p><a class="reference external" href="https://1drv.ms/f/s!ApKs8ZhVotKMavU3EpQTeEwuxoc">Dataset link</a></p>
 <div class="line-block">
 <div class="line"><strong>For more information about this dataset, see the paper:</strong></div>
@@ -218,8 +339,6 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 <div class="line"><a class="reference external" href="https://doi.org/10.1093/gji/ggv270">https://doi.org/10.1093/gji/ggv270</a></div>
 </div>
 <p>In most cases, only the API for the project functionality will be of interest. However, for even more advanced examples, have a look at the <a class="reference internal" href="advanced.html"><span class="doc">advanced</span></a> and <a class="reference internal" href="cookbook.html"><span class="doc">cookbook</span></a> sections, which will demonstrate more advanced processing of magnetotelluric data or usage of lower level resistics API.</p>
-<div class="toctree-wrapper compound">
-</div>
 </div>
 </div>
 
@@ -265,7 +384,7 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

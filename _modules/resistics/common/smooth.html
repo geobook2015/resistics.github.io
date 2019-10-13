@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.common.smooth &mdash; resistics 0.0.6.dev3 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search..." />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../case-studies.html">Case studies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog / backlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">resistics</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.common.smooth</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.common.smooth</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">signal</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">resistics.common.math</span> <span class="k">import</span> <span class="n">intdiv</span>
+
+
+<div class="viewcode-block" id="smooth1d"><a class="viewcode-back" href="../../../api/resistics.common.smooth.html#resistics.common.smooth.smooth1d">[docs]</a><span class="k">def</span> <span class="nf">smooth1d</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">winLen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hanning&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Smooth in 1 dimension</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : np.ndarray</span>
+<span class="sd">        The data array to be smoothed</span>
+<span class="sd">    winLen : int</span>
+<span class="sd">        The number of samples to smooth across</span>
+<span class="sd">    window : str</span>
+<span class="sd">        The window function</span>
+<span class="sd">	</span>
+<span class="sd">    Notes</span>
+<span class="sd">    ----- </span>
+<span class="sd">    The data is padded before the smoothing to ensure that the output data is the same size as the input. </span>
+
+<span class="sd">    todo:</span>
+<span class="sd">    The window parameter could be the window itself if an array instead of a string</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;smooth only accepts 1 dimension arrays.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="n">winLen</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input vector needs to be bigger than window size.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">winLen</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">winLen</span><span class="p">,</span> <span class="n">winLen</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">window</span> <span class="o">==</span> <span class="s2">&quot;flat&quot;</span><span class="p">:</span>  <span class="c1"># moving average</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">winLen</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">&quot;signal.&quot;</span> <span class="o">+</span> <span class="n">window</span> <span class="o">+</span> <span class="s2">&quot;(winLen)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># assume winLen is odd</span>
+    <span class="n">off</span> <span class="o">=</span> <span class="n">winLen</span> <span class="o">+</span> <span class="n">intdiv</span><span class="p">((</span><span class="n">winLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">winLen</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># check if even and recalc off</span>
+        <span class="n">off</span> <span class="o">=</span> <span class="n">winLen</span> <span class="o">+</span> <span class="n">intdiv</span><span class="p">(</span><span class="n">winLen</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">w</span> <span class="o">/</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">[</span><span class="n">off</span> <span class="p">:</span> <span class="n">off</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="smooth2d"><a class="viewcode-back" href="../../../api/resistics.common.smooth.html#resistics.common.smooth.smooth2d">[docs]</a><span class="k">def</span> <span class="nf">smooth2d</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">winLen</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">window</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hanning&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Smooth in 2-D</span>
+
+<span class="sd">    This smooths in a window and across windows too</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : np.ndarray</span>
+<span class="sd">        A 2-D array to be smoothed</span>
+<span class="sd">    winLen : List[int]</span>
+<span class="sd">        A two element list with winLen[0] being smoothing across windows and winLen[1] the smoothing within a window</span>
+<span class="sd">    window : str</span>
+<span class="sd">        The window function to use</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">hanning</span><span class="p">(</span><span class="n">winLen</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">8</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="n">winLen</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="c1"># pad to help the boundaries</span>
+    <span class="n">padded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">((</span><span class="n">winLen</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">winLen</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">winLen</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">winLen</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
+    <span class="c1"># 2d smoothing</span>
+    <span class="n">blurred</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">fftconvolve</span><span class="p">(</span><span class="n">padded</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">blurred</span><span class="p">[</span>
+        <span class="n">winLen</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">winLen</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">winLen</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="n">winLen</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">]</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.6.dev3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

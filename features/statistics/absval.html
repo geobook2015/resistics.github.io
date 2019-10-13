@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Absolute value &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Absolute value &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -31,7 +31,9 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Power spectral density" href="powerSpectralDensity.html" />
+    <link rel="prev" title="Statistics" href="../statistics.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -87,19 +89,33 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../features.html">Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../configuration.html">Configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comments.html">Comments</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../statistics.html">Statistics</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Absolute value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="powerSpectralDensity.html">Power spectral density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coherence.html">Coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partialCoherence.html">Partial coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polarisationDirection.html">Polarisation directions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="transferFunction.html">Transfer functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistivityPhase.html">Resistivity and phase</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../remote-statistics.html">Remote reference statistics</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../formats.html">Data formats</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../advanced.html">Advanced</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -149,6 +165,10 @@
     
       <li><a href="../../index.html">resistics</a> &raquo;</li>
         
+          <li><a href="../../features.html">Features</a> &raquo;</li>
+        
+          <li><a href="../statistics.html">Statistics</a> &raquo;</li>
+        
       <li>Absolute value</li>
     
     
@@ -170,7 +190,43 @@
             
   <div class="section" id="absolute-value">
 <h1>Absolute value<a class="headerlink" href="#absolute-value" title="Permalink to this headline">¶</a></h1>
-<p>Coming soon</p>
+<p>The absolute value (absvalEqn) statistic is simply the absolute value of cross spectra for each evaluation frequency. In many respects, it is similar to <a class="reference internal" href="powerSpectralDensity.html"><span class="doc">Power Spectral Density</span></a>. However, <a class="reference internal" href="powerSpectralDensity.html"><span class="doc">Power Spectral Density</span></a> only considers individual channels whilst the absvalEqn statistic is a proxy of the amplitude of cross spectra too. These are the values that feed directly into the robust regression.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>The resistics name for the absolute value statistic is: <strong>absvalEqn</strong>.</p>
+<p>The components for the absolute value statistic (there are 16 in total) are:</p>
+<ul class="last simple">
+<li>abs E<sub>x</sub> E<sub>x</sub></li>
+<li>abs E<sub>x</sub> E<sub>y</sub> = abs E<sub>y</sub> E<sub>x</sub></li>
+<li>abs E<sub>x</sub> H<sub>x</sub> = abs H<sub>x</sub> E<sub>x</sub></li>
+<li>abs E<sub>x</sub> H<sub>y</sub> = abs H<sub>y</sub> E<sub>x</sub></li>
+<li>abs E<sub>y</sub> E<sub>y</sub></li>
+<li>abs E<sub>y</sub> H<sub>x</sub> = abs H<sub>x</sub> E<sub>y</sub></li>
+<li>abs E<sub>y</sub> H<sub>y</sub> = abs H<sub>y</sub> E<sub>y</sub></li>
+<li>abs H<sub>x</sub> H<sub>x</sub></li>
+<li>abs H<sub>x</sub> H<sub>y</sub> = abs E<sub>y</sub> H<sub>x</sub></li>
+<li>abs H<sub>y</sub> H<sub>y</sub></li>
+</ul>
+</div>
+<p>An example is shown below for a measurement recorded at 4096 Hz and evaluation frequency 1024 Hz.</p>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="../../_images/M1_absvalEqn_view_4096.png" />
+<p class="caption"><span class="caption-text">Absolute cross spectral value plotted over time for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id2">
+<img alt="alternate text" src="../../_images/M1_absvalEqn_histogram_4096.png" />
+<p class="caption"><span class="caption-text">Absolute cross spectral value plotted as a histogram for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>As linear regression estimates can be skewed significantly by large values, it can be sometimes useful to remove windows with large absolute values from use in the linear regression problem.</p>
+<p>Another example for a measurement at 128 Hz and evalution frequency 32 Hz is included below. Notice that it has much the same features as demonstrated in <a class="reference internal" href="powerSpectralDensity.html"><span class="doc">Power Spectral Density</span></a>.</p>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="../../_images/Remote_absvalEqn_view_128.png" />
+<p class="caption"><span class="caption-text">Absolute cross spectral value plotted over time for evaluation frequency 32 Hz</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="../../_images/Remote_absvalEqn_histogram_128.png" />
+<p class="caption"><span class="caption-text">Absolute cross spectral value plotted as a histogram for evaluation frequency 32 Hz</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
 </div>
 
 
@@ -178,6 +234,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="powerSpectralDensity.html" class="btn btn-neutral float-right" title="Power spectral density" accesskey="n" rel="next">Next</a>
+      
+      
+        <a href="../statistics.html" class="btn btn-neutral" title="Statistics" accesskey="p" rel="prev">Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -206,7 +271,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

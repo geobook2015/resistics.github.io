@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Processing Lemi B423 data &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Processing Lemi B423 data &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -107,7 +106,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -187,8 +186,8 @@
 3
 4
 5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">newProject</span>
 
 <span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2019-05-25 12:00:00&quot;</span>
 <span class="n">proj</span> <span class="o">=</span> <span class="n">newProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">referenceTime</span><span class="p">)</span>
@@ -218,7 +217,7 @@
 └── mtProj.prj
 </pre></div>
 </div>
-<p>To make the header files, the <a class="reference internal" href="../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.folderB423Headers" title="resistics.ioHandlers.dataReaderLemiB423.folderB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423Headers()</span></code></a> method of module <code class="xref py py-mod docutils literal notranslate"><span class="pre">:meth:`~resistics.ioHandlers.dataReaderLemiB423</span></code> is used.</p>
+<p>To make the header files, the <a class="reference internal" href="../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.folderB423Headers" title="resistics.time.reader_lemib423.folderB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423Headers()</span></code></a> method of module <code class="xref py py-mod docutils literal notranslate"><span class="pre">:meth:`~resistics.time.reader_lemib423</span></code> is used.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -226,8 +225,8 @@
 5
 6
 7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423</span> <span class="kn">import</span> <span class="n">folderB423Headers</span>
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423</span> <span class="kn">import</span> <span class="n">folderB423Headers</span>
 
 <span class="c1"># first need to create headers</span>
 <span class="n">sitePath</span> <span class="o">=</span> <span class="n">projectPath</span> <span class="o">/</span> <span class="s2">&quot;timeData&quot;</span> <span class="o">/</span> <span class="s2">&quot;site1_mt&quot;</span>
@@ -309,7 +308,7 @@
 14
 15
 16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># load project</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -321,7 +320,7 @@
 <img alt="alternate text" src="../_images/timeline1.png" />
 <p class="caption"><span class="caption-text">Project timeline</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>Time data can be viewed in the usual way using the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.viewTime" title="resistics.project.projectTime.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code></a> method.</p>
+<p>Time data can be viewed in the usual way in the project environment using the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.viewTime" title="resistics.project.time.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code></a> method.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>18
 19
 20
@@ -334,7 +333,7 @@
 27
 28
 29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view time</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">viewTime</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">proj</span><span class="p">,</span>
@@ -366,10 +365,10 @@
 42
 43
 44
-45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">calculateSpectra</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
@@ -437,16 +436,16 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 18
 19
 20
-21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;customconfig.ini&quot;</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">calculateSpectra</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
@@ -505,7 +504,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 60
 61
 62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># now try again with some statistics for the dead band</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
 
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">])</span>
@@ -560,8 +559,8 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 3
 4
 5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">newProject</span>
 
 <span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2019-05-25 12:00:00&quot;</span>
 <span class="n">proj</span> <span class="o">=</span> <span class="n">newProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">referenceTime</span><span class="p">)</span>
@@ -613,8 +612,8 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 42
 43
 44
-45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423</span> <span class="kn">import</span> <span class="n">folderB423Headers</span>
+45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423</span> <span class="kn">import</span> <span class="n">folderB423Headers</span>
 
 <span class="c1"># first need to create headers</span>
 <span class="n">sitePath</span> <span class="o">=</span> <span class="n">projectPath</span> <span class="o">/</span> <span class="s2">&quot;timeData&quot;</span> <span class="o">/</span> <span class="s2">&quot;site1_mt&quot;</span>
@@ -623,7 +622,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="p">)</span>
 
 <span class="c1"># load project</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -631,7 +630,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;timeline.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># view time</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">viewTime</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">proj</span><span class="p">,</span>
@@ -643,10 +642,10 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;viewTime.png&quot;</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">calculateSpectra</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
@@ -722,16 +721,16 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 59
 60
 61
-62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="s2">&quot;customconfig.ini&quot;</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">calculateSpectra</span><span class="p">(</span><span class="n">proj</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
@@ -745,7 +744,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;impedance_config.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># now try again with some statistics for the dead band</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
 
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">])</span>
@@ -831,7 +830,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

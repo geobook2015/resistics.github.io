@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.common.io module &mdash; resistics 0.0.6.dev3 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="resistics.common.math module" href="resistics.common.math.html" />
+    <link rel="prev" title="resistics.common.checks module" href="resistics.common.checks.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html"> resistics
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search..." />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="resistics.common.html">resistics.common package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="resistics.common.base.html">resistics.common.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.common.checks.html">resistics.common.checks module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">resistics.common.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.common.math.html">resistics.common.math module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.common.plot.html">resistics.common.plot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.common.print.html">resistics.common.print module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.common.smooth.html">resistics.common.smooth module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.config.html">resistics.config package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.time.html">resistics.time package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.spectra.html">resistics.spectra package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.statistics.html">resistics.statistics package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.mask.html">resistics.mask package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.regression.html">resistics.regression package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.transfunc.html">resistics.transfunc package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.site.html">resistics.site package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.project.html">resistics.project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.calibrate.html">resistics.calibrate package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.window.html">resistics.window package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.decimate.html">resistics.decimate package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">resistics</a> &raquo;</li>
+        
+          <li><a href="../modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="resistics.common.html">resistics.common package</a> &raquo;</li>
+        
+      <li>resistics.common.io module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/resistics.common.io.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-resistics.common.io">
+<span id="resistics-common-io-module"></span><h1>resistics.common.io module<a class="headerlink" href="#module-resistics.common.io" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="resistics.common.io.checkAndMakeDir">
+<code class="descclassname">resistics.common.io.</code><code class="descname">checkAndMakeDir</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/common/io.html#checkAndMakeDir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.checkAndMakeDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if directory exists and make if not</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Directory path to make</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.checkDirExistence">
+<code class="descclassname">resistics.common.io.</code><code class="descname">checkDirExistence</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/common/io.html#checkDirExistence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.checkDirExistence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if directory exists</p>
+<p>..todo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Should</span> <span class="n">check</span> <span class="n">that</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">actually</span> <span class="n">a</span> <span class="n">directory</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to check</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong><span class="classifier">bool</span></dt><dd><p>True if directory exists</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.checkFilepath">
+<code class="descclassname">resistics.common.io.</code><code class="descname">checkFilepath</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/common/io.html#checkFilepath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.checkFilepath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if file exists</p>
+<p>TODO: Should check that it is actually a file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Filepath to check</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong><span class="classifier">bool</span></dt><dd><p>True if file exists</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.fileFormatSampleFreq">
+<code class="descclassname">resistics.common.io.</code><code class="descname">fileFormatSampleFreq</code><span class="sig-paren">(</span><em>sampleFreq: float</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/common/io.html#fileFormatSampleFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.fileFormatSampleFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide a consistent way to represent floating numbers in filenames</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>str</dt><dd><p>Float converted for string for the purposes of a filename</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.getDataDirectoryFormats">
+<code class="descclassname">resistics.common.io.</code><code class="descname">getDataDirectoryFormats</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/common/io.html#getDataDirectoryFormats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.getDataDirectoryFormats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of data directory formats</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong><span class="classifier">List[str]</span></dt><dd><p>A list of allowable data directory formats</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.getDataDirsInDirectory">
+<code class="descclassname">resistics.common.io.</code><code class="descname">getDataDirsInDirectory</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="../_modules/resistics/common/io.html#getDataDirsInDirectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.getDataDirsInDirectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get subdirectories in directory</p>
+<p>This uses known data formats as defined in getDataDirectoryFormats</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Parent directory path</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dirs</strong><span class="classifier">list</span></dt><dd><p>List of directories containing time data</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.getDirectoryContents">
+<code class="descclassname">resistics.common.io.</code><code class="descname">getDirectoryContents</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span> &#x2192; Tuple[List, List]<a class="reference internal" href="../_modules/resistics/common/io.html#getDirectoryContents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.getDirectoryContents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get contents of directory</p>
+<p>Includes both files and directories</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Parent directory path</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dirs</strong><span class="classifier">list</span></dt><dd><p>List of directories</p>
+</dd>
+<dt><strong>files</strong><span class="classifier">list</span></dt><dd><p>List of files excluding hidden files</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.getDirsInDirectory">
+<code class="descclassname">resistics.common.io.</code><code class="descname">getDirsInDirectory</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/common/io.html#getDirsInDirectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.getDirsInDirectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get subdirectories in directory</p>
+<p>Excludes hidden files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Parent directory path</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>dirs</strong><span class="classifier">list</span></dt><dd><p>List of subdirectories</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.getFilesInDirectory">
+<code class="descclassname">resistics.common.io.</code><code class="descname">getFilesInDirectory</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="../_modules/resistics/common/io.html#getFilesInDirectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.getFilesInDirectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get files in directory</p>
+<p>Excludes hidden files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Parent directory path</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>files</strong><span class="classifier">list</span></dt><dd><p>List of files excluding hidden files</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.lineToKeyAndValue">
+<code class="descclassname">resistics.common.io.</code><code class="descname">lineToKeyAndValue</code><span class="sig-paren">(</span><em>line: str</em>, <em>delim='='</em><span class="sig-paren">)</span> &#x2192; Tuple[str, str]<a class="reference internal" href="../_modules/resistics/common/io.html#lineToKeyAndValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.lineToKeyAndValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to read headers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>line</strong><span class="classifier">str</span></dt><dd><p>A string representing a header line</p>
+</dd>
+<dt><strong>delim</strong><span class="classifier">str</span></dt><dd><p>The delimeter separating key and value</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>key</strong><span class="classifier">str</span></dt><dd><p>The header key</p>
+</dd>
+<dt><strong>val</strong><span class="classifier">str</span></dt><dd><p>The header value</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.makeDir">
+<code class="descclassname">resistics.common.io.</code><code class="descname">makeDir</code><span class="sig-paren">(</span><em>path: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/common/io.html#makeDir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.makeDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make directory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Directory path to make</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.common.io.removeHiddenFiles">
+<code class="descclassname">resistics.common.io.</code><code class="descname">removeHiddenFiles</code><span class="sig-paren">(</span><em>files: List</em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="../_modules/resistics/common/io.html#removeHiddenFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.common.io.removeHiddenFiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove hidden files from list of files</p>
+<p>Hidden files are those which begin with a .</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>files</strong><span class="classifier">list</span></dt><dd><p>List of files</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>files</strong><span class="classifier">list</span></dt><dd><p>List of files with hidden files removed</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="resistics.common.math.html" class="btn btn-neutral float-right" title="resistics.common.math module" accesskey="n" rel="next">Next</a>
+      
+      
+        <a href="resistics.common.checks.html" class="btn btn-neutral" title="resistics.common.checks module" accesskey="p" rel="prev">Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.6.dev3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

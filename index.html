@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to resistics &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Welcome to resistics &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="introduction.html" /> 
+    <link rel="next" title="Installation" href="installation.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -92,7 +92,6 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
@@ -102,7 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donate.html">Donate</a></li>
@@ -173,33 +172,39 @@
             
   <div class="section" id="welcome-to-resistics">
 <h1>Welcome to resistics<a class="headerlink" href="#welcome-to-resistics" title="Permalink to this headline">¶</a></h1>
-<p>Resistics is a native Python 3 package for the processing of magnetotelluric (MT) data. It incorporates standard robust processing methods and adopts a modular approach to processing which allows for customisation and future improvements to be quickly adopted.</p>
+<p>Resistics is an open-source, native Python 3 package for the processing of magnetotelluric (MT) data. It incorporates standard robust regression methods and adopts a modular approach to processing which allows for customisation and future improvements to be quickly adopted.</p>
 <div class="align-center figure" id="id1">
 <img alt="alternate text" src="_images/welcome.jpg" />
 <p class="caption"><span class="caption-text">Magnetotellurics in the rain</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="latest-news">
 <h2>Latest news<a class="headerlink" href="#latest-news" title="Permalink to this headline">¶</a></h2>
-<p><strong>2019-09-29:</strong> Resistics is currently in beta mode and updates are being made regularly. The focus of updates for release 0.0.6 is:</p>
+<p><strong>2019-10-13:</strong> Resistics 0.0.6.dev3 has been pushed to the python package repository and brings with it an internal restructure.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This version of resistics is no longer backwards compatible and scripts written using older versions of the package will no longer function due to broken imports. All documentation has been re-written to match the new structure.</p>
+</div>
+<p>The features remaining to be implemented before completing resistics 0.0.6 are:</p>
 <ul class="simple">
-<li>More complete documentation with more examples. The tutorial is complete, but additional examples are coming to cover advanced methods such as pre-processing, remote reference processing, inter-operability, remote reference statistics, intersite transfer functions.</li>
-<li>Speeding up of processing</li>
-<li>Support for Phoenix data</li>
+<li>Implementation of multiprocessing to speed up processing times</li>
 </ul>
-<p>There is a chance that method and module names may change in the near future as they are an artefact of how the code grew up. For more information, please <a class="reference internal" href="contact.html"><span class="doc">contact us</span></a>.</p>
-<p>The latest development version of resistics can be downloaded by specifying 0.0.6.dev2 when downloading using pip.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python -m pip install resistics==0.0.6.dev2
+<p>The latest development version of resistics can be downloaded by specifying 0.0.6.dev3 when installing using pip.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python -m pip install resistics==0.0.6.dev3
 </pre></div>
 </div>
-<p>This release introduces support for:</p>
-<ul class="simple">
-<li>Lemi B423 magnetotelluric and B423E telluric data. See <a class="reference internal" href="formats/timeseries/LemiB423-timeseries.html"><span class="doc">Lemi B423 timeseries</span></a></li>
-<li>Plotting statistic density plots. See <a class="reference internal" href="advanced/remote-reference-statistics.html"><span class="doc">Remote reference statistics</span></a></li>
-</ul>
+<p>For more information on what has changed, please view the <a class="reference internal" href="changelog.html"><span class="doc">changelog</span></a>.</p>
 </div>
 <div class="section" id="about">
 <h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
 <p>Resistics began as a set of Python classes to help analyse noisy MT timeseries data acquired in northern Switzerland through increased use of statistics and time window based features. Since then, it has grown into a MT data processing package. The name is an amalgamation of resistivty and statistics…resistics!</p>
+<p>Whilst other codes exist, resistics was written for the following purpose:</p>
+<ul class="simple">
+<li>Freely accessible (MIT licence), open-source and cross platform</li>
+<li>Compatible with several <a class="reference internal" href="formats/timeseries.html"><span class="doc">time data formats</span></a> and corresponding <a class="reference internal" href="formats/calibration.html"><span class="doc">calibration data</span></a></li>
+<li><a class="reference internal" href="features/configuration.html"><span class="doc">Configuration files</span></a> and <a class="reference internal" href="features/comments.html"><span class="doc">dataset history</span></a></li>
+<li><a class="reference internal" href="features/statistics.html"><span class="doc">Dataset investigation</span></a>, tools for dealing with noisy MT data</li>
+<li>Well documented with <a class="reference internal" href="tutorial.html#processing-theory"><span class="std std-ref">clear explanation of methods</span></a>, <a class="reference internal" href="tutorial.html#working-through-the-tutorial"><span class="std std-ref">tutorials</span></a>, <a class="reference internal" href="advanced.html"><span class="doc">advanced examples</span></a> and a <a class="reference internal" href="cookbook.html"><span class="doc">cookbook</span></a> for showcasing lower level API usage.</li>
+</ul>
 </div>
 <div class="section" id="audience">
 <h2>Audience<a class="headerlink" href="#audience" title="Permalink to this headline">¶</a></h2>
@@ -207,14 +212,14 @@
 </div>
 <div class="section" id="getting-started">
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
-<p>Read more about the magnetotelluric method and resistics in the <a class="reference internal" href="introduction.html"><span class="doc">Introduction</span></a>. Installation instructions are provided <a class="reference internal" href="installation.html"><span class="doc">here</span></a>. The quickest way to get started with resistics is to install it from pip, the python package repository, and continue through to the <a class="reference internal" href="tutorial.html"><span class="doc">tutorial</span></a>.</p>
+<p>Installation instructions are provided <a class="reference internal" href="installation.html"><span class="doc">here</span></a>. The quickest way to get started with resistics is to install it from pip, the python package repository, and continue through to the <a class="reference internal" href="tutorial.html"><span class="doc">tutorial</span></a>.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>python -m pip install --user resistics
 </pre></div>
 </div>
 <p>Resistics uses a number of conventions which are described <a class="reference internal" href="conventions.html"><span class="doc">here</span></a>. Find out about the useful features of resistics in the <a class="reference internal" href="features.html"><span class="doc">features</span></a> section. Information about supported data and calibration formats is provided in the <a class="reference internal" href="formats.html"><span class="doc">formats</span></a> section.</p>
 <p>The <a class="reference internal" href="tutorial.html"><span class="doc">tutorial</span></a> section covers the resistics project environment and basic processing of magnetotelluric data. More advanced processing, including pre-processing of timeseries data, remote reference processing and remote reference statistics are detailed in the <a class="reference internal" href="advanced.html"><span class="doc">advanced</span></a> section. Specialised functionality or examples of using lower level APIs will be added in the <a class="reference internal" href="cookbook.html"><span class="doc">cookbook</span></a> as and when it is developed. The <a class="reference internal" href="case-studies.html"><span class="doc">case studies</span></a> will cover the use of resistics to process complete field surveys. A complete API reference can be found <a class="reference internal" href="modules.html"><span class="doc">here</span></a>.</p>
-<p>A roadmap for future development can be accessed <a class="reference internal" href="roadmap.html"><span class="doc">here</span></a>. Useful magnetotelluric references are provided in the <a class="reference internal" href="bibliography.html"><span class="doc">Bibliography</span></a>.</p>
-<p>For those interested in seeing who is contributing to the project and how resistics can be cited see the <a class="reference internal" href="roadmap.html"><span class="doc">Credits</span></a>. Anyone who wants to donate can do so <a class="reference internal" href="donate.html"><span class="doc">here</span></a>.</p>
+<p>A changelog and backlog for future resistics development can be accessed <a class="reference internal" href="changelog.html"><span class="doc">here</span></a>. Useful magnetotelluric references are provided in the <a class="reference internal" href="bibliography.html"><span class="doc">Bibliography</span></a>.</p>
+<p>For those interested in seeing who is contributing to the project and how resistics can be cited see the <a class="reference internal" href="credits.html"><span class="doc">Credits</span></a>. Anyone who wants to donate can do so <a class="reference internal" href="donate.html"><span class="doc">here</span></a>.</p>
 </div>
 <div class="section" id="open-source">
 <h2>Open-source<a class="headerlink" href="#open-source" title="Permalink to this headline">¶</a></h2>
@@ -232,7 +237,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next</a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next</a>
       
       
     </div>
@@ -264,7 +269,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

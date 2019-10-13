@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Resistivity and Phase &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Resistivity and phase &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Remote reference statistics" href="../remote-statistics.html" />
-    <link rel="prev" title="Transfer Functions" href="transferFunction.html" /> 
+    <link rel="prev" title="Transfer functions" href="transferFunction.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -91,19 +91,19 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../features.html">Features</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../configuration.html">Configuration files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../comments.html">Comments</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../statistics.html">Statistics</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="powerSpectralDensity.html">Power Spectral Density</a></li>
-<li class="toctree-l3"><a class="reference internal" href="coherences.html">Coherence</a></li>
-<li class="toctree-l3"><a class="reference internal" href="partialCoherence.html">Partial Coherences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polarisationDirection.html">Polarisation Directions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="transferFunction.html">Transfer Functions</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Resistivity and Phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="absval.html">Absolute value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="powerSpectralDensity.html">Power spectral density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coherence.html">Coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partialCoherence.html">Partial coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polarisationDirection.html">Polarisation directions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="transferFunction.html">Transfer functions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Resistivity and phase</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../remote-statistics.html">Remote reference statistics</a></li>
@@ -115,7 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -169,7 +169,7 @@
         
           <li><a href="../statistics.html">Statistics</a> &raquo;</li>
         
-      <li>Resistivity and Phase</li>
+      <li>Resistivity and phase</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -189,16 +189,42 @@
            <div itemprop="articleBody">
             
   <div class="section" id="resistivity-and-phase">
-<h1>Resistivity and Phase<a class="headerlink" href="#resistivity-and-phase" title="Permalink to this headline">¶</a></h1>
-<p>Looking at the transfer function components for each evaluation frequency is useful, but in many cases, it is more useful to consider the apparent resistivity and phase. Apparent resitivty and phase are more physically relateable and can be a better choice for restricting window selection.</p>
-<p>Example</p>
-<div class="align-center figure" id="id1">
-<img alt="alternate text" src="../../_images/histResPhase.png" />
-<p class="caption"><span class="caption-text">A histogram of coherence values for the various coherence pairs</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<h1>Resistivity and phase<a class="headerlink" href="#resistivity-and-phase" title="Permalink to this headline">¶</a></h1>
+<p>Looking at the transfer function components for each evaluation frequency is useful, but in many cases, it is easier to consider the apparent resistivity and phase. Apparent resitivty and phase are more physically relateable and can be a better choice for restricting window selection.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>The resistics name for the resistivity and phase statistic is: <strong>resPhase</strong>.</p>
+<p>The components of the resistivity and phase statistic are:</p>
+<ul class="last simple">
+<li>E<sub>x</sub> H<sub>x</sub> Res</li>
+<li>E<sub>x</sub> H<sub>x</sub> Phase</li>
+<li>E<sub>x</sub> H<sub>y</sub> Res</li>
+<li>E<sub>x</sub> H<sub>y</sub> Phase</li>
+<li>E<sub>y</sub> H<sub>x</sub> Res</li>
+<li>E<sub>y</sub> H<sub>x</sub> Phase</li>
+<li>E<sub>y</sub> H<sub>y</sub> Res</li>
+<li>E<sub>y</sub> H<sub>y</sub> Phase</li>
+</ul>
 </div>
+<p>An example of the window-by-window resistivity and phase are shown below for evaluation frequency 1024 Hz from MT data recorded at 4096 Hz.</p>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="../../_images/M1_resPhase_view_4096.png" />
+<p class="caption"><span class="caption-text">An example of resistivity and phase plotted over time for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>There are numerous outliers in the resistivity estimates and the phase appears to be quite noisy. The same data is plotted as a histogram below.</p>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../../_images/timeResPhase.png" />
-<p class="caption"><span class="caption-text">An example of coherence pairs plotted over time</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<img alt="alternate text" src="../../_images/M1_resPhase_histogram_4096.png" />
+<p class="caption"><span class="caption-text">An example of resistivity and phase histogram for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>The resistivity histograms do have long tails (though these are barely visible). This suggests that the dataset has a few, very large outliers. Such outliers are good candidates for being down-weighted and excluded by robust regression, but removing them using masks will be more effective.</p>
+<p>Two futher example plots are provided for data sampled at 128 Hz. Again, there are a small number of very large outliers which might cause poor impedance tensor estimates.</p>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="../../_images/Remote_resPhase_view_128.png" />
+<p class="caption"><span class="caption-text">An example of resistivity and phase plotted over time for evaluation frequency 32 Hz</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="../../_images/Remote_resPhase_histogram_128.png" />
+<p class="caption"><span class="caption-text">An example of resistivity and phase histogram for evaluation frequency 32 Hz</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 
@@ -213,7 +239,7 @@
         <a href="../remote-statistics.html" class="btn btn-neutral float-right" title="Remote reference statistics" accesskey="n" rel="next">Next</a>
       
       
-        <a href="transferFunction.html" class="btn btn-neutral" title="Transfer Functions" accesskey="p" rel="prev">Previous</a>
+        <a href="transferFunction.html" class="btn btn-neutral" title="Transfer functions" accesskey="p" rel="prev">Previous</a>
       
     </div>
   
@@ -244,7 +270,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

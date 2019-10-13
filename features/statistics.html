@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Statistics &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Statistics &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Power Spectral Density" href="statistics/powerSpectralDensity.html" />
+    <link rel="next" title="Absolute value" href="statistics/absval.html" />
     <link rel="prev" title="Comments" href="comments.html" /> 
 
   
@@ -91,19 +91,19 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="comments.html">Comments</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Statistics</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="statistics/powerSpectralDensity.html">Power Spectral Density</a></li>
-<li class="toctree-l3"><a class="reference internal" href="statistics/coherences.html">Coherence</a></li>
-<li class="toctree-l3"><a class="reference internal" href="statistics/partialCoherence.html">Partial Coherences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="statistics/polarisationDirection.html">Polarisation Directions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="statistics/transferFunction.html">Transfer Functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="statistics/resistivityPhase.html">Resistivity and Phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics/absval.html">Absolute value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics/powerSpectralDensity.html">Power spectral density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics/coherence.html">Coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics/partialCoherence.html">Partial coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics/polarisationDirection.html">Polarisation directions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics/transferFunction.html">Transfer functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="statistics/resistivityPhase.html">Resistivity and phase</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="remote-statistics.html">Remote reference statistics</a></li>
@@ -115,7 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -188,32 +188,35 @@
             
   <div class="section" id="statistics">
 <h1>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h1>
-<p>There are two motivating factors for the calculation of statistics:</p>
+<p>There are two main motivating factors for the calculation of statistics:</p>
 <ul class="simple">
-<li>Selecting windows for further processing</li>
 <li>Investigating data quality</li>
+<li>Selecting windows for further processing</li>
 </ul>
-<p>Statistics are calculated on an evaluation frequency basis, meaning that different windows can be selected for each evaluation frequency.</p>
-<div class="section" id="selection-of-windows">
-<h2>Selection of windows<a class="headerlink" href="#selection-of-windows" title="Permalink to this headline">¶</a></h2>
-<p>The philosophy of Resistics is that all timeseries data is windowed and transformed into the frequency domain. Selection of windows happens after this point using either date and time constraints or constraints based on the calculation of statistics.</p>
-<p>There are a number of statistics already included in Resistics. These are:</p>
-<ul class="simple">
-<li>Coherence between channels</li>
-<li>Transfer function components</li>
-<li>Apparent resistivity and phase</li>
-<li>Polarisation direction</li>
-<li>Partial coherence</li>
-</ul>
-<p>In addition, statistics have been added that include remote reference data:</p>
-<p>The following sections dive into each one of the statistics in more detail. The intention is to support custom statistics in the future but the architecture of this has not yet been decided.</p>
-</div>
-<div class="section" id="data-investigation">
-<h2>Data investigation<a class="headerlink" href="#data-investigation" title="Permalink to this headline">¶</a></h2>
-<p>The second reason behind the calculation of statistics in Resistics is to allow transparent investigation of the data. The ability to see the variation in time of certain statistic values offers insight into</p>
+<p>When processing magnetotelluric data, it can often be difficult to understand why transfer function estimates are poor. Statistics help users investigate data quality by showing the variation of a selection of parameters over the course of the recording. Based on the statistic data, users can specify criteria for selecting windows based on the parameter values. The most familiar example is coherence statistics, which are widely used already in magnetotelluric data processing.</p>
+<p>The philosophy of resistics is that all timeseries data is windowed and transformed into the frequency domain. Selection of windows happens after this point using either date and time constraints or constraints based on the calculation of statistics. Statistics are calculated on an evaluation frequency basis, meaning that different windows can be selected for each evaluation frequency.</p>
+<p>There are a number of statistics already included in resistics. These are:</p>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="statistics/absval.html">Absolute value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics/powerSpectralDensity.html">Power spectral density</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics/coherence.html">Coherence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics/partialCoherence.html">Partial coherence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics/polarisationDirection.html">Polarisation directions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics/transferFunction.html">Transfer functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statistics/resistivityPhase.html">Resistivity and phase</a></li>
+</ul>
 </div>
+<div class="line-block">
+<div class="line"><strong>A good paper detailing and demonstrating the use of various statistics is:</strong></div>
+<div class="line"><a class="reference external" href="https://academic.oup.com/gji/article/161/3/635/557193">Effective noise separation for magnetotelluric single site data processing using a frequency domain selection scheme</a></div>
+<div class="line">U. Weckmann  A. Maguina  O. Ritter</div>
+<div class="line"><em>Geophysical Journal International, Volume 161, Issue 3, June, 2005</em></div>
+<div class="line"><em>Pages 635-652</em></div>
+<div class="line"><a class="reference external" href="https://doi.org/10.1111/j.1365-246X.2005.02621.x">https://doi.org/10.1111/j.1365-246X.2005.02621.x</a></div>
 </div>
+<p>The following sections dive into each one of the statistics in more detail. The intention is to support custom statistics in the future but the architecture of this has not yet been decided.</p>
+<p>Standard statitsics support local site processing. For remote reference processing continue <a class="reference internal" href="remote-statistics.html"><span class="doc">here</span></a>.</p>
 </div>
 
 
@@ -224,7 +227,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="statistics/powerSpectralDensity.html" class="btn btn-neutral float-right" title="Power Spectral Density" accesskey="n" rel="next">Next</a>
+        <a href="statistics/absval.html" class="btn btn-neutral float-right" title="Absolute value" accesskey="n" rel="next">Next</a>
       
       
         <a href="comments.html" class="btn btn-neutral" title="Comments" accesskey="p" rel="prev">Previous</a>
@@ -258,7 +261,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Phoenix timeseries &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Phoenix timeseries &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
@@ -114,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -211,7 +210,7 @@
 <p>The scaling currently applied for phoenix data has not been verified and requires further testing. Therefore, it is not currently known how to calibrate the data.</p>
 <p class="last">Phoenix binary formatted calibration files are also not supported but ASCII files can be used instead as required.</p>
 </div>
-<p>Phoenix recordings are opened in resistics using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderPhoenix.html#resistics.ioHandlers.dataReaderPhoenix.DataReaderPhoenix" title="resistics.ioHandlers.dataReaderPhoenix.DataReaderPhoenix"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderPhoenix</span></code></a> class. An example is provided below:</p>
+<p>Phoenix recordings are opened in resistics using the <a class="reference internal" href="../../api/resistics.time.reader_phoenix.html#resistics.time.reader_phoenix.TimeReaderPhoenix" title="resistics.time.reader_phoenix.TimeReaderPhoenix"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderPhoenix</span></code></a> class. An example is provided below:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -219,17 +218,17 @@
 5
 6
 7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderPhoenix</span> <span class="kn">import</span> <span class="n">DataReaderPhoenix</span>
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_phoenix</span> <span class="kn">import</span> <span class="n">TimeReaderPhoenix</span>
 
 <span class="c1"># read in spam data</span>
-<span class="n">phoenixPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenix&quot;</span><span class="p">)</span>
-<span class="n">phoenixReader</span> <span class="o">=</span> <span class="n">DataReaderPhoenix</span><span class="p">(</span><span class="n">phoenixPath</span><span class="p">)</span>
+<span class="n">phoenixPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;phoenix&quot;</span>
+<span class="n">phoenixReader</span> <span class="o">=</span> <span class="n">TimeReaderPhoenix</span><span class="p">(</span><span class="n">phoenixPath</span><span class="p">)</span>
 <span class="n">phoenixReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 <span class="n">phoenixReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The phoenix data reader can show information about the sampling frequencies for the various data files by using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderPhoenix.html#resistics.ioHandlers.dataReaderPhoenix.DataReaderPhoenix.printDataFileList" title="resistics.ioHandlers.dataReaderPhoenix.DataReaderPhoenix.printDataFileList"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printDataFileList()</span></code></a> method.</p>
+<p>The phoenix data reader can show information about the sampling frequencies for the various data files by using the <a class="reference internal" href="../../api/resistics.time.reader_phoenix.html#resistics.time.reader_phoenix.TimeReaderPhoenix.printDataFileList" title="resistics.time.reader_phoenix.TimeReaderPhoenix.printDataFileList"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printDataFileList()</span></code></a> method.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -321,7 +320,7 @@
 <span class="k">print</span><span class="p">(</span><span class="n">unscaledData</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p><code class="code python docutils literal notranslate"><span class="name"><span class="pre">phoenixReader</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">getUnscaledData</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">startTime</span></span><span class="punctuation"><span class="pre">,</span></span> <span class="name"><span class="pre">stopTime</span></span><span class="punctuation"><span class="pre">)</span></span></code> will read timeseries data from the data files and returns a <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object with data in the raw data units. Alternatively, to get all the data without any time restrictions, use <code class="code python docutils literal notranslate"><span class="name"><span class="pre">phoenixReader</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">getUnscaledSamples</span></span><span class="punctuation"><span class="pre">()</span></span></code>.</p>
+<p><code class="code python docutils literal notranslate"><span class="name"><span class="pre">phoenixReader</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">getUnscaledData</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">startTime</span></span><span class="punctuation"><span class="pre">,</span></span> <span class="name"><span class="pre">stopTime</span></span><span class="punctuation"><span class="pre">)</span></span></code> will read timeseries data from the data files and returns a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object with data in the raw data units. Alternatively, to get all the data without any time restrictions, use <code class="code python docutils literal notranslate"><span class="name"><span class="pre">phoenixReader</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">getUnscaledSamples</span></span><span class="punctuation"><span class="pre">()</span></span></code>.</p>
 <p>Information about the time data can be printed using either <code class="code python docutils literal notranslate"><span class="name"><span class="pre">unscaledData</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">printInfo</span></span><span class="punctuation"><span class="pre">()</span></span></code> or simply <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">print</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">unscaledData</span></span><span class="punctuation"><span class="pre">)</span></span></code>. An example of the time data information is below:</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -354,7 +353,7 @@
 16:49:46 TimeData: ####################
 </pre></div>
 </td></tr></table></div>
-<p>After reading in some data, it is natural to view it. Time data can be viewed using the <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData.view" title="resistics.dataObjects.timeData.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of the class. By additionally providing a matplotlib figure object, the style and layout of the plot can be controlled.</p>
+<p>After reading in some data, it is natural to view it. Time data can be viewed using the <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData.view" title="resistics.time.data.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of the class. By additionally providing a matplotlib figure object, the style and layout of the plot can be controlled.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>16
 17
 18
@@ -369,7 +368,7 @@
 <span class="n">unscaledData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleEnd</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenixUnscaled.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;phoenixUnscaled.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
@@ -395,14 +394,14 @@
 <span class="n">physicalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleEnd</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenixPhysical.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;phoenixPhysical.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../../_images/phoenixPhysical.png" />
 <p class="caption"><span class="caption-text">Viewing physically scaled data</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
-<p>There are a few helpful methods built in to resistics for manipulating timeseries data. These are generally in <a class="reference internal" href="../../api/resistics.utilities.html#module-resistics.utilities" title="resistics.utilities"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utilities</span></code></a>. In the example below, the time data is high pass filtered 4 Hz and then plotted.</p>
+<p>There are a few helpful methods built in to resistics for manipulating time series data. These are generally in <a class="reference internal" href="../../api/resistics.time.filter.html#module-resistics.time.filter" title="resistics.time.filter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">filter</span></code></a>. In the example below, the time data is high pass filtered 4 Hz and then plotted.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>34
 35
 36
@@ -412,14 +411,14 @@
 40
 41
 42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># can filter the data</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="kn">import</span> <span class="n">highPass</span>
+<span class="kn">from</span> <span class="nn">resistics.time.filter</span> <span class="kn">import</span> <span class="n">highPass</span>
 
 <span class="n">filteredData</span> <span class="o">=</span> <span class="n">highPass</span><span class="p">(</span><span class="n">physicalData</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">physicalData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">filteredData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleEnd</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenixFiltered.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;phoenixFiltered.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id3">
@@ -430,11 +429,11 @@
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>44
 45
 46</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># reformat the continuous sampling frequency</span>
-<span class="n">phoenix_2internal</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenixInternal&quot;</span><span class="p">)</span>
+<span class="n">phoenix_2internal</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;phoenixInternal&quot;</span>
 <span class="n">phoenixReader</span><span class="o">.</span><span class="n">reformatContinuous</span><span class="p">(</span><span class="n">phoenix_2internal</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>To check the fidelity of this function, the internally formatted data can be read back in and plotted with the original data. To read the data back in, use the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderInternal.html#resistics.ioHandlers.dataReaderInternal.DataReaderInternal" title="resistics.ioHandlers.dataReaderInternal.DataReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderInternal</span></code></a> class.</p>
+<p>To check the fidelity of this function, the internally formatted data can be read back in and plotted with the original data. To read the data back in, use the <a class="reference internal" href="../../api/resistics.time.reader_internal.html#resistics.time.reader_internal.TimeReaderInternal" title="resistics.time.reader_internal.TimeReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderInternal</span></code></a> class.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>48
 49
 50
@@ -442,16 +441,14 @@
 52
 53
 54
-55
-56</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># reading output</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+55</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># reading output</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">internalReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">phoenix_2internal</span><span class="p">,</span> <span class="s2">&quot;meas_ts5_2011-11-13-17-04-02_2011-11-14-14-29-46&quot;</span><span class="p">)</span>
+<span class="n">internalReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span>
+    <span class="n">phoenix_2internal</span> <span class="o">/</span> <span class="s2">&quot;meas_ts5_2011-11-13-17-04-02_2011-11-14-14-29-46&quot;</span>
 <span class="p">)</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
-
 </pre></div>
 </td></tr></table></div>
 <p>The comments of this reformatted dataset show the various scalings and modifications that have been applied to the data.</p>
@@ -465,7 +462,8 @@
  8
  9
 10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2011-11-13 17:04:02 to 2011-11-14 14:29:46.933333 read in from measurement timeData\phoenix, samples 0 to 1157174
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2011-11-13 17:04:02 to 2011-11-14 14:29:46.933333 read in from measurement E:\magnetotellurics\code\resisticsdata\formats\timeData\phoenix, samples 0 to 1157174
 Scaling channel Ex with scalar 0.1 to give mV
 Dividing channel Ex by electrode distance 0.093 km to give mV/km
 Scaling channel Ey with scalar 0.1 to give mV
@@ -475,10 +473,11 @@ Scaling channel Hy with scalar 0.08333333333333333 to give mV
 Scaling channel Hz with scalar 0.08333333333333333 to give mV
 The required Phoneix scaling to field units is still unverified. This is experimental and use cautiously.
 Remove zeros: False, remove nans: False, remove average: True
-Dataset written to timeData\phoenixInternal\meas_ts5_2011-11-13-17-04-02_2011-11-14-14-29-46 on 2019-03-24 16:51:44.657860
+Time series dataset written to E:\magnetotellurics\code\resisticsdata\formats\timeData\phoenixInternal\meas_ts5_2011-11-13-17-04-02_2011-11-14-14-29-46 on 2019-10-05 18:14:54.116435 using resistics 0.0.6.dev2
+---------------------------------------------------
 </pre></div>
 </td></tr></table></div>
-<p>The datasets can be compared by plotting them together. First, read in some physical data from the internal data reader.</p>
+<p>The datasets can be compared by plotting them together. First, read in some physical data from the internal time data reader.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>57
 58</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read in physical data</span>
 <span class="n">internalData</span> <span class="o">=</span> <span class="n">internalReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
@@ -497,7 +496,7 @@ Dataset written to timeData\phoenixInternal\meas_ts5_2011-11-13-17-04-02_2011-11
 <span class="n">internalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal format data&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenix_vs_internal_continuous.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;phoenix_vs_internal_continuous.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id4">
@@ -572,12 +571,12 @@ Dataset written to timeData\phoenixInternal\meas_ts5_2011-11-13-17-04-02_2011-11
 63
 64
 65
-66</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderPhoenix</span> <span class="kn">import</span> <span class="n">DataReaderPhoenix</span>
+66</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_phoenix</span> <span class="kn">import</span> <span class="n">TimeReaderPhoenix</span>
 
 <span class="c1"># read in spam data</span>
-<span class="n">phoenixPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenix&quot;</span><span class="p">)</span>
-<span class="n">phoenixReader</span> <span class="o">=</span> <span class="n">DataReaderPhoenix</span><span class="p">(</span><span class="n">phoenixPath</span><span class="p">)</span>
+<span class="n">phoenixPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;phoenix&quot;</span>
+<span class="n">phoenixReader</span> <span class="o">=</span> <span class="n">TimeReaderPhoenix</span><span class="p">(</span><span class="n">phoenixPath</span><span class="p">)</span>
 <span class="n">phoenixReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 <span class="n">phoenixReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
@@ -594,7 +593,7 @@ Dataset written to timeData\phoenixInternal\meas_ts5_2011-11-13-17-04-02_2011-11
 <span class="n">unscaledData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleEnd</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenixUnscaled.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;phoenixUnscaled.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># let&#39;s try physical data and view it</span>
 <span class="n">physicalData</span> <span class="o">=</span> <span class="n">phoenixReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
@@ -603,27 +602,27 @@ Dataset written to timeData\phoenixInternal\meas_ts5_2011-11-13-17-04-02_2011-11
 <span class="n">physicalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleEnd</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenixPhysical.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;phoenixPhysical.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># can filter the data</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="kn">import</span> <span class="n">highPass</span>
+<span class="kn">from</span> <span class="nn">resistics.time.filter</span> <span class="kn">import</span> <span class="n">highPass</span>
 
 <span class="n">filteredData</span> <span class="o">=</span> <span class="n">highPass</span><span class="p">(</span><span class="n">physicalData</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">physicalData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">filteredData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleEnd</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenixFiltered.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;phoenixFiltered.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># reformat the continuous sampling frequency</span>
-<span class="n">phoenix_2internal</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenixInternal&quot;</span><span class="p">)</span>
+<span class="n">phoenix_2internal</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;phoenixInternal&quot;</span>
 <span class="n">phoenixReader</span><span class="o">.</span><span class="n">reformatContinuous</span><span class="p">(</span><span class="n">phoenix_2internal</span><span class="p">)</span>
 
 <span class="c1"># reading output</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">internalReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">phoenix_2internal</span><span class="p">,</span> <span class="s2">&quot;meas_ts5_2011-11-13-17-04-02_2011-11-14-14-29-46&quot;</span><span class="p">)</span>
+<span class="n">internalReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span>
+    <span class="n">phoenix_2internal</span> <span class="o">/</span> <span class="s2">&quot;meas_ts5_2011-11-13-17-04-02_2011-11-14-14-29-46&quot;</span>
 <span class="p">)</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
@@ -637,7 +636,7 @@ Dataset written to timeData\phoenixInternal\meas_ts5_2011-11-13-17-04-02_2011-11
 <span class="n">internalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal format data&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;phoenix_vs_internal_continuous.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;phoenix_vs_internal_continuous.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -685,7 +684,7 @@ Dataset written to timeData\phoenixInternal\meas_ts5_2011-11-13-17-04-02_2011-11
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

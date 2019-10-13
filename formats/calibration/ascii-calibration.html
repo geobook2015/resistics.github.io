@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ASCII Calibration &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>ASCII Calibration &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
@@ -111,7 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -225,20 +224,18 @@ Internal format ASCII files should be named according to the following specifica
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>The internal ASCII format calibration file will not usually be provided and will have to be created from scratch. The <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> class provides the handy <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalTemplate" title="resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalTemplate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeInternalTemplate()</span></code></a> method for producing a template internal ASCII format calibration file. A template can be made as follows:</p>
+<p>The internal ASCII format calibration file will not usually be provided and will have to be created from scratch. The <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO" title="resistics.calibrate.io.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> class provides the handy <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO.writeInternalTemplate" title="resistics.calibrate.io.CalibrationIO.writeInternalTemplate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeInternalTemplate()</span></code></a> method for producing a template internal ASCII format calibration file. A template can be made as follows:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
 5
 6
-7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationData</span>
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">calPath</span><span class="p">,</span> <span class="n">calImages</span>
+<span class="kn">from</span> <span class="nn">resistics.calibrate.io</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
 
 <span class="c1"># we can write a template into which to paste our data</span>
-<span class="n">writepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;ascii.txt&quot;</span><span class="p">)</span>
+<span class="n">writepath</span> <span class="o">=</span> <span class="n">calPath</span> <span class="o">/</span> <span class="s2">&quot;ascii.txt&quot;</span>
 <span class="n">calIO</span> <span class="o">=</span> <span class="n">CalibrationIO</span><span class="p">()</span>
 <span class="n">calIO</span><span class="o">.</span><span class="n">writeInternalTemplate</span><span class="p">(</span><span class="n">writepath</span><span class="p">,</span> <span class="mi">307</span><span class="p">,</span> <span class="s2">&quot;MFS06&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -261,7 +258,7 @@ Chopper = False
 CALIBRATION DATA
 </pre></div>
 </td></tr></table></div>
-<p>The basic metadata can either be corrected in the file or passed as keywords to <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalTemplate" title="resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalTemplate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeInternalTemplate()</span></code></a>. The actual calibration data needs to be copied in and should be in the units:</p>
+<p>The basic metadata can either be corrected in the file or passed as keywords to <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO.writeInternalTemplate" title="resistics.calibrate.io.CalibrationIO.writeInternalTemplate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeInternalTemplate()</span></code></a>. The actual calibration data needs to be copied in and should be in the units:</p>
 <ul class="simple">
 <li>Magnitude in mV/nT without static gain</li>
 <li>Phase in units which match the “Phase unit” header, which can either be degrees or radians</li>
@@ -346,19 +343,19 @@ CALIBRATION DATA
 +1.0000e+04  +5.7145e+02  -9.7107e-01
 </pre></div>
 </td></tr></table></div>
-<p>This internal format ASCII calibration file can now be read in using the <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> class. First, the reading parameters need to be reset using the <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.refresh" title="resistics.ioHandlers.calibrationIO.CalibrationIO.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a> method. Using the <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.read" title="resistics.ioHandlers.calibrationIO.CalibrationIO.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> method will return a <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData" title="resistics.dataObjects.calibrationData.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a> object.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>10
+<p>This internal format ASCII calibration file can now be read in using the <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO" title="resistics.calibrate.io.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> class. First, the reading parameters need to be reset using the <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO.refresh" title="resistics.calibrate.io.CalibrationIO.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a> method. Using the <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO.read" title="resistics.calibrate.io.CalibrationIO.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> method will return a <a class="reference internal" href="../../api/resistics.calibrate.data.html#resistics.calibrate.data.CalibrationData" title="resistics.calibrate.data.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a> object.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 9
+10
 11
 12
-13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read back the internal template file</span>
-<span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;asciiWithData.txt&quot;</span><span class="p">)</span>
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read back the internal template file</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">calPath</span> <span class="o">/</span> <span class="s2">&quot;asciiWithData.txt&quot;</span>
 <span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;induction&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">calData</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="n">calData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The <a class="reference internal" href="../../api/resistics.dataObjects.dataObject.html#resistics.dataObjects.dataObject.DataObject.printInfo" title="resistics.dataObjects.dataObject.DataObject.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method prints information about the calibration data.</p>
+<p>The <a class="reference internal" href="../../api/resistics.common.base.html#resistics.common.base.ResisticsBase.printInfo" title="resistics.common.base.ResisticsBase.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method prints information about the calibration data.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -450,22 +447,22 @@ CALIBRATION DATA
 15:15:46 CalibrationData: ####################
 </pre></div>
 </td></tr></table></div>
-<p>To view the calibration data, the <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData.view" title="resistics.dataObjects.calibrationData.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData" title="resistics.dataObjects.calibrationData.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a> can be used. By passing a matplotlib figure to this, the layout of the plot can be controlled.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>16
+<p>To view the calibration data, the <a class="reference internal" href="../../api/resistics.calibrate.data.html#resistics.calibrate.data.CalibrationData.view" title="resistics.calibrate.data.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../../api/resistics.calibrate.data.html#resistics.calibrate.data.CalibrationData" title="resistics.calibrate.data.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a> can be used. By passing a matplotlib figure to this, the layout of the plot can be controlled.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
+16
 17
 18
 19
 20
 21
-22
-23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal ASCII format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationASCII.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">calImages</span> <span class="o">/</span> <span class="s2">&quot;calibrationASCII.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>This produces the following plot:</p>
@@ -498,18 +495,16 @@ CALIBRATION DATA
 19
 20
 21
-22
-23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationData</span>
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">calPath</span><span class="p">,</span> <span class="n">calImages</span>
+<span class="kn">from</span> <span class="nn">resistics.calibrate.io</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
 
 <span class="c1"># we can write a template into which to paste our data</span>
-<span class="n">writepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;ascii.txt&quot;</span><span class="p">)</span>
+<span class="n">writepath</span> <span class="o">=</span> <span class="n">calPath</span> <span class="o">/</span> <span class="s2">&quot;ascii.txt&quot;</span>
 <span class="n">calIO</span> <span class="o">=</span> <span class="n">CalibrationIO</span><span class="p">()</span>
 <span class="n">calIO</span><span class="o">.</span><span class="n">writeInternalTemplate</span><span class="p">(</span><span class="n">writepath</span><span class="p">,</span> <span class="mi">307</span><span class="p">,</span> <span class="s2">&quot;MFS06&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 <span class="c1"># read back the internal template file</span>
-<span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;asciiWithData.txt&quot;</span><span class="p">)</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">calPath</span> <span class="o">/</span> <span class="s2">&quot;asciiWithData.txt&quot;</span>
 <span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;induction&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">calData</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="n">calData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -521,7 +516,7 @@ CALIBRATION DATA
 <span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal ASCII format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationASCII.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">calImages</span> <span class="o">/</span> <span class="s2">&quot;calibrationASCII.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -648,7 +643,7 @@ CALIBRATION DATA
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

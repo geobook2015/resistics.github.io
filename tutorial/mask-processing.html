@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Processing with masks &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Processing with masks &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -115,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -194,17 +193,16 @@
 2
 3
 4
-5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load project and configuration file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Now perform the transfer function calculation with the addition of a mask.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 7
+ 8
  9
 10
 11
@@ -213,9 +211,8 @@
 14
 15
 16
-17
-18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Process the data with this mask</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Process the data with this mask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span>
 
 <span class="n">processProject</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
@@ -232,29 +229,36 @@
 <li>masks keyword. A mask needs to be associated with a site and provided in a dictionary. More than a single mask file can be supplied for a site by passing a list of masks.</li>
 <li>postpend keyword. This is the postpend on the output transfer function data file to avoid overwriting existing transfer function calculation files.</li>
 </ul>
-<p>The resultant impedance tensor result can be visualised in the same way as demonstrated in previous sections using the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.viewImpedance" title="resistics.project.projectTransferFunction.viewImpedance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewImpedance()</span></code></a> method of the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#module-resistics.project.projectTransferFunction" title="resistics.project.projectTransferFunction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectTransferFunction</span></code></a> module.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+<p>The resultant impedance tensor result can be visualised in the same way as demonstrated in previous sections using the <a class="reference internal" href="../api/resistics.project.transfunc.html#resistics.project.transfunc.viewImpedance" title="resistics.project.transfunc.viewImpedance"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewImpedance()</span></code></a> method of the project <a class="reference internal" href="../api/resistics.project.transfunc.html#module-resistics.project.transfunc" title="resistics.project.transfunc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">transfunc</span></code></a> module.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 
-<span class="n">viewImpedance</span><span class="p">(</span>
-    <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;runWithMask_coh70_100&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
-<img alt="alternate text" src="../_images/transFunction_site1_dec8_5_coh70_100.png" />
+<img alt="alternate text" src="../_images/runWithMask_coh70_100.png" />
 <p class="caption"><span class="caption-text">Impedance tensor estimate with the coherence masking</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <p>Repeating the process for the mask with additional transfer function constraints gives:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>26
-27
-28
-29
-30
-31
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>31
 32
 33
 34
@@ -265,7 +269,13 @@
 39
 40
 41
-42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">processProject</span><span class="p">(</span>
+42
+43
+44
+45
+46
+47
+48</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">processProject</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sampleFreqs</span><span class="o">=</span><span class="p">[</span><span class="mi">4096</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
@@ -274,23 +284,20 @@
     <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">viewImpedance</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
     <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;runWithMask_coh70_100_tfConstrained&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../_images/transFunction_site1_dec8_5_coh70_100_tfConstrained.png" />
+<img alt="alternate text" src="../_images/runWithMask_coh70_100_tfConstrained.png" />
 <p class="caption"><span class="caption-text">Impedance tensor estimate with both coherence and transfer function masking</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">This was the last section of the tutorial. To explore more advanced use cases or user provided examples, please visit the <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> and <a class="reference internal" href="../cookbook.html"><span class="doc">Cookbook</span></a> sections respectively.</p>
 </div>
 <div class="section" id="complete-example-script">
 <h2>Complete example script<a class="headerlink" href="#complete-example-script" title="Permalink to this headline">¶</a></h2>
@@ -336,15 +343,20 @@
 39
 40
 41
-42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+42
+43
+44
+45
+46
+47
+48</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load project and configuration file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 
 <span class="c1"># Process the data with this mask</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span>
 
 <span class="n">processProject</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
@@ -355,11 +367,17 @@
     <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">viewImpedance</span>
 
-<span class="n">viewImpedance</span><span class="p">(</span>
-    <span class="n">projData</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span> <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span> <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
+    <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100&quot;</span><span class="p">,</span>
+    <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;runWithMask_coh70_100&quot;</span><span class="p">)</span>
 
 <span class="n">processProject</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
@@ -370,14 +388,15 @@
     <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">viewImpedance</span><span class="p">(</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">viewImpedance</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">],</span>
     <span class="n">postpend</span><span class="o">=</span><span class="s2">&quot;coh70_100_tfConstrained&quot;</span><span class="p">,</span>
     <span class="n">oneplot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;runWithMask_coh70_100_tfConstrained&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -425,7 +444,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

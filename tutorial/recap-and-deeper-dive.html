@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Recap and deeper dive &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Recap and deeper dive &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -115,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -188,7 +187,7 @@
             
   <div class="section" id="recap-and-deeper-dive">
 <h1>Recap and deeper dive<a class="headerlink" href="#recap-and-deeper-dive" title="Permalink to this headline">¶</a></h1>
-<p>Now that many of the basic features of resistics have been introduced, it is a useful time to recap some theory and consider some lower level resistics API. The <code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParams</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowParams</span></code> and <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> classes are central to how resistics processes magnetotelluric data. They are lower level elements of the resistics package but are useful to know and understand, particularly before approaching the <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> and <a class="reference internal" href="../cookbook.html"><span class="doc">Cookbook</span></a> sections.</p>
+<p>Now that many of the basic features of resistics have been introduced, it is a useful time to recap some theory and consider some lower level resistics API. The <a class="reference internal" href="../api/resistics.decimate.parameters.html#resistics.decimate.parameters.DecimationParameters" title="resistics.decimate.parameters.DecimationParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParameters</span></code></a>, <a class="reference internal" href="../api/resistics.window.parameters.html#resistics.window.parameters.WindowParameters" title="resistics.window.parameters.WindowParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowParameters</span></code></a> and <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> classes are central to how resistics processes magnetotelluric data. They are lower level elements of the resistics package but are useful to know and understand, particularly before approaching the <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> and <a class="reference internal" href="../cookbook.html"><span class="doc">Cookbook</span></a> sections.</p>
 <div class="section" id="recap">
 <h2>Recap<a class="headerlink" href="#recap" title="Permalink to this headline">¶</a></h2>
 <p>Ahead of introducing the window selector, it is useful to do a quick recap of how resistics processes magnetotelluric data. Ultimately, the point of processing magnetotelluric data is to understand the electrical properties of the subsurface.</p>
@@ -250,7 +249,7 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 </div>
 <div class="section" id="decimation-parameters">
 <h2>Decimation parameters<a class="headerlink" href="#decimation-parameters" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParams</span></code> class holds the decimation information. Decimation parameters can be set using configuration files (see <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a>). To see what the <code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParams</span></code> class holds, consider an example.</p>
+<p>The <a class="reference internal" href="../api/resistics.decimate.parameters.html#resistics.decimate.parameters.DecimationParameters" title="resistics.decimate.parameters.DecimationParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParameters</span></code></a> class holds the decimation information. Decimation parameters can be set using configuration files (see <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a>). To see what the <a class="reference internal" href="../api/resistics.decimate.parameters.html#resistics.decimate.parameters.DecimationParameters" title="resistics.decimate.parameters.DecimationParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParameters</span></code></a> class holds, consider an example.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -261,22 +260,20 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
  8
  9
 10
-11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load project and configuration file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 
 <span class="c1"># get decimation parameters</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getDecimationParameters</span>
+<span class="kn">from</span> <span class="nn">resistics.project.shortcuts</span> <span class="kn">import</span> <span class="n">getDecimationParameters</span>
 
 <span class="n">decimationParameters</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 <span class="n">decimationParameters</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The project has been loaded along with the configuration file, which has specified 8 decimation levels and 5 evaluation frequencies per level. The decimation paramters can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.calculator.html#resistics.calculators.calculator.Calculator.printInfo" title="resistics.calculators.calculator.Calculator.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method to give:</p>
+<p>The project has been loaded along with the configuration file, which has specified 8 decimation levels and 5 evaluation frequencies per level. The decimation paramters can be printed to the terminal using the parent class <a class="reference internal" href="../api/resistics.common.base.html#resistics.common.base.ResisticsBase.printInfo" title="resistics.common.base.ResisticsBase.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method to give:</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -332,20 +329,20 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 </div>
 <div class="section" id="window-parameters">
 <h2>Window parameters<a class="headerlink" href="#window-parameters" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowParams</span></code> class contains information about the windowing parameters. Window parameters can be set using configuration files (see <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a>).</p>
+<p>The <a class="reference internal" href="../api/resistics.window.parameters.html#resistics.window.parameters.WindowParameters" title="resistics.window.parameters.WindowParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowParameters</span></code></a> class contains information about the windowing parameters. Window parameters can be set using configuration files (see <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a>).</p>
 <p>Again, consider an example which continues from the decimation paramters example:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>14
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
+14
 15
 16
-17
-18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get the window parameters</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getWindowParameters</span>
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get the window parameters</span>
+<span class="kn">from</span> <span class="nn">resistics.project.shortcuts</span> <span class="kn">import</span> <span class="n">getWindowParameters</span>
 
 <span class="n">windowParameters</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decimationParameters</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 <span class="n">windowParameters</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The project has been loaded along with the configuration file, which has specified a minimum window size of 256 samples and a minimum overlap of 64 samples. However, resistics is free to use window and overlap sizes greater than these if it makes sense. Windowing parameter information can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.calculator.html#resistics.calculators.calculator.Calculator.printInfo" title="resistics.calculators.calculator.Calculator.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method.</p>
+<p>The project has been loaded along with the configuration file, which has specified a minimum window size of 256 samples and a minimum overlap of 64 samples. However, resistics is free to use window and overlap sizes greater than these if it makes sense. Windowing parameter information can be printed to the terminal using the <a class="reference internal" href="../api/resistics.common.base.html#resistics.common.base.ResisticsBase.printInfo" title="resistics.common.base.ResisticsBase.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -413,7 +410,7 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 </div>
 <div class="section" id="window-selector">
 <h2>Window selector<a class="headerlink" href="#window-selector" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> class is a key component of resistics. Before processing time windows (and their respective spectra) to calculate transfer function estimates, the windows to use have to be selected. The <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> class is the how windows are selected.</p>
+<p>The <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> class is a key component of resistics. Before processing time windows (and their respective spectra) to calculate transfer function estimates, the windows to use have to be selected. The <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> class is the how windows are selected.</p>
 <p>Below are a few scenarios under which windows might have to be selected:</p>
 <ol class="arabic simple">
 <li>Single site processing, use all the data</li>
@@ -423,13 +420,13 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 <li>Intersite processing with a remote reference as a third site</li>
 </ol>
 <p>Let’s compare 1 and 2 as simple examples. The others will be introduced in the <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> section.</p>
-<p>Begin by getting a <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> instance. In this case, the 128 Hz data is being used.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>25
+<p>Begin by getting a <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> instance. In this case, the 128 Hz data is being used.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>24
+25
 26
 27
 28
-29
-30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getWindowSelector</span>
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.project.shortcuts</span> <span class="kn">import</span> <span class="n">getWindowSelector</span>
 
 <span class="n">decimationParameters</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 <span class="n">windowParameters</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decimationParameters</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
@@ -437,7 +434,7 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 <span class="n">selector</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> needs to know the <code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParams</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">WindowParams</span></code>. Information can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.calculator.html#resistics.calculators.calculator.Calculator.printInfo" title="resistics.calculators.calculator.Calculator.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method. This gives:</p>
+<p>The <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> needs to know the <a class="reference internal" href="../api/resistics.decimate.parameters.html#resistics.decimate.parameters.DecimationParameters" title="resistics.decimate.parameters.DecimationParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecimationParameters</span></code></a> and <a class="reference internal" href="../api/resistics.window.parameters.html#resistics.window.parameters.WindowParameters" title="resistics.window.parameters.WindowParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowParameters</span></code></a>. Information can be printed to the terminal using the <a class="reference internal" href="../api/resistics.common.base.html#resistics.common.base.ResisticsBase.printInfo" title="resistics.common.base.ResisticsBase.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method. This gives:</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -459,10 +456,10 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 10:01:53 WindowSelector: ####################
 </pre></div>
 </td></tr></table></div>
-<p>Currently, no sites have been specified for the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> instance. Therefore, there are yet no windows to select from. The next step then is to specify a list of sites.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>27
-28
-29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># add a site and print the information to the terminal</span>
+<p>Currently, no sites have been specified for the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> instance. Therefore, there are yet no windows to select from. The next step then is to specify a list of sites.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># add a site and print the information to the terminal</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">setSites</span><span class="p">([</span><span class="s2">&quot;site1&quot;</span><span class="p">])</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
@@ -525,15 +522,15 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 10:03:44 WindowSelector: ####################
 </pre></div>
 </td></tr></table></div>
-<p>Now the shared windows can be calculated using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.calcSharedWindows" title="resistics.calculators.windowSelector.WindowSelector.calcSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calcSharedWindows()</span></code></a> method. In this case, only a single site is specified so there are no other sites to share windows with. When more than a single site is specified, the shared windows between the sites will be calculated. <strong>This means the times where both sites were recording</strong>. This is an essential step for remote reference and intersite processing (see <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a>).</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>31
-32
-33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate shared windows</span>
+<p>Now the shared windows can be calculated using the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.calcSharedWindows" title="resistics.window.selector.WindowSelector.calcSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calcSharedWindows()</span></code></a> method. In this case, only a single site is specified so there are no other sites to share windows with. When more than a single site is specified, the shared windows between the sites will be calculated. <strong>This means the times where both sites were recording</strong>. This is an essential step for remote reference and intersite processing (see <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a>).</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate shared windows</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The shared windows can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printSharedWindows" title="resistics.calculators.windowSelector.WindowSelector.printSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printSharedWindows()</span></code></a> method.</p>
+<p>The shared windows can be printed to the terminal using the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.printSharedWindows" title="resistics.window.selector.WindowSelector.printSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printSharedWindows()</span></code></a> method.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -613,24 +610,24 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 10:04:19 WindowSelector::shared windows: ####################
 </pre></div>
 </td></tr></table></div>
-<p>The <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> has functionality to limit windows using date and time constraints. Date and time constraints can be provided using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addDateConstraint" title="resistics.calculators.windowSelector.WindowSelector.addDateConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDateConstraint()</span></code></a>, <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addTimeConstraint" title="resistics.calculators.windowSelector.WindowSelector.addTimeConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addTimeConstraint()</span></code></a> and <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addDatetimeConstraint" title="resistics.calculators.windowSelector.WindowSelector.addDatetimeConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDatetimeConstraint()</span></code></a> methods.</p>
+<p>The <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> has functionality to limit windows using date and time constraints. Date and time constraints can be provided using the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.addDateConstraint" title="resistics.window.selector.WindowSelector.addDateConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDateConstraint()</span></code></a>, <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.addTimeConstraint" title="resistics.window.selector.WindowSelector.addTimeConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addTimeConstraint()</span></code></a> and <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.addDatetimeConstraint" title="resistics.window.selector.WindowSelector.addDatetimeConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDatetimeConstraint()</span></code></a> methods.</p>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
 <p class="last">Providing a date or time constraint means that only windows which are inside these date/time constraints will be selected. Any windows which are outside the date/time constraint will be discarded.</p>
 </div>
-<p>Below is an example of providing a date constraint using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addDateConstraint" title="resistics.calculators.windowSelector.WindowSelector.addDateConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDateConstraint()</span></code></a> method. After running the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.calcSharedWindows" title="resistics.calculators.windowSelector.WindowSelector.calcSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calcSharedWindows()</span></code></a> method, only time windows within this date/time constraint will be selected.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>35
+<p>Below is an example of providing a date constraint using the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.addDateConstraint" title="resistics.window.selector.WindowSelector.addDateConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDateConstraint()</span></code></a> method. After running the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.calcSharedWindows" title="resistics.window.selector.WindowSelector.calcSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calcSharedWindows()</span></code></a> method, only time windows within this date/time constraint will be selected.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>34
+35
 36
 37
-38
-39</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># currently using every window, but how might this change with a date or time constraint</span>
+38</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># currently using every window, but how might this change with a date or time constraint</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">addDateConstraint</span><span class="p">(</span><span class="s2">&quot;2012-02-11&quot;</span><span class="p">)</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">printDatetimeConstraints</span><span class="p">()</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">printSharedWindows</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The datetime constraints can be printed to the terminal using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.printDatetimeConstraints" title="resistics.calculators.windowSelector.WindowSelector.printDatetimeConstraints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printDatetimeConstraints()</span></code></a> method. The various print methods give the following:</p>
+<p>The datetime constraints can be printed to the terminal using the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.printDatetimeConstraints" title="resistics.window.selector.WindowSelector.printDatetimeConstraints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printDatetimeConstraints()</span></code></a> method. The various print methods give the following:</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -772,13 +769,13 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 10:11:24 WindowSelector::shared windows: ####################
 </pre></div>
 </td></tr></table></div>
-<p>Comparing the number of shared windows to the previous results, it is clear that the number of shared windows has now reduced. This is due to the application of the date constraint. To reset the date constraint, the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.resetDatetimeConstraints" title="resistics.calculators.windowSelector.WindowSelector.resetDatetimeConstraints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">resetDatetimeConstraints()</span></code></a> method can be used as in the following example, where the current date/time constraint is cleared and a new one added.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>41
+<p>Comparing the number of shared windows to the previous results, it is clear that the number of shared windows has now reduced. This is due to the application of the date constraint. To reset the date constraint, the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.resetDatetimeConstraints" title="resistics.window.selector.WindowSelector.resetDatetimeConstraints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">resetDatetimeConstraints()</span></code></a> method can be used as in the following example, where the current date/time constraint is cleared and a new one added.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>40
+41
 42
 43
 44
-45
-46</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># reset datetime constraints</span>
+45</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># reset datetime constraints</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">resetDatetimeConstraints</span><span class="p">()</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">addDatetimeConstraint</span><span class="p">(</span><span class="s2">&quot;2012-02-10 19:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2012-02-11 08:00:00&quot;</span><span class="p">)</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">printDatetimeConstraints</span><span class="p">()</span>
@@ -929,12 +926,12 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 </pre></div>
 </td></tr></table></div>
 <p>The number of shared windows has reduced even more. Instead of using a full day (24 hours) of data as in the previous example with the date constraint, now only the evening and night has been specified, totalling 13 hours.</p>
-<p>Masks can also be specified in the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector" title="resistics.calculators.windowSelector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> using the <a class="reference internal" href="../api/resistics.calculators.windowSelector.html#resistics.calculators.windowSelector.WindowSelector.addWindowMask" title="resistics.calculators.windowSelector.WindowSelector.addWindowMask"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addWindowMask()</span></code></a> method.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>48
+<p>Masks can also be specified in the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> using the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.addWindowMask" title="resistics.window.selector.WindowSelector.addWindowMask"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addWindowMask()</span></code></a> method.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>47
+48
 49
 50
-51
-52</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># can add a mask</span>
+51</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># can add a mask</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">addWindowMask</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;coh70_100&quot;</span><span class="p">)</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">printWindowMasks</span><span class="p">()</span>
 <span class="n">selector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
@@ -1059,7 +1056,8 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 <p class="last">Recall that statistics are calculated for each evaluation frequency. Therefore masks are applied on an evaluation frequency basis rather than decimation level.</p>
 </div>
 <p>The loop below can demonstrate the effect of masks on the number of windows for each evaluation frequency.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>54
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>53
+54
 55
 56
 57
@@ -1075,8 +1073,7 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 67
 68
 69
-70
-71</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># the number of windows for each evaluation frequency will be different when masks are applied</span>
+70</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># the number of windows for each evaluation frequency will be different when masks are applied</span>
 <span class="c1"># loop over the evaluation frequencies and print the number of windows that will be processed</span>
 <span class="c1"># save the information to a file</span>
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;usingWindowSelector.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -1255,27 +1252,25 @@ Decimation level = 7, evaluation frequency = 0.000, number of windows = 0
 67
 68
 69
-70
-71</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+70</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># load project and configuration file</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 
 <span class="c1"># get decimation parameters</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getDecimationParameters</span>
+<span class="kn">from</span> <span class="nn">resistics.project.shortcuts</span> <span class="kn">import</span> <span class="n">getDecimationParameters</span>
 
 <span class="n">decimationParameters</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="mi">4096</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 <span class="n">decimationParameters</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
 <span class="c1"># get the window parameters</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getWindowParameters</span>
+<span class="kn">from</span> <span class="nn">resistics.project.shortcuts</span> <span class="kn">import</span> <span class="n">getWindowParameters</span>
 
 <span class="n">windowParameters</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decimationParameters</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 <span class="n">windowParameters</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsProject</span> <span class="kn">import</span> <span class="n">getWindowSelector</span>
+<span class="kn">from</span> <span class="nn">resistics.project.shortcuts</span> <span class="kn">import</span> <span class="n">getWindowSelector</span>
 
 <span class="n">decimationParameters</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 <span class="n">windowParameters</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decimationParameters</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
@@ -1374,7 +1369,7 @@ Decimation level = 7, evaluation frequency = 0.000, number of windows = 0
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

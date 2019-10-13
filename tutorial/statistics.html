@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Statistics &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Statistics &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -115,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -195,12 +194,10 @@
 2
 3
 4
-5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># need the project path for loading</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
@@ -209,11 +206,11 @@
 <li>Statistics that are calculated for a single site</li>
 <li>Statistics that incorporate a remote reference site</li>
 </ul>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
-12
-13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get default statistic names</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsStats</span> <span class="kn">import</span> <span class="n">getStatNames</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get default statistic names</span>
+<span class="kn">from</span> <span class="nn">resistics.statistics.utils</span> <span class="kn">import</span> <span class="n">getStatNames</span>
 
 <span class="n">stats</span><span class="p">,</span> <span class="n">remotestats</span> <span class="o">=</span> <span class="n">getStatNames</span><span class="p">()</span>
 </pre></div>
@@ -222,12 +219,12 @@
 <p class="first admonition-title">Note</p>
 <p class="last">For statistics that incorporate a remote reference, please see <a class="reference internal" href="../advanced/remote-reference-statistics.html"><span class="doc">Remote reference statistics</span></a>.</p>
 </div>
-<p>Statistics are calculated using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.calculateStatistics" title="resistics.project.projectStatistics.calculateStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateStatistics()</span></code></a> method of the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> module. By default, this does not calculate all available statistics but by passing the <strong>stats</strong> keyword, the statistics to calculate can be specified.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
+<p>Statistics are calculated using the <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.calculateStatistics" title="resistics.project.statistics.calculateStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateStatistics()</span></code></a> method of the project <a class="reference internal" href="../api/resistics.project.statistics.html#module-resistics.project.statistics" title="resistics.project.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a> module. By default, this does not calculate all available statistics but by passing the <strong>stats</strong> keyword, the statistics to calculate can be specified.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>12
+13
 14
-15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate statistics</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate statistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
 
 <span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">)</span>
 </pre></div>
@@ -369,7 +366,8 @@
 35
 36
 37
-38</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2012-02-10 11:05:00 to 2012-02-10 11:24:59.999756 read in from measurement tutorialProject\timeData\site1\meas_2012-02-10_11-05-00, samples 0 to 4915199
+38
+39</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2012-02-10 11:05:00 to 2012-02-10 11:24:59.999756 read in from measurement E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\timeData\site1\meas_2012-02-10_11-05-00, samples 0 to 4915199
 Sampling frequency 4096.0
 Scaling channel Ex with scalar -0.000112591 to give mV
 Dividing channel Ex by electrode distance 0.08 km to give mV/km
@@ -384,9 +382,9 @@ Calculating project spectra
 Using default configuration
 Channel Ex not calibrated
 Channel Ey not calibrated
-Channel Hx calibrated with calibration data from file tutorialProject\calData\Hx_MFS06365.TXT
-Channel Hy calibrated with calibration data from file tutorialProject\calData\Hy_MFS06357.TXT
-Channel Hz calibrated with calibration data from file tutorialProject\calData\Hz_MFS06307.TXT
+Channel Hx calibrated with calibration data from file E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\calData\Hx_MFS06365.TXT
+Channel Hy calibrated with calibration data from file E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\calData\Hy_MFS06357.TXT
+Channel Hz calibrated with calibration data from file E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\calData\Hz_MFS06307.TXT
 Decimating with 7 levels and 7 frequencies per level
 Evaluation frequencies for this level 1024.0, 724.0773439350246, 512.0, 362.0386719675123, 256.0, 181.01933598375615, 128.0
 Windowing with window size 2048 samples and overlap 512 samples
@@ -400,37 +398,38 @@ Time data decimated from 64.0 Hz to 8.0 Hz, new start time 2012-02-10 11:05:00, 
 Time data decimated from 8.0 Hz to 4.0 Hz, new start time 2012-02-10 11:05:00, new end time 2012-02-10 11:24:59.750000
 Evaluation frequencies for this level 0.7071067811865475, 0.5, 0.35355339059327373, 0.25, 0.17677669529663687, 0.125, 0.08838834764831843
 Windowing with window size 512 samples and overlap 128 samples
-Spectra data written out to tutorialProject\specData\site1\meas_2012-02-10_11-05-00\spectra on 2019-04-13 17:37:02.179233
+Spectra data written out to E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\specData\site1\meas_2012-02-10_11-05-00\spectra on 2019-10-05 19:18:01.917505 using resistics 0.0.6.dev2
 ---------------------------------------------------
-Reading spectra data in path tutorialProject\specData\site1\meas_2012-02-10_11-05-00\spectra
+Reading spectra data in path E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\specData\site1\meas_2012-02-10_11-05-00\spectra
 Using default configuration
 Calculating statistic: coherence
 Statistic components: cohExHx, cohExHy, cohEyHx, cohEyHy
-Statistic data for statistic coherence written to tutorialProject\statData\site1\meas_2012-02-10_11-05-00\spectra on 2019-04-13 19:13:44.020934
+Statistic data for statistic coherence written to E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\statData\site1\meas_2012-02-10_11-05-00\spectra on 2019-10-05 21:29:55.492691 using resistics 0.0.6.dev2
+---------------------------------------------------
 </pre></div>
 </td></tr></table></div>
-<p>To calculate statistics for a different spectra directory, either the <strong>specdir</strong> keyword can be specified in the call to <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.calculateStatistics" title="resistics.project.projectStatistics.calculateStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateStatistics()</span></code></a> or the specdir can be defined in a configuration file. For more information about using configuration files, see <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a>.</p>
+<p>To calculate statistics for a different spectra directory, either the <strong>specdir</strong> keyword can be specified in the call to <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.calculateStatistics" title="resistics.project.statistics.calculateStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateStatistics()</span></code></a> or the specdir can be defined in a configuration file. For more information about using configuration files, see <a class="reference internal" href="configuration-files.html"><span class="doc">Using configuration files</span></a>.</p>
 <p>Statistics can be calculated again, but this time using a configuration file. The project needs to be loaded again with the configuration file in order to do this.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>18
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>17
+18
 19
 20
-21
-22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate statistics for a different spectra directory</span>
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate statistics for a different spectra directory</span>
 <span class="c1"># load the project with the tutorial configuration file</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">,</span> <span class="n">configFile</span><span class="o">=</span><span class="s2">&quot;tutorialConfig.ini&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>Statistic data can be read in using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.getStatisticData" title="resistics.project.projectStatistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> method of the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> module. As stated earlier, statistic data is indexed by site, measurement directory, spectra directory and statistic name. These have to be provided to <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.getStatisticData" title="resistics.project.projectStatistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a>. However, if the <strong>specdir</strong> keyword is not provided, <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.getStatisticData" title="resistics.project.projectStatistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> will check if <strong>specdir</strong> is defined in the configuration file. If not, it will revert to the default configuration (and spectra directory). Additionally, the decimation level to read in has to be specified. Below is an example.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>24
+<p>Statistic data can be read in using the <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.getStatisticData" title="resistics.project.statistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> method of the project <a class="reference internal" href="../api/resistics.project.statistics.html#module-resistics.project.statistics" title="resistics.project.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a> module. As stated earlier, statistic data is indexed by site, measurement directory, spectra directory and statistic name. These have to be provided to <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.getStatisticData" title="resistics.project.statistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a>. However, if the <strong>specdir</strong> keyword is not provided, <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.getStatisticData" title="resistics.project.statistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> will check if <strong>specdir</strong> is defined in the configuration file. If not, it will revert to the default configuration (and spectra directory). Additionally, the decimation level to read in has to be specified. Below is an example.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>23
+24
 25
 26
 27
 28
-29
-30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># to get statistic data, we need the site, the measurement and the statistic we want</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">getStatisticData</span>
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># to get statistic data, we need the site, the measurement and the statistic we want</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">getStatisticData</span>
 
 <span class="c1"># coherence statistic data</span>
 <span class="n">statData</span> <span class="o">=</span> <span class="n">getStatisticData</span><span class="p">(</span>
@@ -438,15 +437,17 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
 <span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>The <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.getStatisticData" title="resistics.project.projectStatistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> method returns a <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData" title="resistics.dataObjects.statisticData.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a> object. Statistic data is another data object similar to <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>, <a class="reference internal" href="../api/resistics.dataObjects.siteData.html#resistics.dataObjects.siteData.SiteData" title="resistics.dataObjects.siteData.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a>, <a class="reference internal" href="../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> or <a class="reference internal" href="../api/resistics.dataObjects.spectrumData.html#resistics.dataObjects.spectrumData.SpectrumData" title="resistics.dataObjects.spectrumData.SpectrumData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectrumData</span></code></a>.</p>
-<p>There are multiple view methods in <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData" title="resistics.dataObjects.statisticData.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a>. These are:</p>
+<p>The <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.getStatisticData" title="resistics.project.statistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> method returns a <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData" title="resistics.statistics.data.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a> object. Statistic data is another data object similar to <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData" title="resistics.project.data.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>, <a class="reference internal" href="../api/resistics.site.data.html#resistics.site.data.SiteData" title="resistics.site.data.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a>, <a class="reference internal" href="../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> or <a class="reference internal" href="../api/resistics.spectra.data.html#resistics.spectra.data.SpectrumData" title="resistics.spectra.data.SpectrumData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectrumData</span></code></a>.</p>
+<p>There are multiple view methods in <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData" title="resistics.statistics.data.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a>. These are:</p>
 <ul class="simple">
-<li><a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.view" title="resistics.dataObjects.statisticData.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a>, which plots the statistic value against time</li>
-<li><a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.histogram" title="resistics.dataObjects.statisticData.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a>, which plots a histogram of the statistic</li>
-<li><a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a>, which plots crossplots of the statistic components</li>
+<li><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.view" title="resistics.statistics.data.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a>, which plots the statistic value against time</li>
+<li><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.histogram" title="resistics.statistics.data.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a>, which plots a histogram of the statistic</li>
+<li><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.crossplot" title="resistics.statistics.data.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a>, which plots crossplots of the statistic components</li>
+<li><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.densityplot" title="resistics.statistics.data.StatisticData.densityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">densityplot()</span></code></a>, which plots 2-D histograms (density plots) of the statistic components</li>
 </ul>
 <p>Examples of using these methods to view statistic values and variation are shown below:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>31
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>30
+31
 32
 33
 34
@@ -454,38 +455,51 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
 36
 37
 38
-39</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view statistic value over time</span>
+39
+40
+41
+42
+43
+44
+45
+46</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view statistic value over time</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_coherence_view&quot;</span><span class="p">)</span>
 <span class="c1"># view statistic histogram</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_histogram&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_coherence_histogram&quot;</span><span class="p">)</span>
 <span class="c1"># view statistic crossplot</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;cohExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHy&quot;</span><span class="p">]])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_crossplot&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_coherence_crossplot&quot;</span><span class="p">)</span>
+<span class="c1"># view statistic density plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">densityplot</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;cohExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHy&quot;</span><span class="p">]],</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_coherence_densityplot&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>These produce the following plots:</p>
 <div class="align-center figure" id="id1">
-<img alt="alternate text" src="../_images/statistic_coherence_view.png" />
-<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.view" title="resistics.dataObjects.statisticData.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<img alt="alternate text" src="../_images/usingStats_statistic_coherence_view.png" />
+<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.view" title="resistics.statistics.data.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../_images/statistic_coherence_histogram.png" />
-<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.histogram" title="resistics.dataObjects.statisticData.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a> method</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<img alt="alternate text" src="../_images/usingStats_statistic_coherence_histogram.png" />
+<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.histogram" title="resistics.statistics.data.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a> method</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="align-center figure" id="id3">
-<a class="reference internal image-reference" href="../_images/statistic_coherence_crossplot.png"><img alt="alternate text" src="../_images/statistic_coherence_crossplot.png" style="width: 500px;" /></a>
-<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<a class="reference internal image-reference" href="../_images/usingStats_statistic_coherence_crossplot.png"><img alt="alternate text" src="../_images/usingStats_statistic_coherence_crossplot.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.crossplot" title="resistics.statistics.data.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id4">
+<a class="reference internal image-reference" href="../_images/usingStats_statistic_coherence_densityplot.png"><img alt="alternate text" src="../_images/usingStats_statistic_coherence_densityplot.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Coherence data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.densityplot" title="resistics.statistics.data.StatisticData.densityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">densityplot()</span></code></a> method</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <p>In the above case, the coherence statistic was read in. Another statistic is the transfer function calculated on a window-by-window basis. The statistic data for this can be read in and plotted in a similar way.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>42
-43
-44
-45
-46
-47
-48
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>48
 49
 50
 51
@@ -501,16 +515,35 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
 61
 62
 63
-64</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># transfer function statistic data</span>
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># transfer function statistic data</span>
 <span class="n">statData</span> <span class="o">=</span> <span class="n">getStatisticData</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-30-00&quot;</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">declevel</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">)</span>
 <span class="c1"># view statistic value over time</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_view&quot;</span><span class="p">)</span>
 <span class="c1"># view statistic histogram</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_histogram&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_histogram&quot;</span><span class="p">)</span>
 <span class="c1"># view statistic crossplot</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
     <span class="mi">0</span><span class="p">,</span>
@@ -523,21 +556,39 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_crossplot&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_crossplot&quot;</span><span class="p">)</span>
+<span class="c1"># view statistic densityplot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">densityplot</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">crossplots</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;ExHxReal&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHxImag&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;ExHyReal&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyImag&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;EyHxReal&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxImag&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;EyHyReal&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHyImag&quot;</span><span class="p">],</span>
+    <span class="p">],</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_densityplot&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<div class="align-center figure" id="id4">
-<img alt="alternate text" src="../_images/statistic_transferFunction_view.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.view" title="resistics.dataObjects.statisticData.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
-</div>
 <div class="align-center figure" id="id5">
-<img alt="alternate text" src="../_images/statistic_transferFunction_histogram.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.histogram" title="resistics.dataObjects.statisticData.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a> method</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+<img alt="alternate text" src="../_images/usingStats_statistic_transferfunction_view.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.view" title="resistics.statistics.data.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id6">
+<img alt="alternate text" src="../_images/usingStats_statistic_transferfunction_histogram.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.histogram" title="resistics.statistics.data.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a> method</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 <p>The next example is the crossplot for the transfer function statistic. This make more intuitive sense than the coherence crossplot above, as it allows the plotting of the transfer function data on the complex plane.</p>
-<div class="align-center figure" id="id6">
-<img alt="alternate text" src="../_images/statistic_transferFunction_crossplot.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.crossplot" title="resistics.dataObjects.statisticData.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+<div class="align-center figure" id="id7">
+<img alt="alternate text" src="../_images/usingStats_statistic_transferfunction_crossplot.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.crossplot" title="resistics.statistics.data.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<p>The crossplot can be used to show the scatter of the window-by-window transfer function estimates on the complex plane. Another way to look at this data is using density plots (2-D histograms), which can be achieved using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.densityplot" title="resistics.statistics.data.StatisticData.densityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">densityplot()</span></code></a>.</p>
+<div class="align-center figure" id="id8">
+<img alt="alternate text" src="../_images/usingStats_statistic_transferfunction_densityplot.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 32 Hz using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.densityplot" title="resistics.statistics.data.StatisticData.densityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">densityplot()</span></code></a> method. This view actually shows that the window-by-window estimates of the transfer function are actually densely clustered around the highlighted points and much more consistent than suggested by simply viewing using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.crossplot" title="resistics.statistics.data.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a> method.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
 <p>In all of these cases, a 0 is being passed to the plotting methods. This 0 is the evaluation frequency index for that decimation level. Changing it will plot a different evaluation frequency.</p>
 <div class="admonition note">
@@ -545,81 +596,87 @@ Statistic data for statistic coherence written to tutorialProject\statData\site1
 <p>The evaluation frequency index starts from 0 and goes to the number of evaluation frequencies per decimation level - 1. So if there are 7 evaluation frequencies per decimation level, the evaluation frequency indices will be 0, 1, 2, 3, 4, 5, 6.</p>
 <p class="last">Evaluation frequency and decimation level indices will be covered in more detail further down.</p>
 </div>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>65
-66
-67</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># look at the next evaluation frequency</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>85
+86
+87</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># look at the next evaluation frequency</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_view_eval1&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_view_eval1&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<div class="align-center figure" id="id7">
-<img alt="alternate text" src="../_images/statistic_transferFunction_view_eval1.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 22.627417 Hz using the <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData.view" title="resistics.dataObjects.statisticData.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+<div class="align-center figure" id="id9">
+<img alt="alternate text" src="../_images/usingStats_statistic_transferfunction_view_eval1.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for evaluation frequency 22.627417 Hz using the <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.view" title="resistics.statistics.data.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="statistics-across-time-series-measurements">
 <h2>Statistics across time series measurements<a class="headerlink" href="#statistics-across-time-series-measurements" title="Permalink to this headline">¶</a></h2>
-<p>The above examples were reading in statistic data for a single measurement. However, in many cases, the statistics over all the time series measurements of a certain sampling frequency in a site are of more interest. In order to plot and view these, the methods available in the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> module will be more useful. The module <a class="reference internal" href="../api/resistics.project.projectStatistics.html#module-resistics.project.projectStatistics" title="resistics.project.projectStatistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectStatistics</span></code></a> has two plotting methods:</p>
+<p>The above examples were reading in statistic data for a single measurement. However, in many cases, the statistics over all the time series measurements of a certain sampling frequency in a site are of more interest. In order to plot and view these, the methods available in the <a class="reference internal" href="../api/resistics.project.html#module-resistics.project" title="resistics.project"><code class="xref py py-mod docutils literal notranslate"><span class="pre">project</span></code></a> <a class="reference internal" href="../api/resistics.project.statistics.html#module-resistics.project.statistics" title="resistics.project.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a> module will be more useful. The project module <a class="reference internal" href="../api/resistics.project.statistics.html#module-resistics.project.statistics" title="resistics.project.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a> has four plotting methods:</p>
 <ul class="simple">
-<li><a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a></li>
-<li><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewHistogram()</span></code></li>
+<li><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic" title="resistics.project.statistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a></li>
+<li><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticHistogram" title="resistics.project.statistics.viewStatisticHistogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticHistogram()</span></code></a></li>
+<li><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticCrossplot" title="resistics.project.statistics.viewStatisticCrossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticCrossplot()</span></code></a></li>
+<li><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticDensityplot" title="resistics.project.statistics.viewStatisticDensityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticDensityplot()</span></code></a></li>
 </ul>
-<p>These do much the same as the methods available in the class <a class="reference internal" href="../api/resistics.dataObjects.statisticData.html#resistics.dataObjects.statisticData.StatisticData" title="resistics.dataObjects.statisticData.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a>, however, they will bring together all the statistics in a site for measurements of a given sampling frequency.</p>
+<p>These do much the same as the methods available in the class <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData" title="resistics.statistics.data.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a>, however, they will bring together all the statistics in a site for measurements of a given sampling frequency.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">For the tutorial project, there is only a single measurement at 128 Hz and a single measurement at 4096 Hz, meaning that this is not the best example of the functionality. For more interesting examples, please see <a class="reference internal" href="../cookbook/statistic-plotting.html"><span class="doc">Statistic plotting</span></a> in the cookbook.</p>
 </div>
-<p>For example, statistic value variation across time can be plotted using <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot statistic values in time for all data of a specified sampling frequency in a site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span>
+<p>For example, statistic value variation across time can be plotted using <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic" title="resistics.project.statistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101</pre></div></td><td class="code"><div class="highlight"><pre><span></span>
+<span class="c1"># plot statistic values in time for all data of a specified sampling frequency in a site</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span>
 
 <span class="c1"># statistic in time</span>
-<span class="n">viewStatistic</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="mi">128</span><span class="p">,</span>
     <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>This produces the plot below:</p>
-<div class="align-center figure" id="id8">
-<img alt="alternate text" src="../_images/stat_transferFunction_site1_128_000_dec0_efreq0_dec8_5.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a></span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+<div class="align-center figure" id="id10">
+<img alt="alternate text" src="../_images/usingStats_projstat_transfunction_view.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic" title="resistics.project.statistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a></span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </div>
 <p>Statistic histograms over all time series measurements of a specified sampling frequency in a site can be plotted in a similar way.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>83
-84
-85
-86
-87
-88
-89</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot statistic histogram for all data of a specified sampling frequency in a site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatisticHistogram</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>103
+104
+105
+106
+107
+108
+109
+110</pre></div></td><td class="code"><div class="highlight"><pre><span></span>
+<span class="c1"># plot statistic histogram for all data of a specified sampling frequency in a site</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">viewStatisticHistogram</span>
 
 <span class="c1"># statistic histogram</span>
-<span class="n">viewStatisticHistogram</span><span class="p">(</span>
-    <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatisticHistogram</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span>
 <span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<div class="align-center figure" id="id9">
-<img alt="alternate text" src="../_images/statHist_transferFunction_site1_128_000_dec0_efreq0_dec8_5.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">viewHistogram()</span></code></span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+<div class="align-center figure" id="id11">
+<img alt="alternate text" src="../_images/usingStats_projstat_transfunction_hist.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticHistogram" title="resistics.project.statistics.viewStatisticHistogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticHistogram()</span></code></a></span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
 </div>
 <p>Recall, statistic values are calculated on an evaluation frequency basis. Currently, 32 Hz has been plotted, but other evaluation frequencies can be plotted by using the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">declevel</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">eFreqI</span></span></code> keywords`.</p>
 <div class="admonition important">
@@ -647,44 +704,49 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <p>The main motivation behind this is the difficulty in manually specifying evaluation frequencies such as 0.35355339 Hz.</p>
 </div></blockquote>
 </div>
-<p>Below are examples of plotting site and sampling frequency wide statistics for different evaluation frequencies.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 91
- 92
- 93
- 94
- 95
- 96
- 97
- 98
- 99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># more examples</span>
+<p>Below are examples of plotting site and sampling frequency wide statistics for different evaluation frequencies and decimation levels.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># more examples</span>
 <span class="c1"># change the evaluation frequency</span>
-<span class="n">viewStatistic</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="mi">128</span><span class="p">,</span>
     <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span>
     <span class="n">eFreqI</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_projstat_transfunction_view_efreq&quot;</span><span class="p">)</span>
+
 <span class="c1"># change the decimation level</span>
-<span class="n">viewStatistic</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="mi">128</span><span class="p">,</span>
@@ -692,18 +754,19 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span>
     <span class="n">declevel</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">eFreqI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_projstat_transfunction_view_declevel&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<div class="align-center figure" id="id10">
-<img alt="alternate text" src="../_images/stat_transferFunction_site1_128_000_dec0_efreq1_dec8_5.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>. Here, evaluation frequency 22.627417 Hz is plotted (decimation level = 0, evaluation frequency index = 1).</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+<div class="align-center figure" id="id12">
+<img alt="alternate text" src="../_images/usingStats_projstat_transfunction_view_efreq.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic" title="resistics.project.statistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>. Here, evaluation frequency 22.627417 Hz is plotted (decimation level = 0, evaluation frequency index = 1).</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
 </div>
-<div class="align-center figure" id="id11">
-<img alt="alternate text" src="../_images/stat_transferFunction_site1_128_000_dec1_efreq0_dec8_5.png" />
-<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.viewStatistic" title="resistics.project.projectStatistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>. Here, evaluation frequency 5.65685425 Hz is plotted (decimation level = 1, evaluation frequency index = 0).</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+<div class="align-center figure" id="id13">
+<img alt="alternate text" src="../_images/usingStats_projstat_transfunction_view_declevel.png" />
+<p class="caption"><span class="caption-text">Transfer function data plotted for all time series measurements of a given sampling frequency in a site using the <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic" title="resistics.project.statistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>. Here, evaluation frequency 5.65685425 Hz is plotted (decimation level = 1, evaluation frequency index = 0).</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
 </div>
 <p>Up until now, statistics have been used to investigate the variance of the time series data. However, they can be used to select which time windows to process. To find out how to use them to select and remove time windows, continue to the <a class="reference internal" href="masks.html"><span class="doc">Masks</span></a> section.</p>
 </div>
@@ -823,20 +886,44 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 111
 112
 113
-114</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># need the project path for loading</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 
 <span class="c1"># get default statistic names</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsStats</span> <span class="kn">import</span> <span class="n">getStatNames</span>
+<span class="kn">from</span> <span class="nn">resistics.statistics.utils</span> <span class="kn">import</span> <span class="n">getStatNames</span>
 
 <span class="n">stats</span><span class="p">,</span> <span class="n">remotestats</span> <span class="o">=</span> <span class="n">getStatNames</span><span class="p">()</span>
 
 <span class="c1"># calculate statistics</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
 
 <span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">)</span>
 
@@ -847,7 +934,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <span class="n">calculateStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">)</span>
 
 <span class="c1"># to get statistic data, we need the site, the measurement and the statistic we want</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">getStatisticData</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">getStatisticData</span>
 
 <span class="c1"># coherence statistic data</span>
 <span class="n">statData</span> <span class="o">=</span> <span class="n">getStatisticData</span><span class="p">(</span>
@@ -855,14 +942,21 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <span class="p">)</span>
 <span class="c1"># view statistic value over time</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_coherence_view&quot;</span><span class="p">)</span>
 <span class="c1"># view statistic histogram</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_histogram&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_coherence_histogram&quot;</span><span class="p">)</span>
 <span class="c1"># view statistic crossplot</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;cohExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHy&quot;</span><span class="p">]])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_coherence_crossplot&quot;</span><span class="p">))</span>
-
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_coherence_crossplot&quot;</span><span class="p">)</span>
+<span class="c1"># view statistic density plot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">densityplot</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">crossplots</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;cohExHy&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;cohExHx&quot;</span><span class="p">,</span> <span class="s2">&quot;cohEyHy&quot;</span><span class="p">]],</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_coherence_densityplot&quot;</span><span class="p">)</span>
 
 <span class="c1"># transfer function statistic data</span>
 <span class="n">statData</span> <span class="o">=</span> <span class="n">getStatisticData</span><span class="p">(</span>
@@ -870,10 +964,10 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <span class="p">)</span>
 <span class="c1"># view statistic value over time</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_view&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_view&quot;</span><span class="p">)</span>
 <span class="c1"># view statistic histogram</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_histogram&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_histogram&quot;</span><span class="p">)</span>
 <span class="c1"># view statistic crossplot</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">crossplot</span><span class="p">(</span>
     <span class="mi">0</span><span class="p">,</span>
@@ -886,47 +980,65 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_crossplot&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_crossplot&quot;</span><span class="p">)</span>
+<span class="c1"># view statistic densityplot</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">densityplot</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">crossplots</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;ExHxReal&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHxImag&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;ExHyReal&quot;</span><span class="p">,</span> <span class="s2">&quot;ExHyImag&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;EyHxReal&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHxImag&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;EyHyReal&quot;</span><span class="p">,</span> <span class="s2">&quot;EyHyImag&quot;</span><span class="p">],</span>
+    <span class="p">],</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span>
+    <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_densityplot&quot;</span><span class="p">)</span>
+
 <span class="c1"># look at the next evaluation frequency</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">statData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;statistic_transferfunction_view_eval1&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_statistic_transferfunction_view_eval1&quot;</span><span class="p">)</span>
 
 <span class="c1"># plot statistic values in time for all data of a specified sampling frequency in a site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">viewStatistic</span>
 
 <span class="c1"># statistic in time</span>
-<span class="n">viewStatistic</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="mi">128</span><span class="p">,</span>
     <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_projstat_transfunction_view&quot;</span><span class="p">)</span>
 
 <span class="c1"># plot statistic histogram for all data of a specified sampling frequency in a site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">viewStatisticHistogram</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">viewStatisticHistogram</span>
 
 <span class="c1"># statistic histogram</span>
-<span class="n">viewStatisticHistogram</span><span class="p">(</span>
-    <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatisticHistogram</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">,</span> <span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_projstat_transfunction_hist&quot;</span><span class="p">)</span>
 
 <span class="c1"># more examples</span>
 <span class="c1"># change the evaluation frequency</span>
-<span class="n">viewStatistic</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="mi">128</span><span class="p">,</span>
     <span class="s2">&quot;transferFunction&quot;</span><span class="p">,</span>
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span>
     <span class="n">eFreqI</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_projstat_transfunction_view_efreq&quot;</span><span class="p">)</span>
+
 <span class="c1"># change the decimation level</span>
-<span class="n">viewStatistic</span><span class="p">(</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewStatistic</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">,</span>
     <span class="s2">&quot;site1&quot;</span><span class="p">,</span>
     <span class="mi">128</span><span class="p">,</span>
@@ -934,9 +1046,10 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span>
     <span class="n">declevel</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">eFreqI</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">save</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">save</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;usingStats_projstat_transfunction_view_declevel&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -984,7 +1097,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Interpolation to second &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Interpolation to second &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
@@ -114,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -206,12 +205,12 @@
 6
 7
 8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderSpam</span> <span class="kn">import</span> <span class="n">DataReaderSPAM</span>
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_spam</span> <span class="kn">import</span> <span class="n">TimeReaderSPAM</span>
 
 <span class="c1"># read in spam data</span>
-<span class="n">spamPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;spam&quot;</span><span class="p">)</span>
-<span class="n">spamReader</span> <span class="o">=</span> <span class="n">DataReaderSPAM</span><span class="p">(</span><span class="n">spamPath</span><span class="p">)</span>
+<span class="n">spamPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;spam&quot;</span>
+<span class="n">spamReader</span> <span class="o">=</span> <span class="n">TimeReaderSPAM</span><span class="p">(</span><span class="n">spamPath</span><span class="p">)</span>
 <span class="n">spamReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">spamData</span> <span class="o">=</span> <span class="n">spamReader</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">()</span>
 <span class="n">spamData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -323,13 +322,13 @@ timeData\spam, samples 0 to 21599999
 17:09:57 TimeData: ####################
 </pre></div>
 </td></tr></table></div>
-<p>This dataset is sampled at 250 Hz, which equates to a sampling period of 0.004 seconds. Looking at the start time, the data starts at 00:00:00.003200. This combination of start time and sampling period will not give data sampled on the second. Resistics includes the <a class="reference internal" href="../../api/resistics.utilities.utilsInterp.html#resistics.utilities.utilsInterp.interpolateToSecond" title="resistics.utilities.utilsInterp.interpolateToSecond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">interpolateToSecond()</span></code></a> for interpolating time data to the second. This method uses spline interpolation.</p>
+<p>This dataset is sampled at 250 Hz, which equates to a sampling period of 0.004 seconds. Looking at the start time, the data starts at 00:00:00.003200. This combination of start time and sampling period will not give data sampled on the second. Resistics includes the <a class="reference internal" href="../../api/resistics.time.interp.html#resistics.time.interp.interpolateToSecond" title="resistics.time.interp.interpolateToSecond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">interpolateToSecond()</span></code></a> for interpolating time data to the second. This method uses spline interpolation.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
 12
 13
 14
 15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># interpolate to second</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsInterp</span> <span class="kn">import</span> <span class="n">interpolateToSecond</span>
+<span class="kn">from</span> <span class="nn">resistics.time.interp</span> <span class="kn">import</span> <span class="n">interpolateToSecond</span>
 
 <span class="n">interpData</span> <span class="o">=</span> <span class="n">interpolateToSecond</span><span class="p">(</span><span class="n">spamData</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">interpData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -337,7 +336,7 @@ timeData\spam, samples 0 to 21599999
 </td></tr></table></div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last"><a class="reference internal" href="../../api/resistics.utilities.utilsInterp.html#resistics.utilities.utilsInterp.interpolateToSecond" title="resistics.utilities.utilsInterp.interpolateToSecond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">interpolateToSecond()</span></code></a> does not support data sampled at frequencies below 1 Hz. Please do not use it for this sort of data.</p>
+<p class="last"><a class="reference internal" href="../../api/resistics.time.interp.html#resistics.time.interp.interpolateToSecond" title="resistics.time.interp.interpolateToSecond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">interpolateToSecond()</span></code></a> does not support data sampled at frequencies below 1 Hz. Please do not use it for this sort of data.</p>
 </div>
 <p>Printing out information about this time data gives a new start time and provides interpolating information in the comments.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -387,8 +386,8 @@ timeData\spam, samples 0 to 21599999
 17:10:15 TimeData: ####################
 </pre></div>
 </td></tr></table></div>
-<p>The new start time of this time data is 00:00:01.000000, which means a few samples at the start of the data have been dropped. <a class="reference internal" href="../../api/resistics.utilities.utilsInterp.html#resistics.utilities.utilsInterp.interpolateToSecond" title="resistics.utilities.utilsInterp.interpolateToSecond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">interpolateToSecond()</span></code></a> will always start the data at the next second.</p>
-<p>It is possible to now write out this dataset using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataWriterInternal.html#resistics.ioHandlers.dataWriterInternal.DataWriterInternal" title="resistics.ioHandlers.dataWriterInternal.DataWriterInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataWriterInternal</span></code></a> class. However, header information needs to be passed to this class and can be taken from the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReader.html#resistics.ioHandlers.dataReader.DataReader" title="resistics.ioHandlers.dataReader.DataReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReader</span></code></a> object. Where there is a mismatch between the headers and the time data (for example, the start time of the headers will no longer match the start time of the interpolated data), the information in the <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object is preferentially used.</p>
+<p>The new start time of this time data is 00:00:01.000000, which means a few samples at the start of the data have been dropped. <a class="reference internal" href="../../api/resistics.time.interp.html#resistics.time.interp.interpolateToSecond" title="resistics.time.interp.interpolateToSecond"><code class="xref py py-meth docutils literal notranslate"><span class="pre">interpolateToSecond()</span></code></a> will always start the data at the next second.</p>
+<p>It is possible to now write out this dataset using the <a class="reference internal" href="../../api/resistics.time.writer_internal.html#resistics.time.writer_internal.TimeWriterInternal" title="resistics.time.writer_internal.TimeWriterInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeWriterInternal</span></code></a> class. However, header information needs to be passed to this class and can be taken from the <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader" title="resistics.time.reader.TimeReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReader</span></code></a> object. Where there is a mismatch between the headers and the time data (for example, the start time of the headers will no longer match the start time of the interpolated data), the information in the <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object is preferentially used.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>17
 18
 19
@@ -404,12 +403,12 @@ timeData\spam, samples 0 to 21599999
 29
 30
 31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># can now write out the interpolated dataset</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
 
-<span class="n">interpPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;spamInterp&quot;</span><span class="p">)</span>
+<span class="n">interpPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;spamInterp&quot;</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="n">spamReader</span><span class="o">.</span><span class="n">getHeaders</span><span class="p">()</span>
 <span class="n">chanHeaders</span><span class="p">,</span> <span class="n">chanMap</span> <span class="o">=</span> <span class="n">spamReader</span><span class="o">.</span><span class="n">getChanHeaders</span><span class="p">()</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">interpPath</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeData</span><span class="p">(</span>
     <span class="n">headers</span><span class="p">,</span>
@@ -421,15 +420,16 @@ timeData\spam, samples 0 to 21599999
 </pre></div>
 </td></tr></table></div>
 <p>The comments associated with the new dataset are shown below.</p>
-<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2016-02-07 00:00:00.003200 to 2016-02-07 23:59:59.999200 read in from measurement timeData\spam, samples 0 to 21599999
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2016-02-07 00:00:00.003200 to 2016-02-07 23:59:59.999200 read in from measurement E:\magnetotellurics\code\resisticsdata\formats\timeData\spam, samples 0 to 21599999
 Data read from 1 files in total
 Data scaled to mV for all channels using scalings in header files
 Sampling frequency 250.0
@@ -437,19 +437,20 @@ Dividing channel Ex by electrode distance 0.0587 km to give mV/km
 Dividing channel Ey by electrode distance 0.0564 km to give mV/km
 Remove zeros: False, remove nans: False, remove average: True
 Time data interpolated to nearest second. New start time 2016-02-07 00:00:01, new end time 2016-02-07 23:59:59.996000, new number of samples 21599750 
-Dataset written to timeData\spamInterp on 2019-03-24 17:10:15.301582
+Time series dataset written to E:\magnetotellurics\code\resisticsdata\formats\timeData\spamInterp on 2019-10-05 18:11:27.356506 using resistics 0.0.6.dev2
+---------------------------------------------------
 </pre></div>
 </td></tr></table></div>
-<p>To visualise the difference between the original and interpolated data, the interpolated data can be read back in using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderInternal.html#resistics.ioHandlers.dataReaderInternal.DataReaderInternal" title="resistics.ioHandlers.dataReaderInternal.DataReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderInternal</span></code></a> class.</p>
+<p>To visualise the difference between the original and interpolated data, the interpolated data can be read back in using the <a class="reference internal" href="../../api/resistics.time.reader_internal.html#resistics.time.reader_internal.TimeReaderInternal" title="resistics.time.reader_internal.TimeReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderInternal</span></code></a> class.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>33
 34
 35
 36
 37
 38</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read in the internal data</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">interpReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span><span class="n">interpPath</span><span class="p">)</span>
+<span class="n">interpReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span><span class="n">interpPath</span><span class="p">)</span>
 <span class="n">interpReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">interpReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 </pre></div>
@@ -548,29 +549,29 @@ Dataset written to timeData\spamInterp on 2019-03-24 17:10:15.301582
 52
 53
 54
-55</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderSpam</span> <span class="kn">import</span> <span class="n">DataReaderSPAM</span>
+55</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_spam</span> <span class="kn">import</span> <span class="n">TimeReaderSPAM</span>
 
 <span class="c1"># read in spam data</span>
-<span class="n">spamPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;spam&quot;</span><span class="p">)</span>
-<span class="n">spamReader</span> <span class="o">=</span> <span class="n">DataReaderSPAM</span><span class="p">(</span><span class="n">spamPath</span><span class="p">)</span>
+<span class="n">spamPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;spam&quot;</span>
+<span class="n">spamReader</span> <span class="o">=</span> <span class="n">TimeReaderSPAM</span><span class="p">(</span><span class="n">spamPath</span><span class="p">)</span>
 <span class="n">spamReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">spamData</span> <span class="o">=</span> <span class="n">spamReader</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">()</span>
 <span class="n">spamData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
 <span class="c1"># interpolate to second</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsInterp</span> <span class="kn">import</span> <span class="n">interpolateToSecond</span>
+<span class="kn">from</span> <span class="nn">resistics.time.interp</span> <span class="kn">import</span> <span class="n">interpolateToSecond</span>
 
 <span class="n">interpData</span> <span class="o">=</span> <span class="n">interpolateToSecond</span><span class="p">(</span><span class="n">spamData</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">interpData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
 <span class="c1"># can now write out the interpolated dataset</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
 
-<span class="n">interpPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;spamInterp&quot;</span><span class="p">)</span>
+<span class="n">interpPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;spamInterp&quot;</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="n">spamReader</span><span class="o">.</span><span class="n">getHeaders</span><span class="p">()</span>
 <span class="n">chanHeaders</span><span class="p">,</span> <span class="n">chanMap</span> <span class="o">=</span> <span class="n">spamReader</span><span class="o">.</span><span class="n">getChanHeaders</span><span class="p">()</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">interpPath</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeData</span><span class="p">(</span>
     <span class="n">headers</span><span class="p">,</span>
@@ -581,9 +582,9 @@ Dataset written to timeData\spamInterp on 2019-03-24 17:10:15.301582
 <span class="n">writer</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
 <span class="c1"># read in the internal data</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">interpReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span><span class="n">interpPath</span><span class="p">)</span>
+<span class="n">interpReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span><span class="n">interpPath</span><span class="p">)</span>
 <span class="n">interpReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">interpReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 
@@ -602,7 +603,7 @@ Dataset written to timeData\spamInterp on 2019-03-24 17:10:15.301582
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Original&quot;</span><span class="p">,</span> <span class="s2">&quot;Interpolated&quot;</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;interpolation.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;interpolation.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -650,7 +651,7 @@ Dataset written to timeData\spamInterp on 2019-03-24 17:10:15.301582
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

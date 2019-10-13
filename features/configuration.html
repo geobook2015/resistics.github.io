@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Configuration files &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Configuration files &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a><ul class="current">
@@ -107,7 +106,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -255,11 +254,11 @@ windowfunc = hamming
 </pre></div>
 </td></tr></table></div>
 <p>Configuration files are separated into several sections which describe which part of the process the parameters affect. The parameters are detailed in the <a class="reference internal" href="#configuration-parameters"><span class="std std-ref">Configuration parameters</span></a> section. The first thing to note is that all configuration files have a name. This is to help traceability. Configuration names are always entered into dataset comments.</p>
-<p>A good way to begin creating a custom configuration file is to copy the default parameterisation. This can be done by using the inbuilt <a class="reference internal" href="../api/resistics.utilities.utilsConfig.html#resistics.utilities.utilsConfig.copyDefaultConfig" title="resistics.utilities.utilsConfig.copyDefaultConfig"><code class="xref py py-meth docutils literal notranslate"><span class="pre">copyDefaultConfig()</span></code></a> functionality:</p>
+<p>A good way to begin creating a custom configuration file is to copy the default parameterisation. This can be done by using the inbuilt <a class="reference internal" href="../api/resistics.config.defaults.html#resistics.config.defaults.copyDefaultConfig" title="resistics.config.defaults.copyDefaultConfig"><code class="xref py py-meth docutils literal notranslate"><span class="pre">copyDefaultConfig()</span></code></a> functionality:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># copy the default configuration file</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsConfig</span> <span class="kn">import</span> <span class="n">copyDefaultConfig</span>
+<span class="kn">from</span> <span class="nn">resistics.config.defaults</span> <span class="kn">import</span> <span class="n">copyDefaultConfig</span>
 <span class="n">copyDefaultConfig</span><span class="p">(</span><span class="s2">&quot;resisticsDefaultConfig.ini&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
@@ -277,10 +276,57 @@ windowfunc = hamming
 11
 12
 13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span>name = dec8_5
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span>name = example1
+
+[Decimation]
+numlevels = 6
+minsamples = 256
+
+[Frequencies]
+perlevel = 8
+
+[Window]
+minwindows = 5
+minwindowsize = 256
+minoverlapsize = 64
 
 [Spectra]
-specdir = &quot;dec8_5&quot;
+specdir = example1
+windowfunc = parzen
+
+[Statistics]
+stats = coherence, transferFunction
+remotestats = RR_coherence, RR_transferFunction
+</pre></div>
+</td></tr></table></div>
+<p>In the above configuration file, several paramters have been changed from the default. Resistics will now try and create 6 decimation levels with 8 evaluation frequencies per level. Once decimated, timeseries will need to have at least 256 samples to be a valid decimation level. The minimum allowable window size is 256 samples, with a minimum overlap of 64 samples. Spectra calculated using this configuration file will be saved under the <em>example1</em> spectra directory (to understand more about this, see the tutorial <a class="reference internal" href="../tutorial/multiple-spectra.html"><span class="doc">multiple spectra</span></a> and the tutorial <a class="reference internal" href="../tutorial/configuration-files.html"><span class="doc">configuration files</span></a> sections). For calculating the frequency data, a parzen window will be used. And finally, the standard statistics to calculate are <em>coherence</em> and <em>transferFunction</em> and the remote statistics are <em>RR_coherence</em> and <em>RR_transferFunction</em>.</p>
+<p>A second example is shown below which has slightly different parameters.</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span>name = example2
 
 [Decimation]
 numlevels = 8
@@ -289,10 +335,33 @@ numlevels = 8
 perlevel = 5
 
 [Window]
-minwindowsize = 256
-minoverlapsize = 64
+windowsizes = 1024, 512, 512, 256, 256, 256, 256, 256
+overlapsizes = 256, 128, 128, 64, 64, 64, 64, 64
+
+[Spectra]
+specdir = example2
+windowfunc = parzen
+
+[Statistics]
+stats = coherence, transferFunction
+remotestats = RR_coherence, RR_transferFunction
 </pre></div>
 </td></tr></table></div>
+<p>For this configuration file, there are 8 decimation levels with 5 evaluation frequencies per level. The window and overlap sizes are defined explicitly with a window size of:</p>
+<ul class="simple">
+<li>1024 samples for decimation level 0 (non-decimation timeseries data) with 256 sample overlap</li>
+<li>512 for decimation level 1 with 128 sample overlap</li>
+<li>512 for decimation level 2 with 128 sample overlap</li>
+<li>256 for decimation level 3 with 64 sample overlap</li>
+<li>256 for decimation level 4 with 64 sample overlap</li>
+<li>256 for decimation level 5 with 64 sample overlap</li>
+<li>256 for decimation level 6 with 64 sample overlap</li>
+<li>256 for decimation level 7 with 64 sample overlap</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When specifying window and overlap sizes manually, a window and overlap size must be defined for each decimation level.</p>
+</div>
 <p>When using resistics, information about the configuraiton being used can be printed to the terminal. This will detail which parameters have been specified by the user and which ones are being defaulted.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>23:17:45 ConfigData: Configuration file = Default configuration
 23:17:45 ConfigData: Configuration name = default
@@ -734,7 +803,7 @@ minoverlapsize = 64
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

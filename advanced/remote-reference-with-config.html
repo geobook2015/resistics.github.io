@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Remote reference with configuration &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Remote reference with configuration &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -108,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -190,7 +189,7 @@
 <div class="section" id="simple-configuration">
 <h2>Simple configuration<a class="headerlink" href="#simple-configuration" title="Permalink to this headline">¶</a></h2>
 <p>Configuration files provide an easy way to define processing parameters. They are described in more detail <a class="reference internal" href="../features/configuration.html"><span class="doc">here</span></a> and <a class="reference internal" href="../tutorial/configuration-files.html"><span class="doc">here</span></a>.</p>
-<p>The below configuration file changes the decimation scheme to 8 decimation levels with 5 evaluation frequencies per level and the minimum window size. In addition, the remote statistics to calculate have been explicitly defined so they do not need to be specifed in the call to <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.calculateRemoteStatistics" title="resistics.project.projectStatistics.calculateRemoteStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateRemoteStatistics()</span></code></a>.</p>
+<p>The below configuration file changes the decimation scheme to 8 decimation levels with 5 evaluation frequencies per level and the minimum window size. In addition, the remote statistics to calculate have been explicitly defined so they do not need to be specifed in the call to <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.calculateRemoteStatistics" title="resistics.project.statistics.calculateRemoteStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateRemoteStatistics()</span></code></a>.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -298,13 +297,13 @@ remotestats = &quot;RR_coherenceEqn&quot;,
 64
 65
 66
-67</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateRemoteStatistics</span><span class="p">,</span> <span class="n">viewStatistic</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+67</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateRemoteStatistics</span><span class="p">,</span> <span class="n">viewStatistic</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">remotePath</span><span class="p">,</span> <span class="s2">&quot;remoteConfig.ini&quot;</span><span class="p">)</span>
@@ -377,7 +376,7 @@ remotestats = &quot;RR_coherenceEqn&quot;,
 <p class="caption"><span class="caption-text">Single site impedance tensor estimates for the Remote site at 128 Hz using 8 decimation levels and 5 evaluation frequencies per level with a minimum window size of 256 points.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <p>The long periods have now improved, particularly for the Remote site. However, the dead band remains an issue for Remote and Site M6.</p>
-<p>The remote reference processing result for Site M6 is shown below. The long periods are noticeably better in both phase and apparent resistivity than the results with the standard processing scheme. As stated earlier, the dead band shows now discernible improvement.</p>
+<p>The remote reference processing result for Site M6 is shown below. The long periods are noticeably better in both phase and apparent resistivity than the results with the standard processing scheme. As stated earlier, the dead band shows no discernible improvement.</p>
 <div class="align-center figure" id="id3">
 <img alt="alternate text" src="../_images/remoteReferenceM6_128_RR_dec8_5_coh_datetime_01.png" />
 <p class="caption"><span class="caption-text">Remote reference impedance tensor estimates for Site M6 at 128 Hz using 8 decimation levels and 5 evaluation frequencies per level with a minimum window size of 256 points. Masks and time constraints are applied.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
@@ -389,7 +388,7 @@ remotestats = &quot;RR_coherenceEqn&quot;,
 </div>
 <div class="section" id="customised-windowing">
 <h2>Customised windowing<a class="headerlink" href="#customised-windowing" title="Permalink to this headline">¶</a></h2>
-<p>Resistics gives fine grained control over windowing and overlaps. In the below configuration file, the same decimation scheme is used, with 8 decimation levels and 5 evaluation frequencies per level. However, the windowing has been defined explicitly for each decimation level. In addition and similar to the dec8_5 configuration file, the statistics and remote statistics to calculate have been explicitly defined so they do not need to be specifed in calls to <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.calculateStatistics" title="resistics.project.projectStatistics.calculateStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateStatistics()</span></code></a> and <a class="reference internal" href="../api/resistics.project.projectStatistics.html#resistics.project.projectStatistics.calculateRemoteStatistics" title="resistics.project.projectStatistics.calculateRemoteStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateRemoteStatistics()</span></code></a>.</p>
+<p>Resistics gives fine grained control over windowing and overlaps. In the below configuration file, the same decimation scheme is used, with 8 decimation levels and 5 evaluation frequencies per level. However, the windowing has been defined explicitly for each decimation level. In addition and similar to the dec8_5 configuration file, the statistics and remote statistics to calculate have been explicitly defined so they do not need to be specifed in calls to <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.calculateStatistics" title="resistics.project.statistics.calculateStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateStatistics()</span></code></a> and <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.calculateRemoteStatistics" title="resistics.project.statistics.calculateRemoteStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateRemoteStatistics()</span></code></a>.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -490,17 +489,17 @@ remotestats = &quot;RR_coherenceEqn&quot;,
 60
 61
 62
-63</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="p">(</span>
+63</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">calculateStatistics</span><span class="p">,</span>
     <span class="n">calculateRemoteStatistics</span><span class="p">,</span>
     <span class="n">viewStatistic</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">remotePath</span><span class="p">,</span> <span class="s2">&quot;manualWindowsConfig.ini&quot;</span><span class="p">)</span>
@@ -566,7 +565,7 @@ remotestats = &quot;RR_coherenceEqn&quot;,
 <p>In addition to single site processing, Remote is processed with a coherence mask giving the below impedance tensor estimate.</p>
 <div class="align-center figure" id="id7">
 <img alt="alternate text" src="../_images/singleSiteRemote_128_man8_5_coh80.png" />
-<p class="caption"><span class="caption-text">Single site impedance tensor estimates for the Remote site at 128 Hz using 8 decimation levels and 5 evaluation frequencies per level with a custom window size per decimation level. An coherence mask of 0.8 has applied to discard noisy windows.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Single site impedance tensor estimates for the Remote site at 128 Hz using 8 decimation levels and 5 evaluation frequencies per level with a custom window size per decimation level. A coherence mask of 0.8 has applied to discard noisy windows.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 <p>Applying the coherence mask has significantly improved the single site impedance tensor estimates for Remote in the dead band. However, in some cases, it has left no windows at the long periods (this is clear from the missing markers for some evaluation frequencies).</p>
 <p>Next, the same remote reference processing is repeated with matching parameters to the dec8_5 processing as shown below.</p>
@@ -700,7 +699,7 @@ remotestats = &quot;RR_coherenceEqn&quot;,
 <p class="caption"><span class="caption-text">Remote reference impedance tensor estimates for Site M6 at 128 Hz using 8 decimation levels and 5 evaluation frequencies per level with a custom window size per decimation level. Masks and time constraints are applied. An additional mask is applied for Remote excluding Remote windows with coherence E<sub>x</sub>-H<sub>y</sub> or E<sub>y</sub>-H<sub>x</sub> below 0.8.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </div>
 <p>The result here is not so good, but it has reduced the biasing in the dead band where previously phases were reaching 0. With extra work and configuration testing, this may be promising.</p>
-<p>For a last try, variable single site coherence thresholds could be used to limit the Remote data using the <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData.addConstraintLevel" title="resistics.dataObjects.maskData.MaskData.addConstraintLevel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintLevel()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.maskData.html#resistics.dataObjects.maskData.MaskData" title="resistics.dataObjects.maskData.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>. An example and the result are provided below.</p>
+<p>For a last try, variable single site coherence thresholds could be used to limit the Remote data using the <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.addConstraintLevel" title="resistics.mask.data.MaskData.addConstraintLevel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintLevel()</span></code></a> method of <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>. An example and the result are provided below.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>125
 126
 127
@@ -851,13 +850,13 @@ remotestats = &quot;RR_coherenceEqn&quot;,
 64
 65
 66
-67</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateRemoteStatistics</span><span class="p">,</span> <span class="n">viewStatistic</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+67</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateRemoteStatistics</span><span class="p">,</span> <span class="n">viewStatistic</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">remotePath</span><span class="p">,</span> <span class="s2">&quot;remoteConfig.ini&quot;</span><span class="p">)</span>
@@ -1079,17 +1078,17 @@ remotestats = &quot;RR_coherenceEqn&quot;,
 156
 157
 158
-159</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="p">(</span>
+159</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">calculateStatistics</span><span class="p">,</span>
     <span class="n">calculateRemoteStatistics</span><span class="p">,</span>
     <span class="n">viewStatistic</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">remotePath</span><span class="p">,</span> <span class="s2">&quot;manualWindowsConfig.ini&quot;</span><span class="p">)</span>
@@ -1285,7 +1284,7 @@ remotestats = &quot;RR_coherenceEqn&quot;,
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

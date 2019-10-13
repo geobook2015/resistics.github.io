@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.project.utils &mdash; resistics 0.0.6.dev3 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search..." />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../case-studies.html">Case studies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog / backlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">resistics</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.project.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.project.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">resistics.common.print</span> <span class="k">import</span> <span class="n">generalPrint</span><span class="p">,</span> <span class="n">warningPrint</span><span class="p">,</span> <span class="n">errorPrint</span><span class="p">,</span> <span class="n">blockPrint</span>
+
+
+<div class="viewcode-block" id="projectText"><a class="viewcode-back" href="../../../api/resistics.project.utils.html#resistics.project.utils.projectText">[docs]</a><span class="k">def</span> <span class="nf">projectText</span><span class="p">(</span><span class="n">infoStr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;General print to terminal</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    infoStr : str</span>
+<span class="sd">        The string to print to the console</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">generalPrint</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Info&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]),</span> <span class="n">infoStr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="projectBlock"><a class="viewcode-back" href="../../../api/resistics.project.utils.html#resistics.project.utils.projectBlock">[docs]</a><span class="k">def</span> <span class="nf">projectBlock</span><span class="p">(</span><span class="n">textLst</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    textLst : list[str]</span>
+<span class="sd">        List of strings with information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blockPrint</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">textLst</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="projectWarning"><a class="viewcode-back" href="../../../api/resistics.project.utils.html#resistics.project.utils.projectWarning">[docs]</a><span class="k">def</span> <span class="nf">projectWarning</span><span class="p">(</span><span class="n">warnStr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Warning print to terminal</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    warnStr : str</span>
+<span class="sd">        The string to print to the console</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warningPrint</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Warning&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]),</span> <span class="n">warnStr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="projectError"><a class="viewcode-back" href="../../../api/resistics.project.utils.html#resistics.project.utils.projectError">[docs]</a><span class="k">def</span> <span class="nf">projectError</span><span class="p">(</span><span class="n">errorStr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">quitRun</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Error print to terminal and possibly quit</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    errorStr : str</span>
+<span class="sd">        The string to print to the console</span>
+<span class="sd">    quitRun : bool, optional (False)</span>
+<span class="sd">        If True, the code will exit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">errorPrint</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Warning&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]),</span> <span class="n">errorStr</span><span class="p">,</span> <span class="n">quitRun</span><span class="o">=</span><span class="n">quitRun</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="checkDateOptions"><a class="viewcode-back" href="../../../api/resistics.project.utils.html#resistics.project.utils.checkDateOptions">[docs]</a><span class="k">def</span> <span class="nf">checkDateOptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">timeStart</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timeStop</span><span class="p">:</span> <span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Check to see if data contributes to user specified date range</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    options : Dict</span>
+<span class="sd">        Options dictionary with start and stop options specified by user (if specified at all)</span>
+<span class="sd">    timeStart : datetime</span>
+<span class="sd">        Start time of data</span>
+<span class="sd">    timeStop : datetime</span>
+<span class="sd">        Stop time of data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if data contributes to the date range</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># now check the user provided dates</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">timeStop</span><span class="p">:</span>
+        <span class="c1"># this data has nothing to contribute in the optional date range</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">timeStart</span><span class="p">:</span>
+        <span class="c1"># this data has nothing to contribute in the optional date range</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.6.dev3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

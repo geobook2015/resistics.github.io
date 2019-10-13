@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lemi B423 timeseries &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Lemi B423 timeseries &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
@@ -114,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -232,7 +231,7 @@
 </pre></div>
 </div>
 <p>This is a continuous recording split into two files. Each file contains channels E<sub>x</sub>, E<sub>y</sub>, H<sub>x</sub>, H<sub>y</sub>, H<sub>z</sub>. However, there is no header file holding information about the recording start and end date, sampling frequency or any other paramter.</p>
-<p>Resistics requires this metadata in its time series data model. Therefore, headers must be constructed before the data can be read in. This can be done using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.measB423Headers" title="resistics.ioHandlers.dataReaderLemiB423.measB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423Headers()</span></code></a>.</p>
+<p>Resistics requires this metadata in its time series data model. Therefore, headers must be constructed before the data can be read in. This can be done using the <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.measB423Headers" title="resistics.time.reader_lemib423.measB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423Headers()</span></code></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -243,22 +242,20 @@
  8
  9
 10
-11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DataReaderLemiB423</span><span class="p">,</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TimeReaderLemiB423</span><span class="p">,</span>
     <span class="n">measB423Headers</span><span class="p">,</span>
     <span class="n">folderB423Headers</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423&quot;</span><span class="p">)</span>
+<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423&quot;</span>
 <span class="n">measB423Headers</span><span class="p">(</span>
     <span class="n">lemiPath</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">hxSensor</span><span class="o">=</span><span class="mi">712</span><span class="p">,</span> <span class="n">hySensor</span><span class="o">=</span><span class="mi">710</span><span class="p">,</span> <span class="n">hzSensor</span><span class="o">=</span><span class="mi">714</span><span class="p">,</span> <span class="n">hGain</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span>
 <span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>In <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.measB423Headers" title="resistics.ioHandlers.dataReaderLemiB423.measB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423Headers()</span></code></a>, the following should be defined:</p>
+<p>In <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.measB423Headers" title="resistics.time.reader_lemib423.measB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423Headers()</span></code></a>, the following should be defined:</p>
 <ul class="simple">
 <li>The path to the folder with the Lemi B423 data files.</li>
 <li>The sampling frequency in Hz of the data. In the above example, 500 Hz.</li>
@@ -269,7 +266,7 @@
 <li>dx: the E<sub>x</sub> dipole length</li>
 <li>dy: the E<sub>y</sub> dipole length</li>
 </ul>
-<p>After running <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.measB423Headers" title="resistics.ioHandlers.dataReaderLemiB423.measB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423Headers()</span></code></a> with the appropriate parameters, the recording folder will look like:</p>
+<p>After running <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.measB423Headers" title="resistics.time.reader_lemib423.measB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423Headers()</span></code></a> with the appropriate parameters, the recording folder will look like:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>lemi01
 ├── 1558950203.B423
 ├── 1558961007.B423
@@ -397,10 +394,11 @@ echopper = 0
 </td></tr></table></div>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
-<p class="last">For many field surveys, a site includes multiple measurements using the same measurement parameters. For example, when a site is setup, the dipole lengths are unlikely to change as well as the sensor serial numbers. In this case, it is better to use the method <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.folderB423Headers" title="resistics.ioHandlers.dataReaderLemiB423.folderB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423Headers()</span></code></a>, which will write out headers for all measurements in a folder.</p>
+<p class="last">For many field surveys, a site includes multiple measurements using the same measurement parameters. For example, when a site is setup, the dipole lengths are unlikely to change as well as the sensor serial numbers. In this case, it is better to use the method <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.folderB423Headers" title="resistics.time.reader_lemib423.folderB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423Headers()</span></code></a>, which will write out headers for all measurements in a folder.</p>
 </div>
-<p>Batch header files for Lemi B423 data can be written out using the method <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.folderB423Headers" title="resistics.ioHandlers.dataReaderLemiB423.folderB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423Headers()</span></code></a>.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>64
+<p>Batch header files for Lemi B423 data can be written out using the method <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.folderB423Headers" title="resistics.time.reader_lemib423.folderB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423Headers()</span></code></a>.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>63
+64
 65
 66
 67
@@ -408,15 +406,14 @@ echopper = 0
 69
 70
 71
-72
-73</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># preparing headers for all measurement folders in a site</span>
-<span class="n">folderPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423_site&quot;</span><span class="p">)</span>
+72</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># preparing headers for all measurement folders in a site</span>
+<span class="n">folderPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423_site&quot;</span>
 <span class="n">folderB423Headers</span><span class="p">(</span>
     <span class="n">folderPath</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">hxSensor</span><span class="o">=</span><span class="mi">712</span><span class="p">,</span> <span class="n">hySensor</span><span class="o">=</span><span class="mi">710</span><span class="p">,</span> <span class="n">hzSensor</span><span class="o">=</span><span class="mi">714</span><span class="p">,</span> <span class="n">hGain</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span>
 <span class="p">)</span>
 
-<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folderPath</span><span class="p">,</span> <span class="s2">&quot;lemi01&quot;</span><span class="p">)</span>
-<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">DataReaderLemiB423</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
+<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">folderPath</span> <span class="o">/</span> <span class="s2">&quot;lemi01&quot;</span>
+<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">TimeReaderLemiB423</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 </pre></div>
@@ -519,14 +516,14 @@ echopper = 0
 <p class="first admonition-title">Note</p>
 <p class="last">Once the header files are generated, the measurement data can be added to a resistics project and processed just as any other dataset.</p>
 </div>
-<p>Now the header files have been prepared, the data can be loaded. To do this, the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423" title="resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderLemiB423</span></code></a> of module <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#module-resistics.ioHandlers.dataReaderLemiB423" title="resistics.ioHandlers.dataReaderLemiB423"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataReaderLemiB423</span></code></a> is used as described in <a class="reference internal" href="#lemi-b423-mt-data"><span class="std std-ref">Lemi B423 MT data</span></a>.</p>
+<p>Now the header files have been prepared, the data can be loaded. To do this, the <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423" title="resistics.time.reader_lemib423.TimeReaderLemiB423"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderLemiB423</span></code></a> of module <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#module-resistics.time.reader_lemib423" title="resistics.time.reader_lemib423"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reader_lemib423</span></code></a> is used as described in <a class="reference internal" href="#lemi-b423-mt-data"><span class="std std-ref">Lemi B423 MT data</span></a>.</p>
 </div>
 <div class="section" id="lemi-b423-mt-data">
 <h2>Lemi B423 MT data<a class="headerlink" href="#lemi-b423-mt-data" title="Permalink to this headline">¶</a></h2>
-<p>To load Lemi B423 data (after headers have been prepared), the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423" title="resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderLemiB423</span></code></a> of module <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#module-resistics.ioHandlers.dataReaderLemiB423" title="resistics.ioHandlers.dataReaderLemiB423"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataReaderLemiB423</span></code></a> is used.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>14
-15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">lemiReader</span> <span class="o">=</span> <span class="n">DataReaderLemiB423</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
+<p>To load Lemi B423 data (after headers have been prepared), the <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423" title="resistics.time.reader_lemib423.TimeReaderLemiB423"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderLemiB423</span></code></a> of module <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#module-resistics.time.reader_lemib423" title="resistics.time.reader_lemib423"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reader_lemib423</span></code></a> is used.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">lemiReader</span> <span class="o">=</span> <span class="n">TimeReaderLemiB423</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 </pre></div>
@@ -605,16 +602,16 @@ echopper = 0
 21:57:53 DataReaderLemiB423 Data File List: ####################
 </pre></div>
 </td></tr></table></div>
-<p>Now the Lemi B423 data can be accessed in much the same way as the other data readers. For example, viewing the unscaled data can be achieved by using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423.getUnscaledSamples" title="resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> method, which returns a <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>18
+<p>Now the Lemi B423 data can be accessed in much the same way as the other data readers. For example, viewing the unscaled data can be achieved by using the <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> method, which returns a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>17
+18
 19
 20
 21
 22
 23
 24
-25
-26</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot data</span>
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot data</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="n">unscaledLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">()</span>
@@ -622,7 +619,7 @@ echopper = 0
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423Unscaled.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423Unscaled.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
@@ -631,43 +628,43 @@ echopper = 0
 </div>
 <p>There are two stages of scaling in Lemi files:</p>
 <ol class="arabic simple">
-<li>The first converts the integer counts to microvolts for electric channels and mV for magnetic channels with the internal gain still applied. To get this data, the scale keyword to <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423.getUnscaledSamples" title="resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> needs to be set to <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code>.</li>
-<li>The second scaling converts the microvolt electric channels to mV/km by also dividing by the diploe lengths in km. The gain on the magnetic channels is removed to give magnetic channels in mV. This is the resistics standard field units. The methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code> will return a <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in field units.</li>
+<li>The first converts the integer counts to microvolts for electric channels and mV for magnetic channels with the internal gain still applied. To get this data, the scale keyword to <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> needs to be set to <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code>.</li>
+<li>The second scaling converts the microvolt electric channels to mV/km by also dividing by the diploe lengths in km. The gain on the magnetic channels is removed to give magnetic channels in mV. This is the resistics standard field units. The methods <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalData" title="resistics.time.reader.TimeReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> will return a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in field units.</li>
 </ol>
 <p>For example, to achieve scaling 1:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>18
-19
-20
-21
-22
-23
-24
-25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">startTime</span> <span class="o">=</span> <span class="s2">&quot;2019-05-27 15:00:00&quot;</span>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>27
+28
+29
+30
+31
+32
+33
+34</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">startTime</span> <span class="o">=</span> <span class="s2">&quot;2019-05-27 15:00:00&quot;</span>
 <span class="n">stopTime</span> <span class="o">=</span> <span class="s2">&quot;2019-05-27 15:00:15&quot;</span>
 <span class="n">unscaledLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getUnscaledData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423UnscaledWithScaleOption.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423UnscaledWithScaleOption.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../../_images/lemiB423UnscaledWithScaleOption.png" />
 <p class="caption"><span class="caption-text">Viewing unscaled data. Units here are microvolts for electric channels and millivolts for magnetic channels with gain still applied.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
-<p>Finally, to get data in field units of mV/km for electric channels and mV for magnetic channels, the methods <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423.getPhysicalSamples" title="resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code> of <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423" title="resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderLemiB423</span></code></a> can be used like in the below example. This is equivalent to scaling situation 2 and returns the <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in resistics standard field units.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>37
+<p>Finally, to get data in field units of mV/km for electric channels and mV for magnetic channels, the methods <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalData" title="resistics.time.reader.TimeReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> can be used like in the below example. This is equivalent to scaling situation 2 and returns the <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in resistics standard field units.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>36
+37
 38
 39
 40
-41
-42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">physicalLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
+41</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">physicalLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
 <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423PhysicalData.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423PhysicalData.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id3">
@@ -675,30 +672,30 @@ echopper = 0
 <p class="caption"><span class="caption-text">Viewing data in physical units. Electric channels in mV/km and magnetic channels in mV.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <p>Much like the other data formats supported by resistics, Lemi B423 data can be written out in internal or ascii format.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>44
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>43
+44
 45
 46
 47
 48
-49
-50</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># write out as the internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+49</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># write out as the internal format</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
 
-<span class="n">lemiB423_2internal</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423Internal&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">lemiB423_2internal</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423Internal&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">lemiB423_2internal</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">lemiReader</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Reading in the internally formatted data, the dataset comments can be inspected.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>52
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>51
+52
 53
 54
-55
-56</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read in the internal format dataset, see comments and plot original lemi data</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+55</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read in the internal format dataset, see comments and plot original lemi data</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">internalReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span><span class="n">lemiB423_2internal</span><span class="p">)</span>
+<span class="n">internalReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span><span class="n">lemiB423_2internal</span><span class="p">)</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
@@ -724,20 +721,21 @@ echopper = 0
 20
 21
 22
-23</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2019-05-27 09:43:28 to 2019-05-27 15:43:27 read in from measurement timeData\lemiB423, samples 0 to 10799500
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2019-05-27 09:43:28 to 2019-05-27 15:43:27 read in from measurement E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423, samples 0 to 10799500
 Sampling frequency 500.0
 Data read from 2 files in total
 Scaling = True
-Scaling channel Hx of file timeData\lemiB423\1558950203.B423 with multiplier 5.816314e-06 and adding -99.946
-Scaling channel Hy of file timeData\lemiB423\1558950203.B423 with multiplier 5.816975e-06 and adding -99.952
-Scaling channel Hz of file timeData\lemiB423\1558950203.B423 with multiplier 5.817061e-06 and adding -99.956
-Scaling channel Ex of file timeData\lemiB423\1558950203.B423 with multiplier 0.0002910952 and adding -5018.7
-Scaling channel Ey of file timeData\lemiB423\1558950203.B423 with multiplier 0.0002910181 and adding -4981.6
-Scaling channel Hx of file timeData\lemiB423\1558961007.B423 with multiplier 5.816314e-06 and adding -99.946
-Scaling channel Hy of file timeData\lemiB423\1558961007.B423 with multiplier 5.816975e-06 and adding -99.952
-Scaling channel Hz of file timeData\lemiB423\1558961007.B423 with multiplier 5.817061e-06 and adding -99.956
-Scaling channel Ex of file timeData\lemiB423\1558961007.B423 with multiplier 0.0002910952 and adding -5018.7
-Scaling channel Ey of file timeData\lemiB423\1558961007.B423 with multiplier 0.0002910181 and adding -4981.6
+Scaling channel Hx of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558950203.B423 with multiplier 5.816314e-06 and adding -99.946
+Scaling channel Hy of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558950203.B423 with multiplier 5.816975e-06 and adding -99.952
+Scaling channel Hz of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558950203.B423 with multiplier 5.817061e-06 and adding -99.956
+Scaling channel Ex of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558950203.B423 with multiplier 0.0002910952 and adding -5018.7
+Scaling channel Ey of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558950203.B423 with multiplier 0.0002910181 and adding -4981.6
+Scaling channel Hx of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558961007.B423 with multiplier 5.816314e-06 and adding -99.946
+Scaling channel Hy of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558961007.B423 with multiplier 5.816975e-06 and adding -99.952
+Scaling channel Hz of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558961007.B423 with multiplier 5.817061e-06 and adding -99.956
+Scaling channel Ex of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558961007.B423 with multiplier 0.0002910952 and adding -5018.7
+Scaling channel Ey of file E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423\1558961007.B423 with multiplier 0.0002910181 and adding -4981.6
 Removing gain of 16 from channel Hx
 Removing gain of 16 from channel Hy
 Removing gain of 16 from channel Hz
@@ -746,22 +744,23 @@ Dividing channel Ex by electrode distance 0.06 km to give mV/km
 Dividing channel Ey by 1000 to convert microvolt to millivolt
 Dividing channel Ey by electrode distance 0.060700 km to give mV/km
 Remove zeros: False, remove nans: False, remove average: True
-Dataset written to timeData\lemiB423Internal on 2019-09-28 09:28:47.509899
+Time series dataset written to E:\magnetotellurics\code\resisticsdata\formats\timeData\lemiB423Internal on 2019-10-05 18:13:59.133157 using resistics 0.0.6.dev2
+---------------------------------------------------
 </pre></div>
 </td></tr></table></div>
 <p>The comment files in resistics detail the dataset history and the workflow to produce the dataset. They allow for easier reproducibility. For more information, see <a class="reference internal" href="../../features/comments.html"><span class="doc">here</span></a>.</p>
 <p>The internally formatted data and the Lemi B423 data can be plotted together to make sure they are the same.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>57
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>56
+57
 58
 59
 60
-61
-62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">physicalInternalData</span> <span class="o">=</span> <span class="n">internalReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
+61</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">physicalInternalData</span> <span class="o">=</span> <span class="n">internalReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Lemi B423 format&quot;</span><span class="p">)</span>
 <span class="n">physicalInternalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423_vs_internal.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423_vs_internal.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id4">
@@ -771,7 +770,7 @@ Dataset written to timeData\lemiB423Internal on 2019-09-28 09:28:47.509899
 </div>
 <div class="section" id="lemi-b423e-telluric-headers">
 <h2>Lemi B423E telluric headers<a class="headerlink" href="#lemi-b423e-telluric-headers" title="Permalink to this headline">¶</a></h2>
-<p>The Lemi B423E telluric format is similar to the Lemi B423 format. However, there are only four channels instead of five, namely, E<sub>1</sub>, E<sub>2</sub>, E<sub>3</sub>, E<sub>4</sub>. Again, headers need to be generated and for Lemi B423E, this is done using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423E.html#resistics.ioHandlers.dataReaderLemiB423E.measB423EHeaders" title="resistics.ioHandlers.dataReaderLemiB423E.measB423EHeaders"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423EHeaders()</span></code></a> method of module <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423E.html#module-resistics.ioHandlers.dataReaderLemiB423E" title="resistics.ioHandlers.dataReaderLemiB423E"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataReaderLemiB423E</span></code></a>. An example is shown below.</p>
+<p>The Lemi B423E telluric format is similar to the Lemi B423 format. However, there are only four channels instead of five, namely, E<sub>1</sub>, E<sub>2</sub>, E<sub>3</sub>, E<sub>4</sub>. Again, headers need to be generated and for Lemi B423E, this is done using the <a class="reference internal" href="../../api/resistics.time.reader_lemib423e.html#resistics.time.reader_lemib423e.measB423EHeaders" title="resistics.time.reader_lemib423e.measB423EHeaders"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423EHeaders()</span></code></a> method of module <a class="reference internal" href="../../api/resistics.time.reader_lemib423e.html#module-resistics.time.reader_lemib423e" title="resistics.time.reader_lemib423e"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reader_lemib423e</span></code></a>. An example is shown below.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -784,19 +783,17 @@ Dataset written to timeData\lemiB423Internal on 2019-09-28 09:28:47.509899
 10
 11
 12
-13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423E</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DataReaderLemiB423E</span><span class="p">,</span>
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423e</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TimeReaderLemiB423E</span><span class="p">,</span>
     <span class="n">measB423EHeaders</span><span class="p">,</span>
     <span class="n">folderB423EHeaders</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423E&quot;</span><span class="p">)</span>
+<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423E&quot;</span>
 <span class="n">measB423EHeaders</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span><span class="p">,</span> <span class="n">ex</span><span class="o">=</span><span class="s2">&quot;E1&quot;</span><span class="p">,</span> <span class="n">ey</span><span class="o">=</span><span class="s2">&quot;E2&quot;</span><span class="p">)</span>
 
-<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">DataReaderLemiB423E</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
+<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">TimeReaderLemiB423E</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 </pre></div>
@@ -894,7 +891,7 @@ hchopper = 0
 echopper = 0
 </pre></div>
 </td></tr></table></div>
-<p>The channel header file for E<sub>4</sub> is shown below. As specified to the call to <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423E.html#resistics.ioHandlers.dataReaderLemiB423E.measB423EHeaders" title="resistics.ioHandlers.dataReaderLemiB423E.measB423EHeaders"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423EHeaders()</span></code></a>, E<sub>1</sub> and E<sub>2</sub> have been mapped to E<sub>x</sub> and E<sub>y</sub> respectively. E<sub>3</sub> and E<sub>4</sub> are left unaltered and their dipole lengths remain as 1.</p>
+<p>The channel header file for E<sub>4</sub> is shown below. As specified to the call to <a class="reference internal" href="../../api/resistics.time.reader_lemib423e.html#resistics.time.reader_lemib423e.measB423EHeaders" title="resistics.time.reader_lemib423e.measB423EHeaders"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423EHeaders()</span></code></a>, E<sub>1</sub> and E<sub>2</sub> have been mapped to E<sub>x</sub> and E<sub>y</sub> respectively. E<sub>3</sub> and E<sub>4</sub> are left unaltered and their dipole lengths remain as 1.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -942,18 +939,18 @@ hchopper = 0
 echopper = 0
 </pre></div>
 </td></tr></table></div>
-<p>Similarly to Lemi B423 data, header files can be created in a batch fashion for measurments in a folder where the parameters do not change. This is achieved using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423E.html#resistics.ioHandlers.dataReaderLemiB423E.folderB423EHeaders" title="resistics.ioHandlers.dataReaderLemiB423E.folderB423EHeaders"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423EHeaders()</span></code></a> method as shown below.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>46
+<p>Similarly to Lemi B423 data, header files can be created in a batch fashion for measurments in a folder where the parameters do not change. This is achieved using the <a class="reference internal" href="../../api/resistics.time.reader_lemib423e.html#resistics.time.reader_lemib423e.folderB423EHeaders" title="resistics.time.reader_lemib423e.folderB423EHeaders"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423EHeaders()</span></code></a> method as shown below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>45
+46
 47
 48
 49
 50
-51
-52</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># create headers for all measurements in a folder</span>
-<span class="n">folderPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423E_site&quot;</span><span class="p">)</span>
+51</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># create headers for all measurements in a folder</span>
+<span class="n">folderPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423E_site&quot;</span>
 <span class="n">folderB423EHeaders</span><span class="p">(</span><span class="n">folderPath</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span><span class="p">,</span> <span class="n">ex</span><span class="o">=</span><span class="s2">&quot;E1&quot;</span><span class="p">,</span> <span class="n">ey</span><span class="o">=</span><span class="s2">&quot;E2&quot;</span><span class="p">)</span>
-<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folderPath</span><span class="p">,</span> <span class="s2">&quot;lemi01&quot;</span><span class="p">)</span>
-<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">DataReaderLemiB423E</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
+<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">folderPath</span> <span class="o">/</span> <span class="s2">&quot;lemi01&quot;</span>
+<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">TimeReaderLemiB423E</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 </pre></div>
@@ -995,11 +992,12 @@ echopper = 0
 <h2>Lemi B423E telluric data<a class="headerlink" href="#lemi-b423e-telluric-data" title="Permalink to this headline">¶</a></h2>
 <p>Now the headers have been generated, the data can be read as normal. Similar to Lemi B423 data, the raw unscaled data is in integer counts and there are two sets of scaling that can be applied.</p>
 <ol class="arabic simple">
-<li>The first converts the integer counts to microvolts for electric channels. To get this data, the scale keyword to <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423.html#resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423.getUnscaledSamples" title="resistics.ioHandlers.dataReaderLemiB423.DataReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> needs to be set to <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code>.</li>
-<li>The second scaling converts the microvolt electric channels to mV/km by also dividing by the diploe lengths in km. This is the resistics standard field units. The methods <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423E.html#resistics.ioHandlers.dataReaderLemiB423E.DataReaderLemiB423E.getPhysicalSamples" title="resistics.ioHandlers.dataReaderLemiB423E.DataReaderLemiB423E.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code> will return a <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in field units.</li>
+<li>The first converts the integer counts to microvolts for electric channels. To get this data, the scale keyword to <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> needs to be set to <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code>.</li>
+<li>The second scaling converts the microvolt electric channels to mV/km by also dividing by the diploe lengths in km. This is the resistics standard field units. The methods <a class="reference internal" href="../../api/resistics.time.reader_lemib423e.html#resistics.time.reader_lemib423e.TimeReaderLemiB423E.getPhysicalSamples" title="resistics.time.reader_lemib423e.TimeReaderLemiB423E.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalData" title="resistics.time.reader.TimeReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> will return a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in field units.</li>
 </ol>
 <p>Plotting the integer counts can be achieved as follows:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>16
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
+16
 17
 18
 19
@@ -1008,8 +1006,7 @@ echopper = 0
 22
 23
 24
-25
-26</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot data</span>
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot data</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="n">unscaledLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
@@ -1019,7 +1016,7 @@ echopper = 0
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423EUnscaled.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423EUnscaled.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id5">
@@ -1027,43 +1024,43 @@ echopper = 0
 <p class="caption"><span class="caption-text">Viewing unscaled data. Units here are integer counts.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <p>To get the electric channels in microvolts (and <strong>not</strong> corrected for dipole length):</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>28
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>27
+28
 29
 30
 31
 32
 33
-34
-35</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">unscaledLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
+34</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">unscaledLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
     <span class="n">startSample</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">True</span>
 <span class="p">)</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423EUnscaledWithScaleOption.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423EUnscaledWithScaleOption.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id6">
 <img alt="alternate text" src="../../_images/lemiB423EUnscaledWithScaleOption.png" />
 <p class="caption"><span class="caption-text">Viewing partially scaled units with electric channels in microvolts.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
-<p>Finally, to get electric channels in field units, which is mV/km, the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderLemiB423E.html#resistics.ioHandlers.dataReaderLemiB423E.DataReaderLemiB423E.getPhysicalSamples" title="resistics.ioHandlers.dataReaderLemiB423E.DataReaderLemiB423E.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code> methods can be used.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>37
+<p>Finally, to get electric channels in field units, which is mV/km, the <a class="reference internal" href="../../api/resistics.time.reader_lemib423e.html#resistics.time.reader_lemib423e.TimeReaderLemiB423E.getPhysicalSamples" title="resistics.time.reader_lemib423e.TimeReaderLemiB423E.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalData" title="resistics.time.reader.TimeReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> methods can be used.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>36
+37
 38
 39
 40
 41
 42
-43
-44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">physicalLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">(</span>
+43</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">physicalLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">(</span>
     <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span> <span class="n">startSample</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">remaverage</span><span class="o">=</span><span class="bp">True</span>
 <span class="p">)</span>
 <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423EPhysical.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423EPhysical.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id7">
@@ -1146,21 +1143,19 @@ echopper = 0
 69
 70
 71
-72
-73</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DataReaderLemiB423</span><span class="p">,</span>
+72</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TimeReaderLemiB423</span><span class="p">,</span>
     <span class="n">measB423Headers</span><span class="p">,</span>
     <span class="n">folderB423Headers</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423&quot;</span><span class="p">)</span>
+<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423&quot;</span>
 <span class="n">measB423Headers</span><span class="p">(</span>
     <span class="n">lemiPath</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">hxSensor</span><span class="o">=</span><span class="mi">712</span><span class="p">,</span> <span class="n">hySensor</span><span class="o">=</span><span class="mi">710</span><span class="p">,</span> <span class="n">hzSensor</span><span class="o">=</span><span class="mi">714</span><span class="p">,</span> <span class="n">hGain</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span>
 <span class="p">)</span>
 
-<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">DataReaderLemiB423</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
+<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">TimeReaderLemiB423</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 
@@ -1172,7 +1167,7 @@ echopper = 0
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423Unscaled.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423Unscaled.png&quot;</span><span class="p">)</span>
 
 <span class="n">startTime</span> <span class="o">=</span> <span class="s2">&quot;2019-05-27 15:00:00&quot;</span>
 <span class="n">stopTime</span> <span class="o">=</span> <span class="s2">&quot;2019-05-27 15:00:15&quot;</span>
@@ -1181,43 +1176,43 @@ echopper = 0
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423UnscaledWithScaleOption.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423UnscaledWithScaleOption.png&quot;</span><span class="p">)</span>
 
 <span class="n">physicalLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
 <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423PhysicalData.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423PhysicalData.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># write out as the internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
 
-<span class="n">lemiB423_2internal</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423Internal&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">lemiB423_2internal</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423Internal&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">lemiB423_2internal</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">lemiReader</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1"># read in the internal format dataset, see comments and plot original lemi data</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">internalReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span><span class="n">lemiB423_2internal</span><span class="p">)</span>
+<span class="n">internalReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span><span class="n">lemiB423_2internal</span><span class="p">)</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 <span class="n">physicalInternalData</span> <span class="o">=</span> <span class="n">internalReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Lemi B423 format&quot;</span><span class="p">)</span>
 <span class="n">physicalInternalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423_vs_internal.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423_vs_internal.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># preparing headers for all measurement folders in a site</span>
-<span class="n">folderPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423_site&quot;</span><span class="p">)</span>
+<span class="n">folderPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423_site&quot;</span>
 <span class="n">folderB423Headers</span><span class="p">(</span>
     <span class="n">folderPath</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">hxSensor</span><span class="o">=</span><span class="mi">712</span><span class="p">,</span> <span class="n">hySensor</span><span class="o">=</span><span class="mi">710</span><span class="p">,</span> <span class="n">hzSensor</span><span class="o">=</span><span class="mi">714</span><span class="p">,</span> <span class="n">hGain</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span>
 <span class="p">)</span>
 
-<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folderPath</span><span class="p">,</span> <span class="s2">&quot;lemi01&quot;</span><span class="p">)</span>
-<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">DataReaderLemiB423</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
+<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">folderPath</span> <span class="o">/</span> <span class="s2">&quot;lemi01&quot;</span>
+<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">TimeReaderLemiB423</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 </pre></div>
@@ -1273,19 +1268,17 @@ echopper = 0
 48
 49
 50
-51
-52</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423E</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">DataReaderLemiB423E</span><span class="p">,</span>
+51</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423e</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TimeReaderLemiB423E</span><span class="p">,</span>
     <span class="n">measB423EHeaders</span><span class="p">,</span>
     <span class="n">folderB423EHeaders</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423E&quot;</span><span class="p">)</span>
+<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423E&quot;</span>
 <span class="n">measB423EHeaders</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span><span class="p">,</span> <span class="n">ex</span><span class="o">=</span><span class="s2">&quot;E1&quot;</span><span class="p">,</span> <span class="n">ey</span><span class="o">=</span><span class="s2">&quot;E2&quot;</span><span class="p">)</span>
 
-<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">DataReaderLemiB423E</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
+<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">TimeReaderLemiB423E</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 
@@ -1299,7 +1292,7 @@ echopper = 0
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423EUnscaled.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423EUnscaled.png&quot;</span><span class="p">)</span>
 
 <span class="n">unscaledLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
     <span class="n">startSample</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">True</span>
@@ -1308,7 +1301,7 @@ echopper = 0
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">unscaledLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423EUnscaledWithScaleOption.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423EUnscaledWithScaleOption.png&quot;</span><span class="p">)</span>
 
 <span class="n">physicalLemiData</span> <span class="o">=</span> <span class="n">lemiReader</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">(</span>
     <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span> <span class="n">startSample</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endSample</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">remaverage</span><span class="o">=</span><span class="bp">True</span>
@@ -1317,13 +1310,13 @@ echopper = 0
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">physicalLemiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="n">physicalLemiData</span><span class="o">.</span><span class="n">numSamples</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423EPhysical.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;lemiB423EPhysical.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># create headers for all measurements in a folder</span>
-<span class="n">folderPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;lemiB423E_site&quot;</span><span class="p">)</span>
+<span class="n">folderPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;lemiB423E_site&quot;</span>
 <span class="n">folderB423EHeaders</span><span class="p">(</span><span class="n">folderPath</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span><span class="p">,</span> <span class="n">ex</span><span class="o">=</span><span class="s2">&quot;E1&quot;</span><span class="p">,</span> <span class="n">ey</span><span class="o">=</span><span class="s2">&quot;E2&quot;</span><span class="p">)</span>
-<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folderPath</span><span class="p">,</span> <span class="s2">&quot;lemi01&quot;</span><span class="p">)</span>
-<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">DataReaderLemiB423E</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
+<span class="n">lemiPath</span> <span class="o">=</span> <span class="n">folderPath</span> <span class="o">/</span> <span class="s2">&quot;lemi01&quot;</span>
+<span class="n">lemiReader</span> <span class="o">=</span> <span class="n">TimeReaderLemiB423E</span><span class="p">(</span><span class="n">lemiPath</span><span class="p">)</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">lemiReader</span><span class="o">.</span><span class="n">printDataFileInfo</span><span class="p">()</span>
 </pre></div>
@@ -1373,7 +1366,7 @@ echopper = 0
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

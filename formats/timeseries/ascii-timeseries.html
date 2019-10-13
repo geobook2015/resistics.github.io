@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ASCII timeseries &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>ASCII timeseries &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
@@ -114,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -235,7 +234,7 @@
 └── eymuVm.ascii
 </pre></div>
 </div>
-<p>The <a class="reference internal" href="../../api/resistics.ioHandlers.dataWriter.html#resistics.ioHandlers.dataWriter.DataWriter" title="resistics.ioHandlers.dataWriter.DataWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataWriter</span></code></a> class has a handy function for autogenerating header files named <a class="reference internal" href="../../api/resistics.ioHandlers.dataWriter.html#resistics.ioHandlers.dataWriter.DataWriter.writeTemplateHeaderFiles" title="resistics.ioHandlers.dataWriter.DataWriter.writeTemplateHeaderFiles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeTemplateHeaderFiles()</span></code></a>. Its use is shown below:</p>
+<p>The <a class="reference internal" href="../../api/resistics.time.writer.html#resistics.time.writer.TimeWriter" title="resistics.time.writer.TimeWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeWriter</span></code></a> class has a handy function for autogenerating header files named <a class="reference internal" href="../../api/resistics.time.writer.html#resistics.time.writer.TimeWriter.writeTemplateHeaderFiles" title="resistics.time.writer.TimeWriter.writeTemplateHeaderFiles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeTemplateHeaderFiles()</span></code></a>. Its use is shown below:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -252,11 +251,11 @@
 14
 15
 16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriter</span> <span class="kn">import</span> <span class="n">DataWriter</span>
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer</span> <span class="kn">import</span> <span class="n">TimeWriter</span>
 
-<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriter</span><span class="p">()</span>
+<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;ascii&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriter</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
 <span class="n">chan2FileMap</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="s2">&quot;exmuVm.ascii&quot;</span><span class="p">,</span>
@@ -271,7 +270,7 @@
 <span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">chan2FileMap</span></span></code> is a dictionary that maps channel names to the actual data files. The call to <a class="reference internal" href="../../api/resistics.ioHandlers.dataWriter.html#resistics.ioHandlers.dataWriter.DataWriter.writeTemplateHeaderFiles" title="resistics.ioHandlers.dataWriter.DataWriter.writeTemplateHeaderFiles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeTemplateHeaderFiles()</span></code></a> needs to specify several parameters:</p>
+<p>The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">chan2FileMap</span></span></code> is a dictionary that maps channel names to the actual data files. The call to <a class="reference internal" href="../../api/resistics.time.writer.html#resistics.time.writer.TimeWriter.writeTemplateHeaderFiles" title="resistics.time.writer.TimeWriter.writeTemplateHeaderFiles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeTemplateHeaderFiles()</span></code></a> needs to specify several parameters:</p>
 <ul class="simple">
 <li>The channels as a list of strings</li>
 <li>The map from the channel name to the data file</li>
@@ -360,19 +359,19 @@ hchopper = 0
 echopper = 0
 </pre></div>
 </td></tr></table></div>
-<p>The data is now ready to be read in by resistics, which is achieved with the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderAscii.html#resistics.ioHandlers.dataReaderAscii.DataReaderAscii" title="resistics.ioHandlers.dataReaderAscii.DataReaderAscii"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderAscii</span></code></a> class.</p>
+<p>The data is now ready to be read in by resistics, which is achieved with the <a class="reference internal" href="../../api/resistics.time.reader_ascii.html#resistics.time.reader_ascii.TimeReaderAscii" title="resistics.time.reader_ascii.TimeReaderAscii"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderAscii</span></code></a> class.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>19
 20
 21
 22
 23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read in ascii format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderAscii</span> <span class="kn">import</span> <span class="n">DataReaderAscii</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_ascii</span> <span class="kn">import</span> <span class="n">TimeReaderAscii</span>
 
-<span class="n">asciiReader</span> <span class="o">=</span> <span class="n">DataReaderAscii</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
+<span class="n">asciiReader</span> <span class="o">=</span> <span class="n">TimeReaderAscii</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
 <span class="n">asciiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The recording information can be printed to the terminal using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code> method of all input, output handlers. An example of the output is shown below:</p>
+<p>The recording information can be printed to the terminal using the <a class="reference internal" href="../../api/resistics.common.base.html#resistics.common.base.ResisticsBase.printInfo" title="resistics.common.base.ResisticsBase.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method of all input, output handlers. An example of the output is shown below:</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -426,7 +425,7 @@ echopper = 0
 22:55:35 DataReaderAscii: ####################
 </pre></div>
 </td></tr></table></div>
-<p>The next step is to read some data and plot it. Resistics does not load the data into memory until it is requested. Further, the package only reads the requested data. The full dataset can be read by using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderAscii.html#resistics.ioHandlers.dataReaderAscii.DataReaderAscii.getPhysicalSamples" title="resistics.ioHandlers.dataReaderAscii.DataReaderAscii.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> method. Note again that no scaling is applied anywhere for ASCII data and <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderAscii.html#resistics.ioHandlers.dataReaderAscii.DataReaderAscii.getPhysicalSamples" title="resistics.ioHandlers.dataReaderAscii.DataReaderAscii.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> will return the same result as <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderAscii.html#resistics.ioHandlers.dataReaderAscii.DataReaderAscii.getUnscaledSamples" title="resistics.ioHandlers.dataReaderAscii.DataReaderAscii.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a>. Both of these return a <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object.</p>
+<p>The next step is to read some data and plot it. Resistics does not load the data into memory until it is requested. Further, the package only reads the requested data. The full dataset can be read by using the <a class="reference internal" href="../../api/resistics.time.reader_ascii.html#resistics.time.reader_ascii.TimeReaderAscii.getPhysicalSamples" title="resistics.time.reader_ascii.TimeReaderAscii.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> method. Note again that no scaling is applied anywhere for ASCII data and <a class="reference internal" href="../../api/resistics.time.reader_ascii.html#resistics.time.reader_ascii.TimeReaderAscii.getPhysicalSamples" title="resistics.time.reader_ascii.TimeReaderAscii.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> will return the same result as <a class="reference internal" href="../../api/resistics.time.reader_ascii.html#resistics.time.reader_ascii.TimeReaderAscii.getUnscaledSamples" title="resistics.time.reader_ascii.TimeReaderAscii.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a>. Both of these return a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>25
 26
 27
@@ -445,7 +444,7 @@ echopper = 0
 <span class="n">asciiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ASCII format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ascii.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ascii.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p><code class="code python docutils literal notranslate"><span class="name"><span class="pre">asciiData</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">printInfo</span></span><span class="punctuation"><span class="pre">()</span></span></code> prints time data information to the terminal. An alternative way to do this is to simply <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">print</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">asciiData</span></span><span class="punctuation"><span class="pre">)</span></span></code>.</p>
@@ -484,12 +483,12 @@ echopper = 0
 22:55:38 TimeData: ####################
 </pre></div>
 </td></tr></table></div>
-<p>Time data can be plotted by using the class <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData.view" title="resistics.dataObjects.timeData.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method. By passing a matplotlib figure to this, the layout can be controlled as required. The resulting image is:</p>
+<p>Time data can be plotted by using the class <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData.view" title="resistics.time.data.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method. By passing a matplotlib figure to this, the layout can be controlled as required. The resulting image is:</p>
 <div class="align-center figure" id="id1">
 <img alt="alternate text" src="../../_images/ascii.png" />
 <p class="caption"><span class="caption-text">Viewing ASCII data</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>Ascii time data objects are like any other time data objects returned by the other data readers. The time data object can be written out in the internal binary format to increase reading speed and reduce storage cost. This can be done with the <a class="reference internal" href="../../api/resistics.ioHandlers.dataWriterInternal.html#resistics.ioHandlers.dataWriterInternal.DataWriterInternal" title="resistics.ioHandlers.dataWriterInternal.DataWriterInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataWriterInternal</span></code></a> class.</p>
+<p>Ascii time data objects are like any other time data objects returned by the other data readers. The time data object can be written out in the internal binary format to increase reading speed and reduce storage cost. This can be done with the <a class="reference internal" href="../../api/resistics.time.writer_internal.html#resistics.time.writer_internal.TimeWriterInternal" title="resistics.time.writer_internal.TimeWriterInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeWriterInternal</span></code></a> class.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>36
 37
 38
@@ -497,10 +496,10 @@ echopper = 0
 40
 41
 42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># now write out as internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
 
-<span class="n">ascii_2intenrnal</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;asciiInternal&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">ascii_2intenrnal</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;asciiInternal&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">ascii_2intenrnal</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">asciiReader</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
@@ -509,13 +508,15 @@ echopper = 0
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2018-01-01 12:00:00 to 2018-01-11 10:53:18 read in from measurement timeData\ascii, samples 0 to 429999
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2018-01-01 12:00:00 to 2018-01-11 10:53:18 read in from measurement E:\magnetotellurics\code\resisticsdata\formats\timeData\ascii, samples 0 to 429999
 Sampling frequency 0.5
 Remove zeros: False, remove nans: False, remove average: True
-Dataset written to timeData\asciiInternal on 2019-09-07 17:07:23.105610
+Time series dataset written to E:\magnetotellurics\code\resisticsdata\formats\timeData\asciiInternal on 2019-10-05 18:08:36.041289 using resistics 0.0.6.dev2
+---------------------------------------------------
 </pre></div>
 </td></tr></table></div>
-<p>To validate the output against the input, the internally formatted data can be read back in using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderInternal.html#resistics.ioHandlers.dataReaderInternal.DataReaderInternal" title="resistics.ioHandlers.dataReaderInternal.DataReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderInternal</span></code></a> class and compared to the original ASCII data.</p>
+<p>To validate the output against the input, the internally formatted data can be read back in using the <a class="reference internal" href="../../api/resistics.time.reader_internal.html#resistics.time.reader_internal.TimeReaderInternal" title="resistics.time.reader_internal.TimeReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderInternal</span></code></a> class and compared to the original ASCII data.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>44
 45
 46
@@ -532,9 +533,9 @@ Dataset written to timeData\asciiInternal on 2019-09-07 17:07:23.105610
 57
 58
 59</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read in internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">internalReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span><span class="n">ascii_2intenrnal</span><span class="p">)</span>
+<span class="n">internalReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span><span class="n">ascii_2intenrnal</span><span class="p">)</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 <span class="n">internalData</span> <span class="o">=</span> <span class="n">internalReader</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">()</span>
@@ -546,10 +547,10 @@ Dataset written to timeData\asciiInternal on 2019-09-07 17:07:23.105610
 <span class="n">internalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ascii_vs_internal.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ascii_vs_internal.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>Reading in the internal data is very similar to reading in the ASCII data. Another benefit of creating a figure and passing it through to the <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData.view" title="resistics.dataObjects.timeData.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method is that multiple datasets can be plotted on the same figure. The final data comparison figure is shown below.</p>
+<p>Reading in the internal data is very similar to reading in the ASCII data. Another benefit of creating a figure and passing it through to the <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData.view" title="resistics.time.data.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method is that multiple datasets can be plotted on the same figure. The final data comparison figure is shown below.</p>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../../_images/ascii_vs_internal.png" />
 <p class="caption"><span class="caption-text">ASCII data and the binary internal format</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
@@ -615,11 +616,11 @@ Dataset written to timeData\asciiInternal on 2019-09-07 17:07:23.105610
 56
 57
 58
-59</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriter</span> <span class="kn">import</span> <span class="n">DataWriter</span>
+59</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer</span> <span class="kn">import</span> <span class="n">TimeWriter</span>
 
-<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriter</span><span class="p">()</span>
+<span class="n">asciiPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;ascii&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriter</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
 <span class="n">chan2FileMap</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="s2">&quot;exmuVm.ascii&quot;</span><span class="p">,</span>
@@ -634,9 +635,9 @@ Dataset written to timeData\asciiInternal on 2019-09-07 17:07:23.105610
 <span class="p">)</span>
 
 <span class="c1"># read in ascii format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderAscii</span> <span class="kn">import</span> <span class="n">DataReaderAscii</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_ascii</span> <span class="kn">import</span> <span class="n">TimeReaderAscii</span>
 
-<span class="n">asciiReader</span> <span class="o">=</span> <span class="n">DataReaderAscii</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
+<span class="n">asciiReader</span> <span class="o">=</span> <span class="n">TimeReaderAscii</span><span class="p">(</span><span class="n">asciiPath</span><span class="p">)</span>
 <span class="n">asciiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
 <span class="c1"># get data and view</span>
@@ -648,20 +649,20 @@ Dataset written to timeData\asciiInternal on 2019-09-07 17:07:23.105610
 <span class="n">asciiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ASCII format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ascii.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ascii.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># now write out as internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
 
-<span class="n">ascii_2intenrnal</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;asciiInternal&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">ascii_2intenrnal</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;asciiInternal&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">ascii_2intenrnal</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">asciiReader</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1"># read in internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">internalReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span><span class="n">ascii_2intenrnal</span><span class="p">)</span>
+<span class="n">internalReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span><span class="n">ascii_2intenrnal</span><span class="p">)</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 <span class="n">internalData</span> <span class="o">=</span> <span class="n">internalReader</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">()</span>
@@ -673,7 +674,7 @@ Dataset written to timeData\asciiInternal on 2019-09-07 17:07:23.105610
 <span class="n">internalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ascii_vs_internal.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ascii_vs_internal.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -721,7 +722,7 @@ Dataset written to timeData\asciiInternal on 2019-09-07 17:07:23.105610
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

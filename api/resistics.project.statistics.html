@@ -1,0 +1,605 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.project.statistics module &mdash; resistics 0.0.6.dev3 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="resistics.project.time module" href="resistics.project.time.html" />
+    <link rel="prev" title="resistics.project.spectra module" href="resistics.project.spectra.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html"> resistics
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search..." />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="resistics.common.html">resistics.common package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.config.html">resistics.config package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.time.html">resistics.time package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.spectra.html">resistics.spectra package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.statistics.html">resistics.statistics package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.mask.html">resistics.mask package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.regression.html">resistics.regression package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.transfunc.html">resistics.transfunc package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.site.html">resistics.site package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="resistics.project.html">resistics.project package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="resistics.project.data.html">resistics.project.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.project.io.html">resistics.project.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.project.mask.html">resistics.project.mask module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.project.preprocess.html">resistics.project.preprocess module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.project.shortcuts.html">resistics.project.shortcuts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.project.spectra.html">resistics.project.spectra module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">resistics.project.statistics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.project.time.html">resistics.project.time module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.project.transfunc.html">resistics.project.transfunc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.project.utils.html">resistics.project.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.calibrate.html">resistics.calibrate package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.window.html">resistics.window package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.decimate.html">resistics.decimate package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">resistics</a> &raquo;</li>
+        
+          <li><a href="../modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="resistics.project.html">resistics.project package</a> &raquo;</li>
+        
+      <li>resistics.project.statistics module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/resistics.project.statistics.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-resistics.project.statistics">
+<span id="resistics-project-statistics-module"></span><h1>resistics.project.statistics module<a class="headerlink" href="#module-resistics.project.statistics" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="resistics.project.statistics.calculateRemoteStatistics">
+<code class="descclassname">resistics.project.statistics.</code><code class="descname">calculateRemoteStatistics</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData</em>, <em>remoteSite: str</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/project/statistics.html#calculateRemoteStatistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.statistics.calculateRemoteStatistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate statistics involving a remote reference site</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>projData</strong><span class="classifier">ProjectData</span></dt><dd><p>A project data instance</p>
+</dd>
+<dt><strong>remoteSite</strong><span class="classifier">str</span></dt><dd><p>The name of the site to use as the remote site</p>
+</dd>
+<dt><strong>sites</strong><span class="classifier">List[str], optional</span></dt><dd><p>A list of sites to calculate statistics for</p>
+</dd>
+<dt><strong>sampleFreqs</strong><span class="classifier">List[float], optional</span></dt><dd><p>List of sampling frequencies for which to calculate statistics</p>
+</dd>
+<dt><strong>specdir</strong><span class="classifier">str, optional</span></dt><dd><p>The spectra directory for which to calculate statistics</p>
+</dd>
+<dt><strong>remotestats</strong><span class="classifier">List[str], optional</span></dt><dd><p>The statistics to calculate out. Acceptable statistics are: “RR_coherence”, “RR_coherenceEqn”, “RR_absvalEqn”, “RR_transferFunction”, “RR_resPhase”. Configuration file values are used by default.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.project.statistics.calculateStatistics">
+<code class="descclassname">resistics.project.statistics.</code><code class="descname">calculateStatistics</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/project/statistics.html#calculateStatistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.statistics.calculateStatistics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate statistics for sites</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>projData</strong><span class="classifier">ProjectData</span></dt><dd><p>A project data instance</p>
+</dd>
+<dt><strong>sites</strong><span class="classifier">List[str], optional</span></dt><dd><p>A list of sites to calculate statistics for</p>
+</dd>
+<dt><strong>sampleFreqs</strong><span class="classifier">List[float], optional</span></dt><dd><p>List of sampling frequencies for which to calculate statistics</p>
+</dd>
+<dt><strong>specdir</strong><span class="classifier">str, optional</span></dt><dd><p>The spectra directory for which to calculate statistics</p>
+</dd>
+<dt><strong>stats</strong><span class="classifier">List[str], optional</span></dt><dd><p>The statistics to calculate out. Acceptable values are: “absvalEqn” “coherence”, “psd”, “poldir”, “transFunc”, “resPhase”, “partialcoh”. Configuration file values are used by default.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.project.statistics.getStatisticData">
+<code class="descclassname">resistics.project.statistics.</code><code class="descname">getStatisticData</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData</em>, <em>site: str</em>, <em>meas: str</em>, <em>stat: str</em>, <em>declevel: int = 0</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.statistics.data.StatisticData<a class="reference internal" href="../_modules/resistics/project/statistics.html#getStatisticData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.statistics.getStatisticData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the statistic data for a statistic for a site measurement</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>projData</strong><span class="classifier">ProjectData</span></dt><dd><p>Project instance</p>
+</dd>
+<dt><strong>site</strong><span class="classifier">str</span></dt><dd><p>The site for which to get the statistic data</p>
+</dd>
+<dt><strong>meas</strong><span class="classifier">str</span></dt><dd><p>The measurement for which to get the statistic</p>
+</dd>
+<dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic for which to get the measurement</p>
+</dd>
+<dt><strong>declevel</strong><span class="classifier">int, optional</span></dt><dd><p>The decimation level to read in. Default is 0.</p>
+</dd>
+<dt><strong>specdir</strong><span class="classifier">str, optional</span></dt><dd><p>The spectra directory</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>StatisticData</dt><dd><p>A statistic data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.project.statistics.getStatisticDataForSampleFreq">
+<code class="descclassname">resistics.project.statistics.</code><code class="descname">getStatisticDataForSampleFreq</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData</em>, <em>site: str</em>, <em>sampleFreq: float</em>, <em>stat: str</em>, <em>declevel: int = 0</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; List[resistics.statistics.data.StatisticData]<a class="reference internal" href="../_modules/resistics/project/statistics.html#getStatisticDataForSampleFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.statistics.getStatisticDataForSampleFreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the statistic data (for a particular decimation level) for all measurements in a site with sampling frequency sampleFreq</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>projData</strong><span class="classifier">ProjectData</span></dt><dd><p>Project instance</p>
+</dd>
+<dt><strong>site</strong><span class="classifier">str</span></dt><dd><p>The site for which to get the statistic data</p>
+</dd>
+<dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency</p>
+</dd>
+<dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic for which to get the measurement</p>
+</dd>
+<dt><strong>declevel</strong><span class="classifier">int, optional</span></dt><dd><p>The decimation level to read in. Default is 0.</p>
+</dd>
+<dt><strong>specdir</strong><span class="classifier">str, optional</span></dt><dd><p>The spectra directory</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>Dict[str, StatisticData]</dt><dd><p>A statistic data object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.project.statistics.viewStatistic">
+<code class="descclassname">resistics.project.statistics.</code><code class="descname">viewStatistic</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData, site: str, sampleFreq: Union[int, float], stat: str, **kwargs</em><span class="sig-paren">)</span> &#x2192; Union[matplotlib.figure.Figure, NoneType]<a class="reference internal" href="../_modules/resistics/project/statistics.html#viewStatistic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.statistics.viewStatistic" title="Permalink to this definition">¶</a></dt>
+<dd><p>View statistic data for a single sampling frequency of a site</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>projData</strong><span class="classifier">ProjectData</span></dt><dd><p>A project instance</p>
+</dd>
+<dt><strong>site</strong><span class="classifier">str</span></dt><dd><p>The site for which to plot statistics</p>
+</dd>
+<dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic to plot</p>
+</dd>
+<dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency for which to plot statistics</p>
+</dd>
+<dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level to plot</p>
+</dd>
+<dt><strong>eFreqI</strong><span class="classifier">int</span></dt><dd><p>The evaluation frequency index</p>
+</dd>
+<dt><strong>specdir</strong><span class="classifier">str</span></dt><dd><p>The spectra directory</p>
+</dd>
+<dt><strong>maskname</strong><span class="classifier">str</span></dt><dd><p>Mask name</p>
+</dd>
+<dt><strong>clim</strong><span class="classifier">List, optional</span></dt><dd><p>Limits for colourbar axis</p>
+</dd>
+<dt><strong>xlim</strong><span class="classifier">List, optional</span></dt><dd><p>Limits for the x axis</p>
+</dd>
+<dt><strong>ylim</strong><span class="classifier">List, optional</span></dt><dd><p>Limits for the y axis</p>
+</dd>
+<dt><strong>colortitle</strong><span class="classifier">str, optional</span></dt><dd><p>Title for the colourbar</p>
+</dd>
+<dt><strong>show</strong><span class="classifier">bool, optional</span></dt><dd><p>Show the spectra plot</p>
+</dd>
+<dt><strong>save</strong><span class="classifier">bool, optional</span></dt><dd><p>Save the plot to the images directory</p>
+</dd>
+<dt><strong>plotoptions</strong><span class="classifier">Dict, optional</span></dt><dd><p>Dictionary of plot options</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.project.statistics.viewStatisticCrossplot">
+<code class="descclassname">resistics.project.statistics.</code><code class="descname">viewStatisticCrossplot</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData, site: str, sampleFreq: Union[int, float], stat: str, crossplots: List[List[str]], **kwargs</em><span class="sig-paren">)</span> &#x2192; Union[matplotlib.figure.Figure, NoneType]<a class="reference internal" href="../_modules/resistics/project/statistics.html#viewStatisticCrossplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.statistics.viewStatisticCrossplot" title="Permalink to this definition">¶</a></dt>
+<dd><p>View statistic crossplot data for a single sampling frequency of a site</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>projData</strong><span class="classifier">ProjectData</span></dt><dd><p>A project instance</p>
+</dd>
+<dt><strong>site</strong><span class="classifier">str</span></dt><dd><p>The site for which to plot statistics</p>
+</dd>
+<dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic to plot</p>
+</dd>
+<dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency for which to plot statistics</p>
+</dd>
+<dt><strong>crossplots</strong><span class="classifier">List[List[str]]</span></dt><dd><p>The statistic element pairs to crossplot</p>
+</dd>
+<dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level to plot</p>
+</dd>
+<dt><strong>eFreqI</strong><span class="classifier">int</span></dt><dd><p>The evaluation frequency index</p>
+</dd>
+<dt><strong>specdir</strong><span class="classifier">str</span></dt><dd><p>The spectra directory</p>
+</dd>
+<dt><strong>maskname</strong><span class="classifier">str</span></dt><dd><p>Mask name</p>
+</dd>
+<dt><strong>xlim</strong><span class="classifier">List, optional</span></dt><dd><p>Limits for the x axis</p>
+</dd>
+<dt><strong>ylim</strong><span class="classifier">List, optional</span></dt><dd><p>Limits for the y axis</p>
+</dd>
+<dt><strong>maxcols</strong><span class="classifier">int</span></dt><dd><p>The maximum number of columns in the plots</p>
+</dd>
+<dt><strong>show</strong><span class="classifier">bool, optional</span></dt><dd><p>Show the spectra plot</p>
+</dd>
+<dt><strong>save</strong><span class="classifier">bool, optional</span></dt><dd><p>Save the plot to the images directory</p>
+</dd>
+<dt><strong>plotoptions</strong><span class="classifier">Dict, optional</span></dt><dd><p>Dictionary of plot options</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.project.statistics.viewStatisticDensityplot">
+<code class="descclassname">resistics.project.statistics.</code><code class="descname">viewStatisticDensityplot</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData, site: str, sampleFreq: Union[int, float], stat: str, crossplots: List[List[str]], **kwargs</em><span class="sig-paren">)</span> &#x2192; Union[matplotlib.figure.Figure, NoneType]<a class="reference internal" href="../_modules/resistics/project/statistics.html#viewStatisticDensityplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.statistics.viewStatisticDensityplot" title="Permalink to this definition">¶</a></dt>
+<dd><p>View statistic data as a density plot for a single sampling frequency of a site</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>projData</strong><span class="classifier">ProjectData</span></dt><dd><p>A project instance</p>
+</dd>
+<dt><strong>site</strong><span class="classifier">str</span></dt><dd><p>The site for which to plot statistics</p>
+</dd>
+<dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic to plot</p>
+</dd>
+<dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency for which to plot statistics</p>
+</dd>
+<dt><strong>crossplots</strong><span class="classifier">List[List[str]]</span></dt><dd><p>The statistic element pairs to crossplot</p>
+</dd>
+<dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level to plot</p>
+</dd>
+<dt><strong>eFreqI</strong><span class="classifier">int</span></dt><dd><p>The evaluation frequency index</p>
+</dd>
+<dt><strong>specdir</strong><span class="classifier">str</span></dt><dd><p>The spectra directory</p>
+</dd>
+<dt><strong>maskname</strong><span class="classifier">str</span></dt><dd><p>Mask name</p>
+</dd>
+<dt><strong>xlim</strong><span class="classifier">List, optional</span></dt><dd><p>Limits for the x axis</p>
+</dd>
+<dt><strong>ylim</strong><span class="classifier">List, optional</span></dt><dd><p>Limits for the y axis</p>
+</dd>
+<dt><strong>maxcols</strong><span class="classifier">int</span></dt><dd><p>The maximum number of columns in the plots</p>
+</dd>
+<dt><strong>show</strong><span class="classifier">bool, optional</span></dt><dd><p>Show the spectra plot</p>
+</dd>
+<dt><strong>save</strong><span class="classifier">bool, optional</span></dt><dd><p>Save the plot to the images directory</p>
+</dd>
+<dt><strong>plotoptions</strong><span class="classifier">Dict, optional</span></dt><dd><p>Dictionary of plot options</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.project.statistics.viewStatisticHistogram">
+<code class="descclassname">resistics.project.statistics.</code><code class="descname">viewStatisticHistogram</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData</em>, <em>site: str</em>, <em>sampleFreq: float</em>, <em>stat: str</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; Union[matplotlib.figure.Figure, NoneType]<a class="reference internal" href="../_modules/resistics/project/statistics.html#viewStatisticHistogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.statistics.viewStatisticHistogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>View statistic histograms for a single sampling frequency of a site</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>projData</strong><span class="classifier">ProjectData</span></dt><dd><p>A project instance</p>
+</dd>
+<dt><strong>site</strong><span class="classifier">str</span></dt><dd><p>The site for which to plot statistics</p>
+</dd>
+<dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic to plot</p>
+</dd>
+<dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency for which to plot statistics</p>
+</dd>
+<dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level to plot</p>
+</dd>
+<dt><strong>eFreqI</strong><span class="classifier">int</span></dt><dd><p>The evaluation frequency index</p>
+</dd>
+<dt><strong>specdir</strong><span class="classifier">str</span></dt><dd><p>The spectra directory</p>
+</dd>
+<dt><strong>maskname</strong><span class="classifier">str</span></dt><dd><p>Mask name</p>
+</dd>
+<dt><strong>numbins</strong><span class="classifier">int</span></dt><dd><p>The number of bins for the histogram data binning</p>
+</dd>
+<dt><strong>xlim</strong><span class="classifier">List, optional</span></dt><dd><p>Limits for the x axis</p>
+</dd>
+<dt><strong>maxcols</strong><span class="classifier">int</span></dt><dd><p>The maximum number of columns in the plots</p>
+</dd>
+<dt><strong>show</strong><span class="classifier">bool, optional</span></dt><dd><p>Show the spectra plot</p>
+</dd>
+<dt><strong>save</strong><span class="classifier">bool, optional</span></dt><dd><p>Save the plot to the images directory</p>
+</dd>
+<dt><strong>plotoptions</strong><span class="classifier">Dict, optional</span></dt><dd><p>Dictionary of plot options</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="resistics.project.time.html" class="btn btn-neutral float-right" title="resistics.project.time module" accesskey="n" rel="next">Next</a>
+      
+      
+        <a href="resistics.project.spectra.html" class="btn btn-neutral" title="resistics.project.spectra module" accesskey="p" rel="prev">Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.6.dev3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

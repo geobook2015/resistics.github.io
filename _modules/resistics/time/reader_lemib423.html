@@ -1,0 +1,999 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.time.reader_lemib423 &mdash; resistics 0.0.6.dev3 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search..." />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../case-studies.html">Case studies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog / backlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">resistics</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.time.reader_lemib423</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.time.reader_lemib423</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="k">import</span> <span class="n">TimeReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.data</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.common.checks</span> <span class="k">import</span> <span class="n">isMagnetic</span><span class="p">,</span> <span class="n">isElectric</span><span class="p">,</span> <span class="n">consistentChans</span>
+<span class="kn">from</span> <span class="nn">resistics.common.print</span> <span class="k">import</span> <span class="n">blockPrint</span>
+<span class="kn">from</span> <span class="nn">resistics.time.clean</span> <span class="k">import</span> <span class="n">removeZeros</span><span class="p">,</span> <span class="n">removeZerosSingle</span><span class="p">,</span> <span class="n">removeNansSingle</span>
+
+
+<div class="viewcode-block" id="folderB423Headers"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.folderB423Headers">[docs]</a><span class="k">def</span> <span class="nf">folderB423Headers</span><span class="p">(</span>
+    <span class="n">folderpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">hxSensor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">hySensor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">hzSensor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">hGain</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">dx</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">dy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">folders</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Construct B423 headers for subfolders of a folder</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    folderpath : str</span>
+<span class="sd">        The path to the folder</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        The sampling frequency of the data</span>
+<span class="sd">    hxSensor : str, optional</span>
+<span class="sd">        The x direction magnetic sensor, used for calibration</span>
+<span class="sd">    hySensor : str, optional</span>
+<span class="sd">        The y direction magnetic sensor, used for calibration</span>
+<span class="sd">    hzSensor : str, optional</span>
+<span class="sd">        The z direction magnetic sensor, used for calibration</span>
+<span class="sd">    hGain : int</span>
+<span class="sd">        Any gain on the magnetic channels which will need to be removed</span>
+<span class="sd">    dx : float, optional</span>
+<span class="sd">        Distance between x electrodes</span>
+<span class="sd">    dy : float, optional</span>
+<span class="sd">        Distance between y electrodes</span>
+<span class="sd">    folder : List, optional</span>
+<span class="sd">        An optional list of subfolders</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">folders</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">folders</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">path</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">scandir</span><span class="p">(</span><span class="n">folderpath</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">folders</span><span class="p">)</span>        
+    <span class="c1"># now construct headers for each folder</span>
+    <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="n">folders</span><span class="p">:</span>
+        <span class="n">measB423Headers</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">hxSensor</span><span class="p">,</span> <span class="n">hySensor</span><span class="p">,</span> <span class="n">hzSensor</span><span class="p">,</span> <span class="n">hGain</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="measB423Headers"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.measB423Headers">[docs]</a><span class="k">def</span> <span class="nf">measB423Headers</span><span class="p">(</span>
+    <span class="n">datapath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">hxSensor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">hySensor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">hzSensor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">hGain</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">dx</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">dy</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Read a single B423 measurement directory and construct headers</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    datapath : str</span>
+<span class="sd">        The path to the measurement</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        The sampling frequency of the data</span>
+<span class="sd">    hxSensor : str, optional</span>
+<span class="sd">        The x direction magnetic sensor, used for calibration</span>
+<span class="sd">    hySensor : str, optional</span>
+<span class="sd">        The y direction magnetic sensor, used for calibration</span>
+<span class="sd">    hzSensor : str, optional</span>
+<span class="sd">        The z direction magnetic sensor, used for calibration</span>
+<span class="sd">    hGain : int</span>
+<span class="sd">        Any gain on the magnetic channels which will need to be removed</span>
+<span class="sd">    dx : float, optional</span>
+<span class="sd">        Distance between x electrodes</span>
+<span class="sd">    dy : float, optional</span>
+<span class="sd">        Distance between y electrodes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">resistics.common.print</span> <span class="k">import</span> <span class="n">generalPrint</span><span class="p">,</span> <span class="n">warningPrint</span><span class="p">,</span> <span class="n">errorPrint</span>
+    <span class="kn">from</span> <span class="nn">resistics.time.writer</span> <span class="k">import</span> <span class="n">TimeWriter</span>
+
+    <span class="n">dataFiles</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">datapath</span><span class="p">,</span> <span class="s2">&quot;*.B423&quot;</span><span class="p">))</span>
+    <span class="n">dataFilenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">dFile</span><span class="p">)</span> <span class="k">for</span> <span class="n">dFile</span> <span class="ow">in</span> <span class="n">dataFiles</span><span class="p">]</span>
+    <span class="n">starts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">stops</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cumSamples</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">dFile</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataFiles</span><span class="p">):</span>
+        <span class="n">generalPrint</span><span class="p">(</span><span class="s2">&quot;constructB423Headers&quot;</span><span class="p">,</span> <span class="s2">&quot;Reading data file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dFile</span><span class="p">))</span>
+        <span class="n">dataHeaders</span><span class="p">,</span> <span class="n">firstDatetime</span><span class="p">,</span> <span class="n">lastDatetime</span><span class="p">,</span> <span class="n">numSamples</span> <span class="o">=</span> <span class="n">readB423Params</span><span class="p">(</span>
+            <span class="n">dFile</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">30</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">dataHeaders</span><span class="p">)</span>
+        <span class="n">generalPrint</span><span class="p">(</span>
+            <span class="s2">&quot;constructB423Headers&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;start time = </span><span class="si">{}</span><span class="s2">, end time = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">firstDatetime</span><span class="p">,</span> <span class="n">lastDatetime</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">generalPrint</span><span class="p">(</span>
+            <span class="s2">&quot;constructB423Headers&quot;</span><span class="p">,</span> <span class="s2">&quot;number of samples = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numSamples</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">cumSamples</span> <span class="o">+=</span> <span class="n">numSamples</span>
+        <span class="n">starts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">firstDatetime</span><span class="p">)</span>
+        <span class="n">stops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lastDatetime</span><span class="p">)</span>
+    <span class="c1"># now need to search for any missing data</span>
+    <span class="n">sampleTime</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">sampleFreq</span><span class="p">)</span>
+    <span class="c1"># sort by start times</span>
+    <span class="n">sortIndices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">starts</span><span class="p">))),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">starts</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+    <span class="n">check</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataFiles</span><span class="p">)):</span>
+        <span class="c1"># get the stop time of the previous dataset</span>
+        <span class="n">stopTimePrev</span> <span class="o">=</span> <span class="n">stops</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+        <span class="n">startTimeNow</span> <span class="o">=</span> <span class="n">starts</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">startTimeNow</span> <span class="o">!=</span> <span class="n">stopTimePrev</span> <span class="o">+</span> <span class="n">sampleTime</span><span class="p">:</span>
+            <span class="n">warningPrint</span><span class="p">(</span><span class="s2">&quot;constructB423Headers&quot;</span><span class="p">,</span> <span class="s2">&quot;There is a gap between the datafiles&quot;</span><span class="p">)</span>
+            <span class="n">warningPrint</span><span class="p">(</span>
+                <span class="s2">&quot;constructB423Headers&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Please separate out datasets with gaps into separate folders&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">warningPrint</span><span class="p">(</span><span class="s2">&quot;constructB423Headers&quot;</span><span class="p">,</span> <span class="s2">&quot;Gap found between datafiles:&quot;</span><span class="p">)</span>
+            <span class="n">warningPrint</span><span class="p">(</span>
+                <span class="s2">&quot;constructB423Headers&quot;</span><span class="p">,</span> <span class="s2">&quot;1. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dataFiles</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]])</span>
+            <span class="p">)</span>
+            <span class="n">warningPrint</span><span class="p">(</span>
+                <span class="s2">&quot;constructB423Headers&quot;</span><span class="p">,</span> <span class="s2">&quot;2. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dataFiles</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+            <span class="p">)</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="c1"># if did not pass check, then exit</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>
+        <span class="n">errorPrint</span><span class="p">(</span>
+            <span class="s2">&quot;constructB423Headers&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;All data for a single recording must be continuous.&quot;</span><span class="p">,</span>
+            <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># time of first and last sample</span>
+    <span class="n">datetimeStart</span> <span class="o">=</span> <span class="n">starts</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">datetimeStop</span> <span class="o">=</span> <span class="n">stops</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="c1"># global headers</span>
+    <span class="n">globalHeaders</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;sample_freq&quot;</span><span class="p">:</span> <span class="n">sampleFreq</span><span class="p">,</span>
+        <span class="s2">&quot;num_samples&quot;</span><span class="p">:</span> <span class="n">cumSamples</span><span class="p">,</span>
+        <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="n">datetimeStart</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;start_date&quot;</span><span class="p">:</span> <span class="n">datetimeStart</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;stop_time&quot;</span><span class="p">:</span> <span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;stop_date&quot;</span><span class="p">:</span> <span class="n">datetimeStop</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;meas_channels&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriter</span><span class="p">()</span>
+    <span class="n">globalHeaders</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">setGlobalHeadersFromKeywords</span><span class="p">({},</span> <span class="n">globalHeaders</span><span class="p">)</span>
+
+    <span class="c1"># channel headers</span>
+    <span class="n">channels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">,</span> <span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">]</span>
+    <span class="n">chanMap</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Hx&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+    <span class="n">sensors</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Hx&quot;</span><span class="p">:</span> <span class="n">hxSensor</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="n">hySensor</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">:</span> <span class="n">hzSensor</span><span class="p">,</span> <span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">}</span>
+    <span class="n">posX2</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Hx&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="n">dx</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="n">posY2</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Hx&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">:</span> <span class="n">dy</span><span class="p">}</span>
+
+    <span class="n">chanHeaders</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">:</span>
+        <span class="c1"># sensor serial number</span>
+        <span class="n">cHeader</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">globalHeaders</span><span class="p">)</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;ats_data_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dataFilenames</span><span class="p">)</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;channel_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chan</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;scaling_applied&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;ts_lsb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;gain_stage1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hGain</span> <span class="k">if</span> <span class="n">isMagnetic</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;gain_stage2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;hchopper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;echopper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;pos_x1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;pos_x2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">posX2</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;pos_y1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;pos_y2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">posY2</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;pos_z1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;pos_z2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">cHeader</span><span class="p">[</span><span class="s2">&quot;sensor_sernum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sensors</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+        <span class="n">chanHeaders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cHeader</span><span class="p">)</span>
+    <span class="n">chanHeaders</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">setChanHeadersFromKeywords</span><span class="p">(</span><span class="n">chanHeaders</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">datapath</span><span class="p">)</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">writeHeaders</span><span class="p">(</span>
+        <span class="n">globalHeaders</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">chanMap</span><span class="p">,</span> <span class="n">chanHeaders</span><span class="p">,</span> <span class="n">rename</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="s2">&quot;h423&quot;</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="readB423Params"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.readB423Params">[docs]</a><span class="k">def</span> <span class="nf">readB423Params</span><span class="p">(</span>
+    <span class="n">dataFile</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">dataByteOffset</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">recordByteSize</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the parameters of the B423 data file</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataFile : str</span>
+<span class="sd">        The data file as a string</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        The sampling frequency in Hz</span>
+<span class="sd">    dataByteOffset : int</span>
+<span class="sd">        The offset till the start of the data in bytes</span>
+<span class="sd">    recordByteSize : int</span>
+<span class="sd">        The size in bytes of a record</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    headers : dict</span>
+<span class="sd">        The header values as a dictionary</span>
+<span class="sd">    firstDatetime : datetime</span>
+<span class="sd">        The time of the first sample in the data file</span>
+<span class="sd">    lastDatetime : datetime</span>
+<span class="sd">        The time of the last sample in the data file</span>
+<span class="sd">    numSamples : int   </span>
+<span class="sd">        The number of samples in the data file given the sampling frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">resistics.common.print</span> <span class="k">import</span> <span class="n">errorPrint</span>
+
+    <span class="n">filesize</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">dataFile</span><span class="p">)</span>
+    <span class="n">numSamples</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="p">(</span><span class="n">filesize</span> <span class="o">-</span> <span class="n">dataByteOffset</span><span class="p">)</span> <span class="o">/</span> <span class="n">recordByteSize</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">numSamples</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+        <span class="n">errorPrint</span><span class="p">(</span>
+            <span class="s2">&quot;readB423Params&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Non-integer number of samples. Maybe the sampling frequency is incorrect&quot;</span><span class="p">,</span>
+            <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">numSamples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">numSamples</span><span class="p">)</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dataFile</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+    <span class="n">hdrBytes</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">dataByteOffset</span><span class="p">)</span>
+    <span class="n">dataHeaders</span> <span class="o">=</span> <span class="n">readB423Header</span><span class="p">(</span><span class="n">hdrBytes</span><span class="p">)</span>
+    <span class="c1"># read the first record and get the timestamp</span>
+    <span class="n">bts</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">firstTimestamp</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="n">bts</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">firstSampleNum</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="n">bts</span><span class="p">[</span><span class="mi">4</span><span class="p">:])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">firstDatetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span>
+        <span class="n">firstTimestamp</span> <span class="o">+</span> <span class="p">(</span><span class="n">firstSampleNum</span> <span class="o">/</span> <span class="n">sampleFreq</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># now seek to the end</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">filesize</span> <span class="o">-</span> <span class="n">recordByteSize</span><span class="p">)</span>
+    <span class="n">bts</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">lastTimestamp</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="n">bts</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">lastSampleNum</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="n">bts</span><span class="p">[</span><span class="mi">4</span><span class="p">:])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">lastDatetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span>
+        <span class="n">lastTimestamp</span> <span class="o">+</span> <span class="p">(</span><span class="n">lastSampleNum</span> <span class="o">/</span> <span class="n">sampleFreq</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># now check number of samples based on datetimes</span>
+    <span class="n">numSeconds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="n">lastDatetime</span> <span class="o">-</span> <span class="n">firstDatetime</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+    <span class="c1"># +1 to numSamplesCalc because needs to be inclusive of the end</span>
+    <span class="n">numSamplesCalc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">numSeconds</span> <span class="o">*</span> <span class="n">sampleFreq</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">numSamplesCalc</span> <span class="o">!=</span> <span class="n">numSamples</span><span class="p">:</span>
+        <span class="n">errorPrint</span><span class="p">(</span><span class="s2">&quot;readB423Params&quot;</span><span class="p">,</span> <span class="s2">&quot;There is a gap in data file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dataFile</span><span class="p">))</span>
+        <span class="n">errorPrint</span><span class="p">(</span><span class="s2">&quot;readB423Params&quot;</span><span class="p">,</span> <span class="s2">&quot;No gaps allowed within data files&quot;</span><span class="p">)</span>
+        <span class="n">errorPrint</span><span class="p">(</span>
+            <span class="s2">&quot;readB423Params&quot;</span><span class="p">,</span> <span class="s2">&quot;Please remove this file from the recording&quot;</span><span class="p">,</span> <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataHeaders</span><span class="p">,</span> <span class="n">firstDatetime</span><span class="p">,</span> <span class="n">lastDatetime</span><span class="p">,</span> <span class="n">numSamples</span></div>
+
+
+<div class="viewcode-block" id="readB423Header"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.readB423Header">[docs]</a><span class="k">def</span> <span class="nf">readB423Header</span><span class="p">(</span><span class="n">hdrStr</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read B423 header for a single Lemi B423 file</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hdrStr : str</span>
+<span class="sd">        The headers as a string</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict </span>
+<span class="sd">        A dictionary of header values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hdr</span> <span class="o">=</span> <span class="n">hdrStr</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="n">hdr</span> <span class="o">=</span> <span class="n">hdr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hdr</span><span class="p">):</span>
+        <span class="n">hdr</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;%&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">h</span><span class="p">:</span>
+            <span class="n">sp</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="n">headers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="s2">&quot;Lat&quot;</span> <span class="ow">in</span> <span class="n">h</span> <span class="ow">or</span> <span class="s2">&quot;Lon&quot;</span> <span class="ow">in</span> <span class="n">h</span> <span class="ow">or</span> <span class="s2">&quot;Alt&quot;</span> <span class="ow">in</span> <span class="n">h</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">hdr</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">3</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">headers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">headers</span></div>
+
+
+<div class="viewcode-block" id="TimeReaderLemiB423"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423">[docs]</a><span class="k">class</span> <span class="nc">TimeReaderLemiB423</span><span class="p">(</span><span class="n">TimeReaderInternal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Data reader for Lemi B423 data</span>
+
+<span class="sd">    Lemi B423 data has the following characteristics:</span>
+
+<span class="sd">    - 1024 bytes of ASCII headers in the data file with basic scaling information</span>
+<span class="sd">    - There is no separate header file for Lemi B423 data. No information for number of samples, sampling rate etc</span>
+<span class="sd">    - Header files need to be constructed before Lemi B423 data can be read in by resistics. There are helper methods to do this</span>
+<span class="sd">    - Lemi B423 raw measurement data is signed long integer format   </span>
+<span class="sd">    - Getting unscaled samples returns data with unit count for both the electric and magnetic fields. </span>
+<span class="sd">    - Scalings specified in B423 files convert electric channels to uV (microvolt) and magnetic channels to millivolts with internal gain still applied</span>
+<span class="sd">    - Getting physical samples converts the electric channels to mV/km by dividing the uV by 1000 and then dividing by the dipole length in km</span>
+<span class="sd">    - For the magnetic channels, the gain is removed to give the magnetic measurements in mV. Calibrating these will give measurements in nT </span>
+
+<span class="sd">    In situations where a Lemi B423 dataset is recorded in multiple files, it is required that the recording is continuous. </span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dtype : np.int_</span>
+<span class="sd">        The data type, a long integer</span>
+<span class="sd">    recordByteSize : int</span>
+<span class="sd">        The size of a record in bytes</span>
+<span class="sd">    numHeaderFiles : int</span>
+<span class="sd">        The number of header files</span>
+<span class="sd">    numDataFiles : int</span>
+<span class="sd">        The number of data files</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    setParameters()</span>
+<span class="sd">        Set parameters specific to a data format</span>
+<span class="sd">    getUnscaledSamples(**kwargs)</span>
+<span class="sd">        Get raw, unscaled data</span>
+<span class="sd">    getDataFilesForSamples(startSample, endSample)</span>
+<span class="sd">        Get the data files that contribute to the request data</span>
+<span class="sd">    readRecords(bts, numRecords)</span>
+<span class="sd">        Read the data records from a provided bytes object</span>
+<span class="sd">    getPhysicalSamples(**kwargs)</span>
+<span class="sd">        Get data in physical units</span>
+<span class="sd">    def readHeader()</span>
+<span class="sd">        Read the B423 measurement file headers</span>
+<span class="sd">    readMeasParams(sampleFreq)</span>
+<span class="sd">        Calculate out the a B423 parameters including start and end date and number of samples</span>
+<span class="sd">    getScalars(paramsDict)</span>
+<span class="sd">        Get the scalars for each channel as given in the data files </span>
+<span class="sd">    printDataFileList()</span>
+<span class="sd">        Get data file information as a list of strings</span>
+<span class="sd">    printDataFiles()</span>
+<span class="sd">        Print data file information to terminal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.setParameters"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.setParameters">[docs]</a>    <span class="k">def</span> <span class="nf">setParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set some data reader parameters for reading Lemi B423 data&quot;&quot;&quot;</span>
+        <span class="c1"># get a list of the header and data files in the folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headerExt</span> <span class="o">=</span> <span class="s2">&quot;h423&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headerF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headerExt</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataF</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span> <span class="s2">&quot;*.B423&quot;</span><span class="p">))</span>
+        <span class="c1"># data byte information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recordByteSize</span> <span class="o">=</span> <span class="mi">30</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span> <span class="o">=</span> <span class="mi">1024</span>
+        <span class="c1"># data type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int_</span>
+        <span class="c1"># get the number of data files and header files - this should be equal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numHeaderFiles</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headerF</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numDataFiles</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.getUnscaledSamples"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getUnscaledSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get raw data from data file, returned in mV</span>
+
+<span class="sd">        Lemi B423 data always has five channels, in order Hx, Hy, Hz, Ex, Ey. The raw data is integer counts. Therefore, getting unscaled samples returns raw counts for the measurement. There are additional scalings which can be applied using the scale optional argument. Lemi B423 is recorded in multiple files. It has not been verified whether it is possible for each individual file to have different scaling. </span>
+
+<span class="sd">        Without the scale option, the data is returned in:</span>
+<span class="sd">        </span>
+<span class="sd">        - Counts for both magnetic and electric channels (reading long integers)</span>
+
+<span class="sd">        With the scaling option, the data is returned in:</span>
+
+<span class="sd">        - microvolts for the electric channels</span>
+<span class="sd">        - millivolts for the magnetic with the gain applied</span>
+
+<span class="sd">        Applying the scaling does not appear to remove the internal gain of the Lemi. This will be removed when getting physical samples and the appropriate value must be set in the headers.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chans : List[str], optional</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        startSample : int, optional</span>
+<span class="sd">            First sample to return</span>
+<span class="sd">        endSample : int, optional</span>
+<span class="sd">            Last sample to return</span>
+<span class="sd">        scale : bool, optional</span>
+<span class="sd">            Boolean flag for applying the gain scaling</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialise chans, startSample and endSample with the whole dataset</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># get the files to read and the samples to take from them, in the correct order</span>
+        <span class="n">dataFilesToRead</span><span class="p">,</span> <span class="n">samplesToRead</span><span class="p">,</span> <span class="n">scalings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFilesForSamples</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">numSamples</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="c1"># set up the dictionary to hold the data</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span> <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numSamples</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># prepare comments</span>
+        <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample2time</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">comments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Unscaled data </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2"> read in from measurement </span><span class="si">{}</span><span class="s2">, samples </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">startTime</span><span class="p">,</span>
+                <span class="n">stopTime</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dataPath</span><span class="p">,</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Sampling frequency </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">()))</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Data read from </span><span class="si">{}</span><span class="s2"> files in total&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataFilesToRead</span><span class="p">)))</span>
+        <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Scaling = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]))</span>
+
+        <span class="c1"># loop through chans and get data</span>
+        <span class="n">sampleCounter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">dFile</span><span class="p">,</span> <span class="n">sToRead</span><span class="p">,</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dataFilesToRead</span><span class="p">,</span> <span class="n">samplesToRead</span><span class="p">,</span> <span class="n">scalings</span><span class="p">):</span>
+            <span class="c1"># calculate the starting byte and the number of bytes to read</span>
+            <span class="n">byteReadStart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span> <span class="o">+</span> <span class="n">sToRead</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">recordByteSize</span>
+            <span class="n">dSamples</span> <span class="o">=</span> <span class="n">sToRead</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">sToRead</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">dSamplesRead</span> <span class="o">=</span> <span class="n">dSamples</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumChannels</span><span class="p">()</span>
+            <span class="n">bytesToRead</span> <span class="o">=</span> <span class="n">dSamples</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">recordByteSize</span>
+            <span class="c1"># read</span>
+            <span class="n">dFileHandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">dFile</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+            <span class="n">dFileHandle</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">byteReadStart</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># seek to start byte from start of file</span>
+            <span class="n">dataBytes</span> <span class="o">=</span> <span class="n">dFileHandle</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">bytesToRead</span><span class="p">)</span>
+            <span class="n">dFileHandle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">dataRead</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readRecords</span><span class="p">(</span><span class="n">dataBytes</span><span class="p">,</span> <span class="n">dSamples</span><span class="p">)</span>
+
+            <span class="c1"># now need to unpack this</span>
+            <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+                <span class="c1"># check to make sure channel exists</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">checkChan</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                <span class="c1"># get the channel index - the chanIndex should give the right order in the data file</span>
+                <span class="n">chanIndex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chanMap</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+                <span class="c1"># use the range sampleCounter -&gt; sampleCounter +  dSamples, because this actually means sampleCounter + dSamples - 1 as python ranges are not inclusive of the end value</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">][</span><span class="n">sampleCounter</span> <span class="p">:</span> <span class="n">sampleCounter</span> <span class="o">+</span> <span class="n">dSamples</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataRead</span><span class="p">[</span>
+                    <span class="n">chanIndex</span> <span class="p">:</span> <span class="n">dSamplesRead</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumChannels</span><span class="p">()</span>
+                <span class="p">]</span>
+                <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]:</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">][</span><span class="n">sampleCounter</span> <span class="p">:</span> <span class="n">sampleCounter</span> <span class="o">+</span> <span class="n">dSamples</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">][</span><span class="n">sampleCounter</span> <span class="p">:</span> <span class="n">sampleCounter</span> <span class="o">+</span> <span class="n">dSamples</span><span class="p">]</span>
+                        <span class="o">*</span> <span class="n">scalar</span><span class="p">[</span><span class="n">chan</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="o">+</span> <span class="n">scalar</span><span class="p">[</span><span class="n">chan</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="s2">&quot;Scaling channel </span><span class="si">{}</span><span class="s2"> of file </span><span class="si">{}</span><span class="s2"> with multiplier </span><span class="si">{}</span><span class="s2"> and adding </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">chan</span><span class="p">,</span> <span class="n">dFile</span><span class="p">,</span> <span class="n">scalar</span><span class="p">[</span><span class="n">chan</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">scalar</span><span class="p">[</span><span class="n">chan</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+            <span class="c1"># increment sample counter</span>
+            <span class="n">sampleCounter</span> <span class="o">=</span> <span class="n">sampleCounter</span> <span class="o">+</span> <span class="n">dSamples</span>  <span class="c1"># get ready for the next data read</span>
+
+        <span class="c1"># return data</span>
+        <span class="k">return</span> <span class="n">TimeData</span><span class="p">(</span>
+            <span class="n">sampleFreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">(),</span>
+            <span class="n">startTime</span><span class="o">=</span><span class="n">startTime</span><span class="p">,</span>
+            <span class="n">stopTime</span><span class="o">=</span><span class="n">stopTime</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="n">comments</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.getDataFilesForSamples"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getDataFilesForSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getDataFilesForSamples</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">startSample</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">endSample</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Get the data files that have to be read to cover the sample range </span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        startSample : int</span>
+<span class="sd">            Starting sample of the sample range</span>
+<span class="sd">        endSamples : int</span>
+<span class="sd">            Ending sample of the sample range</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dataFilesToRead</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># have the datafiles saved in sample order beginning with the earliest first</span>
+        <span class="c1"># go through each datafile and find the range to be read</span>
+        <span class="n">dataFilesToRead</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">samplesToRead</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">scalings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">dFile</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span><span class="p">):</span>
+            <span class="n">fileStartSamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">fileEndSamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fileStartSamp</span> <span class="o">&gt;</span> <span class="n">endSample</span> <span class="ow">or</span> <span class="n">fileEndSamp</span> <span class="o">&lt;</span> <span class="n">startSample</span><span class="p">:</span>
+                <span class="k">continue</span>  <span class="c1"># nothing to read from this file</span>
+            <span class="c1"># in this case, there is some overlap with the samples to read</span>
+            <span class="n">dataFilesToRead</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dFile</span><span class="p">)</span>
+            <span class="n">readFrom</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># i.e. the first sample in the datafile</span>
+            <span class="n">readTo</span> <span class="o">=</span> <span class="n">fileEndSamp</span> <span class="o">-</span> <span class="n">fileStartSamp</span>  <span class="c1"># this the last sample in the file</span>
+            <span class="k">if</span> <span class="n">fileStartSamp</span> <span class="o">&lt;</span> <span class="n">startSample</span><span class="p">:</span>
+                <span class="n">readFrom</span> <span class="o">=</span> <span class="n">startSample</span> <span class="o">-</span> <span class="n">fileStartSamp</span>
+            <span class="k">if</span> <span class="n">fileEndSamp</span> <span class="o">&gt;</span> <span class="n">endSample</span><span class="p">:</span>
+                <span class="n">readTo</span> <span class="o">=</span> <span class="n">endSample</span> <span class="o">-</span> <span class="n">fileStartSamp</span>
+            <span class="c1"># this is an inclusive number readFrom to readTo including readTo</span>
+            <span class="n">samplesToRead</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">readFrom</span><span class="p">,</span> <span class="n">readTo</span><span class="p">])</span>
+            <span class="n">scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalings</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">dataFilesToRead</span><span class="p">,</span> <span class="n">samplesToRead</span><span class="p">,</span> <span class="n">scalings</span></div>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.readRecords"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.readRecords">[docs]</a>    <span class="k">def</span> <span class="nf">readRecords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bts</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">numRecords</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read a number of B423 records from bytes</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bts : bytes</span>
+<span class="sd">            The bytes to be read</span>
+<span class="sd">        numRecords : int</span>
+<span class="sd">            The number of records to read. Size of bytes should be numRecords * recordByteSize</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data : np.ndarray</span>
+<span class="sd">            Array holding the data. The data repeats in channel blocks e.g. [Hx, Hy, Hx, Ex, Ey][Hx, Hy, Hx, Ex, Ey]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">numChans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumChannels</span><span class="p">()</span>
+        <span class="n">structStr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:d}</span><span class="s2">l&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numChans</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numRecords</span> <span class="o">*</span> <span class="n">numChans</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numRecords</span><span class="p">):</span>
+            <span class="n">recordStart</span> <span class="o">=</span> <span class="n">ii</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">recordByteSize</span>
+            <span class="n">readBytes</span> <span class="o">=</span> <span class="n">bts</span><span class="p">[</span><span class="n">recordStart</span> <span class="p">:</span> <span class="n">recordStart</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">recordByteSize</span><span class="p">]</span>
+            <span class="n">recordValues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">structStr</span><span class="p">,</span> <span class="n">readBytes</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span>
+            <span class="p">)</span>
+            <span class="n">dataStart</span> <span class="o">=</span> <span class="n">ii</span> <span class="o">*</span> <span class="n">numChans</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">dataStart</span> <span class="p">:</span> <span class="n">dataStart</span> <span class="o">+</span> <span class="n">numChans</span><span class="p">]</span> <span class="o">=</span> <span class="n">recordValues</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.getPhysicalSamples"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples">[docs]</a>    <span class="k">def</span> <span class="nf">getPhysicalSamples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get data scaled to physical values</span>
+<span class="sd">        </span>
+<span class="sd">        resistics uses field units, meaning physical samples will return the following:</span>
+
+<span class="sd">        - Electrical channels in mV/km</span>
+<span class="sd">        - Magnetic channels in mV</span>
+<span class="sd">        - To get magnetic fields in nT, calibration needs to be performed</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Once Lemi B423 data is scaled (which optionally happens in getUnscaledSamples), the magnetic channels is in mV with gain applied and the electric channels is uV (microvolts). Therefore:</span>
+<span class="sd">        </span>
+<span class="sd">        - Electric channels need to divided by 1000 along with dipole length division in km (east-west spacing and north-south spacing) to return mV/km.</span>
+<span class="sd">        - Magnetic channels need to be divided by the internal gain value which should be set in the headers</span>
+<span class="sd">        </span>
+<span class="sd">        To get magnetic fields in nT, they have to be calibrated.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chans : List[str]</span>
+<span class="sd">            List of channels to return if not all are required</span>
+<span class="sd">        startSample : int</span>
+<span class="sd">            First sample to return</span>
+<span class="sd">        endSample : int</span>
+<span class="sd">            Last sample to return</span>
+<span class="sd">        remaverage : bool</span>
+<span class="sd">            Remove average from the data</span>
+<span class="sd">        remzeros : bool</span>
+<span class="sd">            Remove zeroes from the data</span>
+<span class="sd">        remnans: bool</span>
+<span class="sd">            Remove NanNs from the data</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TimeData</span>
+<span class="sd">            Time data object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialise chans, startSample and endSample with the whole dataset</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parseGetDataKeywords</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># get unscaled data but with gain scalings applied</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnscaledSamples</span><span class="p">(</span>
+            <span class="n">chans</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">],</span>
+            <span class="n">startSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;startSample&quot;</span><span class="p">],</span>
+            <span class="n">endSample</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;endSample&quot;</span><span class="p">],</span>
+            <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># convert to field units and divide by dipole lengths</span>
+        <span class="k">for</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">isElectric</span><span class="p">(</span><span class="n">chan</span><span class="p">):</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1000.0</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Dividing channel </span><span class="si">{}</span><span class="s2"> by 1000 to convert microvolt to millivolt&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">isMagnetic</span><span class="p">(</span><span class="n">chan</span><span class="p">):</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanGain1</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Removing gain of </span><span class="si">{}</span><span class="s2"> from channel </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getChanGain1</span><span class="p">(</span><span class="n">chan</span><span class="p">),</span> <span class="n">chan</span><span class="p">))</span>                
+            <span class="k">if</span> <span class="n">chan</span> <span class="o">==</span> <span class="s2">&quot;Ex&quot;</span><span class="p">:</span>
+                <span class="c1"># multiply by 1000/self.getChanDx same as dividing by dist in km</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="mf">1000.0</span> <span class="o">*</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDx</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+                    <span class="s2">&quot;Dividing channel </span><span class="si">{}</span><span class="s2"> by electrode distance </span><span class="si">{}</span><span class="s2"> km to give mV/km&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">chan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDx</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.0</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">chan</span> <span class="o">==</span> <span class="s2">&quot;Ey&quot;</span><span class="p">:</span>
+                <span class="c1"># multiply by 1000/self.getChanDy same as dividing by dist in km</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDy</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+                    <span class="s2">&quot;Dividing channel </span><span class="si">{}</span><span class="s2"> by electrode distance </span><span class="si">{:.6f}</span><span class="s2"> km to give mV/km&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">chan</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getChanDy</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1000.0</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="c1"># if remove zeros - False by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">removeZerosSingle</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
+            <span class="c1"># if remove nans - False by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">removeNansSingle</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">])</span>
+            <span class="c1"># remove the average from the data - True by default</span>
+            <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]:</span>
+                <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">=</span> <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span>
+                    <span class="n">timeData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="c1"># add comments</span>
+        <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+            <span class="s2">&quot;Remove zeros: </span><span class="si">{}</span><span class="s2">, remove nans: </span><span class="si">{}</span><span class="s2">, remove average: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remzeros&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remnans&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remaverage&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">timeData</span></div>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.readHeader"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.readHeader">[docs]</a>    <span class="k">def</span> <span class="nf">readHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Read the B423 measurement file headers&quot;&quot;&quot;</span>
+        <span class="n">TimeReaderInternal</span><span class="o">.</span><span class="n">readHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readMeasParams</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.readMeasParams"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.readMeasParams">[docs]</a>    <span class="k">def</span> <span class="nf">readMeasParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the recording parameters for each of the subfiles</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sampleFreq : float</span>
+<span class="sd">            The sampling frequency in Hz</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sampleFreq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;sample_freq&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
+                <span class="n">sampleFreq</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                    <span class="s2">&quot;Lemi data has not been setup correctly. Please refer to documentation&quot;</span>
+                <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataParamsDict</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">starts</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">stops</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">numSamples</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">dFile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">:</span>
+            <span class="c1"># dataHeaders, startTime, stopTime, nSamples = self.readB423Params(</span>
+            <span class="c1">#     dFile, sampleFreq</span>
+            <span class="c1"># )</span>
+            <span class="n">dataHeaders</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">,</span> <span class="n">nSamples</span> <span class="o">=</span> <span class="n">readB423Params</span><span class="p">(</span>
+                <span class="n">dFile</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataByteOffset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">recordByteSize</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
+                <span class="s2">&quot;Reading data file </span><span class="si">{}</span><span class="s2">, start = </span><span class="si">{}</span><span class="s2">, end = </span><span class="si">{}</span><span class="s2">, samples = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">dFile</span><span class="p">,</span> <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">,</span> <span class="n">nSamples</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">dFileParams</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">dFileParams</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">startTime</span>
+            <span class="n">dFileParams</span><span class="p">[</span><span class="s2">&quot;stop&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stopTime</span>
+            <span class="n">dFileParams</span><span class="p">[</span><span class="s2">&quot;headers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataHeaders</span>
+            <span class="n">starts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startTime</span><span class="p">)</span>
+            <span class="n">stops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stopTime</span><span class="p">)</span>
+            <span class="n">numSamples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nSamples</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataParamsDict</span><span class="p">[</span><span class="n">dFile</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataHeaders</span>
+
+        <span class="c1"># search for any missing data</span>
+        <span class="n">sampleTime</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">sampleFreq</span><span class="p">)</span>
+        <span class="c1"># sort by start times</span>
+        <span class="n">sortIndices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">starts</span><span class="p">))),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">starts</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="n">check</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">)):</span>
+            <span class="c1"># get the stop time of the previous dataset</span>
+            <span class="n">stopTimePrev</span> <span class="o">=</span> <span class="n">stops</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">ii</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+            <span class="n">startTimeNow</span> <span class="o">=</span> <span class="n">starts</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">ii</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">startTimeNow</span> <span class="o">!=</span> <span class="n">stopTimePrev</span> <span class="o">+</span> <span class="n">sampleTime</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;There is a gap between the datafiles&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
+                    <span class="s2">&quot;Please separate out datasets with gaps into separate folders&quot;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;Gap found between datafiles:&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;1. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">ii</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span><span class="s2">&quot;2. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">[</span><span class="n">sortIndices</span><span class="p">[</span><span class="n">ii</span><span class="p">]]))</span>
+                <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># if did not pass check, then exit</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printError</span><span class="p">(</span>
+                <span class="s2">&quot;All data for a single recording must be continuous.&quot;</span><span class="p">,</span> <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+        <span class="c1"># get a list of all the datafiles, scalings and the sample ranges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scalings</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c1"># create lookup table to say where the sample ranges are</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">)):</span>
+            <span class="n">iSort</span> <span class="o">=</span> <span class="n">sortIndices</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>  <span class="c1"># get the sorted index</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataF</span><span class="p">[</span><span class="n">iSort</span><span class="p">])</span>
+            <span class="n">startSample</span> <span class="o">=</span> <span class="n">sample</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="c1"># end sample -1 because this is inclusive of the start sample</span>
+            <span class="n">endSample</span> <span class="o">=</span> <span class="n">startSample</span> <span class="o">+</span> <span class="n">numSamples</span><span class="p">[</span><span class="n">iSort</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">startSample</span><span class="p">,</span> <span class="n">endSample</span><span class="p">])</span>
+            <span class="c1"># the scalings for the file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scalings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getScalars</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataParamsDict</span><span class="p">[</span><span class="n">dFile</span><span class="p">]))</span>
+            <span class="c1"># increment sample</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="n">endSample</span></div>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.getScalars"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getScalars">[docs]</a>    <span class="k">def</span> <span class="nf">getScalars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paramsDict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the scalars from a parameter dictionary</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        paramsDict : Dict</span>
+<span class="sd">            The parameter dictionary for a data file usually read from the headers in the file</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dict </span>
+<span class="sd">            Dictionary with channels as keys and scalings as values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;Hx&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Kmx&quot;</span><span class="p">],</span> <span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Ax&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;Hy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Kmy&quot;</span><span class="p">],</span> <span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Ay&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;Hz&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Kmz&quot;</span><span class="p">],</span> <span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Az&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Ke1&quot;</span><span class="p">],</span> <span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Ae1&quot;</span><span class="p">]],</span>
+            <span class="s2">&quot;Ey&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Ke2&quot;</span><span class="p">],</span> <span class="n">paramsDict</span><span class="p">[</span><span class="s2">&quot;Ae2&quot;</span><span class="p">]],</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.printDataFileList"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.printDataFileList">[docs]</a>    <span class="k">def</span> <span class="nf">printDataFileList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Information about the data files as a list of strings</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[str]</span>
+<span class="sd">            List of information about the data files</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">textLst</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Data File</span><span class="se">\t\t</span><span class="s2">Sample Ranges&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dFile</span><span class="p">,</span> <span class="n">sRanges</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataFileList</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataRanges</span><span class="p">):</span>
+            <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\t\t</span><span class="si">{}</span><span class="s2"> - </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dFile</span><span class="p">,</span> <span class="n">sRanges</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sRanges</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Total samples = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getNumSamples</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">textLst</span></div>
+
+<div class="viewcode-block" id="TimeReaderLemiB423.printDataFileInfo"><a class="viewcode-back" href="../../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.printDataFileInfo">[docs]</a>    <span class="k">def</span> <span class="nf">printDataFileInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Print a list of the data files&quot;&quot;&quot;</span>
+        <span class="n">blockPrint</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> Data File List&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printDataFileList</span><span class="p">(),</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.6.dev3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

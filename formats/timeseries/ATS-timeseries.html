@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ATS timeseries &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>ATS timeseries &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
@@ -114,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -214,19 +213,19 @@
 <li>All channels are in integer counts</li>
 </ul>
 </div>
-<p>ATS files are opened in resistics using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReaderATS.html#resistics.ioHandlers.dataReaderATS.DataReaderATS" title="resistics.ioHandlers.dataReaderATS.DataReaderATS"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderATS</span></code></a> class. An example is provided below:</p>
+<p>ATS files are opened in resistics using the <a class="reference internal" href="../../api/resistics.time.reader_ats.html#resistics.time.reader_ats.TimeReaderATS" title="resistics.time.reader_ats.TimeReaderATS"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderATS</span></code></a> class. An example is provided below:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
 5
 6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderATS</span> <span class="kn">import</span> <span class="n">DataReaderATS</span>
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_ats</span> <span class="kn">import</span> <span class="n">TimeReaderATS</span>
 
 <span class="c1"># read ats data</span>
-<span class="n">atsPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;ats&quot;</span><span class="p">)</span>
-<span class="n">atsReader</span> <span class="o">=</span> <span class="n">DataReaderATS</span><span class="p">(</span><span class="n">atsPath</span><span class="p">)</span>
+<span class="n">atsPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;ats&quot;</span>
+<span class="n">atsReader</span> <span class="o">=</span> <span class="n">TimeReaderATS</span><span class="p">(</span><span class="n">atsPath</span><span class="p">)</span>
 <span class="n">atsReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
@@ -297,8 +296,8 @@
 <span class="n">unscaledData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p><code class="code python docutils literal notranslate"><span class="name"><span class="pre">atsReader</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">getUnscaledData</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">startTime</span></span><span class="punctuation"><span class="pre">,</span></span> <span class="name"><span class="pre">stopTime</span></span><span class="punctuation"><span class="pre">)</span></span></code> will read timeseries data from the data files and returns a <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object. Unscaled data is the raw data without any conversion to field units. The units for unscaled data are not consistent between data formats and in the case of ATS data are integer counts.</p>
-<p>After reading in some data, it is natural to view it. <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> can be viewed using the <a class="reference internal" href="../../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData.view" title="resistics.dataObjects.timeData.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of the class. Passing a matplotlib figure object to this method allows for more control over the layout of the plot.</p>
+<p><code class="code python docutils literal notranslate"><span class="name"><span class="pre">atsReader</span></span><span class="operator"><span class="pre">.</span></span><span class="name"><span class="pre">getUnscaledData</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">startTime</span></span><span class="punctuation"><span class="pre">,</span></span> <span class="name"><span class="pre">stopTime</span></span><span class="punctuation"><span class="pre">)</span></span></code> will read timeseries data from the data files and returns a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object. Unscaled data is the raw data without any conversion to field units. The units for unscaled data are not consistent between data formats and in the case of ATS data are integer counts.</p>
+<p>After reading in some data, it is natural to view it. <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> can be viewed using the <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData.view" title="resistics.time.data.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of the class. Passing a matplotlib figure object to this method allows for more control over the layout of the plot.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
 16
 17
@@ -313,14 +312,14 @@
 <span class="n">unscaledData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_unscaledData.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_unscaledData.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
 <img alt="alternate text" src="../../_images/ats_unscaledData.png" />
 <p class="caption"><span class="caption-text">Viewing unscaled data</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>Physical data, which is converted to field units, can be returned by using the <a class="reference internal" href="../../api/resistics.ioHandlers.dataReader.html#resistics.ioHandlers.dataReader.DataReader.getPhysicalData" title="resistics.ioHandlers.dataReader.DataReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> method. If physical data for the whole recording is required, an alternative is to use <a class="reference internal" href="../../api/resistics.ioHandlers.dataReader.html#resistics.ioHandlers.dataReader.DataReader.getPhysicalSamples" title="resistics.ioHandlers.dataReader.DataReader.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a>, which does not require specification of a start and end time.</p>
+<p>Physical data, which is converted to field units, can be returned by using the <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalData" title="resistics.time.reader.TimeReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> method. If physical data for the whole recording is required, an alternative is to use <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalSamples" title="resistics.time.reader.TimeReader.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a>, which does not require specification of a start and end time.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>24
 25
 26
@@ -335,14 +334,14 @@
 <span class="n">fig</span> <span class="o">=</span> <span class="n">physicalATSData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_physicalData.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_physicalData.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../../_images/ats_physicalData.png" />
 <p class="caption"><span class="caption-text">Viewing data scaled to field units</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
-<p>There are a few helpful methods built in to resistics for manipulating timeseries data. These are generally in <a class="reference internal" href="../../api/resistics.utilities.html#module-resistics.utilities" title="resistics.utilities"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utilities</span></code></a>. In the example below, the time data is low pass filtered at 4Hz to remove any powerline or rail noise that might be in the data.</p>
+<p>There are a few helpful methods built in to resistics for manipulating time series data. These are in <a class="reference internal" href="../../api/resistics.time.html#module-resistics.time" title="resistics.time"><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code></a>. In the example below, the time data is low pass filtered at 4Hz to remove any powerline or rail noise that might be in the data.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>33
 34
 35
@@ -352,14 +351,14 @@
 39
 40
 41</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># all we see is 50Hz and 16Hz noise - apply low pass filter</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="kn">import</span> <span class="n">lowPass</span>
+<span class="kn">from</span> <span class="nn">resistics.time.filter</span> <span class="kn">import</span> <span class="n">lowPass</span>
 
 <span class="n">filteredATSData</span> <span class="o">=</span> <span class="n">lowPass</span><span class="p">(</span><span class="n">physicalATSData</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">filteredATSData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">filteredATSData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_filteredData.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_filteredData.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id3">
@@ -374,10 +373,10 @@
 47
 48
 49</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># now write out as internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
 
-<span class="n">ats_2intenrnal</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;atsInternal&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">ats_2intenrnal</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;atsInternal&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">ats_2intenrnal</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">atsReader</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
@@ -398,7 +397,8 @@
  8
  9
 10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2016-02-21 02:35:00 to 2016-02-21 06:27:12.375000 read in from measurement timeData\ats, samples 0 to 1783344
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2016-02-21 02:35:00 to 2016-02-21 06:27:12.375000 read in from measurement E:\magnetotellurics\code\resisticsdata\formats\timeData\ats, samples 0 to 1783344
 Sampling frequency 128.0
 Scaling channel Ex with scalar -1.76666e-06 to give mV
 Dividing channel Ex by electrode distance 0.086 km to give mV/km
@@ -408,7 +408,8 @@ Scaling channel Hx with scalar -0.000112802 to give mV
 Scaling channel Hy with scalar -0.000225735 to give mV
 Scaling channel Hz with scalar -1.41103e-05 to give mV
 Remove zeros: False, remove nans: False, remove average: True
-Dataset written to timeData\atsInternal on 2019-03-24 16:56:22.549355
+Time series dataset written to E:\magnetotellurics\code\resisticsdata\formats\timeData\atsInternal on 2019-10-05 18:09:07.436640 using resistics 0.0.6.dev2
+---------------------------------------------------
 </pre></div>
 </td></tr></table></div>
 <p>The internal format data can be read in and visually compared to the original data.</p>
@@ -428,9 +429,9 @@ Dataset written to timeData\atsInternal on 2019-03-24 16:56:22.549355
 64
 65
 66</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read in internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">internalReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span><span class="n">ats_2intenrnal</span><span class="p">)</span>
+<span class="n">internalReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span><span class="n">ats_2intenrnal</span><span class="p">)</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 <span class="n">physicalInternalData</span> <span class="o">=</span> <span class="n">internalReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
@@ -442,7 +443,7 @@ Dataset written to timeData\atsInternal on 2019-03-24 16:56:22.549355
 <span class="n">physicalInternalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_vs_internal.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_vs_internal.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id4">
@@ -457,36 +458,24 @@ Dataset written to timeData\atsInternal on 2019-03-24 16:56:22.549355
 72
 73
 74</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># now write out as ascii format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterAscii</span> <span class="kn">import</span> <span class="n">DataWriterAscii</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_ascii</span> <span class="kn">import</span> <span class="n">TimeWriterAscii</span>
 
-<span class="n">ats_2ascii</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;atsAscii&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterAscii</span><span class="p">()</span>
+<span class="n">ats_2ascii</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;atsAscii&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterAscii</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">ats_2ascii</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">atsReader</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Again, this dataset is written out with a set of comments.</p>
-<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2016-02-21 02:35:00 to 2016-02-21 06:27:12.375000 read in from measurement timeData\ats, samples 0 to 1783344
-Sampling frequency 128.0
-Scaling channel Ex with scalar -1.76666e-06 to give mV
-Dividing channel Ex by electrode distance 0.086 km to give mV/km
-Scaling channel Ey with scalar -1.76514e-06 to give mV
-Dividing channel Ey by electrode distance 0.0861 km to give mV/km
-Scaling channel Hx with scalar -0.000112802 to give mV
-Scaling channel Hy with scalar -0.000225735 to give mV
-Scaling channel Hz with scalar -1.41103e-05 to give mV
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Unscaled data 2018-01-01 12:00:00 to 2018-01-11 10:53:18 read in from measurement E:\magnetotellurics\code\resisticsdata\formats\timeData\ascii, samples 0 to 429999
+Sampling frequency 0.5
 Remove zeros: False, remove nans: False, remove average: True
-Dataset written to timeData\atsAscii on 2019-03-24 16:56:26.695668
+Time series dataset written to E:\magnetotellurics\code\resisticsdata\formats\timeData\asciiInternal on 2019-10-05 18:08:36.041289 using resistics 0.0.6.dev2
+---------------------------------------------------
 </pre></div>
 </td></tr></table></div>
 <p>The same exercise of reading back the ascii data and comparing it to the original can be done. The procedure is as below:</p>
@@ -508,9 +497,9 @@ Dataset written to timeData\atsAscii on 2019-03-24 16:56:26.695668
 91
 92
 93</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># read in ascii format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderAscii</span> <span class="kn">import</span> <span class="n">DataReaderAscii</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_ascii</span> <span class="kn">import</span> <span class="n">TimeReaderAscii</span>
 
-<span class="n">asciiReader</span> <span class="o">=</span> <span class="n">DataReaderAscii</span><span class="p">(</span><span class="n">ats_2ascii</span><span class="p">)</span>
+<span class="n">asciiReader</span> <span class="o">=</span> <span class="n">TimeReaderAscii</span><span class="p">(</span><span class="n">ats_2ascii</span><span class="p">)</span>
 <span class="n">asciiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">asciiReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 <span class="n">physicalAsciiData</span> <span class="o">=</span> <span class="n">asciiReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
@@ -524,7 +513,7 @@ Dataset written to timeData\atsAscii on 2019-03-24 16:56:26.695668
 <span class="n">physicalAsciiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ascii format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_vs_ascii.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_vs_ascii.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id5">
@@ -627,12 +616,12 @@ Dataset written to timeData\atsAscii on 2019-03-24 16:56:26.695668
 91
 92
 93
-94</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderATS</span> <span class="kn">import</span> <span class="n">DataReaderATS</span>
+94</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">timePath</span><span class="p">,</span> <span class="n">timeImages</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_ats</span> <span class="kn">import</span> <span class="n">TimeReaderATS</span>
 
 <span class="c1"># read ats data</span>
-<span class="n">atsPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;ats&quot;</span><span class="p">)</span>
-<span class="n">atsReader</span> <span class="o">=</span> <span class="n">DataReaderATS</span><span class="p">(</span><span class="n">atsPath</span><span class="p">)</span>
+<span class="n">atsPath</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;ats&quot;</span>
+<span class="n">atsReader</span> <span class="o">=</span> <span class="n">TimeReaderATS</span><span class="p">(</span><span class="n">atsPath</span><span class="p">)</span>
 <span class="n">atsReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
 <span class="c1"># get unscaled data</span>
@@ -648,7 +637,7 @@ Dataset written to timeData\atsAscii on 2019-03-24 16:56:26.695668
 <span class="n">unscaledData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_unscaledData.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_unscaledData.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># get physical data, which is converted to field units</span>
 <span class="n">physicalATSData</span> <span class="o">=</span> <span class="n">atsReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
@@ -657,30 +646,30 @@ Dataset written to timeData\atsAscii on 2019-03-24 16:56:26.695668
 <span class="n">fig</span> <span class="o">=</span> <span class="n">physicalATSData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_physicalData.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_physicalData.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># all we see is 50Hz and 16Hz noise - apply low pass filter</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsFilter</span> <span class="kn">import</span> <span class="n">lowPass</span>
+<span class="kn">from</span> <span class="nn">resistics.time.filter</span> <span class="kn">import</span> <span class="n">lowPass</span>
 
 <span class="n">filteredATSData</span> <span class="o">=</span> <span class="n">lowPass</span><span class="p">(</span><span class="n">physicalATSData</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">filteredATSData</span><span class="o">.</span><span class="n">numChans</span><span class="p">))</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">filteredATSData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_filteredData.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_filteredData.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># now write out as internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
 
-<span class="n">ats_2intenrnal</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;atsInternal&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">ats_2intenrnal</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;atsInternal&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">ats_2intenrnal</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">atsReader</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1"># read in internal format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
-<span class="n">internalReader</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span><span class="n">ats_2intenrnal</span><span class="p">)</span>
+<span class="n">internalReader</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span><span class="n">ats_2intenrnal</span><span class="p">)</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">internalReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 <span class="n">physicalInternalData</span> <span class="o">=</span> <span class="n">internalReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
@@ -692,20 +681,20 @@ Dataset written to timeData\atsAscii on 2019-03-24 16:56:26.695668
 <span class="n">physicalInternalData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Internal format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_vs_internal.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_vs_internal.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># now write out as ascii format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterAscii</span> <span class="kn">import</span> <span class="n">DataWriterAscii</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_ascii</span> <span class="kn">import</span> <span class="n">TimeWriterAscii</span>
 
-<span class="n">ats_2ascii</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;timeData&quot;</span><span class="p">,</span> <span class="s2">&quot;atsAscii&quot;</span><span class="p">)</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterAscii</span><span class="p">()</span>
+<span class="n">ats_2ascii</span> <span class="o">=</span> <span class="n">timePath</span> <span class="o">/</span> <span class="s2">&quot;atsAscii&quot;</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterAscii</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span><span class="n">ats_2ascii</span><span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeDataset</span><span class="p">(</span><span class="n">atsReader</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1"># read in ascii format</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderAscii</span> <span class="kn">import</span> <span class="n">DataReaderAscii</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_ascii</span> <span class="kn">import</span> <span class="n">TimeReaderAscii</span>
 
-<span class="n">asciiReader</span> <span class="o">=</span> <span class="n">DataReaderAscii</span><span class="p">(</span><span class="n">ats_2ascii</span><span class="p">)</span>
+<span class="n">asciiReader</span> <span class="o">=</span> <span class="n">TimeReaderAscii</span><span class="p">(</span><span class="n">ats_2ascii</span><span class="p">)</span>
 <span class="n">asciiReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">asciiReader</span><span class="o">.</span><span class="n">printComments</span><span class="p">()</span>
 <span class="n">physicalAsciiData</span> <span class="o">=</span> <span class="n">asciiReader</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span><span class="p">)</span>
@@ -719,7 +708,7 @@ Dataset written to timeData\atsAscii on 2019-03-24 16:56:26.695668
 <span class="n">physicalAsciiData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">sampleStop</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Ascii format&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;ats_vs_ascii.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">timeImages</span> <span class="o">/</span> <span class="s2">&quot;ats_vs_ascii.png&quot;</span><span class="p">)</span>
 
 </pre></div>
 </td></tr></table></div>
@@ -768,7 +757,7 @@ Dataset written to timeData\atsAscii on 2019-03-24 16:56:26.695668
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

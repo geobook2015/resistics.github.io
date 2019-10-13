@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.project.shortcuts &mdash; resistics 0.0.6.dev3 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html"> resistics
+          
+
+          
+            
+            <img src="../../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search..." />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../formats.html">Data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../case-studies.html">Case studies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog / backlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">resistics</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>resistics.project.shortcuts</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for resistics.project.shortcuts</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">resistics.config.data</span> <span class="k">import</span> <span class="n">ConfigData</span>
+<span class="kn">from</span> <span class="nn">resistics.calibrate.calibrator</span> <span class="k">import</span> <span class="n">Calibrator</span>
+<span class="kn">from</span> <span class="nn">resistics.decimate.parameters</span> <span class="k">import</span> <span class="n">DecimationParameters</span>
+<span class="kn">from</span> <span class="nn">resistics.window.parameters</span> <span class="k">import</span> <span class="n">WindowParameters</span>
+<span class="kn">from</span> <span class="nn">resistics.window.selector</span> <span class="k">import</span> <span class="n">WindowSelector</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader</span> <span class="k">import</span> <span class="n">TimeReader</span>
+<span class="kn">from</span> <span class="nn">resistics.time.data</span> <span class="k">import</span> <span class="n">TimeData</span>
+<span class="kn">from</span> <span class="nn">resistics.regression.local</span> <span class="k">import</span> <span class="n">LocalRegressor</span>
+<span class="kn">from</span> <span class="nn">resistics.regression.remote</span> <span class="k">import</span> <span class="n">RemoteRegressor</span>
+<span class="kn">from</span> <span class="nn">resistics.project.data</span> <span class="k">import</span> <span class="n">ProjectData</span>
+
+
+<div class="viewcode-block" id="getCalibrator"><a class="viewcode-back" href="../../../api/resistics.project.shortcuts.html#resistics.project.shortcuts.getCalibrator">[docs]</a><span class="k">def</span> <span class="nf">getCalibrator</span><span class="p">(</span><span class="n">calPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Calibrator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a Calibnator object from calibration path and configuration information</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    calPath : str</span>
+<span class="sd">        Path to calibration directory</span>
+<span class="sd">    config : ConfigData</span>
+<span class="sd">        Configuration data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Calibrator</span>
+<span class="sd">        A calibrator object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cal</span> <span class="o">=</span> <span class="n">Calibrator</span><span class="p">(</span><span class="n">calPath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cal</span>
+    <span class="n">cal</span><span class="o">.</span><span class="n">useTheoretical</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Calibration&quot;</span><span class="p">][</span><span class="s2">&quot;usetheoretical&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">cal</span></div>
+
+
+<div class="viewcode-block" id="getDecimationParameters"><a class="viewcode-back" href="../../../api/resistics.project.shortcuts.html#resistics.project.shortcuts.getDecimationParameters">[docs]</a><span class="k">def</span> <span class="nf">getDecimationParameters</span><span class="p">(</span>
+    <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecimationParameters</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a DecimationParams object from sampling frequency and configuration information</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        Sampling frequency of the data</span>
+<span class="sd">    config : ConfigData</span>
+<span class="sd">        Configuration data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    DecimationParams</span>
+<span class="sd">        A decimation parameters object        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">decParams</span> <span class="o">=</span> <span class="n">DecimationParameters</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">decParams</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s2">&quot;customfrequencies&quot;</span><span class="p">]:</span>
+        <span class="n">decParams</span><span class="o">.</span><span class="n">setFrequencyParams</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Frequencies&quot;</span><span class="p">][</span><span class="s2">&quot;frequencies&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Decimation&quot;</span><span class="p">][</span><span class="s2">&quot;numlevels&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Frequencies&quot;</span><span class="p">][</span><span class="s2">&quot;perlevel&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">decParams</span><span class="o">.</span><span class="n">setDecimationParams</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Decimation&quot;</span><span class="p">][</span><span class="s2">&quot;numlevels&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Frequencies&quot;</span><span class="p">][</span><span class="s2">&quot;perlevel&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">decParams</span></div>
+
+
+<div class="viewcode-block" id="getWindowParameters"><a class="viewcode-back" href="../../../api/resistics.project.shortcuts.html#resistics.project.shortcuts.getWindowParameters">[docs]</a><span class="k">def</span> <span class="nf">getWindowParameters</span><span class="p">(</span>
+    <span class="n">decParams</span><span class="p">:</span> <span class="n">DecimationParameters</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WindowParameters</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a WindowParams object from decimationParams and configuration data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    decParams : DecimationParams</span>
+<span class="sd">        DecimationParams object to hold the decimation parameters</span>
+<span class="sd">    config : ConfigData</span>
+<span class="sd">        Configuration data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    WindowParams</span>
+<span class="sd">        A window parameters object        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">winParams</span> <span class="o">=</span> <span class="n">WindowParameters</span><span class="p">(</span><span class="n">decParams</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">winParams</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s2">&quot;customwindows&quot;</span><span class="p">]:</span>
+        <span class="n">winParams</span><span class="o">.</span><span class="n">setWindowParameters</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;windowsizes&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;overlapsizes&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">winParams</span><span class="o">.</span><span class="n">setMinParams</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;minwindowsize&quot;</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;minoverlapsize&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">winParams</span></div>
+
+
+<div class="viewcode-block" id="getWindowSelector"><a class="viewcode-back" href="../../../api/resistics.project.shortcuts.html#resistics.project.shortcuts.getWindowSelector">[docs]</a><span class="k">def</span> <span class="nf">getWindowSelector</span><span class="p">(</span>
+    <span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span>
+    <span class="n">decParams</span><span class="p">:</span> <span class="n">DecimationParameters</span><span class="p">,</span>
+    <span class="n">winParams</span><span class="p">:</span> <span class="n">WindowParameters</span><span class="p">,</span>
+    <span class="n">specdir</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WindowSelector</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a WindowSelector object from projectData, decimationParams, windowParams</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    projData : ProjectData</span>
+<span class="sd">        A project data object</span>
+<span class="sd">    decParams : DecimationParams</span>
+<span class="sd">        DecimationParams object to hold the decimation parameters</span>
+<span class="sd">    winParams : Windowparams</span>
+<span class="sd">        WindowParams object to hold the windowing parameters</span>
+<span class="sd">    specdir : str</span>
+<span class="sd">        The spectra directory</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    WindowSelector</span>
+<span class="sd">        A window selector object        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">specdir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">specdir</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+        
+    <span class="n">selector</span> <span class="o">=</span> <span class="n">WindowSelector</span><span class="p">(</span>
+        <span class="n">projData</span><span class="p">,</span>
+        <span class="n">decParams</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span>
+        <span class="n">decParams</span><span class="p">,</span>
+        <span class="n">winParams</span><span class="p">,</span>
+        <span class="n">specdir</span><span class="o">=</span><span class="n">specdir</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">selector</span></div>
+
+
+<div class="viewcode-block" id="getLocalRegressor"><a class="viewcode-back" href="../../../api/resistics.project.shortcuts.html#resistics.project.shortcuts.getLocalRegressor">[docs]</a><span class="k">def</span> <span class="nf">getLocalRegressor</span><span class="p">(</span>
+    <span class="n">winSelector</span><span class="p">:</span> <span class="n">WindowSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LocalRegressor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a ProcessorSingleSite object from a windowSelector object, outPath and config data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    winSelector : WindowSelector</span>
+<span class="sd">        Window selector with sites, masks etc already specified</span>
+<span class="sd">    tfPath : str</span>
+<span class="sd">        Path to output transfer function data</span>
+<span class="sd">    config : ConfigData, optional</span>
+<span class="sd">        Configuration data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    LocalRegressor</span>
+<span class="sd">        local, single site regression        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">processor</span> <span class="o">=</span> <span class="n">LocalRegressor</span><span class="p">(</span><span class="n">winSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">processor</span>
+    <span class="k">return</span> <span class="n">processor</span></div>
+
+
+<div class="viewcode-block" id="getRemoteRegressor"><a class="viewcode-back" href="../../../api/resistics.project.shortcuts.html#resistics.project.shortcuts.getRemoteRegressor">[docs]</a><span class="k">def</span> <span class="nf">getRemoteRegressor</span><span class="p">(</span>
+    <span class="n">winSelector</span><span class="p">:</span> <span class="n">WindowSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ConfigData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemoteRegressor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a ProcessorRemoteReference object from a windowSelector object, outPath and config data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    winSelector : WindowSelector</span>
+<span class="sd">        Window selector with sites, masks etc already specified</span>
+<span class="sd">    outPath : str</span>
+<span class="sd">        Path to output transfer function data</span>
+<span class="sd">    config : ConfigData, optional</span>
+<span class="sd">        Configuration data</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    RemoteRegression</span>
+<span class="sd">        Regression including a remote reference        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">processor</span> <span class="o">=</span> <span class="n">RemoteRegressor</span><span class="p">(</span><span class="n">winSelector</span><span class="p">,</span> <span class="n">outPath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">processor</span>
+    <span class="k">return</span> <span class="n">processor</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.6.dev3',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Intersite transfer functions &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Intersite transfer functions &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -108,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -209,8 +208,8 @@
 2
 3
 4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">intersitePath</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">intersitePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">newProject</span>
 
 <span class="n">refTime</span> <span class="o">=</span> <span class="s2">&quot;2019-05-27 00:00:00&quot;</span>
 <span class="n">newProject</span><span class="p">(</span><span class="n">intersitePath</span><span class="p">,</span> <span class="n">refTime</span><span class="p">)</span>
@@ -280,11 +279,11 @@
 20
 21
 22
-23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">intersitePath</span><span class="p">,</span> <span class="n">intersiteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">intersitePath</span><span class="p">,</span> <span class="n">intersiteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># headers for MT stations</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423</span> <span class="kn">import</span> <span class="n">folderB423Headers</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423</span> <span class="kn">import</span> <span class="n">folderB423Headers</span>
 
 <span class="n">folderB423Headers</span><span class="p">(</span>
     <span class="n">intersitePath</span> <span class="o">/</span> <span class="s2">&quot;timeData&quot;</span> <span class="o">/</span> <span class="s2">&quot;site1_mt&quot;</span><span class="p">,</span>
@@ -298,7 +297,7 @@
 <span class="p">)</span>
 
 <span class="c1"># headers for telluric only stations</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423E</span> <span class="kn">import</span> <span class="n">folderB423EHeaders</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423e</span> <span class="kn">import</span> <span class="n">folderB423EHeaders</span>
 
 <span class="n">folderB423EHeaders</span><span class="p">(</span>
     <span class="n">intersitePath</span> <span class="o">/</span> <span class="s2">&quot;timeData&quot;</span> <span class="o">/</span> <span class="s2">&quot;site2_te&quot;</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">ex</span><span class="o">=</span><span class="s2">&quot;E1&quot;</span><span class="p">,</span> <span class="n">ey</span><span class="o">=</span><span class="s2">&quot;E2&quot;</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span>
@@ -397,7 +396,7 @@ overlapsizes = 256, 128, 64, 64, 32, 32, 32
 stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 </pre></div>
 </td></tr></table></div>
-<p>Time data can be viewed in the usual way with the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.viewTime" title="resistics.project.projectTime.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code></a> method.</p>
+<p>Time data can be viewed in the usual way with the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.viewTime" title="resistics.project.time.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code></a> method.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>31
 32
 33
@@ -410,7 +409,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 40
 41
 42</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view time</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">viewTime</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">proj</span><span class="p">,</span>
@@ -436,7 +435,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 49
 50
 51</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate spectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
 
 <span class="n">calculateSpectra</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1_mt&quot;</span><span class="p">])</span>
 <span class="n">calculateSpectra</span><span class="p">(</span>
@@ -454,7 +453,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 54
 55
 56</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># calculate statistics for MT site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
 
 <span class="n">calculateStatistics</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1_mt&quot;</span><span class="p">])</span>
 </pre></div>
@@ -487,12 +486,12 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 82
 83
 84</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># intersite</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">processProject</span><span class="p">,</span>
     <span class="n">processSite</span><span class="p">,</span>
     <span class="n">viewImpedance</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotOptions</span><span class="p">[</span><span class="s2">&quot;res_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
@@ -515,7 +514,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">intersiteImages</span> <span class="o">/</span> <span class="s2">&quot;intersiteTransferFunction.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>The important call in this section of code is the call to <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.processSite" title="resistics.project.projectTransferFunction.processSite"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processSite()</span></code></a>. In this call, we have set the output site as “site2_te” or the telluric site. The optional input of inputsite has been set to the magnetotellruic site, site1_mt. The result of this is:</p>
+<p>The important call in this section of code is the call to <a class="reference internal" href="../api/resistics.project.transfunc.html#resistics.project.transfunc.processSite" title="resistics.project.transfunc.processSite"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processSite()</span></code></a>. In this call, we have set the output site as “site2_te” or the telluric site. The optional input of inputsite has been set to the magnetotellruic site, site1_mt. The result of this is:</p>
 <ul class="simple">
 <li>electric channel data will be taken from site2_te or the telluric site</li>
 <li>magnetic channel data will be take from site1_mt or the magnetotelluric site</li>
@@ -574,7 +573,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 131
 132
 133</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># now try again with some statistics for the dead band</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
 
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">])</span>
@@ -627,7 +626,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <img alt="alternate text" src="../_images/intersiteTransferFunctionMask.png" />
 <p class="caption"><span class="caption-text">The intersite transfer function with variable masking</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
-<p>There is still problems with the output at long periods, most noticeably in the phase. This is likely to be synchronisation issue between the two sites.</p>
+<p>There is still problems with the output at long periods, most noticeably in the phase. This is likely to be a synchronisation issue between the two sites.</p>
 <div class="section" id="complete-example-scripts">
 <h2>Complete example scripts<a class="headerlink" href="#complete-example-scripts" title="Permalink to this headline">¶</a></h2>
 <p>For the purposes of clarity, the complete example scripts is provided below.</p>
@@ -636,8 +635,8 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 2
 3
 4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">intersitePath</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">intersitePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">newProject</span>
 
 <span class="n">refTime</span> <span class="o">=</span> <span class="s2">&quot;2019-05-27 00:00:00&quot;</span>
 <span class="n">newProject</span><span class="p">(</span><span class="n">intersitePath</span><span class="p">,</span> <span class="n">refTime</span><span class="p">)</span>
@@ -776,11 +775,11 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 130
 131
 132
-133</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">intersitePath</span><span class="p">,</span> <span class="n">intersiteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+133</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">intersitePath</span><span class="p">,</span> <span class="n">intersiteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="c1"># headers for MT stations</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423</span> <span class="kn">import</span> <span class="n">folderB423Headers</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423</span> <span class="kn">import</span> <span class="n">folderB423Headers</span>
 
 <span class="n">folderB423Headers</span><span class="p">(</span>
     <span class="n">intersitePath</span> <span class="o">/</span> <span class="s2">&quot;timeData&quot;</span> <span class="o">/</span> <span class="s2">&quot;site1_mt&quot;</span><span class="p">,</span>
@@ -794,7 +793,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="p">)</span>
 
 <span class="c1"># headers for telluric only stations</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderLemiB423E</span> <span class="kn">import</span> <span class="n">folderB423EHeaders</span>
+<span class="kn">from</span> <span class="nn">resistics.time.reader_lemib423e</span> <span class="kn">import</span> <span class="n">folderB423EHeaders</span>
 
 <span class="n">folderB423EHeaders</span><span class="p">(</span>
     <span class="n">intersitePath</span> <span class="o">/</span> <span class="s2">&quot;timeData&quot;</span> <span class="o">/</span> <span class="s2">&quot;site2_te&quot;</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">ex</span><span class="o">=</span><span class="s2">&quot;E1&quot;</span><span class="p">,</span> <span class="n">ey</span><span class="o">=</span><span class="s2">&quot;E2&quot;</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mf">60.7</span>
@@ -807,7 +806,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">intersiteImages</span> <span class="o">/</span> <span class="s2">&quot;timeline.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># view time</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">viewTime</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">proj</span><span class="p">,</span>
@@ -820,7 +819,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">intersiteImages</span> <span class="o">/</span> <span class="s2">&quot;viewTime.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># calculate spectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
 
 <span class="n">calculateSpectra</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1_mt&quot;</span><span class="p">])</span>
 <span class="n">calculateSpectra</span><span class="p">(</span>
@@ -829,17 +828,17 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
 <span class="c1"># calculate statistics for MT site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span>
 
 <span class="n">calculateStatistics</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1_mt&quot;</span><span class="p">])</span>
 
 <span class="c1"># intersite</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">processProject</span><span class="p">,</span>
     <span class="n">processSite</span><span class="p">,</span>
     <span class="n">viewImpedance</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">plotOptions</span><span class="p">[</span><span class="s2">&quot;res_ylim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">]</span>
@@ -862,7 +861,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 <span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">intersiteImages</span> <span class="o">/</span> <span class="s2">&quot;intersiteTransferFunction.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># now try again with some statistics for the dead band</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
 
 <span class="n">maskData</span> <span class="o">=</span> <span class="n">newMaskData</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
 <span class="n">maskData</span><span class="o">.</span><span class="n">setStats</span><span class="p">([</span><span class="s2">&quot;coherence&quot;</span><span class="p">])</span>
@@ -956,7 +955,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

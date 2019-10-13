@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API reference &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>API reference &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="resistics.calculators package" href="api/resistics.calculators.html" />
+    <link rel="next" title="resistics.common package" href="api/resistics.common.html" />
     <link rel="prev" title="Switzerland 2016" href="case-studies/switzerland-2016.html" /> 
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
@@ -101,14 +100,22 @@
 <li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="case-studies.html">Case studies</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.calculators.html">resistics.calculators package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.dataObjects.html">resistics.dataObjects package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.ioHandlers.html">resistics.ioHandlers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.common.html">resistics.common package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.config.html">resistics.config package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.time.html">resistics.time package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.spectra.html">resistics.spectra package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.statistics.html">resistics.statistics package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.mask.html">resistics.mask package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.regression.html">resistics.regression package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.transfunc.html">resistics.transfunc package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.site.html">resistics.site package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/resistics.project.html">resistics.project package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.utilities.html">resistics.utilities package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.calibrate.html">resistics.calibrate package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.window.html">resistics.window package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.decimate.html">resistics.decimate package</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="donate.html">Donate</a></li>
@@ -179,129 +186,290 @@
             
   <div class="section" id="api-reference">
 <h1>API reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
-<p>Resistics is made up of a number of submodules that deal with different functions, such as handling the reading and writing of data, holding data or manipulating data. These are described in more detail below.</p>
-<div class="section" id="iohandlers">
-<h2>ioHandlers<a class="headerlink" href="#iohandlers" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="api/resistics.ioHandlers.html#module-resistics.ioHandlers" title="resistics.ioHandlers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ioHandlers</span></code></a> are used to read and write data. This includes timeseries data, spectra data, statistic data, mask data and transfer function data.</p>
+<p>Resistics is made up of a number of sub packages that deal with different functions or data types, such as time data, frequency data, statistic data and more. Detailed information about each can be found in the relevant sections.</p>
+<ul class="simple">
+<li><a class="reference internal" href="#common"><span class="std std-ref">common</span></a></li>
+<li><a class="reference internal" href="#config"><span class="std std-ref">config</span></a></li>
+<li><a class="reference internal" href="#time"><span class="std std-ref">time</span></a></li>
+<li><a class="reference internal" href="#spectra"><span class="std std-ref">spectra</span></a></li>
+<li><a class="reference internal" href="#statistics"><span class="std std-ref">statistics</span></a></li>
+<li><a class="reference internal" href="#mask"><span class="std std-ref">mask</span></a></li>
+<li><a class="reference internal" href="#regression"><span class="std std-ref">regression</span></a></li>
+<li><a class="reference internal" href="#transfunc"><span class="std std-ref">transfunc</span></a></li>
+<li><a class="reference internal" href="#site"><span class="std std-ref">site</span></a></li>
+<li><a class="reference internal" href="#project"><span class="std std-ref">project</span></a></li>
+<li><a class="reference internal" href="#calibrate"><span class="std std-ref">calibrate</span></a></li>
+<li><a class="reference internal" href="#window"><span class="std std-ref">window</span></a></li>
+<li><a class="reference internal" href="#decimate"><span class="std std-ref">decimate</span></a></li>
+</ul>
+<p>For most users, the API functionality of interest will be in <a class="reference internal" href="#project"><span class="std std-ref">project</span></a>, which holds methods for interacting with resistics projects.</p>
+<div class="section" id="common">
+<h2>common<a class="headerlink" href="#common" title="Permalink to this headline">¶</a></h2>
+<p>Methods in the <a class="reference internal" href="api/resistics.common.html#module-resistics.common" title="resistics.common"><code class="xref py py-mod docutils literal notranslate"><span class="pre">common</span></code></a> are used across the package. They include utility functions for print, checking io, plotting and more.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.common.html">resistics.common package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.common.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.common.base.html">resistics.common.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.common.checks.html">resistics.common.checks module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.common.io.html">resistics.common.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.common.math.html">resistics.common.math module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.common.plot.html">resistics.common.plot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.common.print.html">resistics.common.print module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.common.smooth.html">resistics.common.smooth module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.common.html#module-resistics.common">Module contents</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<div class="section" id="dataobjects">
-<h2>dataObjects<a class="headerlink" href="#dataobjects" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="api/resistics.dataObjects.html#module-resistics.dataObjects" title="resistics.dataObjects"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dataObjects</span></code></a> are objects that hold data, such as <a class="reference internal" href="api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>, <a class="reference internal" href="api/resistics.dataObjects.siteData.html#resistics.dataObjects.siteData.SiteData" title="resistics.dataObjects.siteData.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a> or <a class="reference internal" href="api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a>.</p>
 </div>
-<div class="section" id="calculators">
-<h2>calculators<a class="headerlink" href="#calculators" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="api/resistics.calculators.html#module-resistics.calculators" title="resistics.calculators"><code class="xref py py-mod docutils literal notranslate"><span class="pre">calculators</span></code></a> perform modifications, transformations and calculations given data objects. For example, calibration, spectra calculation, statistic calculation and transfer function calculation.</p>
+<div class="section" id="config">
+<h2>config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="api/resistics.config.html#module-resistics.config" title="resistics.config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">config</span></code></a> has methods and classes for the resistics configuration data and parameters.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.config.html">resistics.config package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.config.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.config.data.html">resistics.config.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.config.defaults.html">resistics.config.defaults module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.config.io.html">resistics.config.io module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.config.html#module-resistics.config">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="time">
+<h2>time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h2>
+<p>Methods and classes in <a class="reference internal" href="api/resistics.time.html#module-resistics.time" title="resistics.time"><code class="xref py py-mod docutils literal notranslate"><span class="pre">time</span></code></a> relate to reading, writing, holding and processing of time data.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.time.html">resistics.time package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.time.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.clean.html">resistics.time.clean module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.data.html">resistics.time.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.filter.html">resistics.time.filter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.interp.html">resistics.time.interp module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.math.html">resistics.time.math module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.reader.html">resistics.time.reader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.reader_ascii.html">resistics.time.reader_ascii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.reader_ats.html">resistics.time.reader_ats module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.reader_internal.html">resistics.time.reader_internal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.reader_lemib423.html">resistics.time.reader_lemib423 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.reader_lemib423e.html">resistics.time.reader_lemib423e module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.reader_phoenix.html">resistics.time.reader_phoenix module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.reader_spam.html">resistics.time.reader_spam module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.utils.html">resistics.time.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.writer.html">resistics.time.writer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.writer_ascii.html">resistics.time.writer_ascii module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.time.writer_internal.html">resistics.time.writer_internal module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.time.html#module-resistics.time">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="spectra">
+<h2>spectra<a class="headerlink" href="#spectra" title="Permalink to this headline">¶</a></h2>
+<p>Methods and classes in <a class="reference internal" href="api/resistics.spectra.html#module-resistics.spectra" title="resistics.spectra"><code class="xref py py-mod docutils literal notranslate"><span class="pre">spectra</span></code></a> deal with calculating fourier spectra, frequency data reading and writing and spectra data objects.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.spectra.html">resistics.spectra package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.spectra.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.spectra.calculator.html">resistics.spectra.calculator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.spectra.data.html">resistics.spectra.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.spectra.io.html">resistics.spectra.io module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.spectra.html#module-resistics.spectra">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="statistics">
+<h2>statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="api/resistics.statistics.html#module-resistics.statistics" title="resistics.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a> provides functionality for calculating local site and remote reference statistics, statistic reading and writing and statistic data objects.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.statistics.html">resistics.statistics package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.statistics.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.statistics.calculator.html">resistics.statistics.calculator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.statistics.data.html">resistics.statistics.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.statistics.io.html">resistics.statistics.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.statistics.utils.html">resistics.statistics.utils module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.statistics.html#module-resistics.statistics">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="mask">
+<h2>mask<a class="headerlink" href="#mask" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="api/resistics.mask.html#module-resistics.mask" title="resistics.mask"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mask</span></code></a> data in resistics is used to remove windows from further processing. It provides classes for taking in statistic data together with constraints and finding the windows which fail the constraints.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.mask.html">resistics.mask package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.mask.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.mask.calculator.html">resistics.mask.calculator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.mask.data.html">resistics.mask.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.mask.io.html">resistics.mask.io module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.mask.html#module-resistics.mask">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="regression">
+<h2>regression<a class="headerlink" href="#regression" title="Permalink to this headline">¶</a></h2>
+<p>Methods and classes in <a class="reference internal" href="api/resistics.regression.html#module-resistics.regression" title="resistics.regression"><code class="xref py py-mod docutils literal notranslate"><span class="pre">regression</span></code></a> use the frequency data to estimate transfer functions.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.regression.html">resistics.regression package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.regression.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.regression.local.html">resistics.regression.local module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.regression.remote.html">resistics.regression.remote module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.regression.robust.html">resistics.regression.robust module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.regression.html#module-resistics.regression">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="transfunc">
+<h2>transfunc<a class="headerlink" href="#transfunc" title="Permalink to this headline">¶</a></h2>
+<p>Methods and classes in <a class="reference internal" href="api/resistics.transfunc.html#module-resistics.transfunc" title="resistics.transfunc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">transfunc</span></code></a> deal with the input and output of transfer function data and provide data objects for transfer function data.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.transfunc.html">resistics.transfunc package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.transfunc.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.transfunc.data.html">resistics.transfunc.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.transfunc.io.html">resistics.transfunc.io module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.transfunc.html#module-resistics.transfunc">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="site">
+<h2>site<a class="headerlink" href="#site" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="api/resistics.site.html#module-resistics.site" title="resistics.site"><code class="xref py py-mod docutils literal notranslate"><span class="pre">site</span></code></a> provides methods for interacting with site data.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.site.html">resistics.site package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.site.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.site.data.html">resistics.site.data module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.site.html#module-resistics.site">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div class="section" id="project">
 <h2>project<a class="headerlink" href="#project" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">project</span></code> submodule provides functions for the batch processing of magnetotelluric data when using the resistics project environment. For more information on the project environment and batch processing, see the <a class="reference internal" href="tutorial.html"><span class="doc">tutorial</span></a>.</p>
-</div>
-<div class="section" id="utilities">
-<h2>utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="api/resistics.utilities.html#module-resistics.utilities" title="resistics.utilities"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utilities</span></code></a> are a set of submodules that provide helper functions used across the package. This includes various checks and printing functions.</p>
-</div>
-<div class="section" id="reference">
-<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="api/resistics.project.html#module-resistics.project" title="resistics.project"><code class="xref py py-mod docutils literal notranslate"><span class="pre">project</span></code></a> provides methods for interacting with resistics projects. For most users, these are the most interesting methods and APIs.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="api/resistics.calculators.html">resistics.calculators package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.calculators.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.calculator.html">resistics.calculators.calculator module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.calibrator.html">resistics.calculators.calibrator module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.decimationParameters.html">resistics.calculators.decimationParameters module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.decimator.html">resistics.calculators.decimator module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.maskCalculator.html">resistics.calculators.maskCalculator module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.processorRemoteReference.html">resistics.calculators.processorRemoteReference module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.processorSingleSite.html">resistics.calculators.processorSingleSite module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.spectrumCalculator.html">resistics.calculators.spectrumCalculator module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.statisticCalculator.html">resistics.calculators.statisticCalculator module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.windowParameters.html">resistics.calculators.windowParameters module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.windowSelector.html">resistics.calculators.windowSelector module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.calculators.windower.html">resistics.calculators.windower module</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.calculators.html#module-resistics.calculators">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/resistics.dataObjects.html">resistics.dataObjects package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.dataObjects.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.calibrationData.html">resistics.dataObjects.calibrationData module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.configData.html">resistics.dataObjects.configData module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.dataObject.html">resistics.dataObjects.dataObject module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.maskData.html">resistics.dataObjects.maskData module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.projectData.html">resistics.dataObjects.projectData module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.siteData.html">resistics.dataObjects.siteData module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.spectrumData.html">resistics.dataObjects.spectrumData module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.statisticData.html">resistics.dataObjects.statisticData module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.timeData.html">resistics.dataObjects.timeData module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.dataObjects.transferFunctionData.html">resistics.dataObjects.transferFunctionData module</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.dataObjects.html#module-resistics.dataObjects">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api/resistics.ioHandlers.html">resistics.ioHandlers package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.ioHandlers.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.calibrationIO.html">resistics.ioHandlers.calibrationIO module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataReader.html">resistics.ioHandlers.dataReader module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataReaderATS.html">resistics.ioHandlers.dataReaderATS module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataReaderAscii.html">resistics.ioHandlers.dataReaderAscii module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataReaderInternal.html">resistics.ioHandlers.dataReaderInternal module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataReaderLemiB423.html">resistics.ioHandlers.dataReaderLemiB423 module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataReaderLemiB423E.html">resistics.ioHandlers.dataReaderLemiB423E module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataReaderPhoenix.html">resistics.ioHandlers.dataReaderPhoenix module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataReaderSpam.html">resistics.ioHandlers.dataReaderSpam module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataWriter.html">resistics.ioHandlers.dataWriter module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataWriterAscii.html">resistics.ioHandlers.dataWriterAscii module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.dataWriterInternal.html">resistics.ioHandlers.dataWriterInternal module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.ioHandler.html">resistics.ioHandlers.ioHandler module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.maskIO.html">resistics.ioHandlers.maskIO module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.spectrumReader.html">resistics.ioHandlers.spectrumReader module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.spectrumWriter.html">resistics.ioHandlers.spectrumWriter module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.statisticIO.html">resistics.ioHandlers.statisticIO module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.transferFunctionReader.html">resistics.ioHandlers.transferFunctionReader module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.ioHandlers.transferFunctionWriter.html">resistics.ioHandlers.transferFunctionWriter module</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.ioHandlers.html#module-resistics.ioHandlers">Module contents</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="api/resistics.project.html">resistics.project package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/resistics.project.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.projectIO.html">resistics.project.projectIO module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.projectMask.html">resistics.project.projectMask module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.projectSpectra.html">resistics.project.projectSpectra module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.projectStatistics.html">resistics.project.projectStatistics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.projectTime.html">resistics.project.projectTime module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.projectTransferFunction.html">resistics.project.projectTransferFunction module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.data.html">resistics.project.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.io.html">resistics.project.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.mask.html">resistics.project.mask module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.preprocess.html">resistics.project.preprocess module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.shortcuts.html">resistics.project.shortcuts module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.spectra.html">resistics.project.spectra module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.statistics.html">resistics.project.statistics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.time.html">resistics.project.time module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.transfunc.html">resistics.project.transfunc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.project.utils.html">resistics.project.utils module</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/resistics.project.html#module-resistics.project">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/resistics.utilities.html">resistics.utilities package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.utilities.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsCalibrate.html">resistics.utilities.utilsCalibrate module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsChecks.html">resistics.utilities.utilsChecks module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsClean.html">resistics.utilities.utilsClean module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsConfig.html">resistics.utilities.utilsConfig module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsEvalFreq.html">resistics.utilities.utilsEvalFreq module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsFilter.html">resistics.utilities.utilsFilter module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsFreq.html">resistics.utilities.utilsFreq module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsIO.html">resistics.utilities.utilsIO module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsInterp.html">resistics.utilities.utilsInterp module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsMath.html">resistics.utilities.utilsMath module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsPlotter.html">resistics.utilities.utilsPlotter module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsPrint.html">resistics.utilities.utilsPrint module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsProject.html">resistics.utilities.utilsProject module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsReader.html">resistics.utilities.utilsReader module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsRobust.html">resistics.utilities.utilsRobust module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsSmooth.html">resistics.utilities.utilsSmooth module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsStats.html">resistics.utilities.utilsStats module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/resistics.utilities.utilsWindow.html">resistics.utilities.utilsWindow module</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="calibrate">
+<h2>calibrate<a class="headerlink" href="#calibrate" title="Permalink to this headline">¶</a></h2>
+<p>Methods and classes for handling calibration data can be found in <a class="reference internal" href="api/resistics.calibrate.html#module-resistics.calibrate" title="resistics.calibrate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">calibrate</span></code></a>.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.calibrate.html">resistics.calibrate package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.calibrate.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.calibrate.calibrator.html">resistics.calibrate.calibrator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.calibrate.data.html">resistics.calibrate.data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.calibrate.io.html">resistics.calibrate.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.calibrate.utils.html">resistics.calibrate.utils module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/resistics.utilities.html#module-resistics.utilities">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.calibrate.html#module-resistics.calibrate">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="window">
+<h2>window<a class="headerlink" href="#window" title="Permalink to this headline">¶</a></h2>
+<p>Window parameters, timeseries windowing and window selection functionality is provided in <a class="reference internal" href="api/resistics.window.html#module-resistics.window" title="resistics.window"><code class="xref py py-mod docutils literal notranslate"><span class="pre">window</span></code></a>.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.window.html">resistics.window package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.window.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.window.parameters.html">resistics.window.parameters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.window.selector.html">resistics.window.selector module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.window.utils.html">resistics.window.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.window.windower.html">resistics.window.windower module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.window.html#module-resistics.window">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="decimate">
+<h2>decimate<a class="headerlink" href="#decimate" title="Permalink to this headline">¶</a></h2>
+<p>Decimation parameters and decimation functionality is provided in <a class="reference internal" href="api/resistics.window.html#module-resistics.window" title="resistics.window"><code class="xref py py-mod docutils literal notranslate"><span class="pre">window</span></code></a>.</p>
+<p>[<a class="reference internal" href="#api-reference"><span class="std std-ref">back to top</span></a>]</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/resistics.decimate.html">resistics.decimate package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.decimate.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.decimate.decimator.html">resistics.decimate.decimator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.decimate.evalfreqs.html">resistics.decimate.evalfreqs module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/resistics.decimate.parameters.html">resistics.decimate.parameters module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resistics.decimate.html#module-resistics.decimate">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -317,7 +485,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api/resistics.calculators.html" class="btn btn-neutral float-right" title="resistics.calculators package" accesskey="n" rel="next">Next</a>
+        <a href="api/resistics.common.html" class="btn btn-neutral float-right" title="resistics.common package" accesskey="n" rel="next">Next</a>
       
       
         <a href="case-studies/switzerland-2016.html" class="btn btn-neutral" title="Switzerland 2016" accesskey="p" rel="prev">Previous</a>
@@ -351,7 +519,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

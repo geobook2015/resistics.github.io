@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Transfer Functions &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Transfer functions &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -32,8 +32,8 @@
   <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Resistivity and Phase" href="resistivityPhase.html" />
-    <link rel="prev" title="Polarisation Directions" href="polarisationDirection.html" /> 
+    <link rel="next" title="Resistivity and phase" href="resistivityPhase.html" />
+    <link rel="prev" title="Polarisation directions" href="polarisationDirection.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -91,19 +91,19 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../features.html">Features</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../configuration.html">Configuration files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../comments.html">Comments</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../statistics.html">Statistics</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="powerSpectralDensity.html">Power Spectral Density</a></li>
-<li class="toctree-l3"><a class="reference internal" href="coherences.html">Coherence</a></li>
-<li class="toctree-l3"><a class="reference internal" href="partialCoherence.html">Partial Coherences</a></li>
-<li class="toctree-l3"><a class="reference internal" href="polarisationDirection.html">Polarisation Directions</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Transfer Functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="resistivityPhase.html">Resistivity and Phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="absval.html">Absolute value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="powerSpectralDensity.html">Power spectral density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coherence.html">Coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partialCoherence.html">Partial coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="polarisationDirection.html">Polarisation directions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Transfer functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistivityPhase.html">Resistivity and phase</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../remote-statistics.html">Remote reference statistics</a></li>
@@ -115,7 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -169,7 +169,7 @@
         
           <li><a href="../statistics.html">Statistics</a> &raquo;</li>
         
-      <li>Transfer Functions</li>
+      <li>Transfer functions</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -189,17 +189,67 @@
            <div itemprop="articleBody">
             
   <div class="section" id="transfer-functions">
-<h1>Transfer Functions<a class="headerlink" href="#transfer-functions" title="Permalink to this headline">¶</a></h1>
-<p>Transfer functions can be calculated out for each window (and evaluation frequency). Whilst the geoelectric and geomagnetic fields may vary, the components of the impedance tensor should stay constant through time. Calculating out impedance tensor components on an evaluation frequency basis for each window allows the study of the variation in impedance tensor components over time and the identification of noisy windows which should be removed from further analysis.</p>
-<p>Using robust statistical methods to calculate out total impedance tensors does mitigate against both input and output outliers. However, removing these completely by excluding the windows from solution is an even further protection.</p>
-<p>An example of</p>
-<div class="align-center figure" id="id1">
-<img alt="alternate text" src="../../_images/histTransferFunction.png" />
-<p class="caption"><span class="caption-text">A histogram of coherence values for the various coherence pairs</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<h1>Transfer functions<a class="headerlink" href="#transfer-functions" title="Permalink to this headline">¶</a></h1>
+<p>It is possible to calculate out the transfer function for each window (and evaluation frequency). Whilst the geoelectric and geomagnetic fields may vary with time, the components of the transfer function should stay constant through time. Calculating out transfer function components on an evaluation frequency basis for each window allows the study of the variation in transfer function components over time and the identification of noisy windows which should be removed from further analysis.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently, the only transfer function calculated out by statistics is the impedance tensor</p>
 </div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>The resistics name for the transfer function statistic is: <strong>transferFunction</strong>.</p>
+<p>The components of the transfer function statistic are:</p>
+<ul class="last simple">
+<li>E<sub>x</sub> H<sub>x</sub> Real</li>
+<li>E<sub>x</sub> H<sub>x</sub> Imag</li>
+<li>E<sub>x</sub> H<sub>y</sub> Real</li>
+<li>E<sub>x</sub> H<sub>y</sub> Imag</li>
+<li>E<sub>y</sub> H<sub>x</sub> Real</li>
+<li>E<sub>y</sub> H<sub>x</sub> Imag</li>
+<li>E<sub>y</sub> H<sub>y</sub> Real</li>
+<li>E<sub>y</sub> H<sub>y</sub> Imag</li>
+</ul>
+</div>
+<p>An example of window-by-window transfer function esimates over time is shown below.</p>
+<div class="align-center figure" id="id1">
+<img alt="alternate text" src="../../_images/M1_transferFunction_view_4096.png" />
+<p class="caption"><span class="caption-text">Window-by-window transfer function estimates plotted over time for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>Standard linear regression methods are maximum likelihood estimators for Gaussian distributed data. In situations where the regression data does not meet this criteria, linear regression can give poor results (hence the need for robust regression methods). A useful way to view the transfer function statistic is as a histogram to see how well the windows meet the Gaussian distribution assumption.</p>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../../_images/timeTransferFunction.png" />
-<p class="caption"><span class="caption-text">An example of coherence pairs plotted over time</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<img alt="alternate text" src="../../_images/M1_transferFunction_histogram_4096.png" />
+<p class="caption"><span class="caption-text">Window-by-window transfer function estimates histogram for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Using robust statistical methods to calculate out total impedance tensors does mitigate against both input and output outliers. However, removing these completely by excluding the windows from solution is even better protection.</p>
+</div>
+<p>This dataset does appear to be quite well distributed. Another useful way to look at the data is using crossplots. This will plot the transfer function estimates on the complex plane.</p>
+<div class="align-center figure" id="id3">
+<img alt="alternate text" src="../../_images/M1_transferFunction_crossplot_4096.png" />
+<p class="caption"><span class="caption-text">Transfer function statistic crossplots for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>Crossplots are simply scatter plots. If there are many points on scatter plots, it is not usually possible to see where the majority are. Therefore, density plots like the one below can be useful to see where the majority of the data is located.</p>
+<div class="align-center figure" id="id4">
+<img alt="alternate text" src="../../_images/M1_transferFunction_densityplot_4096.png" />
+<p class="caption"><span class="caption-text">Transfer function statistic density plots for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<p>A second set of plots for 128 Hz sampled data is shown below. In general, the below dataset is less noisy, though there are some very large outliers.</p>
+<div class="align-center figure" id="id5">
+<img alt="alternate text" src="../../_images/Remote_transferFunction_view_128.png" />
+<p class="caption"><span class="caption-text">An example of power spectral density plotted over time for evaluation frequency</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id6">
+<img alt="alternate text" src="../../_images/Remote_transferFunction_histogram_128.png" />
+<p class="caption"><span class="caption-text">An example of power spectral density histogram for evaluation frequency</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id7">
+<img alt="alternate text" src="../../_images/Remote_transferFunction_crossplot_128.png" />
+<p class="caption"><span class="caption-text">An example of power spectral density plotted over time for evaluation frequency</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id8">
+<img alt="alternate text" src="../../_images/Remote_transferFunction_densityplot_128.png" />
+<p class="caption"><span class="caption-text">An example of power spectral density histogram for evaluation frequency</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 
@@ -211,10 +261,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="resistivityPhase.html" class="btn btn-neutral float-right" title="Resistivity and Phase" accesskey="n" rel="next">Next</a>
+        <a href="resistivityPhase.html" class="btn btn-neutral float-right" title="Resistivity and phase" accesskey="n" rel="next">Next</a>
       
       
-        <a href="polarisationDirection.html" class="btn btn-neutral" title="Polarisation Directions" accesskey="p" rel="prev">Previous</a>
+        <a href="polarisationDirection.html" class="btn btn-neutral" title="Polarisation directions" accesskey="p" rel="prev">Previous</a>
       
     </div>
   
@@ -245,7 +295,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

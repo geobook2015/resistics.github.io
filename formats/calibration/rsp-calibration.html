@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>RSP Calibration &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>RSP Calibration &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../features.html">Features</a></li>
@@ -111,7 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -241,7 +240,7 @@ RSP files should be named according to the following specification:</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>The class <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> can be used to read in RSP calibration files.</p>
+<p>The class <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO" title="resistics.calibrate.io.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> can be used to read in RSP calibration files.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -249,20 +248,18 @@ RSP files should be named according to the following specification:</p>
 5
 6
 7
-8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationData</span>
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">calPath</span><span class="p">,</span> <span class="n">calImages</span>
+<span class="kn">from</span> <span class="nn">resistics.calibrate.io</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
 
 <span class="c1"># read RSP calibration data - this is a broadband calibraition - no chopper on or off</span>
-<span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;Metronix_Coil-----TYPE-006_BB-ID-000307.RSP&quot;</span><span class="p">)</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">calPath</span> <span class="o">/</span> <span class="s2">&quot;Metronix_Coil-----TYPE-006_BB-ID-000307.RSP&quot;</span>
 <span class="n">calIO</span> <span class="o">=</span> <span class="n">CalibrationIO</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rsp&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">calData</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="n">calData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>When using <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> to read a calibration file, the filepath and calibration data format (rsp) need to be defined. Further, the extension rule can be optionally passed. Because RSP files only contain one set of calibration data (unlike Metronix files which may have calibration data for both chopper on and off), the chopper keyword is unused for reading RSP files.</p>
-<p>The method <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.read" title="resistics.ioHandlers.calibrationIO.CalibrationIO.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> returns a <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData" title="resistics.dataObjects.calibrationData.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a> object. Information about this can be printed to the terminal, giving:</p>
+<p>When using <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO" title="resistics.calibrate.io.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> to read a calibration file, the filepath and calibration data format (rsp) need to be defined. Further, the extension rule can be optionally passed. Because RSP files only contain one set of calibration data (unlike Metronix files which may have calibration data for both chopper on and off), the chopper keyword is unused for reading RSP files.</p>
+<p>The method <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO.read" title="resistics.calibrate.io.CalibrationIO.read"><code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code></a> returns a <a class="reference internal" href="../../api/resistics.calibrate.data.html#resistics.calibrate.data.CalibrationData" title="resistics.calibrate.data.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a> object. Information about this can be printed to the terminal, giving:</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -372,31 +369,32 @@ RSP files should be named according to the following specification:</p>
 14:10:49 CalibrationData: ####################
 </pre></div>
 </td></tr></table></div>
-<p>Once the calibration data file is read in, the calibration curve can be viewed by using the <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData.view" title="resistics.dataObjects.calibrationData.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData" title="resistics.dataObjects.calibrationData.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a>. By passing a matplotlib figure to this, the layout of the plot can be controlled.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
+<p>Once the calibration data file is read in, the calibration curve can be viewed by using the <a class="reference internal" href="../../api/resistics.calibrate.data.html#resistics.calibrate.data.CalibrationData.view" title="resistics.calibrate.data.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../../api/resistics.calibrate.data.html#resistics.calibrate.data.CalibrationData" title="resistics.calibrate.data.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a>. By passing a matplotlib figure to this, the layout of the plot can be controlled.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>10
+11
 12
 13
 14
 15
 16
-17
-18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSP calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSP.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">calImages</span> <span class="o">/</span> <span class="s2">&quot;calibrationRSP.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
 <img alt="alternate text" src="../../_images/calibrationRSP.png" />
 <p class="caption"><span class="caption-text">Viewing the unextended calibration data</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>The calibration static gain is applied to the magnitude data by default. To view the data without static gain, pass <code class="code python docutils literal notranslate"><span class="name"><span class="pre">staticgain</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">False</span></span></code> to the <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData.view" title="resistics.dataObjects.calibrationData.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> call. Further, to plot the phase in degrees, pass <code class="code python docutils literal notranslate"><span class="name"><span class="pre">degrees</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">True</span></span></code> to  <a class="reference internal" href="../../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData.view" title="resistics.dataObjects.calibrationData.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a>.</p>
+<p>The calibration static gain is applied to the magnitude data by default. To view the data without static gain, pass <code class="code python docutils literal notranslate"><span class="name"><span class="pre">staticgain</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">False</span></span></code> to the <a class="reference internal" href="../../api/resistics.calibrate.data.html#resistics.calibrate.data.CalibrationData.view" title="resistics.calibrate.data.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> call. Further, to plot the phase in degrees, pass <code class="code python docutils literal notranslate"><span class="name"><span class="pre">degrees</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">True</span></span></code> to  <a class="reference internal" href="../../api/resistics.calibrate.data.html#resistics.calibrate.data.CalibrationData.view" title="resistics.calibrate.data.CalibrationData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a>.</p>
 <p>To visualise the influence of the static gain correction, the calibration data can be plotted with and without static gain as shown in the following example.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>20
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>19
+20
 21
 22
 23
@@ -405,8 +403,7 @@ RSP files should be named according to the following specification:</p>
 26
 27
 28
-29
-30</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
@@ -416,18 +413,18 @@ RSP files should be named according to the following specification:</p>
 <span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSP_staticGainAndDegrees.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">calImages</span> <span class="o">/</span> <span class="s2">&quot;calibrationRSP_staticGainAndDegrees.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../../_images/calibrationRSP_staticGainAndDegrees.png" />
 <p class="caption"><span class="caption-text">Viewing the unextended calibration data with and without static gain</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
-<p>The calibration data can be written out in the internal ASCII format using the <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalFormat" title="resistics.ioHandlers.calibrationIO.CalibrationIO.writeInternalFormat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeInternalFormat()</span></code></a> method of <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a>.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>32
-33
-34</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># write as the ASCII format</span>
-<span class="n">rsp2ascii</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;rsp2ascii.TXT&quot;</span><span class="p">)</span>
+<p>The calibration data can be written out in the internal ASCII format using the <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO.writeInternalFormat" title="resistics.calibrate.io.CalibrationIO.writeInternalFormat"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeInternalFormat()</span></code></a> method of <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO" title="resistics.calibrate.io.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a>.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>31
+32
+33</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># write as the ASCII format</span>
+<span class="n">rsp2ascii</span> <span class="o">=</span> <span class="n">calPath</span> <span class="o">/</span> <span class="s2">&quot;rsp2ascii.TXT&quot;</span>
 <span class="n">calIO</span><span class="o">.</span><span class="n">writeInternalFormat</span><span class="p">(</span><span class="n">calData</span><span class="p">,</span> <span class="n">rsp2ascii</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
@@ -538,30 +535,30 @@ CALIBRATION DATA
 <p class="first admonition-title">Note</p>
 <p class="last">When writing out in internal format, the static gain is removed from the magnitude but recorded in the file. When reading in the internal format again, the static gain will be reapplied.</p>
 </div>
-<p>To read in the internal ASCII format calibration file, the parameters of <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO" title="resistics.ioHandlers.calibrationIO.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> need to be reset using the <a class="reference internal" href="../../api/resistics.ioHandlers.calibrationIO.html#resistics.ioHandlers.calibrationIO.CalibrationIO.refresh" title="resistics.ioHandlers.calibrationIO.CalibrationIO.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a> method. This time, the fileformat needs to be set to “induction”.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>36
+<p>To read in the internal ASCII format calibration file, the parameters of <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO" title="resistics.calibrate.io.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> need to be reset using the <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO.refresh" title="resistics.calibrate.io.CalibrationIO.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a> method. This time, the fileformat needs to be set to “induction”.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>35
+36
 37
-38
-39</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># can read this again</span>
+38</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># can read this again</span>
 <span class="n">calIO</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">rsp2ascii</span><span class="p">,</span> <span class="s2">&quot;induction&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">calDataAscii</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="n">calDataAscii</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
 <p>Finally, plotting the original data and the internal ASCII format data can be done in the following way:</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>41
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>40
+41
 42
 43
 44
 45
-46
-47</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot together</span>
+46</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># plot together</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSP calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">calDataAscii</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ASCII calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPvsASCII.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">calImages</span> <span class="o">/</span> <span class="s2">&quot;calibrationRSPvsASCII.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The resultant figure is:</p>
@@ -618,13 +615,11 @@ CALIBRATION DATA
 43
 44
 45
-46
-47</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.calibrationIO</span> <span class="kn">import</span> <span class="n">CalibrationData</span>
+46</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">calPath</span><span class="p">,</span> <span class="n">calImages</span>
+<span class="kn">from</span> <span class="nn">resistics.calibrate.io</span> <span class="kn">import</span> <span class="n">CalibrationIO</span>
 
 <span class="c1"># read RSP calibration data - this is a broadband calibraition - no chopper on or off</span>
-<span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;Metronix_Coil-----TYPE-006_BB-ID-000307.RSP&quot;</span><span class="p">)</span>
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">calPath</span> <span class="o">/</span> <span class="s2">&quot;Metronix_Coil-----TYPE-006_BB-ID-000307.RSP&quot;</span>
 <span class="n">calIO</span> <span class="o">=</span> <span class="n">CalibrationIO</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rsp&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">calData</span> <span class="o">=</span> <span class="n">calIO</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="n">calData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -636,7 +631,7 @@ CALIBRATION DATA
 <span class="n">calData</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;RSP calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSP.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">calImages</span> <span class="o">/</span> <span class="s2">&quot;calibrationRSP.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># plot</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -648,10 +643,10 @@ CALIBRATION DATA
 <span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSP_staticGainAndDegrees.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">calImages</span> <span class="o">/</span> <span class="s2">&quot;calibrationRSP_staticGainAndDegrees.png&quot;</span><span class="p">)</span>
 
 <span class="c1"># write as the ASCII format</span>
-<span class="n">rsp2ascii</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;calData&quot;</span><span class="p">,</span> <span class="s2">&quot;rsp2ascii.TXT&quot;</span><span class="p">)</span>
+<span class="n">rsp2ascii</span> <span class="o">=</span> <span class="n">calPath</span> <span class="o">/</span> <span class="s2">&quot;rsp2ascii.TXT&quot;</span>
 <span class="n">calIO</span><span class="o">.</span><span class="n">writeInternalFormat</span><span class="p">(</span><span class="n">calData</span><span class="p">,</span> <span class="n">rsp2ascii</span><span class="p">)</span>
 
 <span class="c1"># can read this again</span>
@@ -665,7 +660,7 @@ CALIBRATION DATA
 <span class="n">calDataAscii</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ASCII calibration&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;calibrationRSPvsASCII.png&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">calImages</span> <span class="o">/</span> <span class="s2">&quot;calibrationRSPvsASCII.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -852,7 +847,7 @@ CALIBRATION DATA
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

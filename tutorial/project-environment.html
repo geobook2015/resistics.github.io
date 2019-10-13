@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>The project environment &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>The project environment &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -115,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -197,21 +196,17 @@
 <p class="first admonition-title">Note</p>
 <p class="last">The reference time should be a time before any time data was recorded and gives a reference point for time windowing the entire project.</p>
 </div>
-<p>Below is an example of setting up a new project in the folder tutorialProject. The <a class="reference internal" href="../api/resistics.project.projectIO.html#resistics.project.projectIO.newProject" title="resistics.project.projectIO.newProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">newProject()</span></code></a> method create new folders as required and returns a <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a> object which holds the project information.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+<p>Below is an example of setting up a new project in the folder tutorialProject. The <a class="reference internal" href="../api/resistics.project.io.html#resistics.project.io.newProject" title="resistics.project.io.newProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">newProject()</span></code></a> method create new folders as required and returns a <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData" title="resistics.project.data.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a> object which holds the project information.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">newProject</span>
 
-<span class="c1"># define project path</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="c1"># define reference time for project</span>
 <span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2012-02-10 00:00:00&quot;</span>
 <span class="c1"># create a new project and print infomation</span>
@@ -219,7 +214,7 @@
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>Project information can be viewed by calling the <a class="reference internal" href="../api/resistics.dataObjects.dataObject.html#resistics.dataObjects.dataObject.DataObject.printInfo" title="resistics.dataObjects.dataObject.DataObject.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method or by simply <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">print</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">projData</span></span><span class="punctuation"><span class="pre">)</span></span></code>.</p>
+<p>Project information can be viewed by calling the <a class="reference internal" href="../api/resistics.common.base.html#resistics.common.base.ResisticsBase.printInfo" title="resistics.common.base.ResisticsBase.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method or by simply <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">print</span></span><span class="punctuation"><span class="pre">(</span></span><span class="name"><span class="pre">projData</span></span><span class="punctuation"><span class="pre">)</span></span></code>.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>12:34:03 ProjectData: Time data path = tutorialProject\timeData
 12:34:03 ProjectData: Spectra data path = tutorialProject\specData
 12:34:03 ProjectData: Statistics data path = tutorialProject\statData
@@ -254,20 +249,20 @@
 5
 6
 7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Calibration data path = tutorialProject\calData
-Time data path = tutorialProject\timeData
-Spectra data path = tutorialProject\specData
-Statistics data path = tutorialProject\statData
-Mask data path = tutorialProject\maskData
-TransFunc data path = tutorialProject\transFuncData
-Image data path = tutorialProject\images
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Calibration data path = E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\calData
+Time data path = E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\timeData
+Spectra data path = E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\specData
+Statistics data path = E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\statData
+Mask data path = E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\maskData
+TransFunc data path = E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\transFuncData
+Image data path = E:\magnetotellurics\code\resisticsdata\tutorial\tutorialProject\images
 Reference time = 2012-02-10 00:00:00
 </pre></div>
 </td></tr></table></div>
-<p>The next step is to create a directory for a new site. This can be done using the <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData.createSite" title="resistics.dataObjects.projectData.ProjectData.createSite"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createSite()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>. However, printing the project information again still shows zero sites. This is because only folders with timeseries data in them are counted as sites.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11
-12
-13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># create a new site</span>
+<p>The next step is to create a directory for a new site. This can be done using the <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData.createSite" title="resistics.project.data.ProjectData.createSite"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createSite()</span></code></a> method of <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData" title="resistics.project.data.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>. However, printing the project information again still shows zero sites. This is because only folders with timeseries data in them are counted as sites.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># create a new site</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
@@ -319,13 +314,9 @@ Reference time = 2012-02-10 00:00:00
 3
 4
 5
-6
-7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
-<span class="c1"># define project path</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="c1"># load the project and print infomation</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -347,22 +338,22 @@ Reference time = 2012-02-10 00:00:00
 13:01:50 ProjectData: Sampling frequencies found in project (Hz): 128.0, 4096.0
 </pre></div>
 </div>
-<p>Another useful function is to view the project timeline. This can be done with the <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData.view" title="resistics.dataObjects.projectData.ProjectData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>. The <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData.view" title="resistics.dataObjects.projectData.ProjectData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method returns a matplotlib figure object, which can then be saved in the usual way for matplotlib figures.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>10
-11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the project timeline</span>
+<p>Another useful function is to view the project timeline. This can be done with the <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData.view" title="resistics.project.data.ProjectData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData" title="resistics.project.data.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>. The <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData.view" title="resistics.project.data.ProjectData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method returns a matplotlib figure object, which can then be saved in the usual way for matplotlib figures.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># view the project timeline</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;projectTimeline&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;loadProj_projectTimeline&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id1">
-<img alt="alternate text" src="../_images/projectTimeline1.png" />
+<img alt="alternate text" src="../_images/loadProj_projectTimeline.png" />
 <p class="caption"><span class="caption-text">The tutorialProject timeline</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>Site information can be accessed by using the <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData.getSiteData" title="resistics.dataObjects.projectData.ProjectData.getSiteData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getSiteData()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.projectData.html#resistics.dataObjects.projectData.ProjectData" title="resistics.dataObjects.projectData.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>. This returns a  <a class="reference internal" href="../api/resistics.dataObjects.siteData.html#resistics.dataObjects.siteData.SiteData" title="resistics.dataObjects.siteData.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a> object, which holds information about sites. Site information can be printed to the terminal in the same way as project information.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>14
-15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get site data</span>
+<p>Site information can be accessed by using the <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData.getSiteData" title="resistics.project.data.ProjectData.getSiteData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getSiteData()</span></code></a> method of <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData" title="resistics.project.data.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>. This returns a  <a class="reference internal" href="../api/resistics.site.data.html#resistics.site.data.SiteData" title="resistics.site.data.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a> object, which holds information about sites. Site information can be printed to the terminal in the same way as project information.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># get site data</span>
 <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
 <span class="n">siteData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
@@ -381,14 +372,14 @@ Reference time = 2012-02-10 00:00:00
 13:51:26 SiteData: meas_2012-02-10_11-30-00             128.0           2012-02-10 11:30:00         2012-02-11 23:03:43.992188
 </pre></div>
 </div>
-<p>Site timelines can also be viewed using the <a class="reference internal" href="../api/resistics.dataObjects.siteData.html#resistics.dataObjects.siteData.SiteData.view" title="resistics.dataObjects.siteData.SiteData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../api/resistics.dataObjects.siteData.html#resistics.dataObjects.siteData.SiteData" title="resistics.dataObjects.siteData.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a>, which again returns a matplotlib figure object allowing the plot to be easily saved.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>17
-18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;siteTimeline&quot;</span><span class="p">))</span>
+<p>Site timelines can also be viewed using the <a class="reference internal" href="../api/resistics.site.data.html#resistics.site.data.SiteData.view" title="resistics.site.data.SiteData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of <a class="reference internal" href="../api/resistics.site.data.html#resistics.site.data.SiteData" title="resistics.site.data.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a>, which again returns a matplotlib figure object allowing the plot to be easily saved.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;loadProj_siteTimeline&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../_images/siteTimeline1.png" />
+<img alt="alternate text" src="../_images/loadProj_siteTimeline.png" />
 <p class="caption"><span class="caption-text">The site timeline</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="complete-example-scripts">
@@ -405,13 +396,9 @@ Reference time = 2012-02-10 00:00:00
  8
  9
 10
-11
-12
-13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">newProject</span>
 
-<span class="c1"># define project path</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="c1"># define reference time for project</span>
 <span class="n">referenceTime</span> <span class="o">=</span> <span class="s2">&quot;2012-02-10 00:00:00&quot;</span>
 <span class="c1"># create a new project and print infomation</span>
@@ -438,26 +425,22 @@ Reference time = 2012-02-10 00:00:00
 13
 14
 15
-16
-17
-18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">projectPath</span><span class="p">,</span> <span class="n">imagePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
-<span class="c1"># define project path</span>
-<span class="n">projectPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">)</span>
 <span class="c1"># load the project and print infomation</span>
 <span class="n">projData</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">projectPath</span><span class="p">)</span>
 <span class="n">projData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
 <span class="c1"># view the project timeline</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;projectTimeline&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;loadProj_projectTimeline&quot;</span><span class="p">)</span>
 
 <span class="c1"># get site data</span>
 <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
 <span class="n">siteData</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;tutorialProject&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">,</span> <span class="s2">&quot;siteTimeline&quot;</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imagePath</span> <span class="o">/</span> <span class="s2">&quot;loadProj_siteTimeline&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -505,7 +488,7 @@ Reference time = 2012-02-10 00:00:00
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

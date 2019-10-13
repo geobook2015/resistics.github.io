@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pre-processing timeseries data &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Pre-processing timeseries data &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -108,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -181,7 +180,7 @@
             
   <div class="section" id="pre-processing-timeseries-data">
 <h1>Pre-processing timeseries data<a class="headerlink" href="#pre-processing-timeseries-data" title="Permalink to this headline">¶</a></h1>
-<p>There are scenarios in which time series data must be pre-processed and saved before transfer function calculation. Pre-processing is predominantly performed in the project environment using the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. There are several pre-processing options available in <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method, including:</p>
+<p>There are scenarios in which time series data must be pre-processed and saved before transfer function calculation. Pre-processing is predominantly performed in the project environment using the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. There are several pre-processing options available in <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method, including:</p>
 <blockquote>
 <div><ul class="simple">
 <li><a class="reference internal" href="#data-resampling"><span class="std std-ref">Data resampling</span></a></li>
@@ -194,20 +193,20 @@
 <li><a class="reference internal" href="#interpolation-to-second"><span class="std std-ref">Interpolation to second</span></a></li>
 </ul>
 </div></blockquote>
-<p>Another preprocessing method of use, but not available within the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method is gap filling. This can help increase the number of windows at long periods.</p>
+<p>Another preprocessing method of use, but not available within the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method is gap filling. This can help increase the number of windows at long periods.</p>
 <blockquote>
 <div><ul class="simple">
 <li><a class="reference internal" href="#gap-filling"><span class="std std-ref">Gap filling</span></a></li>
 </ul>
 </div></blockquote>
-<p>In addition, there are lower levels APIs for performing these actions for advanced users. Please see the <a class="reference internal" href="../api.html"><span class="doc">API doc</span></a> for more information or check the <a class="reference internal" href="../cookbook.html"><span class="doc">Cookbook</span></a>.</p>
+<p>In addition, there are lower levels APIs for performing these actions for advanced users. Please see the <a class="reference internal" href="../modules.html"><span class="doc">API doc</span></a> for more information or check the <a class="reference internal" href="../cookbook.html"><span class="doc">Cookbook</span></a>.</p>
 <p>The preprocessing options are explained in more detail below. The data is the same 4096 Hz data from the tutorial and is saved in “site1”. A project has already been setup following the instructions in <a class="reference internal" href="../tutorial/project-environment.html"><span class="doc">Project environment</span></a>. In all the following, the project has already been loaded as shown below.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">preprocessPath</span><span class="p">,</span> <span class="n">preprocessImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">preprocessPath</span><span class="p">,</span> <span class="n">preprocessImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
 
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">preprocessPath</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -215,13 +214,13 @@
 </td></tr></table></div>
 <p>For plotting the time data, different plot options are used to give larger fonts. Plot fonts have been defined as follows:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPresentationFonts</span><span class="p">())</span>
 </pre></div>
 </td></tr></table></div>
 <div class="section" id="data-resampling">
 <h2>Data resampling<a class="headerlink" href="#data-resampling" title="Permalink to this headline">¶</a></h2>
-<p>Resampling time series data might be required to ensure matching sampling rates between different datasets, for example a local site and a reference site. This can be achieved through the resampling option in <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method which can save the data either to the same site or to a new site altogether.</p>
+<p>Resampling time series data might be required to ensure matching sampling rates between different datasets, for example a local site and a reference site. This can be achieved through the resampling option in <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method which can save the data either to the same site or to a new site altogether.</p>
 <p>Below is an exampling of downsampling a 4096 Hz dataset to 1024 Hz. The output will be saved to a new site named “site1_resample”. If the site does not already exist, it will be created. The name of the measurement in the new site will be:</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -251,7 +250,7 @@ give an example</p>
 29
 30
 31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># resample to 1024 Hz and save in new site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">preProcess</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">preProcess</span>
 
 <span class="n">preProcess</span><span class="p">(</span>
     <span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="n">resamp</span><span class="o">=</span><span class="p">{</span><span class="mi">4096</span><span class="p">:</span> <span class="mi">1024</span><span class="p">},</span> <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_resample&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
@@ -260,7 +259,7 @@ give an example</p>
 <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
 <span class="c1"># let&#39;s view the time series</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">viewTime</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
     <span class="n">proj</span><span class="p">,</span>
@@ -277,7 +276,7 @@ give an example</p>
 <p>These produce the following plots:</p>
 <div class="align-center figure" id="id1">
 <img alt="alternate text" src="../_images/viewTimeResample.png" />
-<p class="caption"><span class="caption-text">Resampling data from 4096 Hz to 1024 Hz example using the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Resampling data from 4096 Hz to 1024 Hz example using the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="polarity-reversal">
@@ -306,7 +305,7 @@ give an example</p>
 30
 31
 32</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># polarity reverse the Ey channel</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
 
 <span class="n">preProcess</span><span class="p">(</span>
     <span class="n">proj</span><span class="p">,</span>
@@ -333,12 +332,12 @@ give an example</p>
 <p>The results of this can be seen in the following figure.</p>
 <div class="align-center figure" id="id2">
 <img alt="alternate text" src="../_images/viewTimePolarityReversal.png" />
-<p class="caption"><span class="caption-text">Polarity reversal for channel E<sub>y</sub> using the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Polarity reversal for channel E<sub>y</sub> using the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="scaling">
 <h2>Scaling<a class="headerlink" href="#scaling" title="Permalink to this headline">¶</a></h2>
-<p>If more arbitrary scaling control is required than simply multiplying by -1, the scale option of <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> can be used.</p>
+<p>If more arbitrary scaling control is required than simply multiplying by -1, the scale option of <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> can be used.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>34
 35
 36
@@ -383,7 +382,7 @@ give an example</p>
 <p>This will scale the E<sub>x</sub> channel by -2 and the E<sub>y</sub> channel by 0.5.</p>
 <div class="align-center figure" id="id3">
 <img alt="alternate text" src="../_images/viewTimeScale.png" />
-<p class="caption"><span class="caption-text">Scaling channel E<sub>x</sub> by -2 and E<sub>y</sub> by 0.5 using the scale option of the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Scaling channel E<sub>x</sub> by -2 and E<sub>y</sub> by 0.5 using the scale option of the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="calibration">
@@ -426,12 +425,12 @@ give an example</p>
 <p>This will calibrate the magnetic channels in the data, converting them from mV to nT.</p>
 <div class="align-center figure" id="id4">
 <img alt="alternate text" src="../_images/viewTimeCalibrate.png" />
-<p class="caption"><span class="caption-text">Calibrating the magnetic channels of the data using the calibration option of the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Calibrating the magnetic channels of the data using the calibration option of the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="low-band-and-high-pass-filtering">
 <h2>Low, band and high pass filtering<a class="headerlink" href="#low-band-and-high-pass-filtering" title="Permalink to this headline">¶</a></h2>
-<p>Time series data can be low, band and high pass filtered as required. This normally useful for viewing but can be useful for exporting or other purposes. Filter options can be specified in Hz using the <em>filter</em> keyword to the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. The keyword expects a dictionary with various filter options such as:</p>
+<p>Time series data can be low, band and high pass filtered as required. This normally useful for viewing but can be useful for exporting or other purposes. Filter options can be specified in Hz using the <em>filter</em> keyword to the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. The keyword expects a dictionary with various filter options such as:</p>
 <ul class="simple">
 <li>lpfilt : low pass filtering</li>
 <li>hpfilt : high pass filtering</li>
@@ -458,7 +457,7 @@ give an example</p>
 26
 27
 28</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># resample to 1024 Hz and save in new site</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
 
 <span class="n">preProcess</span><span class="p">(</span>
     <span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lpfilt&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">},</span> <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_lowpass&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
@@ -480,7 +479,7 @@ give an example</p>
 </td></tr></table></div>
 <div class="align-center figure" id="id5">
 <img alt="alternate text" src="../_images/viewTimeLowpass.png" />
-<p class="caption"><span class="caption-text">Low pass filtering the time series data and saving it out to another site using the <em>filter</em> keyword to the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Low pass filtering the time series data and saving it out to another site using the <em>filter</em> keyword to the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 <p>Highpass filtering can be specified in a similar way.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>30
@@ -518,7 +517,7 @@ give an example</p>
 </td></tr></table></div>
 <div class="align-center figure" id="id6">
 <img alt="alternate text" src="../_images/viewTimeHighpass.png" />
-<p class="caption"><span class="caption-text">High pass filtering the time series data and saving it out to another site using the <em>filter</em> keyword to the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">High pass filtering the time series data and saving it out to another site using the <em>filter</em> keyword to the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
 </div>
 <p>Band pass filtering can performed as follows:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>47
@@ -564,12 +563,12 @@ give an example</p>
 </td></tr></table></div>
 <div class="align-center figure" id="id7">
 <img alt="alternate text" src="../_images/viewTimeBandpass.png" />
-<p class="caption"><span class="caption-text">Band pass filtering the time series data and saving it out to another site using the <em>filter</em> keyword to the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. Unlike high pass or low pass filtering, two frequencies need to provided, one defining the low cut and the other, the high cut.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Band pass filtering the time series data and saving it out to another site using the <em>filter</em> keyword to the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. Unlike high pass or low pass filtering, two frequencies need to provided, one defining the low cut and the other, the high cut.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="notch-filter">
 <h2>Notch filter<a class="headerlink" href="#notch-filter" title="Permalink to this headline">¶</a></h2>
-<p>Notch filters are useful ways to remove unwanted signal in data. The most common frequency domain noise spikes which may need filtering are powerline noise or railway noise at 50 Hz and 16.6 Hz respectively. Notching frequencies are specified in Hz using the <em>notch</em> keyword to the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. This is expected to be a list of frequencies to notch in Hz.</p>
+<p>Notch filters are useful ways to remove unwanted signal in data. The most common frequency domain noise spikes which may need filtering are powerline noise or railway noise at 50 Hz and 16.6 Hz respectively. Notching frequencies are specified in Hz using the <em>notch</em> keyword to the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. This is expected to be a list of frequencies to notch in Hz.</p>
 <p>An example is given below of removing 50 Hz from time series data.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>68
 69
@@ -602,7 +601,7 @@ give an example</p>
 </td></tr></table></div>
 <div class="align-center figure" id="id8">
 <img alt="alternate text" src="../_images/viewTimeNotch.png" />
-<p class="caption"><span class="caption-text">Notch filtering the time series data and saving it out to another site using the <em>notch</em> keyword to the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Notch filtering the time series data and saving it out to another site using the <em>notch</em> keyword to the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="data-normalisation">
@@ -653,7 +652,7 @@ give an example</p>
 </td></tr></table></div>
 <div class="align-center figure" id="id9">
 <img alt="alternate text" src="../_images/viewTimeNorm.png" />
-<p class="caption"><span class="caption-text">Normalising the time series data and saving it out to another site using the <em>normalise</em> keyword to the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Normalising the time series data and saving it out to another site using the <em>normalise</em> keyword to the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="interpolation-to-second">
@@ -662,7 +661,7 @@ give an example</p>
 </div>
 <div class="section" id="gap-filling">
 <h2>Gap filling<a class="headerlink" href="#gap-filling" title="Permalink to this headline">¶</a></h2>
-<p>In some situations, it is beneficial to stitch together two separate time series to increase the number of windows at long periods. This can be done through gap filling. However, resistics gap filling is external to the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.preProcess" title="resistics.project.projectTime.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method and has to be specified using other APIs.</p>
+<p>In some situations, it is beneficial to stitch together two separate time series to increase the number of windows at long periods. This can be done through gap filling. However, resistics gap filling is external to the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method and has to be specified using other APIs.</p>
 <p>To see an example, begin by saving smaller pieces of data from site1. Here, two smaller subsets are being saved to the same site, “site1_gaps”. To understand more about data readers in resistics, please see <a class="reference internal" href="../formats/timeseries.html"><span class="doc">time series formats</span></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>12
 13
@@ -707,10 +706,10 @@ give an example</p>
 52
 53
 54
-55</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderATS</span> <span class="kn">import</span> <span class="n">DataReaderATS</span>
+55</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.time.reader_ats</span> <span class="kn">import</span> <span class="n">TimeReaderATS</span>
 
 <span class="n">site1</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
-<span class="n">readerATS</span> <span class="o">=</span> <span class="n">DataReaderATS</span><span class="p">(</span><span class="n">site1</span><span class="o">.</span><span class="n">getMeasurementTimePath</span><span class="p">(</span><span class="s2">&quot;meas_2012-02-10_11-05-00&quot;</span><span class="p">))</span>
+<span class="n">readerATS</span> <span class="o">=</span> <span class="n">TimeReaderATS</span><span class="p">(</span><span class="n">site1</span><span class="o">.</span><span class="n">getMeasurementTimePath</span><span class="p">(</span><span class="s2">&quot;meas_2012-02-10_11-05-00&quot;</span><span class="p">))</span>
 <span class="c1"># headers of recording</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="n">readerATS</span><span class="o">.</span><span class="n">getHeaders</span><span class="p">()</span>
 <span class="n">chanHeaders</span><span class="p">,</span> <span class="n">chanMap</span> <span class="o">=</span> <span class="n">readerATS</span><span class="o">.</span><span class="n">getChanHeaders</span><span class="p">()</span>
@@ -722,12 +721,12 @@ give an example</p>
     <span class="s2">&quot;2012-02-10 11:10:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2012-02-10 11:14:00&quot;</span><span class="p">,</span> <span class="n">remaverage</span><span class="o">=</span><span class="bp">False</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataWriterInternal</span> <span class="kn">import</span> <span class="n">DataWriterInternal</span>
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
 
 <span class="c1"># create a new site</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;site1_gaps&quot;</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span>
     <span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">timePath</span><span class="p">,</span> <span class="s2">&quot;site1_gaps&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-05-00_section1&quot;</span><span class="p">)</span>
 <span class="p">)</span>
@@ -737,7 +736,7 @@ give an example</p>
 <span class="p">)</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">writeData</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">chanHeaders</span><span class="p">,</span> <span class="n">timeOriginal2</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">viewTime</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">viewTime</span>
 
 <span class="c1"># now view time</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
@@ -757,8 +756,8 @@ give an example</p>
 <img alt="alternate text" src="../_images/viewTimeGaps.png" />
 <p class="caption"><span class="caption-text">Splitting up site1 data into two smaller measurements in a new site named “site1_gaps”. Note, for the electric channel, the data does not sit on top of each other because the mean is being removed from all the measurements independently for visualisation.</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
 </div>
-<p>It is important at this stage not to remove the mean when getting the time data. Removing the mean will remove separate means for the independent sub time series as can be seen in the above figure. Mean is removed automatically for visualisation when using the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.viewTime" title="resistics.project.projectTime.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">resistics.project.projectTime.viewTime()</span></code></a> method. However, by specifying when getting the time data that <code class="code python docutils literal notranslate"><span class="name"><span class="pre">remaverage</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">False</span></span></code>, the underlying data will still have the original average when written out.</p>
-<p>The next stage is to read the separate data in as <a class="reference internal" href="../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> objects by using the <a class="reference internal" href="../api/resistics.ioHandlers.dataReaderInternal.html#resistics.ioHandlers.dataReaderInternal.DataReaderInternal" title="resistics.ioHandlers.dataReaderInternal.DataReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReaderInternal</span></code></a> class.</p>
+<p>It is important at this stage not to remove the mean when getting the time data. Removing the mean will remove separate means for the independent sub time series as can be seen in the above figure. Mean is removed automatically for visualisation when using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code> method. However, by specifying when getting the time data that <code class="code python docutils literal notranslate"><span class="name"><span class="pre">remaverage</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">False</span></span></code>, the underlying data will still have the original average when written out.</p>
+<p>The next stage is to read the separate data in as <a class="reference internal" href="../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> objects by using the <a class="reference internal" href="../api/resistics.time.reader_internal.html#resistics.time.reader_internal.TimeReaderInternal" title="resistics.time.reader_internal.TimeReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderInternal</span></code></a> class.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>57
 58
 59
@@ -772,30 +771,30 @@ give an example</p>
 67
 68
 69
-70</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.ioHandlers.dataReaderInternal</span> <span class="kn">import</span> <span class="n">DataReaderInternal</span>
+70</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
 
 <span class="n">siteGaps</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1_gaps&quot;</span><span class="p">)</span>
-<span class="n">readerSection1</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span>
+<span class="n">readerSection1</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span>
     <span class="n">siteGaps</span><span class="o">.</span><span class="n">getMeasurementTimePath</span><span class="p">(</span><span class="s2">&quot;meas_2012-02-10_11-05-00_section1&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">timeData1</span> <span class="o">=</span> <span class="n">readerSection1</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">(</span><span class="n">remaverage</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">timeData1</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
-<span class="n">readerSection2</span> <span class="o">=</span> <span class="n">DataReaderInternal</span><span class="p">(</span>
+<span class="n">readerSection2</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span>
     <span class="n">siteGaps</span><span class="o">.</span><span class="n">getMeasurementTimePath</span><span class="p">(</span><span class="s2">&quot;meas_2012-02-10_11-05-00_section2&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">timeData2</span> <span class="o">=</span> <span class="n">readerSection2</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">(</span><span class="n">remaverage</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">timeData2</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The two separate datasets can be stitched together using the <a class="reference internal" href="../api/resistics.utilities.utilsInterp.html#resistics.utilities.utilsInterp.fillGap" title="resistics.utilities.utilsInterp.fillGap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">resistics.utilities.utilsInterp.fillGap()</span></code></a> method of module <a class="reference internal" href="../api/resistics.utilities.utilsInterp.html#module-resistics.utilities.utilsInterp" title="resistics.utilities.utilsInterp"><code class="xref py py-mod docutils literal notranslate"><span class="pre">resistics.utilities.utilsInterp</span></code></a>.</p>
+<p>The two separate datasets can be stitched together using the <a class="reference internal" href="../api/resistics.time.interp.html#resistics.time.interp.fillGap" title="resistics.time.interp.fillGap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">fillGap()</span></code></a> method of module <a class="reference internal" href="../api/resistics.time.interp.html#module-resistics.time.interp" title="resistics.time.interp"><code class="xref py py-mod docutils literal notranslate"><span class="pre">interp</span></code></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>68
 69
 70
 71
 72
 73
-74</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.utilities.utilsInterp</span> <span class="kn">import</span> <span class="n">fillGap</span>
+74</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.time.interp</span> <span class="kn">import</span> <span class="n">fillGap</span>
 
 <span class="n">timeDataFilled</span> <span class="o">=</span> <span class="n">fillGap</span><span class="p">(</span><span class="n">timeData1</span><span class="p">,</span> <span class="n">timeData2</span><span class="p">)</span>
 <span class="n">timeDataFilled</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -804,12 +803,12 @@ give an example</p>
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;timeDataFilled.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
-<p>The filled time data can be viewed using the <a class="reference internal" href="../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData.view" title="resistics.dataObjects.timeData.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of the <a class="reference internal" href="../api/resistics.dataObjects.timeData.html#resistics.dataObjects.timeData.TimeData" title="resistics.dataObjects.timeData.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> class.</p>
+<p>The filled time data can be viewed using the <a class="reference internal" href="../api/resistics.time.data.html#resistics.time.data.TimeData.view" title="resistics.time.data.TimeData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a> method of the <a class="reference internal" href="../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> class.</p>
 <div class="align-center figure" id="id11">
 <img alt="alternate text" src="../_images/timeDataFilled.png" />
 <p class="caption"><span class="caption-text">The filled time data. The missing points have now been filled in linearly between the two datasets. Note, this data is not low pass filtered like in the previous plot.</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
 </div>
-<p>Now the data can be written out using the <a class="reference internal" href="../api/resistics.ioHandlers.dataWriterInternal.html#resistics.ioHandlers.dataWriterInternal.DataWriterInternal" title="resistics.ioHandlers.dataWriterInternal.DataWriterInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataWriterInternal</span></code></a> class.</p>
+<p>Now the data can be written out using the <a class="reference internal" href="../api/resistics.time.writer_internal.html#resistics.time.writer_internal.TimeWriterInternal" title="resistics.time.writer_internal.TimeWriterInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeWriterInternal</span></code></a> class.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>80
 81
 82
@@ -825,7 +824,7 @@ give an example</p>
 <span class="n">proj</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;site1_filled&quot;</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 <span class="c1"># use channel headers from one of the datasets, stop date will be automatically amended</span>
-<span class="n">writer</span> <span class="o">=</span> <span class="n">DataWriterInternal</span><span class="p">()</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
 <span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span>
     <span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">timePath</span><span class="p">,</span> <span class="s2">&quot;site1_filled&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-05-00_filled&quot;</span><span class="p">)</span>
 <span class="p">)</span>
@@ -900,7 +899,10 @@ give an example</p>
 32
 33
 34
-35</pre></div></td><td class="code"><div class="highlight"><pre><span></span>-----------------------------
+35
+36
+37
+38</pre></div></td><td class="code"><div class="highlight"><pre><span></span>-----------------------------
 TimeData1 comments
 Unscaled data 2012-02-10 11:05:00 to 2012-02-10 11:09:00 read in from measurement E:\magnetotellurics\code\resisticsdata\advanced\preprocessProject\timeData\site1\meas_2012-02-10_11-05-00, samples 0 to 983040
 Sampling frequency 4096.0
@@ -912,7 +914,8 @@ Scaling channel Hx with scalar -0.00360174 to give mV
 Scaling channel Hy with scalar -0.00360038 to give mV
 Scaling channel Hz with scalar -0.0036007 to give mV
 Remove zeros: False, remove nans: False, remove average: False
-Dataset written to E:\magnetotellurics\code\resisticsdata\advanced\preprocessProject\timeData\site1_gaps\meas_2012-02-10_11-05-00_section1 on 2019-09-28 15:23:24.053960
+Time series dataset written to E:\magnetotellurics\code\resisticsdata\advanced\preprocessProject\timeData\site1_gaps\meas_2012-02-10_11-05-00_section1 on 2019-10-05 22:46:06.751226 using resistics 0.0.6.dev2
+---------------------------------------------------
 Unscaled data 2012-02-10 11:05:00 to 2012-02-10 11:09:00 read in from measurement E:\magnetotellurics\code\resisticsdata\advanced\preprocessProject\timeData\site1_gaps\meas_2012-02-10_11-05-00_section1, samples 0 to 983040
 Sampling frequency 4096.0
 Remove zeros: False, remove nans: False, remove average: False
@@ -928,13 +931,655 @@ Scaling channel Hx with scalar -0.00360174 to give mV
 Scaling channel Hy with scalar -0.00360038 to give mV
 Scaling channel Hz with scalar -0.0036007 to give mV
 Remove zeros: False, remove nans: False, remove average: False
-Dataset written to E:\magnetotellurics\code\resisticsdata\advanced\preprocessProject\timeData\site1_gaps\meas_2012-02-10_11-05-00_section2 on 2019-09-28 15:23:24.120020
+Time series dataset written to E:\magnetotellurics\code\resisticsdata\advanced\preprocessProject\timeData\site1_gaps\meas_2012-02-10_11-05-00_section2 on 2019-10-05 22:46:06.814273 using resistics 0.0.6.dev2
+---------------------------------------------------
 Unscaled data 2012-02-10 11:10:00 to 2012-02-10 11:14:00 read in from measurement E:\magnetotellurics\code\resisticsdata\advanced\preprocessProject\timeData\site1_gaps\meas_2012-02-10_11-05-00_section2, samples 0 to 983040
 Sampling frequency 4096.0
 Remove zeros: False, remove nans: False, remove average: False
 -----------------------------
 Gap filled from 2012-02-10 11:09:00.000244 to 2012-02-10 11:09:59.999756
-Dataset written to E:\magnetotellurics\code\resisticsdata\advanced\preprocessProject\timeData\site1_filled\meas_2012-02-10_11-05-00_filled on 2019-09-28 15:24:16.204023
+Time series dataset written to E:\magnetotellurics\code\resisticsdata\advanced\preprocessProject\timeData\site1_filled\meas_2012-02-10_11-05-00_filled on 2019-10-05 22:46:58.830430 using resistics 0.0.6.dev2
+---------------------------------------------------
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="complete-example-scripts">
+<h2>Complete example scripts<a class="headerlink" href="#complete-example-scripts" title="Permalink to this headline">¶</a></h2>
+<p>For the purposes of clarity, the complete example scripts are provided below.</p>
+<p>Project create:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">preprocessPath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">newProject</span>
+
+<span class="n">refTime</span> <span class="o">=</span> <span class="s2">&quot;2012-02-10 00:00:00&quot;</span>
+<span class="n">newProject</span><span class="p">(</span><span class="n">preprocessPath</span><span class="p">,</span> <span class="n">refTime</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Data resampling:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">preprocessPath</span><span class="p">,</span> <span class="n">preprocessImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">preprocessPath</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
+<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPresentationFonts</span><span class="p">())</span>
+
+<span class="c1"># resample to 1024 Hz and save in new site</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">preProcess</span>
+
+<span class="n">preProcess</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="n">resamp</span><span class="o">=</span><span class="p">{</span><span class="mi">4096</span><span class="p">:</span> <span class="mi">1024</span><span class="p">},</span> <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_resample&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="c1"># let&#39;s view the time series</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">viewTime</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:03&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_resample&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeResample.png&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Scaling, polarity reversal, normalising:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">preprocessPath</span><span class="p">,</span> <span class="n">preprocessImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">preprocessPath</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
+<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPresentationFonts</span><span class="p">())</span>
+
+<span class="c1"># polarity reverse the Ey channel</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
+
+<span class="n">preProcess</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span>
+    <span class="n">polreverse</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Ey&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+    <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_polreverse&quot;</span><span class="p">,</span>
+    <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:01&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_polreverse&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimePolarityReversal.png&quot;</span><span class="p">)</span>
+
+<span class="n">preProcess</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span>
+    <span class="n">scale</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Ex&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span>
+    <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_scale&quot;</span><span class="p">,</span>
+    <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:01&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_scale&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeScale.png&quot;</span><span class="p">)</span>
+
+<span class="c1"># normalisation</span>
+<span class="n">preProcess</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span>
+    <span class="n">normalise</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_norm&quot;</span><span class="p">,</span>
+    <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:01&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_norm&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeNorm.png&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Filtering and calibrating:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">preprocessPath</span><span class="p">,</span> <span class="n">preprocessImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">preprocessPath</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
+<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPresentationFonts</span><span class="p">())</span>
+
+<span class="c1"># resample to 1024 Hz and save in new site</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
+
+<span class="n">preProcess</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lpfilt&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">},</span> <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_lowpass&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:03&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_lowpass&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeLowpass.png&quot;</span><span class="p">)</span>
+
+<span class="n">preProcess</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;hpfilt&quot;</span><span class="p">:</span> <span class="mi">512</span><span class="p">},</span> <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_highpass&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:03&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_highpass&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeHighpass.png&quot;</span><span class="p">)</span>
+
+<span class="n">preProcess</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;bpfilt&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2000</span><span class="p">]},</span>
+    <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_bandpass&quot;</span><span class="p">,</span>
+    <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:03&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_bandpass&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeBandpass.png&quot;</span><span class="p">)</span>
+
+<span class="n">preProcess</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="n">notch</span><span class="o">=</span><span class="p">[</span><span class="mi">50</span><span class="p">],</span> <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_notch&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:03&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_notch&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">,</span> <span class="s2">&quot;Hz&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeNotch.png&quot;</span><span class="p">)</span>
+
+<span class="n">preProcess</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span> <span class="n">sites</span><span class="o">=</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="n">calibrate</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">outputsite</span><span class="o">=</span><span class="s2">&quot;site1_calibrate&quot;</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:03&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_calibrate&quot;</span><span class="p">],</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hx&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeCalibrate.png&quot;</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Gap filling:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">preprocessPath</span><span class="p">,</span> <span class="n">preprocessImages</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">preprocessPath</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
+
+<span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPresentationFonts</span><span class="p">())</span>
+
+<span class="kn">from</span> <span class="nn">resistics.time.reader_ats</span> <span class="kn">import</span> <span class="n">TimeReaderATS</span>
+
+<span class="n">site1</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1&quot;</span><span class="p">)</span>
+<span class="n">readerATS</span> <span class="o">=</span> <span class="n">TimeReaderATS</span><span class="p">(</span><span class="n">site1</span><span class="o">.</span><span class="n">getMeasurementTimePath</span><span class="p">(</span><span class="s2">&quot;meas_2012-02-10_11-05-00&quot;</span><span class="p">))</span>
+<span class="c1"># headers of recording</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="n">readerATS</span><span class="o">.</span><span class="n">getHeaders</span><span class="p">()</span>
+<span class="n">chanHeaders</span><span class="p">,</span> <span class="n">chanMap</span> <span class="o">=</span> <span class="n">readerATS</span><span class="o">.</span><span class="n">getChanHeaders</span><span class="p">()</span>
+<span class="c1"># separate out two datasets</span>
+<span class="n">timeOriginal1</span> <span class="o">=</span> <span class="n">readerATS</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2012-02-10 11:09:00&quot;</span><span class="p">,</span> <span class="n">remaverage</span><span class="o">=</span><span class="bp">False</span>
+<span class="p">)</span>
+<span class="n">timeOriginal2</span> <span class="o">=</span> <span class="n">readerATS</span><span class="o">.</span><span class="n">getPhysicalData</span><span class="p">(</span>
+    <span class="s2">&quot;2012-02-10 11:10:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2012-02-10 11:14:00&quot;</span><span class="p">,</span> <span class="n">remaverage</span><span class="o">=</span><span class="bp">False</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">resistics.time.writer_internal</span> <span class="kn">import</span> <span class="n">TimeWriterInternal</span>
+
+<span class="c1"># create a new site</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;site1_gaps&quot;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">timePath</span><span class="p">,</span> <span class="s2">&quot;site1_gaps&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-05-00_section1&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">writeData</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">chanHeaders</span><span class="p">,</span> <span class="n">timeOriginal1</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">timePath</span><span class="p">,</span> <span class="s2">&quot;site1_gaps&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-05-00_section2&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">writeData</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">chanHeaders</span><span class="p">,</span> <span class="n">timeOriginal2</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">viewTime</span>
+
+<span class="c1"># now view time</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:14:00&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_gaps&quot;</span><span class="p">],</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lpfilt&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">},</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeGaps.png&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">resistics.time.reader_internal</span> <span class="kn">import</span> <span class="n">TimeReaderInternal</span>
+
+<span class="n">siteGaps</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="s2">&quot;site1_gaps&quot;</span><span class="p">)</span>
+<span class="n">readerSection1</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span>
+    <span class="n">siteGaps</span><span class="o">.</span><span class="n">getMeasurementTimePath</span><span class="p">(</span><span class="s2">&quot;meas_2012-02-10_11-05-00_section1&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">timeData1</span> <span class="o">=</span> <span class="n">readerSection1</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">(</span><span class="n">remaverage</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">timeData1</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="n">readerSection2</span> <span class="o">=</span> <span class="n">TimeReaderInternal</span><span class="p">(</span>
+    <span class="n">siteGaps</span><span class="o">.</span><span class="n">getMeasurementTimePath</span><span class="p">(</span><span class="s2">&quot;meas_2012-02-10_11-05-00_section2&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">timeData2</span> <span class="o">=</span> <span class="n">readerSection2</span><span class="o">.</span><span class="n">getPhysicalSamples</span><span class="p">(</span><span class="n">remaverage</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">timeData2</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">resistics.time.interp</span> <span class="kn">import</span> <span class="n">fillGap</span>
+
+<span class="n">timeDataFilled</span> <span class="o">=</span> <span class="n">fillGap</span><span class="p">(</span><span class="n">timeData1</span><span class="p">,</span> <span class="n">timeData2</span><span class="p">)</span>
+<span class="n">timeDataFilled</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
+<span class="n">samplesToView</span> <span class="o">=</span> <span class="mi">14</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">4096</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">timeDataFilled</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">sampleStop</span><span class="o">=</span><span class="n">samplesToView</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;timeDataFilled.png&quot;</span><span class="p">)</span>
+
+<span class="c1"># create a new site to write out to</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">createSite</span><span class="p">(</span><span class="s2">&quot;site1_filled&quot;</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="c1"># use channel headers from one of the datasets, stop date will be automatically amended</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">TimeWriterInternal</span><span class="p">()</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">setOutPath</span><span class="p">(</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">timePath</span><span class="p">,</span> <span class="s2">&quot;site1_filled&quot;</span><span class="p">,</span> <span class="s2">&quot;meas_2012-02-10_11-05-00_filled&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="n">readerSection1</span><span class="o">.</span><span class="n">getHeaders</span><span class="p">()</span>
+<span class="n">chanHeaders</span><span class="p">,</span> <span class="n">chanMap</span> <span class="o">=</span> <span class="n">readerSection1</span><span class="o">.</span><span class="n">getChanHeaders</span><span class="p">()</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">writeData</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">chanHeaders</span><span class="p">,</span> <span class="n">timeDataFilled</span><span class="p">,</span> <span class="n">physical</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+
+<span class="c1"># now view time</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
+    <span class="n">proj</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:05:00&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2012-02-10 11:14:00&quot;</span><span class="p">,</span>
+    <span class="n">sites</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;site1&quot;</span><span class="p">,</span> <span class="s2">&quot;site1_filled&quot;</span><span class="p">],</span>
+    <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;lpfilt&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">},</span>
+    <span class="n">chans</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">],</span>
+    <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">plotoptions</span><span class="o">=</span><span class="n">plotOptions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">preprocessImages</span> <span class="o">/</span> <span class="s2">&quot;viewTimeGapsFilled.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -982,7 +1627,7 @@ Dataset written to E:\magnetotellurics\code\resisticsdata\advanced\preprocessPro
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

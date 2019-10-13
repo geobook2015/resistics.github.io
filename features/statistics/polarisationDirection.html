@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Polarisation Directions &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Polarisation directions &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -32,8 +32,8 @@
   <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Transfer Functions" href="transferFunction.html" />
-    <link rel="prev" title="Partial Coherences" href="partialCoherence.html" /> 
+    <link rel="next" title="Transfer functions" href="transferFunction.html" />
+    <link rel="prev" title="Partial coherence" href="partialCoherence.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -91,19 +91,19 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../features.html">Features</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../configuration.html">Configuration files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../comments.html">Comments</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../statistics.html">Statistics</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="powerSpectralDensity.html">Power Spectral Density</a></li>
-<li class="toctree-l3"><a class="reference internal" href="coherences.html">Coherence</a></li>
-<li class="toctree-l3"><a class="reference internal" href="partialCoherence.html">Partial Coherences</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Polarisation Directions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="transferFunction.html">Transfer Functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="resistivityPhase.html">Resistivity and Phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="absval.html">Absolute value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="powerSpectralDensity.html">Power spectral density</a></li>
+<li class="toctree-l3"><a class="reference internal" href="coherence.html">Coherence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="partialCoherence.html">Partial coherence</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Polarisation directions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="transferFunction.html">Transfer functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistivityPhase.html">Resistivity and phase</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../remote-statistics.html">Remote reference statistics</a></li>
@@ -115,7 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../donate.html">Donate</a></li>
@@ -169,7 +169,7 @@
         
           <li><a href="../statistics.html">Statistics</a> &raquo;</li>
         
-      <li>Polarisation Directions</li>
+      <li>Polarisation directions</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -189,15 +189,42 @@
            <div itemprop="articleBody">
             
   <div class="section" id="polarisation-directions">
-<h1>Polarisation Directions<a class="headerlink" href="#polarisation-directions" title="Permalink to this headline">¶</a></h1>
-<p>The polarisation of light is the direction in which the electric field osciallates.</p>
-<div class="align-center figure" id="id1">
-<img alt="alternate text" src="../../_images/histPolarisationDirection.png" />
-<p class="caption"><span class="caption-text">A histogram of coherence values for the various coherence pairs</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<h1>Polarisation directions<a class="headerlink" href="#polarisation-directions" title="Permalink to this headline">¶</a></h1>
+<p>The polarisation directions of the electric and magnetic fields are given by:</p>
+<div class="math notranslate nohighlight">
+\begin{eqnarray}
+\alpha_E &amp; = &amp; \arctan{\frac{2 Re({E_x E_y^*})}{[E_x E_x^*] - [E_y E_y^*]}} \\
+\alpha_B &amp; = &amp; \arctan{\frac{2 Re({B_x B_y^*})}{[B_x B_x^*] - [B_y B_y^*]}}
+\end{eqnarray}</div><p>The equations describe how two orthogonal field components with constant phasing vary.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>The resistics name for the polarisation direction statistic is: <strong>polarisationDirection</strong>.</p>
+<p>The components of polarisation direction statistic are:</p>
+<ul class="last simple">
+<li>pol E<sub>x</sub> E<sub>y</sub> describing the time-harmonic variation between the two orthogonal components of the electric field, corresponding to <span class="math notranslate nohighlight">\(\alpha_E\)</span>.</li>
+<li>pol H<sub>x</sub> H<sub>y</sub> describing the time-harmonic variation between the two orthogonal components of the magnetic field, corresponding to <span class="math notranslate nohighlight">\(\alpha_B\)</span>.</li>
+</ul>
 </div>
+<p>For magnetotelluric data, which has numerous sources of electromagnetic energy (solar activity, atmospheric currents etc.), it is not expected that there is a coherent polarisation direction i.e. the polarisation direction should vary.</p>
+<p>When the polarisation direction holds a consistent value, this implies that there is an unexpected source of electromagnetic energy. This is particularly true for the magnetic field, which is the input to our system.</p>
+<p>Below is an example of polarisation direction over time. The polarisation directions here appear to be quite consistent, suggesting an unexpected source of electromagnetic energy.</p>
+<div class="align-center figure" id="id1">
+<a class="reference internal image-reference" href="../../_images/M1_polarisationDirection_view_4096.png"><img alt="alternate text" src="../../_images/M1_polarisationDirection_view_4096.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-text">Polarisation directions plotted over time for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>A histogram of the polarisation direction confirms that they are consistent over time.</p>
 <div class="align-center figure" id="id2">
-<img alt="alternate text" src="../../_images/timePolarisationDirection.png" />
-<p class="caption"><span class="caption-text">An example of coherence pairs plotted over time</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<a class="reference internal image-reference" href="../../_images/M1_polarisationDirection_histogram_4096.png"><img alt="alternate text" src="../../_images/M1_polarisationDirection_histogram_4096.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-text">Polarisation direction plotted as a histogram for evaluation frequency 1024 Hz</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>By contrast, the below two examples demonstrate large variations in polarisation directions, in concordance with natural sources of magnetotelluric energy.</p>
+<div class="align-center figure" id="id3">
+<a class="reference internal image-reference" href="../../_images/Remote_polarisationDirection_view_128.png"><img alt="alternate text" src="../../_images/Remote_polarisationDirection_view_128.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-text">Polarisation directions plotted over time for evaluation frequency 32 Hz</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<div class="align-center figure" id="id4">
+<a class="reference internal image-reference" href="../../_images/Remote_polarisationDirection_histogram_128.png"><img alt="alternate text" src="../../_images/Remote_polarisationDirection_histogram_128.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-text">Polarisation direction plotted as a histogram for evaluation frequency 32 Hz</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 
@@ -209,10 +236,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="transferFunction.html" class="btn btn-neutral float-right" title="Transfer Functions" accesskey="n" rel="next">Next</a>
+        <a href="transferFunction.html" class="btn btn-neutral float-right" title="Transfer functions" accesskey="n" rel="next">Next</a>
       
       
-        <a href="partialCoherence.html" class="btn btn-neutral" title="Partial Coherences" accesskey="p" rel="prev">Previous</a>
+        <a href="partialCoherence.html" class="btn btn-neutral" title="Partial coherence" accesskey="p" rel="prev">Previous</a>
       
     </div>
   
@@ -243,7 +270,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

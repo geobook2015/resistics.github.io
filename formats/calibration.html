@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Calibration data &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Calibration data &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -111,7 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -184,7 +183,7 @@
             
   <div class="section" id="calibration-data">
 <h1>Calibration data<a class="headerlink" href="#calibration-data" title="Permalink to this headline">¶</a></h1>
-<p>Calibration data for magnetotelluric recordings comes in many different flavours. Resistics aim to provide a unified experience when handling calibration data. This means that upon reading a calibration data file, a <a class="reference internal" href="../api/resistics.dataObjects.calibrationData.html#resistics.dataObjects.calibrationData.CalibrationData" title="resistics.dataObjects.calibrationData.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a> object is returned, which has the calibration data in units:</p>
+<p>Calibration data for magnetotelluric recordings comes in many different flavours. Resistics aim to provide a unified experience when handling calibration data. This means that upon reading a calibration data file, a <a class="reference internal" href="../api/resistics.calibrate.data.html#resistics.calibrate.data.CalibrationData" title="resistics.calibrate.data.CalibrationData"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationData</span></code></a> object is returned, which has the calibration data in units:</p>
 <ul class="simple">
 <li>Magnitude in mV/nT (with static gain applied)</li>
 <li>Phase in radians</li>
@@ -194,12 +193,14 @@
 <p class="last">Any static gain is automatically added to the calibration data upon read. If the static gain is not desired, please set this to 1 in the calibration file.</p>
 </div>
 <p>The package tries to support the major formats, though this becomes harder when they are binary formatted. Currently, there are four supported calibration formats. These are:</p>
-<ul class="simple">
-<li><a class="reference internal" href="calibration/metronix-calibration.html"><span class="doc">Metronix</span></a></li>
-<li><a class="reference internal" href="calibration/rsp-calibration.html"><span class="doc">RSP</span></a></li>
-<li><a class="reference internal" href="calibration/rspx-calibration.html"><span class="doc">RSPX</span></a></li>
-<li>A simple <a class="reference internal" href="calibration/ascii-calibration.html"><span class="doc">ASCII</span></a> format for when none of the others make sense</li>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="calibration/metronix-calibration.html">Metronix Calibration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calibration/rsp-calibration.html">RSP Calibration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calibration/rspx-calibration.html">RSPX Calibration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calibration/ascii-calibration.html">ASCII Calibration</a></li>
 </ul>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>Currently, resistics only supports calibration of data channels based on:</p>
@@ -221,8 +222,6 @@
 <div class="section" id="viewing-calibration-data">
 <h2>Viewing calibration data<a class="headerlink" href="#viewing-calibration-data" title="Permalink to this headline">¶</a></h2>
 <p>As calibration is another major point of pain and failure in the processing of magnetotelluric data, resistics includes tools for viewing calibration data. This is good practice, to ensure that calibration files are being read in appropriately. See the sections covering each format for examples of viewing calibration data.</p>
-<div class="toctree-wrapper compound">
-</div>
 </div>
 </div>
 
@@ -268,7 +267,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

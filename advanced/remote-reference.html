@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Remote reference processing &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Remote reference processing &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -108,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -205,8 +204,8 @@
  8
  9
 10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">remotePath</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">newProject</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">remotePath</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">newProject</span>
 
 <span class="c1"># define the project path. The project will be created under this project path.</span>
 <span class="c1"># If the path does not exist, it will be created</span>
@@ -446,9 +445,9 @@
 31
 32
 33
-34</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
+34</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
 
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">remotePath</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -527,7 +526,8 @@
 </pre></div>
 </td></tr></table></div>
 <p>Here, the 128 Hz measurements of site M6 are being looped over. The start and end time of each of these measurements is being taken and remote data for only that period is being pre-processed. The purpose of this is to save space and only pre-process data concurrent with 128 Hz data at the local site.</p>
-<p>In the pre-processing, the 250 Hz SPAM data is being interpolated onto the second and resampled from 250 Hz to 128 Hz. The pre-processed data directories will be saved to a new site named “Remote” and each measurement directory is has the start time of the measurement post pended to it.</p>
+<p>In the pre-processing, the 250 Hz SPAM data is being interpolated onto the second and resampled from 250 Hz to 128 Hz. The pre-processed data directories will be saved to a new site named “Remote” and each measurement directory has the start time of the measurement post pended to it.</p>
+<p>The call to <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData.refresh" title="resistics.project.data.ProjectData.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a> refreshes the time data list in the <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData" title="resistics.project.data.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a> instance and adds the new data directories and files that have been created.</p>
 <p>Printing out project information and site information for the new Remote site after pre-processing gives:</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -663,7 +663,7 @@
 └── mtProj.prj
 </pre></div>
 </div>
-<p>To plot the data, the <a class="reference internal" href="../api/resistics.project.projectTime.html#resistics.project.projectTime.viewTime" title="resistics.project.projectTime.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code></a> method can be used as normal and outlined in more detail <a class="reference internal" href="../tutorial/viewing-data.html"><span class="doc">here</span></a>.</p>
+<p>To plot the data, the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.viewTime" title="resistics.project.time.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code></a> method can be used as normal and outlined in more detail <a class="reference internal" href="../tutorial/viewing-data.html"><span class="doc">here</span></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>36
 37
 38
@@ -690,7 +690,7 @@
 59
 60
 61
-62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
+62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPresentationFonts</span><span class="p">())</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
@@ -767,13 +767,13 @@
 33
 34
 35
-36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span><span class="p">,</span> <span class="n">viewStatistic</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span><span class="p">,</span> <span class="n">viewStatistic</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">remotePath</span><span class="p">)</span>
@@ -823,7 +823,7 @@
 </div>
 <div class="section" id="remote-reference-impedance-tensor">
 <h2>Remote reference impedance tensor<a class="headerlink" href="#remote-reference-impedance-tensor" title="Permalink to this headline">¶</a></h2>
-<p>Standard remote reference processing is performed using the <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#resistics.project.projectTransferFunction.processProject" title="resistics.project.projectTransferFunction.processProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code></a> method of module <a class="reference internal" href="../api/resistics.project.projectTransferFunction.html#module-resistics.project.projectTransferFunction" title="resistics.project.projectTransferFunction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">projectTransferFunction</span></code></a>.</p>
+<p>Standard remote reference processing is performed using the <a class="reference internal" href="../api/resistics.project.transfunc.html#resistics.project.transfunc.processProject" title="resistics.project.transfunc.processProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code></a> method of module <a class="reference internal" href="../api/resistics.project.transfunc.html#module-resistics.project.transfunc" title="resistics.project.transfunc"><code class="xref py py-mod docutils literal notranslate"><span class="pre">transfunc</span></code></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>38
 39
 40
@@ -939,7 +939,7 @@
 <img alt="alternate text" src="../_images/singleSiteRemote_128_coh80.png" />
 <p class="caption"><span class="caption-text">Single site impedance tensor estimates for the Remote site at 128 Hz using a coherency mask excluding windows with coherence E<sub>x</sub>-H<sub>y</sub> or E<sub>y</sub>-H<sub>x</sub> below 0.8.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
 </div>
-<p>Coherence masking has done little to improve the impedance tensor estimates for Site M6. However, it has noticeably improved the estimate for Remote. With this in mind, the next step is to do remote reference processing, but exluding windows where Remote site has E<sub>x</sub>-H<sub>y</sub> or E<sub>y</sub>-H<sub>x</sub> coherency below 0.8. This is done as follows:</p>
+<p>Coherence masking has done little to improve the impedance tensor estimates for Site M6. However, it has noticeably improved the estimate for Remote. With this in mind, the next step is to do remote reference processing, but excluding windows where Remote site has E<sub>x</sub>-H<sub>y</sub> or E<sub>y</sub>-H<sub>x</sub> coherency below 0.8. This is done as follows:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 87
  88
  89
@@ -1106,9 +1106,9 @@
 59
 60
 61
-62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTime</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
+62</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.time</span> <span class="kn">import</span> <span class="n">preProcess</span><span class="p">,</span> <span class="n">viewTime</span>
 
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">remotePath</span><span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
@@ -1141,7 +1141,7 @@
     <span class="p">)</span>
 <span class="n">proj</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
 
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTime</span><span class="p">,</span> <span class="n">getPresentationFonts</span>
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTime</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPresentationFonts</span><span class="p">())</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">viewTime</span><span class="p">(</span>
@@ -1299,13 +1299,13 @@
 126
 127
 128
-129</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectIO</span> <span class="kn">import</span> <span class="n">loadProject</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectSpectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectTransferFunction</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectStatistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span><span class="p">,</span> <span class="n">viewStatistic</span>
-<span class="kn">from</span> <span class="nn">resistics.project.projectMask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
-<span class="kn">from</span> <span class="nn">resistics.utilities.utilsPlotter</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
+129</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datapaths</span> <span class="kn">import</span> <span class="n">remotePath</span><span class="p">,</span> <span class="n">remoteImages</span>
+<span class="kn">from</span> <span class="nn">resistics.project.io</span> <span class="kn">import</span> <span class="n">loadProject</span>
+<span class="kn">from</span> <span class="nn">resistics.project.spectra</span> <span class="kn">import</span> <span class="n">calculateSpectra</span>
+<span class="kn">from</span> <span class="nn">resistics.project.transfunc</span> <span class="kn">import</span> <span class="n">processProject</span><span class="p">,</span> <span class="n">viewImpedance</span>
+<span class="kn">from</span> <span class="nn">resistics.project.statistics</span> <span class="kn">import</span> <span class="n">calculateStatistics</span><span class="p">,</span> <span class="n">viewStatistic</span>
+<span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="kn">import</span> <span class="n">newMaskData</span><span class="p">,</span> <span class="n">calculateMask</span>
+<span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="kn">import</span> <span class="n">plotOptionsTransferFunction</span><span class="p">,</span> <span class="n">getPaperFonts</span>
 
 <span class="n">plotOptions</span> <span class="o">=</span> <span class="n">plotOptionsTransferFunction</span><span class="p">(</span><span class="n">plotfonts</span><span class="o">=</span><span class="n">getPaperFonts</span><span class="p">())</span>
 <span class="n">proj</span> <span class="o">=</span> <span class="n">loadProject</span><span class="p">(</span><span class="n">remotePath</span><span class="p">)</span>
@@ -1475,7 +1475,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

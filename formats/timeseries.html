@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Timeseries data &mdash; resistics 0.0.6.dev2 documentation</title>
+  <title>Timeseries data &mdash; resistics 0.0.6.dev3 documentation</title>
   
 
   
@@ -91,7 +91,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
@@ -114,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
@@ -191,15 +190,17 @@
 <div class="section" id="reading">
 <h2>Reading<a class="headerlink" href="#reading" title="Permalink to this headline">¶</a></h2>
 <p>Resistics currently supports five data formats for reading:</p>
-<ul class="simple">
-<li><a class="reference internal" href="timeseries/ATS-timeseries.html"><span class="doc">ATS</span></a></li>
-<li><a class="reference internal" href="timeseries/SPAM-timeseries.html"><span class="doc">SPAM</span></a></li>
-<li><a class="reference internal" href="timeseries/LemiB423-timeseries.html"><span class="doc">Lemi B423</span></a></li>
-<li><a class="reference internal" href="timeseries/Phoenix-timeseries.html"><span class="doc">Phoenix</span></a></li>
-<li><a class="reference internal" href="timeseries/ascii-timeseries.html"><span class="doc">ASCII</span></a></li>
-<li><a class="reference internal" href="timeseries/internal-binary-format.html"><span class="doc">resistics internal binary format</span></a> based on numpy save</li>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="timeseries/ATS-timeseries.html">ATS timeseries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries/SPAM-timeseries.html">SPAM timeseries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries/LemiB423-timeseries.html">Lemi B423 timeseries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries/Phoenix-timeseries.html">Phoenix timeseries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries/ascii-timeseries.html">ASCII timeseries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries/internal-binary-format.html">Internal binary format</a></li>
 </ul>
-<p>Each of these data formats has its own peculiarities, outlined in the individual sections. Resistics aims to give users a consistent output through the <a class="reference internal" href="../api/resistics.ioHandlers.dataReader.html#resistics.ioHandlers.dataReader.DataReader" title="resistics.ioHandlers.dataReader.DataReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataReader</span></code></a> class. All data readers can return either unscaled or physically scaled samples. Whilst the meaning of unscaled samples differs from format to format, when requesting physical samples from a data reader, the data is returned in the following units:</p>
+</div>
+<p>Each of these data formats has its own peculiarities, outlined in the individual sections. Resistics aims to give users a consistent output through the <a class="reference internal" href="../api/resistics.time.reader.html#resistics.time.reader.TimeReader" title="resistics.time.reader.TimeReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReader</span></code></a> class. All data readers can return either unscaled or physically scaled samples. Whilst the meaning of unscaled samples differs from format to format, when requesting physical samples from a data reader, the data is returned in the following units:</p>
 <ul class="simple">
 <li>Electric channels E<sub>x</sub>, E<sub>y</sub> are in mV/km</li>
 <li>Magnetic channels H<sub>x</sub>, H<sub>y</sub> and H<sub>z</sub> are in mV</li>
@@ -216,11 +217,7 @@
 </div>
 <div class="section" id="writing">
 <h2>Writing<a class="headerlink" href="#writing" title="Permalink to this headline">¶</a></h2>
-<p>Writing out of timeseries is supported in resistics in the following formats:</p>
-<ul class="simple">
-<li><a class="reference internal" href="timeseries/ascii-timeseries.html"><span class="doc">ASCII</span></a></li>
-<li><a class="reference internal" href="timeseries/internal-binary-format.html"><span class="doc">resistics internal binary format</span></a></li>
-</ul>
+<p>Writing out of timeseries is supported in resistics in for <a class="reference internal" href="timeseries/ascii-timeseries.html"><span class="doc">ASCII</span></a> and <a class="reference internal" href="timeseries/internal-binary-format.html"><span class="doc">internal</span></a> formats.</p>
 <p>The reason for supporting an internal binary format is two-fold. Firstly, it is based on numpy save, which allows easy reading and portability outside of the resistics environment as long as there is access to Python and numpy. Secondly, the headers are all in ASCII format, which makes it easier to read the various recording metadata in comparison to binary formatted header information.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -234,6 +231,11 @@
 <p class="last">For best results with resistics, timeseries data should be sampled on the second. This is not true for all timeseries formats, for example, SPAM data can be sampled off the second. Resistics includes an interpolation to second function to deal with this issue. Please read <a class="reference internal" href="timeseries/interpolation-to-second.html"><span class="doc">this</span></a> for more information.</p>
 </div>
 <p>Data which is not sampled on the second should be interpolated on the second to ensure best results. This can be achieved using inbuilt functionality.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="timeseries/interpolation-to-second.html">Interpolation to second</a></li>
+</ul>
+</div>
 <p>For an example of a dataset not sampled on the second, consider recording at 10 Hz, with the first sample at 0.05 seconds. Then the sample times will be:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>0.05 0.15 0.25 0.35 0.45 0.55 0.65 0.75 0.85 0.95 1.05 1.15 1.25 ...
 </pre></div>
@@ -243,8 +245,6 @@
 </pre></div>
 </div>
 <p>Whenever operating with multiple different file formats in one project, it is best practice to ensure that all datasets are sampled on the second prior to estimating impedance tensors.</p>
-<div class="toctree-wrapper compound">
-</div>
 </div>
 </div>
 
@@ -290,7 +290,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev2',
+            VERSION:'0.0.6.dev3',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
