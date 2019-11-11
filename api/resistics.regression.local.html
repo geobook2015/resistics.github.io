@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.regression.local module &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.regression.local module &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.regression.remote module" href="resistics.regression.remote.html" />
-    <link rel="prev" title="resistics.regression package" href="resistics.regression.html" /> 
+    <link rel="prev" title="resistics.regression.compute module" href="resistics.regression.compute.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -107,6 +107,7 @@
 <li class="toctree-l2"><a class="reference internal" href="resistics.statistics.html">resistics.statistics package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="resistics.mask.html">resistics.mask package</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="resistics.regression.html">resistics.regression package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="resistics.regression.compute.html">resistics.regression.compute module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">resistics.regression.local module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.regression.remote.html">resistics.regression.remote module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.regression.robust.html">resistics.regression.robust module</a></li>
@@ -252,8 +253,8 @@
 <p class="rubric">Methods</p>
 <table border="1" class="docutils align-default">
 <colgroup>
-<col width="43%" />
-<col width="57%" />
+<col width="36%" />
+<col width="64%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>__init__(proj, winSelector, outpath)</strong></td>
@@ -270,12 +271,6 @@
 </tr>
 <tr class="row-odd"><td><strong>getWindowSmooth()</strong></td>
 <td>Get the window smooth length</td>
-</tr>
-<tr class="row-even"><td><strong>calcEvalFrequencyData(freq, evalFreq, winDataMatrix)</strong></td>
-<td>Calculate power spectra at the evaluation frequencies (using interpolation)</td>
-</tr>
-<tr class="row-odd"><td><strong>smoothSpectralEstimates(data)</strong></td>
-<td>Smooth the data across the spectral estimates</td>
 </tr>
 <tr class="row-even"><td><strong>checkForBadValues(numWindows, data)</strong></td>
 <td>Check the spectral data for bad values that might cause an error</td>
@@ -297,34 +292,6 @@
 </tr>
 </tbody>
 </table>
-<dl class="method">
-<dt id="resistics.regression.local.LocalRegressor.calcEvalFrequencyData">
-<code class="descname">calcEvalFrequencyData</code><span class="sig-paren">(</span><em>self</em>, <em>freq</em>, <em>evalFreq</em>, <em>winDataMatrix</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.calcEvalFrequencyData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.calcEvalFrequencyData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate spectral power data at evaluation frequencies</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>freq</strong><span class="classifier">np.ndarray</span></dt><dd><p>Frequency array of spectra data</p>
-</dd>
-<dt><strong>evalFreq</strong><span class="classifier">np.ndarray</span></dt><dd><p>Evaluation frequencies for the decimation level</p>
-</dd>
-<dt><strong>winDataMatrix</strong><span class="classifier">np.ndarray</span></dt><dd><p>Array holding spectral power data at frequencies freq</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>out</strong><span class="classifier">np.ndarray</span></dt><dd><p>Spectral power data interpolated to evaluation frequencies</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.checkForBadValues">
 <code class="descname">checkForBadValues</code><span class="sig-paren">(</span><em>self</em>, <em>numWindows: int</em>, <em>data: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.checkForBadValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.checkForBadValues" title="Permalink to this definition">¶</a></dt>
@@ -476,7 +443,7 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.process">
-<code class="descname">process</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.process" title="Permalink to this definition">¶</a></dt>
+<code class="descname">process</code><span class="sig-paren">(</span><em>self</em>, <em>ncores: int = 0</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.process" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process spectra data</p>
 <p>The processing sequence for each decimation level is as below:</p>
 <ol class="arabic">
@@ -573,30 +540,6 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 </dd></dl>
 
 <dl class="method">
-<dt id="resistics.regression.local.LocalRegressor.smoothSpectralEstimates">
-<code class="descname">smoothSpectralEstimates</code><span class="sig-paren">(</span><em>self</em>, <em>data: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.smoothSpectralEstimates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.smoothSpectralEstimates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Smooth spectral estimates across windows</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>Cross-spectra data</p>
-</dd>
-</dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>Smoothed cross-spectra data</p>
-</dd>
-</dl>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.stackedProcess">
 <code class="descname">stackedProcess</code><span class="sig-paren">(</span><em>self</em>, <em>data: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.stackedProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.stackedProcess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ordinary least squares processing after stacking</p>
@@ -665,7 +608,7 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
         <a href="resistics.regression.remote.html" class="btn btn-neutral float-right" title="resistics.regression.remote module" accesskey="n" rel="next">Next</a>
       
       
-        <a href="resistics.regression.html" class="btn btn-neutral" title="resistics.regression package" accesskey="p" rel="prev">Previous</a>
+        <a href="resistics.regression.compute.html" class="btn btn-neutral" title="resistics.regression.compute module" accesskey="p" rel="prev">Previous</a>
       
     </div>
   
@@ -696,7 +639,7 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

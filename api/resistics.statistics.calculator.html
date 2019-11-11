@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.statistics.calculator module &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.statistics.calculator module &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -232,10 +232,11 @@
 </dd>
 <dt><strong>polDirs</strong><span class="classifier">List[List[str]]</span></dt><dd><p>Pairs of channels of polarisation direction calculation</p>
 </dd>
-<dt><strong>spec: Dict = {}</strong></dt><dd></dd>
+<dt><strong>spec: Dict[str, np.ndarray]</strong></dt><dd><p>The spectra data dictionary mapping channel to data array</p>
+</dd>
 <dt><strong>tfCalculated</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag to show that the transfer function has been calculated for a window</p>
 </dd>
-<dt><strong>remoteCalculated</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag to show…</p>
+<dt><strong>remoteCalculated</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag to show if the remote transfer function has been calculated</p>
 </dd>
 <dt><strong>intercept</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag to include an intercept into the</p>
 </dd>
@@ -248,140 +249,143 @@
 <p class="rubric">Methods</p>
 <table border="1" class="docutils align-default">
 <colgroup>
-<col width="56%" />
-<col width="44%" />
+<col width="37%" />
+<col width="63%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><strong>__init__()</strong></td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><strong>getEvalFreq()</strong></td>
-<td>&#160;</td>
+<td>Get a list of the evaluation frequency</td>
 </tr>
 <tr class="row-odd"><td><strong>getInChans()</strong></td>
-<td>&#160;</td>
+<td>Get a list of the input channels for the transfer function calculation</td>
 </tr>
 <tr class="row-even"><td><strong>getOutChans()</strong></td>
-<td>&#160;</td>
+<td>Get a list of the output channels for the transfer function calculation</td>
 </tr>
 <tr class="row-odd"><td><strong>getSpecChans()</strong></td>
-<td>&#160;</td>
+<td>Get a list of the spectra channels</td>
 </tr>
 <tr class="row-even"><td><strong>getRemoteChans()</strong></td>
-<td>&#160;</td>
+<td>Get a list of the remote channels</td>
 </tr>
 <tr class="row-odd"><td><strong>getPSDChans()</strong></td>
-<td>&#160;</td>
+<td>Get a list of channels for which to calculate power spectral density</td>
 </tr>
 <tr class="row-even"><td><strong>getCohPairs()</strong></td>
-<td>&#160;</td>
+<td>Get a list of coherence pairs to calculate</td>
 </tr>
 <tr class="row-odd"><td><strong>getPolDirs()</strong></td>
-<td>&#160;</td>
+<td>Get a list of polarisation direction channels to calculate</td>
 </tr>
 <tr class="row-even"><td><strong>getAutoPower(chan)</strong></td>
-<td>&#160;</td>
+<td>Get auto power data for a channel</td>
 </tr>
 <tr class="row-odd"><td><strong>getAutoPowerEval(chan, eIdx)</strong></td>
-<td>&#160;</td>
+<td>Get auto power data for a channel calculated at evaluation frequencies</td>
 </tr>
 <tr class="row-even"><td><strong>getCrossPower(chan1, chan2)</strong></td>
-<td>&#160;</td>
+<td>Get cross power data between two channels</td>
 </tr>
 <tr class="row-odd"><td><strong>getCrossPowerEval(chan1, chan2, eIdx)</strong></td>
-<td>&#160;</td>
+<td>Get cross power data between two channels at the evaluation frequencies</td>
 </tr>
 <tr class="row-even"><td><strong>getOutData()</strong></td>
-<td>&#160;</td>
+<td>Get the output data</td>
 </tr>
 <tr class="row-odd"><td><strong>setInChans(inChans)</strong></td>
-<td>&#160;</td>
+<td>Set the input channels for transfer function statistics</td>
 </tr>
 <tr class="row-even"><td><strong>setOutChans(outChans)</strong></td>
-<td>&#160;</td>
+<td>Set the output channels for the transfer function statistics</td>
 </tr>
 <tr class="row-odd"><td><strong>setSpectra(freq, winData, evalFreq)</strong></td>
-<td>&#160;</td>
+<td>Set the spectra data</td>
 </tr>
 <tr class="row-even"><td><strong>setIntercept(intercept)</strong></td>
-<td>&#160;</td>
+<td>Boolean flag for adding an intercept term</td>
 </tr>
 <tr class="row-odd"><td><strong>calculateSpectralMatrix()</strong></td>
-<td>&#160;</td>
+<td>Calculate the cross power spectra matrix</td>
 </tr>
 <tr class="row-even"><td><strong>calculateEvalMatrix()</strong></td>
-<td>&#160;</td>
+<td>Calculate the cross power spectra matrix at the evaluation frequencies</td>
 </tr>
 <tr class="row-odd"><td><strong>addRemoteSpec(remoteData, **kwargs)</strong></td>
-<td>&#160;</td>
+<td>Add a remote reference spectra</td>
 </tr>
 <tr class="row-even"><td><strong>calculateRemoteSpectralMatrix()</strong></td>
-<td>&#160;</td>
+<td>Calculate the remote data power spectral matrix</td>
 </tr>
 <tr class="row-odd"><td><strong>calculateRemoteEvalMatrix()</strong></td>
-<td>&#160;</td>
+<td>Calculate the remote data power spectra matrix at the evaluation frequencies</td>
 </tr>
 <tr class="row-even"><td><strong>calculateReferenceSpectralMatrix()</strong></td>
-<td>&#160;</td>
+<td>Calculate the power spectral matrix for remote reference processing</td>
 </tr>
 <tr class="row-odd"><td><strong>calculateReferenceEvalMatrix()</strong></td>
-<td>&#160;</td>
+<td>Calculate the power spectral matrix for remote reference processing at the evaluation frequencies</td>
 </tr>
 <tr class="row-even"><td><strong>getRemoteAutoPower(chan)</strong></td>
-<td>&#160;</td>
+<td>Get remote data auto power spectra</td>
 </tr>
 <tr class="row-odd"><td><strong>getRemoteAutoPowerEval(chan, eIdx)</strong></td>
-<td>&#160;</td>
+<td>Get remote data auto power spectra at evaluation frequency</td>
 </tr>
 <tr class="row-even"><td><strong>getRemoteCrossPower(chan1, chan2)</strong></td>
-<td>&#160;</td>
+<td>Get remote cross power spectra data</td>
 </tr>
 <tr class="row-odd"><td><strong>getRemoteCrossPowerEval(chan1, chan2, eIdx)</strong></td>
-<td>&#160;</td>
+<td>Get remote cross power spectra value at evaluation frequency</td>
 </tr>
 <tr class="row-even"><td><strong>getReferenceCrossPower(dataChan, remoteChan)</strong></td>
-<td>&#160;</td>
+<td>Get the remote reference formulation cross power spectra</td>
 </tr>
 <tr class="row-odd"><td><strong>getReferenceCrossPowerEval(dataChan, remoteChan, eIdx)</strong></td>
-<td>&#160;</td>
+<td>Get the remote reference formulation cross power spectra at a given evaluation frequency</td>
 </tr>
 <tr class="row-even"><td><strong>interpolateToEvalFreq(data)</strong></td>
-<td>&#160;</td>
+<td>Interpolate data to evaluation frequencies</td>
 </tr>
 <tr class="row-odd"><td><strong>prepareOutDict()</strong></td>
-<td>&#160;</td>
+<td>Prepare the output dictionary which will be returned</td>
 </tr>
 <tr class="row-even"><td><strong>getDataForStatName(statName)</strong></td>
-<td>&#160;</td>
+<td>Get the statistic data for a statistic</td>
 </tr>
 <tr class="row-odd"><td><strong>winPSD()</strong></td>
-<td>&#160;</td>
+<td>Calculate window power spectral density</td>
 </tr>
 <tr class="row-even"><td><strong>winCoherence()</strong></td>
-<td>&#160;</td>
+<td>Calculate window coherence for coherence pairs</td>
 </tr>
 <tr class="row-odd"><td><strong>winPolarisations()</strong></td>
-<td>&#160;</td>
+<td>Calculate polarisation directions</td>
 </tr>
 <tr class="row-even"><td><strong>winPartials()</strong></td>
-<td>&#160;</td>
+<td>Calculate window partial coherences</td>
 </tr>
-<tr class="row-odd"><td><strong>winTransferFunction()</strong></td>
-<td>&#160;</td>
+<tr class="row-odd"><td><strong>winAbsVal()</strong></td>
+<td>Calculate window absolute values for the evaluation frequencies</td>
 </tr>
-<tr class="row-even"><td><strong>winRemoteCoherence()</strong></td>
-<td>&#160;</td>
+<tr class="row-even"><td><strong>winTransferFunction()</strong></td>
+<td>Calculate window transfer function</td>
 </tr>
-<tr class="row-odd"><td><strong>winRemoteEqnCoherence()</strong></td>
-<td>&#160;</td>
+<tr class="row-odd"><td><strong>winRemoteCoherence()</strong></td>
+<td>Calculate window remote coherence with local data</td>
 </tr>
-<tr class="row-even"><td><strong>winRemoteAbsVal()</strong></td>
-<td>&#160;</td>
+<tr class="row-even"><td><strong>winRemoteEqnCoherence()</strong></td>
+<td>Calculate remote equation coherence</td>
 </tr>
-<tr class="row-odd"><td><strong>winRemoteTransferFunction()</strong></td>
-<td>&#160;</td>
+<tr class="row-odd"><td><strong>winRemoteAbsVal()</strong></td>
+<td>Calculate remote absolute value</td>
 </tr>
-<tr class="row-even"><td><strong>printList()</strong></td>
+<tr class="row-even"><td><strong>winRemoteTransferFunction()</strong></td>
+<td>Calculate remote transfer function</td>
+</tr>
+<tr class="row-odd"><td><strong>printList()</strong></td>
 <td>Class information returned as list of strings</td>
 </tr>
 </tbody>
@@ -1350,7 +1354,7 @@ Write more information in these comments</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

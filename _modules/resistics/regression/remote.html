@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.regression.remote &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.regression.remote &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -168,10 +168,11 @@
   <h1>Source code for resistics.regression.remote</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="kn">from</span> <span class="nn">resistics.common.smooth</span> <span class="k">import</span> <span class="n">smooth1d</span>
 <span class="kn">from</span> <span class="nn">resistics.regression.local</span> <span class="k">import</span> <span class="n">LocalRegressor</span>
+<span class="kn">from</span> <span class="nn">resistics.regression.compute</span> <span class="k">import</span> <span class="n">remoteMatrices</span>
 <span class="kn">from</span> <span class="nn">resistics.regression.robust</span> <span class="k">import</span> <span class="p">(</span>
     <span class="n">chatterjeeMachler</span><span class="p">,</span>
     <span class="n">sampleMAD0</span><span class="p">,</span>
@@ -301,16 +302,16 @@
             <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="RemoteRegressor.process"><a class="viewcode-back" href="../../../api/resistics.regression.remote.html#resistics.regression.remote.RemoteRegressor.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="RemoteRegressor.process"><a class="viewcode-back" href="../../../api/resistics.regression.remote.html#resistics.regression.remote.RemoteRegressor.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ncores</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Process spectra data</span>
 
 <span class="sd">        The processing sequence for each decimation level is as below:</span>
 
-<span class="sd">        1. Get shared (unmasked) windows for all relevant sites (inSite, outSite and remoteSite)</span>
+<span class="sd">        1. Get shared (unmasked) windows for all relevant sites (inSite and outSite)</span>
 <span class="sd">        2. For shared unmasked windows</span>
 <span class="sd">            </span>
-<span class="sd">            - Calculate out the cross-power spectra. For remote reference processing, this includes the remote site too.</span>
-<span class="sd">            - Interpolate calculated cross-power data to the evaluation frequencies for the decimation level. </span>
+<span class="sd">            - Calculate out the cross-power spectra.</span>
+<span class="sd">            - Interpolate calculated cross-power data to the evaluation frequencies for the decimation level.</span>
 <span class="sd">        </span>
 <span class="sd">        3. For each evaluation frequency</span>
 <span class="sd">            </span>
@@ -319,16 +320,10 @@
 <span class="sd">        The spectral power data is smoothed as this tends to improve results. The smoothing can be changed by setting the smoothing parameters. This method is still subject to change in the future as it is an area of active work</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">numLevels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
-        <span class="n">dataChans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inChannels</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">outChannels</span>
-        <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
-            <span class="c1"># print out some info</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span><span class="s2">&quot;Processing decimation level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iDec</span><span class="p">))</span>
-
-            <span class="n">fs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getSampleFreqLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
-            <span class="c1"># get the number of all shared windows and the number of unmasked windows</span>
-            <span class="c1"># unmasked windows are ones that will actually be used in the calculation</span>
-            <span class="n">numWindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getNumSharedWindows</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
-            <span class="n">unmaskedWindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getUnmaskedWindowsLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span><span class="s2">&quot;Processing decimation level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">declevel</span><span class="p">))</span>
+            <span class="n">numWindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getNumSharedWindows</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
+            <span class="n">unmaskedWindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getUnmaskedWindowsLevel</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
             <span class="n">numUnmasked</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unmaskedWindows</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
                 <span class="s2">&quot;Total shared windows for decimation level = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numWindows</span><span class="p">)</span>
@@ -339,124 +334,120 @@
             <span class="k">if</span> <span class="n">numUnmasked</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
                     <span class="s2">&quot;No unmasked windows found at this decimation level (</span><span class="si">{:d}</span><span class="s2">), continuing to next level&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">iDec</span>
+                        <span class="n">declevel</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
-                <span class="k">continue</span>  <span class="c1"># continue to next decimation level</span>
+                <span class="k">continue</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> windows will be processed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numUnmasked</span><span class="p">))</span>
 
-            <span class="c1"># get the evaluation frequencies</span>
-            <span class="n">evalFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
-            <span class="c1"># set some variables</span>
-            <span class="n">totalChans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inSize</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">outSize</span>
-            <span class="n">numEvalFreq</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">)</span>
-            <span class="n">dataSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getDataSize</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
-            <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">fs</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dataSize</span><span class="p">)</span>
-            <span class="c1"># get the window smoothing params</span>
-            <span class="n">smoothLen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getWindowSmooth</span><span class="p">(</span><span class="n">datasize</span><span class="o">=</span><span class="n">dataSize</span><span class="p">)</span>
-
-            <span class="c1"># create the data array</span>
-            <span class="c1"># for each evaluation frequency</span>
-            <span class="c1"># keep the spectral power information for all windows</span>
+            <span class="c1"># set variables</span>
+            <span class="n">evalFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
+            <span class="n">totalSize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inSize</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">outSize</span>
+            <span class="n">numEvalFreq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">)</span>
+            <span class="n">dataSize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getDataSize</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
+            <span class="n">smoothLen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getWindowSmooth</span><span class="p">(</span><span class="n">datasize</span><span class="o">=</span><span class="n">dataSize</span><span class="p">)</span>
+            <span class="c1"># data array for each evaluation frequency and keep spectral power information for all windows</span>
             <span class="n">evalFreqData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
-                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numEvalFreq</span><span class="p">,</span> <span class="n">numWindows</span><span class="p">,</span> <span class="n">totalChans</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">remoteSize</span><span class="p">),</span>
+                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">numEvalFreq</span><span class="p">,</span> <span class="n">numWindows</span><span class="p">,</span> <span class="n">totalSize</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">remoteSize</span><span class="p">),</span>
                 <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="c1"># an array for the in and out channels fourier data</span>
-            <span class="n">winDataArray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">totalChans</span><span class="p">,</span> <span class="n">dataSize</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
-            <span class="c1"># an array for the remote reference fourier data</span>
-            <span class="n">winRemoteArray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
-                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remoteSize</span><span class="p">,</span> <span class="n">dataSize</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span>
-            <span class="p">)</span>
-            <span class="c1"># an array for the power spectra data</span>
-            <span class="n">winSpectraMatrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
-                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">totalChans</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">remoteSize</span><span class="p">,</span> <span class="n">dataSize</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span>
-            <span class="p">)</span>
-
-            <span class="c1"># loop over shared windows</span>
-            <span class="n">localWin</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">global2local</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">iWin</span> <span class="ow">in</span> <span class="n">unmaskedWindows</span><span class="p">:</span>
-                <span class="c1"># do the local to global map</span>
-                <span class="n">global2local</span><span class="p">[</span><span class="n">iWin</span><span class="p">]</span> <span class="o">=</span> <span class="n">localWin</span>
-
-                <span class="c1"># get the window for the input site</span>
-                <span class="n">inSF</span><span class="p">,</span> <span class="n">inReader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getSpecReaderForWindow</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">inSite</span><span class="p">,</span> <span class="n">iDec</span><span class="p">,</span> <span class="n">iWin</span>
+            <span class="c1"># global to local map to help choose windows for each evaluation frequency</span>
+            <span class="n">localWin</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">global2local</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="c1"># process spectral batches</span>
+            <span class="n">spectraBatches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getSpecReaderBatches</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
+            <span class="n">numBatches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">spectraBatches</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">batchIdx</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spectraBatches</span><span class="p">):</span>
+                <span class="c1"># find the unmasked batched windows and add the data</span>
+                <span class="n">batchedWindows</span> <span class="o">=</span> <span class="n">unmaskedWindows</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
+                    <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s2">&quot;globalrange&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;globalrange&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
                 <span class="p">)</span>
-                <span class="n">inData</span> <span class="o">=</span> <span class="n">inReader</span><span class="o">.</span><span class="n">readBinaryWindowGlobal</span><span class="p">(</span><span class="n">iWin</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
-                <span class="c1"># get the window and channels for the output site</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outSite</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inSite</span><span class="p">:</span>
-                    <span class="n">outSF</span><span class="p">,</span> <span class="n">outReader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getSpecReaderForWindow</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">outSite</span><span class="p">,</span> <span class="n">iDec</span><span class="p">,</span> <span class="n">iWin</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
+                    <span class="s2">&quot;Processing batch </span><span class="si">{:d}</span><span class="s2"> of </span><span class="si">{:d}</span><span class="s2">: Global window range </span><span class="si">{:d}</span><span class="s2"> to </span><span class="si">{:d}</span><span class="s2">, </span><span class="si">{:d}</span><span class="s2"> windows, </span><span class="si">{:.3%}</span><span class="s2"> of data&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">batchIdx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="n">numBatches</span><span class="p">,</span>
+                        <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;globalrange&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;globalrange&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                        <span class="nb">len</span><span class="p">(</span><span class="n">batchedWindows</span><span class="p">),</span>
+                        <span class="nb">len</span><span class="p">(</span><span class="n">batchedWindows</span><span class="p">)</span> <span class="o">/</span> <span class="n">numUnmasked</span><span class="p">,</span>
                     <span class="p">)</span>
-                    <span class="n">outData</span> <span class="o">=</span> <span class="n">outReader</span><span class="o">.</span><span class="n">readBinaryWindowGlobal</span><span class="p">(</span><span class="n">iWin</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">batchedWindows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span><span class="s2">&quot;Batch does not contribute any windows. Continuing to next batch.&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># collect spectrum data and compute spectral matrices</span>
+                <span class="c1"># set batchedWindows from return to ensure proper order</span>
+                <span class="n">inReader</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">inSite</span><span class="p">]</span>
+                <span class="n">inData</span><span class="p">,</span> <span class="n">batchedWindows</span> <span class="o">=</span> <span class="n">inReader</span><span class="o">.</span><span class="n">readBinaryBatchGlobal</span><span class="p">(</span>
+                    <span class="n">globalIndices</span><span class="o">=</span><span class="n">batchedWindows</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outSite</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inSite</span><span class="p">:</span>
+                    <span class="n">outReader</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">outSite</span><span class="p">]</span>
+                    <span class="n">outData</span><span class="p">,</span> <span class="n">_gIndicesOut</span> <span class="o">=</span> <span class="n">outReader</span><span class="o">.</span><span class="n">readBinaryBatchGlobal</span><span class="p">(</span>
+                        <span class="n">globalIndices</span><span class="o">=</span><span class="n">batchedWindows</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">outData</span> <span class="o">=</span> <span class="n">inData</span>
-
-                <span class="c1"># now get the remote reference data - assume this does not equal input or output</span>
-                <span class="n">remoteSF</span><span class="p">,</span> <span class="n">remoteReader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getSpecReaderForWindow</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">remoteSite</span><span class="p">,</span> <span class="n">iDec</span><span class="p">,</span> <span class="n">iWin</span>
-                <span class="p">)</span>
-                <span class="n">remoteData</span> <span class="o">=</span> <span class="n">remoteReader</span><span class="o">.</span><span class="n">readBinaryWindowGlobal</span><span class="p">(</span><span class="n">iWin</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
-
-                <span class="c1"># get data into the right part of the arrays</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inSize</span><span class="p">):</span>
-                    <span class="n">winDataArray</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">inData</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">inChannels</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">outSize</span><span class="p">):</span>
-                    <span class="n">winDataArray</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">inSize</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">outData</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">outChannels</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">remoteSize</span><span class="p">):</span>
-                    <span class="n">winRemoteArray</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">remoteData</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">remoteChannels</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
-
-                <span class="c1"># and now can fill the parts of the matrix</span>
-                <span class="c1"># recall, smooth the power spectra</span>
-                <span class="k">for</span> <span class="n">iD</span><span class="p">,</span> <span class="n">dataChan</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataChans</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">iR</span><span class="p">,</span> <span class="n">remoteChan</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remoteChannels</span><span class="p">):</span>
-                        <span class="c1"># calculate each one, cannot use complex symmetry here</span>
-                        <span class="c1"># cannot use conjugate symmetry like with the single site processor</span>
-                        <span class="n">winSpectraMatrix</span><span class="p">[</span><span class="n">iD</span><span class="p">,</span> <span class="n">iR</span><span class="p">]</span> <span class="o">=</span> <span class="n">smooth1d</span><span class="p">(</span>
-                            <span class="n">winDataArray</span><span class="p">[</span><span class="n">iD</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">winRemoteArray</span><span class="p">[</span><span class="n">iR</span><span class="p">]),</span>
-                            <span class="n">smoothLen</span><span class="p">,</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span>
-                        <span class="p">)</span>
-                <span class="c1"># after running through all windows, calculate evaluation frequencies</span>
-                <span class="c1"># calculate frequency array</span>
-                <span class="n">evalFreqData</span><span class="p">[:,</span> <span class="n">localWin</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcEvalFrequencyData</span><span class="p">(</span>
-                    <span class="n">freq</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">,</span> <span class="n">winSpectraMatrix</span>
+                <span class="c1"># remote data</span>
+                <span class="n">remoteReader</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">remoteSite</span><span class="p">]</span>
+                <span class="n">remoteData</span><span class="p">,</span> <span class="n">_rgIndicesOut</span> <span class="o">=</span> <span class="n">remoteReader</span><span class="o">.</span><span class="n">readBinaryBatchGlobal</span><span class="p">(</span>
+                    <span class="n">globalIndices</span><span class="o">=</span><span class="n">batchedWindows</span>
                 <span class="p">)</span>
 
-                <span class="c1"># increment local window</span>
-                <span class="n">localWin</span> <span class="o">=</span> <span class="n">localWin</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">remoteMatrices</span><span class="p">(</span>
+                    <span class="n">ncores</span><span class="p">,</span>
+                    <span class="n">inData</span><span class="p">,</span>
+                    <span class="n">outData</span><span class="p">,</span>
+                    <span class="n">remoteData</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">inChannels</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">outChannels</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">remoteChannels</span><span class="p">,</span>
+                    <span class="n">smoothLen</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span>
+                    <span class="n">evalFreq</span><span class="p">,</span>
+                <span class="p">)</span>
 
-            <span class="c1"># now all the data has been collected</span>
-            <span class="c1"># for each evaluation frequency, do the robust processing</span>
-            <span class="c1"># and get the evaluation frequency data</span>
+                <span class="k">for</span> <span class="n">batchWin</span><span class="p">,</span> <span class="n">globalWin</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">batchedWindows</span><span class="p">):</span>
+                    <span class="n">evalFreqData</span><span class="p">[:,</span> <span class="n">localWin</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">batchWin</span><span class="p">]</span>
+                    <span class="c1"># local to global map and increment local window</span>
+                    <span class="n">global2local</span><span class="p">[</span><span class="n">globalWin</span><span class="p">]</span> <span class="o">=</span> <span class="n">localWin</span>
+                    <span class="n">localWin</span> <span class="o">=</span> <span class="n">localWin</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="c1"># close spectra files for decimation level</span>
+            <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">spectraBatches</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">sites</span><span class="p">:</span>
+                    <span class="n">batch</span><span class="p">[</span><span class="n">site</span><span class="p">]</span><span class="o">.</span><span class="n">closeFile</span><span class="p">()</span>
+
+            <span class="c1"># data has been collected for each evaluation frequency, perform robust processing</span>
             <span class="k">for</span> <span class="n">eIdx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numEvalFreq</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
                     <span class="s2">&quot;Processing evaluation frequency = </span><span class="si">{:.6f}</span><span class="s2"> [Hz], period = </span><span class="si">{:.6f}</span><span class="s2"> [s]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">evalFreq</span><span class="p">[</span><span class="n">eIdx</span><span class="p">],</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">evalFreq</span><span class="p">[</span><span class="n">eIdx</span><span class="p">]</span>
+                        <span class="n">evalFreq</span><span class="p">[</span><span class="n">eIdx</span><span class="p">],</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">evalFreq</span><span class="p">[</span><span class="n">eIdx</span><span class="p">]</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
                 <span class="c1"># get the constrained windows for the evaluation frequency</span>
-                <span class="n">evalFreqWindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getWindowsForFreq</span><span class="p">(</span><span class="n">iDec</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">evalFreqWindows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># no windows meet constraints</span>
+                <span class="n">evalFreqWindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getWindowsForFreq</span><span class="p">(</span><span class="n">declevel</span><span class="p">,</span> <span class="n">eIdx</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">evalFreqWindows</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># no windows meet constraints</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span><span class="s2">&quot;No windows found - possibly due to masking&quot;</span><span class="p">)</span>
                     <span class="k">continue</span>
                 <span class="n">localWinIndices</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="k">for</span> <span class="n">iW</span> <span class="ow">in</span> <span class="n">evalFreqWindows</span><span class="p">:</span>
                     <span class="n">localWinIndices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">global2local</span><span class="p">[</span><span class="n">iW</span><span class="p">])</span>
+
                 <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
                     <span class="s2">&quot;</span><span class="si">{:d}</span><span class="s2"> windows will be solved for&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">localWinIndices</span><span class="p">))</span>
                 <span class="p">)</span>
                 <span class="c1"># restrict processing to data that meets constraints for this evaluation frequency</span>
-                <span class="c1"># add to class vars</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">eIdx</span><span class="p">])</span>
-                <span class="c1"># use process reduced - only the input channels from the remote reference</span>
+                <span class="c1"># solution using all components</span>
                 <span class="n">numSolveWindows</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">reg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepareLinearEqn</span><span class="p">(</span>
                     <span class="n">evalFreqData</span><span class="p">[</span><span class="n">eIdx</span><span class="p">,</span> <span class="n">localWinIndices</span><span class="p">]</span>
                 <span class="p">)</span>
                 <span class="n">out</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robustProcess</span><span class="p">(</span><span class="n">numSolveWindows</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
+                <span class="c1"># out, var = self.olsProcess(numSolveWindows, obs, reg)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">impedances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">variances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 
@@ -779,7 +770,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.project.spectra module &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.project.spectra module &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -232,6 +232,36 @@
 </dd>
 <dt><strong>specdir</strong><span class="classifier">str, optional</span></dt><dd><p>The spectra directory to save the spectra data in</p>
 </dd>
+<dt><strong>ncores</strong><span class="classifier">int, optional</span></dt><dd><p>The number of cores to run the transfer function calculations on</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.project.spectra.calculateWindowSpectra">
+<code class="descclassname">resistics.project.spectra.</code><code class="descname">calculateWindowSpectra</code><span class="sig-paren">(</span><em>timeDataList: List[resistics.time.data.TimeData], sampleFreq: float, windowSize: int, config: Union[Dict, NoneType] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/project/spectra.html#calculateWindowSpectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.spectra.calculateWindowSpectra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate spectra for a list of TimeData</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>timeDataList</strong><span class="classifier">List[TimeData]</span></dt><dd><p>A list of TimeData objects</p>
+</dd>
+<dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency of the TimeData</p>
+</dd>
+<dt><strong>windowSize</strong><span class="classifier">int</span></dt><dd><p>The number of samples in the window</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>specDataList</strong><span class="classifier">List[SpectrumData]</span></dt><dd><p>A list of spectra data</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -241,7 +271,7 @@
 
 <dl class="function">
 <dt id="resistics.project.spectra.getSpecReader">
-<code class="descclassname">resistics.project.spectra.</code><code class="descname">getSpecReader</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData</em>, <em>site: str</em>, <em>meas: str</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.spectra.io.SpectrumReader<a class="reference internal" href="../_modules/resistics/project/spectra.html#getSpecReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.spectra.getSpecReader" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">resistics.project.spectra.</code><code class="descname">getSpecReader</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData</em>, <em>site: str</em>, <em>meas: str</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; Union[resistics.spectra.io.SpectrumReader, NoneType]<a class="reference internal" href="../_modules/resistics/project/spectra.html#getSpecReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.spectra.getSpecReader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the spectrum reader for a measurement</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -262,7 +292,37 @@
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>SpectrumReader</dt><dd><p>The spectrum reader object</p>
+<dt>SpectrumReader</dt><dd><p>The SpectrumReader object or None if data does not exist</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.project.spectra.multiSpectra">
+<code class="descclassname">resistics.project.spectra.</code><code class="descname">multiSpectra</code><span class="sig-paren">(</span><em>ncores: int, timeDataList: List[resistics.time.data.TimeData], sampleFreq: float, windowSize: int, config: Dict[str, NoneType] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/project/spectra.html#multiSpectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.spectra.multiSpectra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiprocessing of spectra</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ncores: int</strong></dt><dd><p>The number of cores for multiprocessing</p>
+</dd>
+<dt><strong>timeDataList</strong><span class="classifier">List[TimeData]</span></dt><dd><p>A list of TimeData objects</p>
+</dd>
+<dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency of the TimeData</p>
+</dd>
+<dt><strong>windowSize</strong><span class="classifier">int</span></dt><dd><p>The number of samples in the window</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>specDataList</strong><span class="classifier">List[SpectrumData]</span></dt><dd><p>A list of spectra data</p>
 </dd>
 </dl>
 </td>
@@ -304,7 +364,7 @@
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</p>
+<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed. If no data was found, then None is returned.</p>
 </dd>
 </dl>
 </td>
@@ -344,7 +404,7 @@
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</p>
+<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed. If no data was found, then None is returned.</p>
 </dd>
 </dl>
 </td>
@@ -388,7 +448,7 @@
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</p>
+<dt>matplotlib.pyplot.figure or None</dt><dd><p>A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed. If no data was found, then None is returned.</p>
 </dd>
 </dl>
 </td>
@@ -441,7 +501,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

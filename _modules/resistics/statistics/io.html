@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.statistics.io &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.statistics.io &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -170,7 +170,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">resistics.common.base</span> <span class="k">import</span> <span class="n">ResisticsBase</span>
 <span class="kn">from</span> <span class="nn">resistics.common.io</span> <span class="k">import</span> <span class="n">checkAndMakeDir</span>
@@ -223,7 +223,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">datapath</span> <span class="o">=</span> <span class="n">datapath</span></div>
 
-<div class="viewcode-block" id="StatisticIO.read"><a class="viewcode-back" href="../../../api/resistics.statistics.io.html#resistics.statistics.io.StatisticIO.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">inc</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StatisticData</span><span class="p">:</span>
+<div class="viewcode-block" id="StatisticIO.read"><a class="viewcode-back" href="../../../api/resistics.statistics.io.html#resistics.statistics.io.StatisticIO.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">inc</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">StatisticData</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Read a statistic file</span>
 
 <span class="sd">        Parameters</span>
@@ -247,7 +247,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">printWarning</span><span class="p">(</span>
                 <span class="s2">&quot;Unable to find info file </span><span class="si">{}</span><span class="s2"> or stat file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">infoFile</span><span class="p">,</span> <span class="n">statFile</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">None</span>
         <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">infoFile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -472,7 +472,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

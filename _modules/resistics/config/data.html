@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.config.data &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.config.data &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -249,6 +249,54 @@
                     <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="p">)</span></div>
 
+<div class="viewcode-block" id="ConfigData.getSpectraCores"><a class="viewcode-back" href="../../../api/resistics.config.data.html#resistics.config.data.ConfigData.getSpectraCores">[docs]</a>    <span class="k">def</span> <span class="nf">getSpectraCores</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the number of cores to run specrta calculations on</span>
+<span class="sd">        </span>
+<span class="sd">        There is a global ncores parameter and one in the Spectra section. The Spectra one takes precedent when they are both set. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ncores : int</span>
+<span class="sd">            The number of cores to run spectra calculations on</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="ConfigData.getStatisticCores"><a class="viewcode-back" href="../../../api/resistics.config.data.html#resistics.config.data.ConfigData.getStatisticCores">[docs]</a>    <span class="k">def</span> <span class="nf">getStatisticCores</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the number of cores to run statistic calculations on</span>
+<span class="sd">        </span>
+<span class="sd">        There is a global ncores parameter and one in the Statistics section. The Statistics one takes precedent when they are both set. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ncores : int</span>
+<span class="sd">            The number of cores to run statistic calculations on</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Statistics&quot;</span><span class="p">][</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Statistics&quot;</span><span class="p">][</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="ConfigData.getSolverCores"><a class="viewcode-back" href="../../../api/resistics.config.data.html#resistics.config.data.ConfigData.getSolverCores">[docs]</a>    <span class="k">def</span> <span class="nf">getSolverCores</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Returns the number of cores to run solver calculations on</span>
+<span class="sd">        </span>
+<span class="sd">        There is a global ncores parameter and one in the Solver section. The Solver one takes precedent when they are both set. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ncores : int</span>
+<span class="sd">            The number of cores to run solver calculations on</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Solver&quot;</span><span class="p">][</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Solver&quot;</span><span class="p">][</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
+
 <div class="viewcode-block" id="ConfigData.getConfigComment"><a class="viewcode-back" href="../../../api/resistics.config.data.html#resistics.config.data.ConfigData.getConfigComment">[docs]</a>    <span class="k">def</span> <span class="nf">getConfigComment</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Returns a string to add as a comment to data</span>
 
@@ -261,7 +309,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">configFile</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;Using default configuration&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;Using configuration with name </span><span class="si">{}</span><span class="s2"> in configuration file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">configFile</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="s2">&quot;Using configuration with name </span><span class="si">{}</span><span class="s2"> in configuration file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">configFile</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="ConfigData.printList"><a class="viewcode-back" href="../../../api/resistics.config.data.html#resistics.config.data.ConfigData.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Class information as a list of strings</span>
@@ -277,7 +327,6 @@
             <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Configuration file = Default configuration&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Configuration file = </span><span class="si">{:s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configFile</span><span class="p">))</span>
-        
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Configuration name = </span><span class="si">{:s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]))</span>
 
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Flags:&quot;</span><span class="p">)</span>
@@ -286,6 +335,7 @@
 
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Configuration Parameters:&quot;</span><span class="p">)</span>
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Name = </span><span class="si">{:s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]))</span>
+        <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;ncores = </span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]))</span>
         <span class="n">textLst</span> <span class="o">=</span> <span class="n">textLst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">printListSection</span><span class="p">(</span><span class="s2">&quot;Calibration&quot;</span><span class="p">)</span>
         <span class="n">textLst</span> <span class="o">=</span> <span class="n">textLst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">printListSection</span><span class="p">(</span><span class="s2">&quot;Decimation&quot;</span><span class="p">)</span>
         <span class="n">textLst</span> <span class="o">=</span> <span class="n">textLst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">printListSection</span><span class="p">(</span><span class="s2">&quot;Frequencies&quot;</span><span class="p">)</span>
@@ -293,7 +343,6 @@
         <span class="n">textLst</span> <span class="o">=</span> <span class="n">textLst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">printListSection</span><span class="p">(</span><span class="s2">&quot;Spectra&quot;</span><span class="p">)</span>
         <span class="n">textLst</span> <span class="o">=</span> <span class="n">textLst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">printListSection</span><span class="p">(</span><span class="s2">&quot;Statistics&quot;</span><span class="p">)</span>
         <span class="n">textLst</span> <span class="o">=</span> <span class="n">textLst</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">printListSection</span><span class="p">(</span><span class="s2">&quot;Solver&quot;</span><span class="p">)</span>
-        
         <span class="k">return</span> <span class="n">textLst</span></div>
 
 <div class="viewcode-block" id="ConfigData.printListSection"><a class="viewcode-back" href="../../../api/resistics.config.data.html#resistics.config.data.ConfigData.printListSection">[docs]</a>    <span class="k">def</span> <span class="nf">printListSection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -311,9 +360,8 @@
             <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{:s}</span><span class="s2"> = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
         <span class="n">defaultOptions</span> <span class="o">=</span> <span class="s2">&quot;No defaults used&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="n">section</span><span class="p">]</span><span class="o">.</span><span class="n">defaults</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">defaultOptions</span> <span class="o">=</span> <span class="n">listToString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="n">section</span><span class="p">]</span><span class="o">.</span><span class="n">defaults</span><span class="p">)</span> 
+            <span class="n">defaultOptions</span> <span class="o">=</span> <span class="n">listToString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="n">section</span><span class="p">]</span><span class="o">.</span><span class="n">defaults</span><span class="p">)</span>
         <span class="n">textLst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Defaulted options = </span><span class="si">{:s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">defaultOptions</span><span class="p">))</span>
-        
         <span class="k">return</span> <span class="n">textLst</span></div></div>
 </pre></div>
 
@@ -349,7 +397,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

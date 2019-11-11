@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.project.statistics &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.project.statistics &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -173,13 +173,15 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">cm</span>
 <span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="k">import</span> <span class="n">Figure</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">from</span> <span class="nn">resistics.project.data</span> <span class="k">import</span> <span class="n">ProjectData</span>
 <span class="kn">from</span> <span class="nn">resistics.statistics.data</span> <span class="k">import</span> <span class="n">StatisticData</span>
+<span class="kn">from</span> <span class="nn">resistics.statistics.calculator</span> <span class="k">import</span> <span class="n">StatisticCalculator</span>
 <span class="kn">from</span> <span class="nn">resistics.statistics.utils</span> <span class="k">import</span> <span class="n">getStatElements</span>
 <span class="kn">from</span> <span class="nn">resistics.window.selector</span> <span class="k">import</span> <span class="n">WindowSelector</span>
 <span class="kn">from</span> <span class="nn">resistics.spectra.io</span> <span class="k">import</span> <span class="n">SpectrumReader</span>
+<span class="kn">from</span> <span class="nn">resistics.spectra.data</span> <span class="k">import</span> <span class="n">SpectrumData</span>
 <span class="kn">from</span> <span class="nn">resistics.project.mask</span> <span class="k">import</span> <span class="n">getMaskData</span>
 <span class="kn">from</span> <span class="nn">resistics.common.io</span> <span class="k">import</span> <span class="n">fileFormatSampleFreq</span>
 <span class="kn">from</span> <span class="nn">resistics.common.print</span> <span class="k">import</span> <span class="n">listToString</span>
@@ -209,8 +211,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    StatisticData</span>
-<span class="sd">        A statistic data object</span>
+<span class="sd">    StatisticData, None</span>
+<span class="sd">        A StatisticData object or None if the statistic data does not exist</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">resistics.statistics.io</span> <span class="k">import</span> <span class="n">StatisticIO</span>
 
@@ -281,7 +283,7 @@
         <span class="p">)</span>
         <span class="c1"># make sure some data was found</span>
         <span class="n">chk</span> <span class="o">=</span> <span class="n">statIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">declevel</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">chk</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">chk</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">statData</span><span class="p">[</span><span class="n">meas</span><span class="p">]</span> <span class="o">=</span> <span class="n">statIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">declevel</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">projectWarning</span><span class="p">(</span>
@@ -307,14 +309,11 @@
 <span class="sd">        The spectra directory for which to calculate statistics</span>
 <span class="sd">    stats : List[str], optional</span>
 <span class="sd">        The statistics to calculate out. Acceptable values are: &quot;absvalEqn&quot; &quot;coherence&quot;, &quot;psd&quot;, &quot;poldir&quot;, &quot;transFunc&quot;, &quot;resPhase&quot;, &quot;partialcoh&quot;. Configuration file values are used by default.</span>
+<span class="sd">    ncores : int, optional</span>
+<span class="sd">        The number of cores to run the transfer function calculations on        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">resistics.statistics.io</span> <span class="k">import</span> <span class="n">StatisticIO</span>
-    <span class="kn">from</span> <span class="nn">resistics.statistics.calculator</span> <span class="k">import</span> <span class="n">StatisticCalculator</span>
-    <span class="kn">from</span> <span class="nn">resistics.project.shortcuts</span> <span class="k">import</span> <span class="p">(</span>
-        <span class="n">getDecimationParameters</span><span class="p">,</span>
-        <span class="n">getWindowParameters</span><span class="p">,</span>
-        <span class="n">getWindowSelector</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">resistics.project.shortcuts</span> <span class="k">import</span> <span class="n">getDecimationParameters</span>
 
     <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSites</span><span class="p">()</span>
@@ -322,6 +321,7 @@
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Statistics&quot;</span><span class="p">][</span><span class="s2">&quot;stats&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getStatisticCores</span><span class="p">()</span>
     <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">projectText</span><span class="p">(</span>
@@ -329,12 +329,8 @@
             <span class="n">listToString</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">]),</span> <span class="n">listToString</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">])</span>
         <span class="p">)</span>
     <span class="p">)</span>
-
-    <span class="c1"># create the statistic calculator and IO object</span>
-    <span class="n">statCalculator</span> <span class="o">=</span> <span class="n">StatisticCalculator</span><span class="p">()</span>
-    <span class="n">statIO</span> <span class="o">=</span> <span class="n">StatisticIO</span><span class="p">()</span>
-
     <span class="c1"># loop through sites and calculate statistics</span>
+    <span class="n">statIO</span> <span class="o">=</span> <span class="n">StatisticIO</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span>
         <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
         <span class="n">measurements</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurements</span><span class="p">()</span>
@@ -342,79 +338,75 @@
         <span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">measurements</span><span class="p">:</span>
             <span class="n">sampleFreq</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurementSampleFreq</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">sampleFreq</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]:</span>
-                <span class="c1"># don&#39;t need to calculate statistics for this sampling frequency</span>
                 <span class="k">continue</span>
-
             <span class="n">projectText</span><span class="p">(</span>
                 <span class="s2">&quot;Calculating stats for site </span><span class="si">{}</span><span class="s2">, measurement </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">meas</span><span class="p">)</span>
             <span class="p">)</span>
-
-            <span class="c1"># decimation parameters</span>
             <span class="n">decParams</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-            <span class="n">decParams</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
             <span class="n">numLevels</span> <span class="o">=</span> <span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
-
-            <span class="c1"># create the spectrum reader</span>
             <span class="n">specReader</span> <span class="o">=</span> <span class="n">SpectrumReader</span><span class="p">(</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurementSpecPath</span><span class="p">(</span><span class="n">meas</span><span class="p">),</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">])</span>
             <span class="p">)</span>
 
-            <span class="c1"># loop through decimation levels</span>
-            <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
-                <span class="c1"># open the spectra file for the current decimation level</span>
-                <span class="n">check</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">openBinaryForReading</span><span class="p">(</span><span class="s2">&quot;spectra&quot;</span><span class="p">,</span> <span class="n">iDec</span><span class="p">)</span>
+            <span class="c1"># calculate statistics for decimation level if spectra file exists</span>
+            <span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+                <span class="n">check</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">openBinaryForReading</span><span class="p">(</span><span class="s2">&quot;spectra&quot;</span><span class="p">,</span> <span class="n">declevel</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>
-                    <span class="c1"># probably because this decimation level not calculated</span>
                     <span class="k">continue</span>
-                <span class="n">specReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
-
-                <span class="c1"># get windows</span>
                 <span class="n">refTime</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getReferenceTime</span><span class="p">()</span>
                 <span class="n">winSize</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">()</span>
                 <span class="n">winOlap</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getWindowOverlap</span><span class="p">()</span>
                 <span class="n">numWindows</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getNumWindows</span><span class="p">()</span>
-                <span class="n">evalFreq</span> <span class="o">=</span> <span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
                 <span class="n">sampleFreqDec</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">()</span>
-                <span class="n">globalOffset</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getGlobalOffset</span><span class="p">()</span>
-                <span class="n">fArray</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getFrequencyArray</span><span class="p">()</span>
+                <span class="n">evalFreq</span> <span class="o">=</span> <span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
 
-                <span class="n">statHandlers</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="c1"># create the statistic handlers</span>
+                <span class="c1"># dictionary for saving statistic data</span>
+                <span class="n">statData</span> <span class="o">=</span> <span class="p">{}</span>
                 <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">]:</span>
                     <span class="n">statElements</span> <span class="o">=</span> <span class="n">getStatElements</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="n">StatisticData</span><span class="p">(</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="n">StatisticData</span><span class="p">(</span>
                         <span class="n">stat</span><span class="p">,</span> <span class="n">refTime</span><span class="p">,</span> <span class="n">sampleFreqDec</span><span class="p">,</span> <span class="n">winSize</span><span class="p">,</span> <span class="n">winOlap</span>
                     <span class="p">)</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">setStatParams</span><span class="p">(</span><span class="n">numWindows</span><span class="p">,</span> <span class="n">statElements</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">)</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getComments</span><span class="p">()</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getConfigComment</span><span class="p">())</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
-                        <span class="s2">&quot;Calculating statistic: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span>
-                    <span class="p">)</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">setStatParams</span><span class="p">(</span><span class="n">numWindows</span><span class="p">,</span> <span class="n">statElements</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">)</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getComments</span><span class="p">()</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getConfigComment</span><span class="p">())</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Calculating statistic: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stat</span><span class="p">))</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
                         <span class="s2">&quot;Statistic components: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">listToString</span><span class="p">(</span><span class="n">statElements</span><span class="p">))</span>
                     <span class="p">)</span>
-
-                <span class="c1"># loop over windows and calculate the relevant statistics</span>
-                <span class="k">for</span> <span class="n">iW</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numWindows</span><span class="p">):</span>
-                    <span class="c1"># get data</span>
-                    <span class="n">winData</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">readBinaryWindowLocal</span><span class="p">(</span><span class="n">iW</span><span class="p">)</span>
-                    <span class="n">globalIndex</span> <span class="o">=</span> <span class="n">iW</span> <span class="o">+</span> <span class="n">globalOffset</span>
-                    <span class="c1"># give the statistic calculator the spectra</span>
-                    <span class="n">statCalculator</span><span class="o">.</span><span class="n">setSpectra</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">winData</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">)</span>
-                    <span class="c1"># get the desired statistics</span>
-                    <span class="k">for</span> <span class="n">sH</span> <span class="ow">in</span> <span class="n">statHandlers</span><span class="p">:</span>
-                        <span class="n">data</span> <span class="o">=</span> <span class="n">statCalculator</span><span class="o">.</span><span class="n">getDataForStatName</span><span class="p">(</span><span class="n">sH</span><span class="p">)</span>
-                        <span class="n">statHandlers</span><span class="p">[</span><span class="n">sH</span><span class="p">]</span><span class="o">.</span><span class="n">addStat</span><span class="p">(</span><span class="n">iW</span><span class="p">,</span> <span class="n">globalIndex</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="c1"># get all the spectra data in batch and process all the windows</span>
+                <span class="n">spectraData</span><span class="p">,</span> <span class="n">globalIndices</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">readBinaryBatchGlobal</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="n">multiStatistics</span><span class="p">(</span>
+                        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">],</span> <span class="n">spectraData</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">iW</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numWindows</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">]:</span>
+                            <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addStat</span><span class="p">(</span><span class="n">iW</span><span class="p">,</span> <span class="n">globalIndices</span><span class="p">[</span><span class="n">iW</span><span class="p">],</span> <span class="n">out</span><span class="p">[</span><span class="n">iW</span><span class="p">][</span><span class="n">stat</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">statCalculator</span> <span class="o">=</span> <span class="n">StatisticCalculator</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">iW</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numWindows</span><span class="p">):</span>
+                        <span class="n">winSpecData</span> <span class="o">=</span> <span class="n">spectraData</span><span class="p">[</span><span class="n">iW</span><span class="p">]</span>
+                        <span class="n">winStatData</span> <span class="o">=</span> <span class="n">calculateWindowStatistics</span><span class="p">(</span>
+                            <span class="n">winSpecData</span><span class="p">,</span>
+                            <span class="n">evalFreq</span><span class="p">,</span>
+                            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">],</span>
+                            <span class="n">statCalculator</span><span class="o">=</span><span class="n">statCalculator</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">]:</span>
+                            <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addStat</span><span class="p">(</span>
+                                <span class="n">iW</span><span class="p">,</span> <span class="n">globalIndices</span><span class="p">[</span><span class="n">iW</span><span class="p">],</span> <span class="n">winStatData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span>
+                            <span class="p">)</span>
+                <span class="n">specReader</span><span class="o">.</span><span class="n">closeFile</span><span class="p">()</span>
 
                 <span class="c1"># save statistic</span>
-                <span class="k">for</span> <span class="n">sH</span> <span class="ow">in</span> <span class="n">statHandlers</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;stats&quot;</span><span class="p">]:</span>
                     <span class="n">statIO</span><span class="o">.</span><span class="n">setDatapath</span><span class="p">(</span>
                         <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                             <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurementStatPath</span><span class="p">(</span><span class="n">meas</span><span class="p">),</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="n">statIO</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">statHandlers</span><span class="p">[</span><span class="n">sH</span><span class="p">],</span> <span class="n">iDec</span><span class="p">)</span></div>
+                    <span class="n">statIO</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">],</span> <span class="n">declevel</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="calculateRemoteStatistics"><a class="viewcode-back" href="../../../api/resistics.project.statistics.html#resistics.project.statistics.calculateRemoteStatistics">[docs]</a><span class="k">def</span> <span class="nf">calculateRemoteStatistics</span><span class="p">(</span><span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="n">remoteSite</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -449,6 +441,7 @@
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotestats&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Statistics&quot;</span><span class="p">][</span><span class="s2">&quot;remotestats&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getStatisticCores</span><span class="p">()</span>
     <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">projectText</span><span class="p">(</span>
@@ -459,11 +452,7 @@
         <span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="c1"># create the statistic calculator and IO object</span>
-    <span class="n">statCalculator</span> <span class="o">=</span> <span class="n">StatisticCalculator</span><span class="p">()</span>
     <span class="n">statIO</span> <span class="o">=</span> <span class="n">StatisticIO</span><span class="p">()</span>
-
-    <span class="c1"># loop over sites</span>
     <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span>
         <span class="n">siteData</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSiteData</span><span class="p">(</span><span class="n">site</span><span class="p">)</span>
         <span class="n">measurements</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurements</span><span class="p">()</span>
@@ -471,105 +460,190 @@
         <span class="k">for</span> <span class="n">meas</span> <span class="ow">in</span> <span class="n">measurements</span><span class="p">:</span>
             <span class="n">sampleFreq</span> <span class="o">=</span> <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurementSampleFreq</span><span class="p">(</span><span class="n">meas</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">sampleFreq</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sampleFreqs&quot;</span><span class="p">]:</span>
-                <span class="c1"># don&#39;t need to calculate statistics for this sampling frequency</span>
                 <span class="k">continue</span>
-
             <span class="n">projectText</span><span class="p">(</span>
                 <span class="s2">&quot;Calculating stats for site </span><span class="si">{}</span><span class="s2">, measurement </span><span class="si">{}</span><span class="s2"> with reference </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">site</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="n">remoteSite</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-
             <span class="c1"># decimation and window parameters</span>
             <span class="n">decParams</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-            <span class="n">decParams</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
             <span class="n">numLevels</span> <span class="o">=</span> <span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
             <span class="n">winParams</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decParams</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-
             <span class="c1"># create the window selector and find the shared windows</span>
             <span class="n">winSelector</span> <span class="o">=</span> <span class="n">getWindowSelector</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">decParams</span><span class="p">,</span> <span class="n">winParams</span><span class="p">)</span>
             <span class="n">winSelector</span><span class="o">.</span><span class="n">setSites</span><span class="p">([</span><span class="n">site</span><span class="p">,</span> <span class="n">remoteSite</span><span class="p">])</span>
-            <span class="c1"># calc shared windows between site and remote</span>
             <span class="n">winSelector</span><span class="o">.</span><span class="n">calcSharedWindows</span><span class="p">()</span>
             <span class="c1"># create the spectrum reader</span>
             <span class="n">specReader</span> <span class="o">=</span> <span class="n">SpectrumReader</span><span class="p">(</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurementSpecPath</span><span class="p">(</span><span class="n">meas</span><span class="p">),</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">])</span>
             <span class="p">)</span>
 
-            <span class="c1"># loop through decimation levels</span>
-            <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
-                <span class="c1"># open the spectra file for the current decimation level</span>
-                <span class="n">check</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">openBinaryForReading</span><span class="p">(</span><span class="s2">&quot;spectra&quot;</span><span class="p">,</span> <span class="n">iDec</span><span class="p">)</span>
+            <span class="c1"># calculate statistics for decimation level if spectra file exists</span>
+            <span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+                <span class="n">check</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">openBinaryForReading</span><span class="p">(</span><span class="s2">&quot;spectra&quot;</span><span class="p">,</span> <span class="n">declevel</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>
-                    <span class="c1"># probably because this decimation level not calculated</span>
                     <span class="k">continue</span>
-                <span class="n">specReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
-
-                <span class="c1"># get a set of the shared windows at this decimation level</span>
-                <span class="c1"># these are the global indices</span>
-                <span class="n">sharedWindows</span> <span class="o">=</span> <span class="n">winSelector</span><span class="o">.</span><span class="n">getSharedWindowsLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
-
-                <span class="c1"># get other information regarding only this spectra file</span>
+                <span class="c1"># information regarding only this spectra file</span>
                 <span class="n">refTime</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getReferenceTime</span><span class="p">()</span>
                 <span class="n">winSize</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">()</span>
                 <span class="n">winOlap</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getWindowOverlap</span><span class="p">()</span>
                 <span class="n">numWindows</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getNumWindows</span><span class="p">()</span>
-                <span class="n">evalFreq</span> <span class="o">=</span> <span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
+                <span class="n">evalFreq</span> <span class="o">=</span> <span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
                 <span class="n">sampleFreqDec</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">()</span>
                 <span class="n">globalOffset</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getGlobalOffset</span><span class="p">()</span>
-                <span class="n">fArray</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getFrequencyArray</span><span class="p">()</span>
 
-                <span class="c1"># now want to find the size of the intersection between the windows in this file and the shared windows</span>
+                <span class="c1"># find size of the intersection between the windows in this spectra file and the shared windows</span>
+                <span class="n">sharedWindows</span> <span class="o">=</span> <span class="n">winSelector</span><span class="o">.</span><span class="n">getSharedWindowsLevel</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
                 <span class="n">sharedWindowsMeas</span> <span class="o">=</span> <span class="n">sharedWindows</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span>
                     <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">globalOffset</span><span class="p">,</span> <span class="n">globalOffset</span> <span class="o">+</span> <span class="n">numWindows</span><span class="p">))</span>
                 <span class="p">)</span>
                 <span class="n">sharedWindowsMeas</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sharedWindowsMeas</span><span class="p">))</span>
                 <span class="n">numSharedWindows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sharedWindowsMeas</span><span class="p">)</span>
 
-                <span class="n">statHandlers</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">statData</span> <span class="o">=</span> <span class="p">{}</span>
                 <span class="c1"># create the statistic handlers</span>
                 <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotestats&quot;</span><span class="p">]:</span>
                     <span class="n">statElements</span> <span class="o">=</span> <span class="n">getStatElements</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="n">StatisticData</span><span class="p">(</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="n">StatisticData</span><span class="p">(</span>
                         <span class="n">stat</span><span class="p">,</span> <span class="n">refTime</span><span class="p">,</span> <span class="n">sampleFreqDec</span><span class="p">,</span> <span class="n">winSize</span><span class="p">,</span> <span class="n">winOlap</span>
                     <span class="p">)</span>
-                    <span class="c1"># remember, this is with the remote reference, so the number of windows is number of shared windows</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">setStatParams</span><span class="p">(</span>
+                    <span class="c1"># with remote reference the number of windows is number of shared windows</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">setStatParams</span><span class="p">(</span>
                         <span class="n">numSharedWindows</span><span class="p">,</span> <span class="n">statElements</span><span class="p">,</span> <span class="n">evalFreq</span>
                     <span class="p">)</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getComments</span><span class="p">()</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getConfigComment</span><span class="p">())</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getComments</span><span class="p">()</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getConfigComment</span><span class="p">())</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
                         <span class="s2">&quot;Calculating remote statistic: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="n">statHandlers</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+                    <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
                         <span class="s2">&quot;Statistic components: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">listToString</span><span class="p">(</span><span class="n">statElements</span><span class="p">))</span>
                     <span class="p">)</span>
 
-                <span class="c1"># loop over the shared windows between the remote station and local station</span>
-                <span class="k">for</span> <span class="n">iW</span><span class="p">,</span> <span class="n">globalWindow</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sharedWindowsMeas</span><span class="p">):</span>
-                    <span class="c1"># get data and set in the statCalculator</span>
-                    <span class="n">winData</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">readBinaryWindowGlobal</span><span class="p">(</span><span class="n">globalWindow</span><span class="p">)</span>
-                    <span class="n">statCalculator</span><span class="o">.</span><span class="n">setSpectra</span><span class="p">(</span><span class="n">fArray</span><span class="p">,</span> <span class="n">winData</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">)</span>
-                    <span class="c1"># for the remote site, use the reader in win selector</span>
+                <span class="c1"># collect the spectra data</span>
+                <span class="n">spectraData</span><span class="p">,</span> <span class="n">_globalIndices</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">readBinaryBatchGlobal</span><span class="p">(</span>
+                    <span class="n">sharedWindowsMeas</span>
+                <span class="p">)</span>
+                <span class="n">remoteData</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">globalWindow</span> <span class="ow">in</span> <span class="n">sharedWindowsMeas</span><span class="p">:</span>
                     <span class="n">_</span><span class="p">,</span> <span class="n">remoteReader</span> <span class="o">=</span> <span class="n">winSelector</span><span class="o">.</span><span class="n">getSpecReaderForWindow</span><span class="p">(</span>
-                        <span class="n">remoteSite</span><span class="p">,</span> <span class="n">iDec</span><span class="p">,</span> <span class="n">globalWindow</span>
+                        <span class="n">remoteSite</span><span class="p">,</span> <span class="n">declevel</span><span class="p">,</span> <span class="n">globalWindow</span>
                     <span class="p">)</span>
-                    <span class="n">winDataRR</span> <span class="o">=</span> <span class="n">remoteReader</span><span class="o">.</span><span class="n">readBinaryWindowGlobal</span><span class="p">(</span><span class="n">globalWindow</span><span class="p">)</span>
-                    <span class="n">statCalculator</span><span class="o">.</span><span class="n">addRemoteSpec</span><span class="p">(</span><span class="n">winDataRR</span><span class="p">)</span>
+                    <span class="n">remoteData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">remoteReader</span><span class="o">.</span><span class="n">readBinaryWindowGlobal</span><span class="p">(</span><span class="n">globalWindow</span><span class="p">))</span>
 
-                    <span class="k">for</span> <span class="n">sH</span> <span class="ow">in</span> <span class="n">statHandlers</span><span class="p">:</span>
-                        <span class="n">data</span> <span class="o">=</span> <span class="n">statCalculator</span><span class="o">.</span><span class="n">getDataForStatName</span><span class="p">(</span><span class="n">sH</span><span class="p">)</span>
-                        <span class="n">statHandlers</span><span class="p">[</span><span class="n">sH</span><span class="p">]</span><span class="o">.</span><span class="n">addStat</span><span class="p">(</span><span class="n">iW</span><span class="p">,</span> <span class="n">globalWindow</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="c1"># calculate</span>
+                <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="n">multiStatistics</span><span class="p">(</span>
+                        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">],</span>
+                        <span class="n">spectraData</span><span class="p">,</span>
+                        <span class="n">evalFreq</span><span class="p">,</span>
+                        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotestats&quot;</span><span class="p">],</span>
+                        <span class="n">remoteData</span><span class="o">=</span><span class="n">remoteData</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">iW</span><span class="p">,</span> <span class="n">globalWindow</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sharedWindowsMeas</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotestats&quot;</span><span class="p">]:</span>
+                            <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addStat</span><span class="p">(</span><span class="n">iW</span><span class="p">,</span> <span class="n">globalWindow</span><span class="p">,</span> <span class="n">out</span><span class="p">[</span><span class="n">iW</span><span class="p">][</span><span class="n">stat</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">statCalculator</span> <span class="o">=</span> <span class="n">StatisticCalculator</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">iW</span><span class="p">,</span> <span class="n">globalWindow</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sharedWindowsMeas</span><span class="p">):</span>
+                        <span class="n">winStatData</span> <span class="o">=</span> <span class="n">calculateWindowStatistics</span><span class="p">(</span>
+                            <span class="n">spectraData</span><span class="p">[</span><span class="n">iW</span><span class="p">],</span>
+                            <span class="n">evalFreq</span><span class="p">,</span>
+                            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotestats&quot;</span><span class="p">],</span>
+                            <span class="n">remoteSpecData</span><span class="o">=</span><span class="n">remoteData</span><span class="p">[</span><span class="n">iW</span><span class="p">],</span>
+                            <span class="n">statCalculator</span><span class="o">=</span><span class="n">statCalculator</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotestats&quot;</span><span class="p">]:</span>
+                            <span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">addStat</span><span class="p">(</span><span class="n">iW</span><span class="p">,</span> <span class="n">globalWindow</span><span class="p">,</span> <span class="n">winStatData</span><span class="p">[</span><span class="n">stat</span><span class="p">])</span>
 
                 <span class="c1"># save statistic</span>
-                <span class="k">for</span> <span class="n">sH</span> <span class="ow">in</span> <span class="n">statHandlers</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;remotestats&quot;</span><span class="p">]:</span>
                     <span class="n">statIO</span><span class="o">.</span><span class="n">setDatapath</span><span class="p">(</span>
                         <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                             <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurementStatPath</span><span class="p">(</span><span class="n">meas</span><span class="p">),</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="n">statIO</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">statHandlers</span><span class="p">[</span><span class="n">sH</span><span class="p">],</span> <span class="n">iDec</span><span class="p">)</span></div>
+                    <span class="n">statIO</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">statData</span><span class="p">[</span><span class="n">stat</span><span class="p">],</span> <span class="n">declevel</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="calculateWindowStatistics"><a class="viewcode-back" href="../../../api/resistics.project.statistics.html#resistics.project.statistics.calculateWindowStatistics">[docs]</a><span class="k">def</span> <span class="nf">calculateWindowStatistics</span><span class="p">(</span>
+    <span class="n">winSpecData</span><span class="p">:</span> <span class="n">SpectrumData</span><span class="p">,</span>
+    <span class="n">evalFreq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">stats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">remoteSpecData</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SpectrumData</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">statCalculator</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">StatisticCalculator</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the statistics for a single window</span>
+<span class="sd">    </span>
+<span class="sd">    This method is meant to be used with multiprocessing</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    winSpecData : SpectrumData</span>
+<span class="sd">        Spectrum data for a single window</span>
+<span class="sd">    evalFreq : np.ndarray</span>
+<span class="sd">        Array for evaluation frequencies</span>
+<span class="sd">    stats : List[str]</span>
+<span class="sd">        List of statistics to calculate</span>
+<span class="sd">    remoteSpecData : None, SpectrumData</span>
+<span class="sd">        Optionally add remote spectrum data to calculate remote statistics</span>
+<span class="sd">    statCalculator : None, StatisticCalculator</span>
+<span class="sd">        Provide a statistic calculator to avoid multiple creation of objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">statCalculator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">statCalculator</span> <span class="o">=</span> <span class="n">StatisticCalculator</span><span class="p">()</span>
+    <span class="n">statCalculator</span><span class="o">.</span><span class="n">setSpectra</span><span class="p">(</span><span class="n">winSpecData</span><span class="o">.</span><span class="n">freqArray</span><span class="p">,</span> <span class="n">winSpecData</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">remoteSpecData</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">statCalculator</span><span class="o">.</span><span class="n">addRemoteSpec</span><span class="p">(</span><span class="n">remoteSpecData</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="n">statCalculator</span><span class="o">.</span><span class="n">getDataForStatName</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="multiStatistics"><a class="viewcode-back" href="../../../api/resistics.project.statistics.html#resistics.project.statistics.multiStatistics">[docs]</a><span class="k">def</span> <span class="nf">multiStatistics</span><span class="p">(</span>
+    <span class="n">ncores</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">spectraData</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SpectrumData</span><span class="p">],</span>
+    <span class="n">evalFreq</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">stats</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">remoteData</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SpectrumData</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Multiprocessing of statistics</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ncores : int</span>
+<span class="sd">        The number of cores to use    </span>
+<span class="sd">    spectraData : List[SpectrumData]</span>
+<span class="sd">        List of spectrum data to process</span>
+<span class="sd">    evalFreq : np.ndarray</span>
+<span class="sd">        The evaluation frequencies</span>
+<span class="sd">    stats : List[str]</span>
+<span class="sd">        The statistics to calculate</span>
+<span class="sd">    remoteData : None, List[SpectrumData]</span>
+<span class="sd">        Remote data in case of remote reference statistics. None is default</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List[Dict[str, Any]]</span>
+<span class="sd">        The statistic data returned as a list with an entry for every window. The dictionary maps the statistic name to the data for that window.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+
+    <span class="c1"># prepare the lists</span>
+    <span class="k">if</span> <span class="n">remoteData</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">multiTuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">winSpecData</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span> <span class="k">for</span> <span class="n">winSpecData</span> <span class="ow">in</span> <span class="n">spectraData</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">multiTuples</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">winSpecData</span><span class="p">,</span> <span class="n">evalFreq</span><span class="p">,</span> <span class="n">stats</span><span class="p">,</span> <span class="n">remoteSpecData</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">winSpecData</span><span class="p">,</span> <span class="n">remoteSpecData</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">spectraData</span><span class="p">,</span> <span class="n">remoteData</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="c1"># multiprocess</span>
+    <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Running statistic calculations on </span><span class="si">{}</span><span class="s2"> cores&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ncores</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">ncores</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">calculateWindowStatistics</span><span class="p">,</span> <span class="n">multiTuples</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
 
 
 <div class="viewcode-block" id="viewStatistic"><a class="viewcode-back" href="../../../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic">[docs]</a><span class="k">def</span> <span class="nf">viewStatistic</span><span class="p">(</span>
@@ -613,7 +687,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    matplotlib.pyplot.figure or None</span>
-<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</span>
+<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed. If no data was found, None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="k">import</span> <span class="n">savePlot</span><span class="p">,</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPlotRowsAndCols</span>
 
@@ -644,8 +718,14 @@
         <span class="n">declevel</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">],</span>
         <span class="n">specdir</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span>
     <span class="p">)</span>
-    <span class="c1"># get the statistics</span>
     <span class="n">statMeas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">statMeas</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">projectWarning</span><span class="p">(</span>
+            <span class="s2">&quot;No statistic files for site </span><span class="si">{}</span><span class="s2">, sampling frequency </span><span class="si">{}</span><span class="s2">, statistic </span><span class="si">{}</span><span class="s2"> and decimation level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">stat</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
     <span class="c1"># get the evaluation frequency</span>
     <span class="n">eFreq</span> <span class="o">=</span> <span class="n">statData</span><span class="p">[</span><span class="n">statMeas</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;eFreqI&quot;</span><span class="p">]]</span>
 
@@ -758,7 +838,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    matplotlib.pyplot.figure or None</span>
-<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None.</span>
+<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None. If no data was found, None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="k">import</span> <span class="n">savePlot</span><span class="p">,</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPlotRowsAndCols</span>
 
@@ -790,6 +870,13 @@
         <span class="n">specdir</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="n">statMeas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">statMeas</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">projectWarning</span><span class="p">(</span>
+            <span class="s2">&quot;No statistic files for site </span><span class="si">{}</span><span class="s2">, sampling frequency </span><span class="si">{}</span><span class="s2">, statistic </span><span class="si">{}</span><span class="s2"> and decimation level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">stat</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
     <span class="c1"># get the statistic components</span>
     <span class="n">statComponents</span> <span class="o">=</span> <span class="n">statData</span><span class="p">[</span><span class="n">statMeas</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">winStats</span>
     <span class="c1"># get the evaluation frequency</span>
@@ -920,7 +1007,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    matplotlib.pyplot.figure or None</span>
-<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</span>
+<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed. If no data was found, None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="k">import</span> <span class="n">savePlot</span><span class="p">,</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">getPlotRowsAndCols</span>
 
@@ -952,6 +1039,13 @@
         <span class="n">specdir</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="n">statMeas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">statMeas</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">projectWarning</span><span class="p">(</span>
+            <span class="s2">&quot;No statistic files for site </span><span class="si">{}</span><span class="s2">, sampling frequency </span><span class="si">{}</span><span class="s2">, statistic </span><span class="si">{}</span><span class="s2"> and decimation level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">stat</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
     <span class="c1"># get the evaluation frequency</span>
     <span class="n">eFreq</span> <span class="o">=</span> <span class="n">statData</span><span class="p">[</span><span class="n">statMeas</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;eFreqI&quot;</span><span class="p">]]</span>
 
@@ -970,7 +1064,7 @@
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;figsize&quot;</span><span class="p">])</span>
     <span class="c1"># suptitle</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
-        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> crossplots for </span><span class="si">{}</span><span class="s2">, sampling frequency </span><span class="si">{}</span><span class="s2"> Hz, decimation level </span><span class="si">{}</span><span class="s2"> and evaluation frequency </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> crossplots for </span><span class="si">{}</span><span class="s2">, sampling frequency </span><span class="si">{}</span><span class="s2"> Hz,</span><span class="se">\n</span><span class="s2">decimation level </span><span class="si">{}</span><span class="s2"> and evaluation frequency </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">stat</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">],</span> <span class="n">eFreq</span>
         <span class="p">),</span>
         <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">],</span>
@@ -1076,7 +1170,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    matplotlib.pyplot.figure or None</span>
-<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</span>
+<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed. If no data was found, None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="k">import</span> <span class="p">(</span>
         <span class="n">savePlot</span><span class="p">,</span>
@@ -1084,9 +1178,6 @@
         <span class="n">getPlotRowsAndCols</span><span class="p">,</span>
         <span class="n">colorbar2dSpectra</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">kde</span>
-    <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="k">import</span> <span class="n">interpn</span>
-    <span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">mcolors</span>
 
     <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1116,6 +1207,13 @@
         <span class="n">specdir</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">],</span>
     <span class="p">)</span>
     <span class="n">statMeas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">statData</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">statMeas</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">projectWarning</span><span class="p">(</span>
+            <span class="s2">&quot;No statistic files for site </span><span class="si">{}</span><span class="s2">, sampling frequency </span><span class="si">{}</span><span class="s2">, statistic </span><span class="si">{}</span><span class="s2"> and decimation level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">stat</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
     <span class="c1"># get the evaluation frequency</span>
     <span class="n">eFreq</span> <span class="o">=</span> <span class="n">statData</span><span class="p">[</span><span class="n">statMeas</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;eFreqI&quot;</span><span class="p">]]</span>
 
@@ -1134,7 +1232,7 @@
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;figsize&quot;</span><span class="p">])</span>
     <span class="c1"># suptitle</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span>
-        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> density plots for </span><span class="si">{}</span><span class="s2">, sampling frequency </span><span class="si">{}</span><span class="s2"> Hz, decimation level </span><span class="si">{}</span><span class="s2"> and evaluation frequency </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> density plots for </span><span class="si">{}</span><span class="s2">, sampling frequency </span><span class="si">{}</span><span class="s2"> Hz,</span><span class="se">\n</span><span class="s2">decimation level </span><span class="si">{}</span><span class="s2"> and evaluation frequency </span><span class="si">{}</span><span class="s2"> Hz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">stat</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">],</span> <span class="n">eFreq</span>
         <span class="p">),</span>
         <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;suptitle&quot;</span><span class="p">],</span>
@@ -1259,7 +1357,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.project.transfunc &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.project.transfunc &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -268,6 +268,8 @@
 <span class="sd">        List of datetime constraints, each one as a dictionary. For example [{&quot;type&quot;: &quot;datetime&quot;, &quot;start&quot;: 2018-08-08 00:00:00, &quot;end&quot;: 2018-08-08 16:00:00, &quot;levels&quot;: [0,1]}]. Note that levels is optional.            </span>
 <span class="sd">    postpend : str, optional</span>
 <span class="sd">        String to postpend to the transfer function output</span>
+<span class="sd">    ncores : int, optional</span>
+<span class="sd">        The number of cores to run the transfer function calculations on        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">getSites</span><span class="p">()</span>
@@ -282,6 +284,7 @@
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">]:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;datetimes&quot;</span><span class="p">]:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getSolverCores</span><span class="p">()</span>    
     <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;sites&quot;</span><span class="p">]:</span>
@@ -333,6 +336,8 @@
 <span class="sd">        List of datetime constraints, each one as a dictionary. For example [{&quot;type&quot;: &quot;datetime&quot;, &quot;start&quot;: 2018-08-08 00:00:00, &quot;end&quot;: 2018-08-08 16:00:00, &quot;levels&quot;: [0,1]}]. Note that levels is optional.</span>
 <span class="sd">    postpend : str, optional</span>
 <span class="sd">        String to postpend to the transfer function output</span>
+<span class="sd">    ncores : int, optional</span>
+<span class="sd">        The number of cores to run the transfer function calculations on</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">resistics.decimate.decimator</span> <span class="k">import</span> <span class="n">Decimator</span>
     <span class="kn">from</span> <span class="nn">resistics.window.selector</span> <span class="k">import</span> <span class="n">WindowSelector</span>
@@ -355,6 +360,7 @@
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;masks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;datetimes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getSolverCores</span><span class="p">()</span>
     <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
         <span class="n">options</span><span class="p">[</span><span class="s2">&quot;inputsite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">site</span>
@@ -440,7 +446,8 @@
         <span class="n">processor</span><span class="o">.</span><span class="n">crossChannels</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;crosschannels&quot;</span><span class="p">]</span>
     <span class="n">processor</span><span class="o">.</span><span class="n">postpend</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;postpend&quot;</span><span class="p">]</span>
     <span class="n">processor</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
-    <span class="n">processor</span><span class="o">.</span><span class="n">process</span><span class="p">()</span></div>
+    <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Processing data using </span><span class="si">{}</span><span class="s2"> cores&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]))</span>
+    <span class="n">processor</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="viewImpedance"><a class="viewcode-back" href="../../../api/resistics.project.transfunc.html#resistics.project.transfunc.viewImpedance">[docs]</a><span class="k">def</span> <span class="nf">viewImpedance</span><span class="p">(</span><span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Figure</span><span class="p">]:</span>
@@ -735,7 +742,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

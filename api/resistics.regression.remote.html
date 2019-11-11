@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.regression.remote module &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.regression.remote module &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -107,6 +107,7 @@
 <li class="toctree-l2"><a class="reference internal" href="resistics.statistics.html">resistics.statistics package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="resistics.mask.html">resistics.mask package</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="resistics.regression.html">resistics.regression package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="resistics.regression.compute.html">resistics.regression.compute module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.regression.local.html">resistics.regression.local module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">resistics.regression.remote module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="resistics.regression.robust.html">resistics.regression.robust module</a></li>
@@ -403,16 +404,16 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 
 <dl class="method">
 <dt id="resistics.regression.remote.RemoteRegressor.process">
-<code class="descname">process</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.process" title="Permalink to this definition">¶</a></dt>
+<code class="descname">process</code><span class="sig-paren">(</span><em>self</em>, <em>ncores: int = 0</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.process" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process spectra data</p>
 <p>The processing sequence for each decimation level is as below:</p>
 <ol class="arabic">
-<li><p class="first">Get shared (unmasked) windows for all relevant sites (inSite, outSite and remoteSite)</p>
+<li><p class="first">Get shared (unmasked) windows for all relevant sites (inSite and outSite)</p>
 </li>
 <li><p class="first">For shared unmasked windows</p>
 <blockquote>
 <div><ul class="simple">
-<li>Calculate out the cross-power spectra. For remote reference processing, this includes the remote site too.</li>
+<li>Calculate out the cross-power spectra.</li>
 <li>Interpolate calculated cross-power data to the evaluation frequencies for the decimation level.</li>
 </ul>
 </div></blockquote>
@@ -551,7 +552,7 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

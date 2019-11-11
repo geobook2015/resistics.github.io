@@ -1,0 +1,455 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>resistics.regression.compute module &mdash; resistics 0.0.6rc1 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="resistics.regression.local module" href="resistics.regression.local.html" />
+    <link rel="prev" title="resistics.regression package" href="resistics.regression.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html"> resistics
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search..." />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../formats.html">Data formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbook.html">Cookbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../case-studies.html">Case studies</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="resistics.common.html">resistics.common package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.config.html">resistics.config package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.time.html">resistics.time package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.spectra.html">resistics.spectra package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.statistics.html">resistics.statistics package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.mask.html">resistics.mask package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="resistics.regression.html">resistics.regression package</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">resistics.regression.compute module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.regression.local.html">resistics.regression.local module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.regression.remote.html">resistics.regression.remote module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="resistics.regression.robust.html">resistics.regression.robust module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.transfunc.html">resistics.transfunc package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.site.html">resistics.site package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.project.html">resistics.project package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.calibrate.html">resistics.calibrate package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.window.html">resistics.window package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resistics.decimate.html">resistics.decimate package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog / backlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../donate.html">Donate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">resistics</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">resistics</a> &raquo;</li>
+        
+          <li><a href="../modules.html">API reference</a> &raquo;</li>
+        
+          <li><a href="resistics.regression.html">resistics.regression package</a> &raquo;</li>
+        
+      <li>resistics.regression.compute module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/resistics.regression.compute.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-resistics.regression.compute">
+<span id="resistics-regression-compute-module"></span><h1>resistics.regression.compute module<a class="headerlink" href="#module-resistics.regression.compute" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="resistics.regression.compute.evalFrequencyData">
+<code class="descclassname">resistics.regression.compute.</code><code class="descname">evalFrequencyData</code><span class="sig-paren">(</span><em>freq</em>, <em>evalFreq</em>, <em>winDataMatrix</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/compute.html#evalFrequencyData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.compute.evalFrequencyData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate spectral power data at evaluation frequencies</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>freq</strong><span class="classifier">np.ndarray</span></dt><dd><p>Frequency array of spectra data</p>
+</dd>
+<dt><strong>evalFreq</strong><span class="classifier">np.ndarray</span></dt><dd><p>Evaluation frequencies for the decimation level</p>
+</dd>
+<dt><strong>winDataMatrix</strong><span class="classifier">np.ndarray</span></dt><dd><p>Array holding spectral power data at frequencies freq</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong><span class="classifier">np.ndarray</span></dt><dd><p>Spectral power data interpolated to evaluation frequencies</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.regression.compute.remoteMatrices">
+<code class="descclassname">resistics.regression.compute.</code><code class="descname">remoteMatrices</code><span class="sig-paren">(</span><em>ncores: int, inData: List[resistics.spectra.data.SpectrumData], outData: List[resistics.spectra.data.SpectrumData], remoteData: List[resistics.spectra.data.SpectrumData], inChannels: List[str], outChannels: List[str], remoteChannels: List[str], smoothLen: int, smoothWin: str, evalFreq: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/compute.html#remoteMatrices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.compute.remoteMatrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parallel calculation of spectral matrices for remote reference data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ncores</strong><span class="classifier">int</span></dt><dd><p>The number of cores to run on</p>
+</dd>
+<dt><strong>inData</strong><span class="classifier">List[SpectrumData]</span></dt><dd><p>The input spectrum data</p>
+</dd>
+<dt><strong>outData</strong><span class="classifier">List[SpectrumData]</span></dt><dd><p>The output spectrum data</p>
+</dd>
+<dt><strong>remoteData</strong><span class="classifier">List[SpectrumData]</span></dt><dd><p>The remote reference spectrum data</p>
+</dd>
+<dt><strong>inChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The input channels to use</p>
+</dd>
+<dt><strong>outChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The output channels to use</p>
+</dd>
+<dt><strong>remoteChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The remote channels to use</p>
+</dd>
+<dt><strong>smoothLen</strong><span class="classifier">int</span></dt><dd><p>The smoothing length</p>
+</dd>
+<dt><strong>smoothWin</strong><span class="classifier">str</span></dt><dd><p>The smoothing window</p>
+</dd>
+<dt><strong>evalFreq</strong><span class="classifier">np.ndarray</span></dt><dd><p>The evaluation frequencies to interpolate to</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong><span class="classifier">List[np.ndarray]</span></dt><dd><p>List of spectral matrices</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.regression.compute.remoteMatricesWindow">
+<code class="descclassname">resistics.regression.compute.</code><code class="descname">remoteMatricesWindow</code><span class="sig-paren">(</span><em>inData: resistics.spectra.data.SpectrumData, outData: resistics.spectra.data.SpectrumData, remoteData: resistics.spectra.data.SpectrumData, inChannels: List[str], outChannels: List[str], remoteChannels: List[str], smoothLen: int, smoothWin: str, evalFreq: List[float]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/compute.html#remoteMatricesWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.compute.remoteMatricesWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the spectral matrices</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>inData</strong><span class="classifier">SpectrumData</span></dt><dd><p>The input spectrum data</p>
+</dd>
+<dt><strong>outData</strong><span class="classifier">SpectrumData</span></dt><dd><p>The output spectrum data</p>
+</dd>
+<dt><strong>remoteData</strong><span class="classifier">SpectrumData</span></dt><dd><p>The remote spectrum data</p>
+</dd>
+<dt><strong>inChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The input channels to use</p>
+</dd>
+<dt><strong>outChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The output channels to use</p>
+</dd>
+<dt><strong>remoteChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The remote channels to use</p>
+</dd>
+<dt><strong>smoothLen</strong><span class="classifier">int</span></dt><dd><p>The smoothing length</p>
+</dd>
+<dt><strong>smoothWin</strong><span class="classifier">str</span></dt><dd><p>The smoothing window</p>
+</dd>
+<dt><strong>evalFreq</strong><span class="classifier">np.ndarray</span></dt><dd><p>The evaluation frequencies to interpolate to</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong><span class="classifier">np.ndarray</span></dt><dd><p>Cross spectral matrices interpolated to evaluation frequencies</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.regression.compute.spectralMatrices">
+<code class="descclassname">resistics.regression.compute.</code><code class="descname">spectralMatrices</code><span class="sig-paren">(</span><em>ncores: int, inData: List[resistics.spectra.data.SpectrumData], outData: List[resistics.spectra.data.SpectrumData], inChannels: List[str], outChannels: List[str], smoothLen: int, smoothWin: str, evalFreq: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/compute.html#spectralMatrices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.compute.spectralMatrices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parallel calculation of spectral matrices</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>ncores</strong><span class="classifier">int</span></dt><dd><p>The number of cores to run on</p>
+</dd>
+<dt><strong>inData</strong><span class="classifier">List[SpectrumData]</span></dt><dd><p>The input spectrum data</p>
+</dd>
+<dt><strong>outData</strong><span class="classifier">List[SpectrumData]</span></dt><dd><p>The output spectrum data</p>
+</dd>
+<dt><strong>inChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The input channels to use</p>
+</dd>
+<dt><strong>outChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The output channels to use</p>
+</dd>
+<dt><strong>smoothLen</strong><span class="classifier">int</span></dt><dd><p>The smoothing length</p>
+</dd>
+<dt><strong>smoothWin</strong><span class="classifier">str</span></dt><dd><p>The smoothing window</p>
+</dd>
+<dt><strong>evalFreq</strong><span class="classifier">np.ndarray</span></dt><dd><p>The evaluation frequencies to interpolate to</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong><span class="classifier">List[np.ndarray]</span></dt><dd><p>List of spectral matrices</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="resistics.regression.compute.spectralMatricesWindow">
+<code class="descclassname">resistics.regression.compute.</code><code class="descname">spectralMatricesWindow</code><span class="sig-paren">(</span><em>inData: resistics.spectra.data.SpectrumData, outData: resistics.spectra.data.SpectrumData, inChannels: List[str], outChannels: List[str], smoothLen: int, smoothWin: str, evalFreq: List[float]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/compute.html#spectralMatricesWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.compute.spectralMatricesWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the spectral matrices</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>inData</strong><span class="classifier">SpectrumData</span></dt><dd><p>The input spectrum data</p>
+</dd>
+<dt><strong>outData</strong><span class="classifier">SpectrumData</span></dt><dd><p>The output spectrum data</p>
+</dd>
+<dt><strong>inChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The input channels to use</p>
+</dd>
+<dt><strong>outChannels</strong><span class="classifier">List[str]</span></dt><dd><p>The output channels to use</p>
+</dd>
+<dt><strong>smoothLen</strong><span class="classifier">int</span></dt><dd><p>The smoothing length</p>
+</dd>
+<dt><strong>smoothWin</strong><span class="classifier">str</span></dt><dd><p>The smoothing window</p>
+</dd>
+<dt><strong>evalFreq</strong><span class="classifier">np.ndarray</span></dt><dd><p>The evaluation frequencies to interpolate to</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>out</strong><span class="classifier">np.ndarray</span></dt><dd><p>Cross spectral matrices interpolated to evaluation frequencies</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="resistics.regression.local.html" class="btn btn-neutral float-right" title="resistics.regression.local module" accesskey="n" rel="next">Next</a>
+      
+      
+        <a href="resistics.regression.html" class="btn btn-neutral" title="resistics.regression package" accesskey="p" rel="prev">Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Neeraj Shah.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/unitedstack/sphinx_rtd_theme">theme</a> provided by <a href="https://github.com/unitedstack">UnitedStack</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.6rc1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

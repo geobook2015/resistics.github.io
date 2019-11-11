@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.statistics.calculator &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.statistics.calculator &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -167,7 +167,6 @@
             
   <h1>Source code for resistics.statistics.calculator</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
 <span class="kn">import</span> <span class="nn">scipy.interpolate</span> <span class="k">as</span> <span class="nn">interp</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
@@ -212,12 +211,12 @@
 <span class="sd">        Pairs of channels for coherence calculations</span>
 <span class="sd">    polDirs : List[List[str]]</span>
 <span class="sd">        Pairs of channels of polarisation direction calculation</span>
-<span class="sd">    spec: Dict = {}</span>
-
+<span class="sd">    spec: Dict[str, np.ndarray]</span>
+<span class="sd">        The spectra data dictionary mapping channel to data array</span>
 <span class="sd">    tfCalculated : bool </span>
 <span class="sd">        Boolean flag to show that the transfer function has been calculated for a window</span>
 <span class="sd">    remoteCalculated : bool </span>
-<span class="sd">        Boolean flag to show...</span>
+<span class="sd">        Boolean flag to show if the remote transfer function has been calculated</span>
 <span class="sd">    intercept : bool   </span>
 <span class="sd">        Boolean flag to include an intercept into the </span>
 <span class="sd">    outData: Dict = {}</span>
@@ -226,50 +225,95 @@
 <span class="sd">    -------</span>
 <span class="sd">    __init__()</span>
 <span class="sd">    getEvalFreq()</span>
+<span class="sd">        Get a list of the evaluation frequency</span>
 <span class="sd">    getInChans()</span>
+<span class="sd">        Get a list of the input channels for the transfer function calculation</span>
 <span class="sd">    getOutChans()</span>
+<span class="sd">        Get a list of the output channels for the transfer function calculation</span>
 <span class="sd">    getSpecChans()</span>
+<span class="sd">        Get a list of the spectra channels</span>
 <span class="sd">    getRemoteChans()</span>
+<span class="sd">        Get a list of the remote channels</span>
 <span class="sd">    getPSDChans()</span>
+<span class="sd">        Get a list of channels for which to calculate power spectral density</span>
 <span class="sd">    getCohPairs()</span>
+<span class="sd">        Get a list of coherence pairs to calculate</span>
 <span class="sd">    getPolDirs()</span>
+<span class="sd">        Get a list of polarisation direction channels to calculate</span>
 <span class="sd">    getAutoPower(chan)</span>
+<span class="sd">        Get auto power data for a channel</span>
 <span class="sd">    getAutoPowerEval(chan, eIdx)</span>
+<span class="sd">        Get auto power data for a channel calculated at evaluation frequencies</span>
 <span class="sd">    getCrossPower(chan1, chan2)</span>
+<span class="sd">        Get cross power data between two channels</span>
 <span class="sd">    getCrossPowerEval(chan1, chan2, eIdx)</span>
+<span class="sd">        Get cross power data between two channels at the evaluation frequencies</span>
 <span class="sd">    getOutData()</span>
+<span class="sd">        Get the output data</span>
 <span class="sd">    setInChans(inChans)</span>
+<span class="sd">        Set the input channels for transfer function statistics</span>
 <span class="sd">    setOutChans(outChans)</span>
+<span class="sd">        Set the output channels for the transfer function statistics</span>
 <span class="sd">    setSpectra(freq, winData, evalFreq)</span>
+<span class="sd">        Set the spectra data</span>
 <span class="sd">    setIntercept(intercept)</span>
+<span class="sd">        Boolean flag for adding an intercept term</span>
 <span class="sd">    calculateSpectralMatrix()</span>
+<span class="sd">        Calculate the cross power spectra matrix</span>
 <span class="sd">    calculateEvalMatrix()</span>
+<span class="sd">        Calculate the cross power spectra matrix at the evaluation frequencies</span>
 <span class="sd">    addRemoteSpec(remoteData, **kwargs)</span>
+<span class="sd">        Add a remote reference spectra</span>
 <span class="sd">    calculateRemoteSpectralMatrix()</span>
+<span class="sd">        Calculate the remote data power spectral matrix</span>
 <span class="sd">    calculateRemoteEvalMatrix()</span>
+<span class="sd">        Calculate the remote data power spectra matrix at the evaluation frequencies</span>
 <span class="sd">    calculateReferenceSpectralMatrix()</span>
+<span class="sd">        Calculate the power spectral matrix for remote reference processing</span>
 <span class="sd">    calculateReferenceEvalMatrix()</span>
+<span class="sd">        Calculate the power spectral matrix for remote reference processing at the evaluation frequencies</span>
 <span class="sd">    getRemoteAutoPower(chan)</span>
+<span class="sd">        Get remote data auto power spectra</span>
 <span class="sd">    getRemoteAutoPowerEval(chan, eIdx)</span>
+<span class="sd">        Get remote data auto power spectra at evaluation frequency</span>
 <span class="sd">    getRemoteCrossPower(chan1, chan2)</span>
+<span class="sd">        Get remote cross power spectra data</span>
 <span class="sd">    getRemoteCrossPowerEval(chan1, chan2, eIdx)</span>
+<span class="sd">        Get remote cross power spectra value at evaluation frequency</span>
 <span class="sd">    getReferenceCrossPower(dataChan, remoteChan)</span>
+<span class="sd">        Get the remote reference formulation cross power spectra</span>
 <span class="sd">    getReferenceCrossPowerEval(dataChan, remoteChan, eIdx)</span>
+<span class="sd">        Get the remote reference formulation cross power spectra at a given evaluation frequency</span>
 <span class="sd">    interpolateToEvalFreq(data)</span>
+<span class="sd">        Interpolate data to evaluation frequencies</span>
 <span class="sd">    prepareOutDict()</span>
+<span class="sd">        Prepare the output dictionary which will be returned</span>
 <span class="sd">    getDataForStatName(statName)</span>
+<span class="sd">        Get the statistic data for a statistic</span>
 <span class="sd">    winPSD()</span>
+<span class="sd">        Calculate window power spectral density</span>
 <span class="sd">    winCoherence()</span>
+<span class="sd">        Calculate window coherence for coherence pairs</span>
 <span class="sd">    winPolarisations()</span>
+<span class="sd">        Calculate polarisation directions</span>
 <span class="sd">    winPartials()</span>
+<span class="sd">        Calculate window partial coherences</span>
+<span class="sd">    winAbsVal()</span>
+<span class="sd">        Calculate window absolute values for the evaluation frequencies        </span>
 <span class="sd">    winTransferFunction()</span>
+<span class="sd">        Calculate window transfer function</span>
 <span class="sd">    winRemoteCoherence()</span>
+<span class="sd">        Calculate window remote coherence with local data</span>
 <span class="sd">    winRemoteEqnCoherence()</span>
+<span class="sd">        Calculate remote equation coherence</span>
 <span class="sd">    winRemoteAbsVal()</span>
+<span class="sd">        Calculate remote absolute value</span>
 <span class="sd">    winRemoteTransferFunction()</span>
+<span class="sd">        Calculate remote transfer function</span>
 <span class="sd">    printList()</span>
 <span class="sd">        Class information returned as list of strings  </span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Initialise the statistic calculator&quot;&quot;&quot;</span>
 
@@ -295,7 +339,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">polDirs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;Ex&quot;</span><span class="p">,</span> <span class="s2">&quot;Ey&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;Hx&quot;</span><span class="p">,</span> <span class="s2">&quot;Hy&quot;</span><span class="p">]]</span>
         <span class="c1"># set data presets</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># output data and marker for transfer function calculated</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tfCalculated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remoteCalculated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
@@ -557,9 +601,8 @@
 <span class="sd">            Evaluation frequency array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="n">specData</span><span class="o">.</span><span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="n">specData</span><span class="o">.</span><span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span> <span class="o">=</span> <span class="n">evalFreq</span>
-        <span class="c1"># self.specChans = sorted(self.spec.keys())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numChans</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">specChans</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dataSize</span> <span class="o">=</span> <span class="n">specData</span><span class="o">.</span><span class="n">dataSize</span>
         <span class="c1"># calculate the power matrix</span>
@@ -1386,7 +1429,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

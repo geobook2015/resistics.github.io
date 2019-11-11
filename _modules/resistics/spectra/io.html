@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.spectra.io &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.spectra.io &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -170,7 +170,7 @@
 <span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">resistics.common.base</span> <span class="k">import</span> <span class="n">ResisticsBase</span>
 <span class="kn">from</span> <span class="nn">resistics.common.print</span> <span class="k">import</span> <span class="n">breakComment</span><span class="p">,</span> <span class="n">arrayToStringSci</span>
@@ -213,7 +213,7 @@
 <span class="sd">		Initialise the SpectrumReader</span>
 <span class="sd">	getReferenceTime()</span>
 <span class="sd">		Get the reference time used for the spectrum calculation</span>
-<span class="sd">    def getChannels()</span>
+<span class="sd">    getChannels()</span>
 <span class="sd">        Get the channels in the spectra data</span>
 <span class="sd">    getNumChannels()</span>
 <span class="sd">        Get the number of channels</span>
@@ -225,7 +225,7 @@
 <span class="sd">        Get the window size used for the data</span>
 <span class="sd">    getWindowOverlap()</span>
 <span class="sd">        Get the window overlap size</span>
-<span class="sd">    def getDataSize()</span>
+<span class="sd">    getDataSize()</span>
 <span class="sd">        Get the number of samples in a spectra window</span>
 <span class="sd">    getGlobalOffset()</span>
 <span class="sd">        Get the window global offset</span>
@@ -288,7 +288,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dataType</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;complex64&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataType</span><span class="o">.</span><span class="n">itemsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="SpectrumReader.getReferenceTime"><a class="viewcode-back" href="../../../api/resistics.spectra.io.html#resistics.spectra.io.SpectrumReader.getReferenceTime">[docs]</a>    <span class="k">def</span> <span class="nf">getReferenceTime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get reference time for spectra calculation</span>
@@ -419,8 +419,45 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="SpectrumReader.getSpectrumData"><a class="viewcode-back" href="../../../api/resistics.spectra.io.html#resistics.spectra.io.SpectrumReader.getSpectrumData">[docs]</a>    <span class="k">def</span> <span class="nf">getSpectrumData</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">localIndex</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpectrumData</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a spectrum data object from a data dictionary and the local index</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        localIndex : int</span>
+<span class="sd">            The local index of the spectra window</span>
+<span class="sd">        data : Dict[str, np.ndarray]</span>
+<span class="sd">            The data dictionary</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        SpectrumData</span>
+<span class="sd">            A SpectrumData object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span> <span class="o">=</span> <span class="n">gIndex2datetime</span><span class="p">(</span>
+            <span class="n">localIndex</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlobalOffset</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getReferenceTime</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getWindowOverlap</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">SpectrumData</span><span class="p">(</span>
+            <span class="n">windowSize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(),</span>
+            <span class="n">dataSize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getDataSize</span><span class="p">(),</span>
+            <span class="n">sampleFreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">(),</span>
+            <span class="n">startTime</span><span class="o">=</span><span class="n">startTime</span><span class="p">,</span>
+            <span class="n">stopTime</span><span class="o">=</span><span class="n">stopTime</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">comments</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="SpectrumReader.openBinaryForReading"><a class="viewcode-back" href="../../../api/resistics.spectra.io.html#resistics.spectra.io.SpectrumReader.openBinaryForReading">[docs]</a>    <span class="k">def</span> <span class="nf">openBinaryForReading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileInc</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Open a binary data file for reading</span>
+
+<span class="sd">        self.file is not set in this method because spectra data is read using memmap.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -444,8 +481,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">readCommentsFile</span><span class="p">(</span><span class="n">filepathComments</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">channelByteSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataByteSize</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataSize</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">windowByteSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channelByteSize</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumChannels</span><span class="p">()</span>
-        <span class="c1"># set file to filepath - this is because binary files do not require opening using memap</span>
-        <span class="c1"># self.file = self.filepath</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="SpectrumReader.readBinaryWindowLocal"><a class="viewcode-back" href="../../../api/resistics.spectra.io.html#resistics.spectra.io.SpectrumReader.readBinaryWindowLocal">[docs]</a>    <span class="k">def</span> <span class="nf">readBinaryWindowLocal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localIndex</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpectrumData</span><span class="p">:</span>
@@ -473,23 +508,7 @@
                 <span class="n">offset</span><span class="o">=</span><span class="n">byteOff</span> <span class="o">+</span> <span class="n">chanOff</span><span class="p">,</span>
                 <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getDataSize</span><span class="p">()),</span>
             <span class="p">)</span>
-        <span class="c1"># return data</span>
-        <span class="n">startTime</span><span class="p">,</span> <span class="n">stopTime</span> <span class="o">=</span> <span class="n">gIndex2datetime</span><span class="p">(</span>
-            <span class="n">localIndex</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlobalOffset</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">getReferenceTime</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">getWindowOverlap</span><span class="p">(),</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">SpectrumData</span><span class="p">(</span>
-            <span class="n">windowSize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(),</span>
-            <span class="n">dataSize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getDataSize</span><span class="p">(),</span>
-            <span class="n">sampleFreq</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSampleFreq</span><span class="p">(),</span>
-            <span class="n">startTime</span><span class="o">=</span><span class="n">startTime</span><span class="p">,</span>
-            <span class="n">stopTime</span><span class="o">=</span><span class="n">stopTime</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">comments</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">comments</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSpectrumData</span><span class="p">(</span><span class="n">localIndex</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SpectrumReader.readBinaryWindowGlobal"><a class="viewcode-back" href="../../../api/resistics.spectra.io.html#resistics.spectra.io.SpectrumReader.readBinaryWindowGlobal">[docs]</a>    <span class="k">def</span> <span class="nf">readBinaryWindowGlobal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">globalIndex</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpectrumData</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get spectrum data for a window defined by a global index (for binary formatted data)</span>
@@ -513,6 +532,59 @@
         <span class="c1"># convert global index to local index and return readAsciiWindowLocal</span>
         <span class="n">localIndex</span> <span class="o">=</span> <span class="n">globalIndex</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlobalOffset</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">readBinaryWindowLocal</span><span class="p">(</span><span class="n">localIndex</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpectrumReader.readBinaryBatchGlobal"><a class="viewcode-back" href="../../../api/resistics.spectra.io.html#resistics.spectra.io.SpectrumReader.readBinaryBatchGlobal">[docs]</a>    <span class="k">def</span> <span class="nf">readBinaryBatchGlobal</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">globalIndices</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">SpectrumData</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Batch read binary windows</span>
+
+<span class="sd">        Batch reading binary windows allows the data for calculation to be split over multi processes</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        globalIndices : List[int], None, optional</span>
+<span class="sd">            The global indices to batch read. By default, all windows will be returned if not specified</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List[SpectrumData], np.ndarray</span>
+<span class="sd">            An array or list of SpectrumData objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">globalIndices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">globalIndices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># zero windows request, return empty list</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+        <span class="n">batchData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dataType</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span>
+            <span class="s2">&quot;Reading </span><span class="si">{:.8f}</span><span class="s2"> GB of data from file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># find the windows to get</span>
+        <span class="k">if</span> <span class="n">globalIndices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">globalIndices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">localIndices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">globalIndices</span><span class="p">)))</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlobalOffset</span><span class="p">()</span>
+            <span class="n">localIndices</span> <span class="o">=</span> <span class="n">localIndices</span><span class="p">[</span><span class="n">localIndices</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">localIndices</span> <span class="o">=</span> <span class="n">localIndices</span><span class="p">[</span><span class="n">localIndices</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumWindows</span><span class="p">()]</span>
+            <span class="n">globalIndices</span> <span class="o">=</span> <span class="n">localIndices</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlobalOffset</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">localIndices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumWindows</span><span class="p">())</span>
+            <span class="n">globalIndices</span> <span class="o">=</span> <span class="n">localIndices</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlobalOffset</span><span class="p">()</span>
+
+        <span class="n">specData</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dataSize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataSize</span><span class="p">()</span>
+        <span class="n">windowSize</span> <span class="o">=</span> <span class="n">dataSize</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">getNumChannels</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">localIndex</span> <span class="ow">in</span> <span class="n">localIndices</span><span class="p">:</span>
+            <span class="n">intOff</span> <span class="o">=</span> <span class="n">localIndex</span> <span class="o">*</span> <span class="n">windowSize</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">cI</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getChannels</span><span class="p">()):</span>
+                <span class="n">chanOff</span> <span class="o">=</span> <span class="n">intOff</span> <span class="o">+</span> <span class="n">cI</span> <span class="o">*</span> <span class="n">dataSize</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">batchData</span><span class="p">[</span><span class="n">chanOff</span> <span class="p">:</span> <span class="n">chanOff</span> <span class="o">+</span> <span class="n">dataSize</span><span class="p">]</span>
+            <span class="n">specData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSpectrumData</span><span class="p">(</span><span class="n">localIndex</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">specData</span><span class="p">,</span> <span class="n">globalIndices</span></div>
 
 <div class="viewcode-block" id="SpectrumReader.openAsciiForReading"><a class="viewcode-back" href="../../../api/resistics.spectra.io.html#resistics.spectra.io.SpectrumReader.openAsciiForReading">[docs]</a>    <span class="k">def</span> <span class="nf">openAsciiForReading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fileInc</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Open a ascii data file for reading</span>
@@ -679,10 +751,11 @@
 
 <div class="viewcode-block" id="SpectrumReader.closeFile"><a class="viewcode-back" href="../../../api/resistics.spectra.io.html#resistics.spectra.io.SpectrumReader.closeFile">[docs]</a>    <span class="k">def</span> <span class="nf">closeFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Close spectra file&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printText</span><span class="p">(</span><span class="s2">&quot;Closing file </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No file open&quot;</span><span class="p">)</span></div>
 
@@ -1041,7 +1114,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

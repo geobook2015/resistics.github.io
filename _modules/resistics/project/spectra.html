@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.project.spectra &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.project.spectra &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -176,15 +176,16 @@
 
 <span class="kn">from</span> <span class="nn">resistics.project.data</span> <span class="k">import</span> <span class="n">ProjectData</span>
 <span class="kn">from</span> <span class="nn">resistics.site.data</span> <span class="k">import</span> <span class="n">SiteData</span>
+<span class="kn">from</span> <span class="nn">resistics.time.data</span> <span class="k">import</span> <span class="n">TimeData</span>
 <span class="kn">from</span> <span class="nn">resistics.spectra.io</span> <span class="k">import</span> <span class="n">SpectrumReader</span>
 <span class="kn">from</span> <span class="nn">resistics.common.checks</span> <span class="k">import</span> <span class="n">parseKeywords</span><span class="p">,</span> <span class="n">isMagnetic</span>
 <span class="kn">from</span> <span class="nn">resistics.common.print</span> <span class="k">import</span> <span class="n">listToString</span><span class="p">,</span> <span class="n">breakComment</span>
-<span class="kn">from</span> <span class="nn">resistics.project.utils</span> <span class="k">import</span> <span class="n">projectText</span><span class="p">,</span> <span class="n">projectError</span>
+<span class="kn">from</span> <span class="nn">resistics.project.utils</span> <span class="k">import</span> <span class="n">projectText</span><span class="p">,</span> <span class="n">projectWarning</span><span class="p">,</span> <span class="n">projectError</span>
 
 
 <div class="viewcode-block" id="getSpecReader"><a class="viewcode-back" href="../../../api/resistics.project.spectra.html#resistics.project.spectra.getSpecReader">[docs]</a><span class="k">def</span> <span class="nf">getSpecReader</span><span class="p">(</span>
     <span class="n">projData</span><span class="p">:</span> <span class="n">ProjectData</span><span class="p">,</span> <span class="n">site</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meas</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpectrumReader</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">SpectrumReader</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Get the spectrum reader for a measurement</span>
 
 <span class="sd">    Parameters</span>
@@ -203,7 +204,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    SpectrumReader</span>
-<span class="sd">        The spectrum reader object</span>
+<span class="sd">        The SpectrumReader object or None if data does not exist</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">]:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
@@ -221,14 +222,13 @@
     <span class="p">)</span>
     <span class="n">specReader</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
 
-    <span class="c1"># open the spectra file for the current decimation level</span>
+    <span class="c1"># open the spectra file for the current decimation level if it exists</span>
     <span class="n">check</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">openBinaryForReading</span><span class="p">(</span><span class="s2">&quot;spectra&quot;</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>
-        <span class="c1"># probably because this decimation level not calculated</span>
-        <span class="n">projectError</span><span class="p">(</span>
-            <span class="s2">&quot;Spectra file does not exist at level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">]),</span>
-            <span class="n">quitRun</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">projectWarning</span><span class="p">(</span>
+            <span class="s2">&quot;Spectra file does not exist at level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;declevel&quot;</span><span class="p">])</span>
         <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">specReader</span></div>
 
 
@@ -259,8 +259,9 @@
 <span class="sd">        Filter parameters</span>
 <span class="sd">    specdir : str, optional</span>
 <span class="sd">        The spectra directory to save the spectra data in</span>
+<span class="sd">    ncores : int, optional</span>
+<span class="sd">        The number of cores to run the transfer function calculations on        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">resistics.spectra.calculator</span> <span class="k">import</span> <span class="n">SpectrumCalculator</span>
     <span class="kn">from</span> <span class="nn">resistics.spectra.io</span> <span class="k">import</span> <span class="n">SpectrumWriter</span>
     <span class="kn">from</span> <span class="nn">resistics.decimate.decimator</span> <span class="k">import</span> <span class="n">Decimator</span>
     <span class="kn">from</span> <span class="nn">resistics.window.windower</span> <span class="k">import</span> <span class="n">Windower</span>
@@ -287,6 +288,7 @@
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;notch&quot;</span><span class="p">]:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getSpectraCores</span><span class="p">()</span>
     <span class="n">options</span> <span class="o">=</span> <span class="n">parseKeywords</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
     <span class="c1"># prepare calibrator</span>
@@ -329,17 +331,14 @@
                 <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="n">breakComment</span><span class="p">())</span>
                 <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="s2">&quot;Calculating project spectra&quot;</span><span class="p">)</span>
                 <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span><span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getConfigComment</span><span class="p">())</span>
-
                 <span class="c1"># apply various options</span>
                 <span class="n">applyPolarisationReversalOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
                 <span class="n">applyScaleOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
                 <span class="n">applyCalibrationOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">cal</span><span class="p">,</span> <span class="n">timeData</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
                 <span class="n">applyFilterOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
                 <span class="n">applyNotchOptions</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">timeData</span><span class="p">)</span>
-
                 <span class="c1"># define decimation and window parameters</span>
                 <span class="n">decParams</span> <span class="o">=</span> <span class="n">getDecimationParameters</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
-                <span class="n">decParams</span><span class="o">.</span><span class="n">printInfo</span><span class="p">()</span>
                 <span class="n">numLevels</span> <span class="o">=</span> <span class="n">decParams</span><span class="o">.</span><span class="n">numLevels</span>
                 <span class="n">winParams</span> <span class="o">=</span> <span class="n">getWindowParameters</span><span class="p">(</span><span class="n">decParams</span><span class="p">,</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
                 <span class="n">dec</span> <span class="o">=</span> <span class="n">Decimator</span><span class="p">(</span><span class="n">timeData</span><span class="p">,</span> <span class="n">decParams</span><span class="p">)</span>
@@ -350,7 +349,7 @@
                 <span class="p">)</span>
 
                 <span class="c1"># loop through decimation levels</span>
-                <span class="k">for</span> <span class="n">iDec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numLevels</span><span class="p">):</span>
                     <span class="c1"># get the data for the current level</span>
                     <span class="n">check</span> <span class="o">=</span> <span class="n">dec</span><span class="o">.</span><span class="n">incrementLevel</span><span class="p">()</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">:</span>
@@ -362,56 +361,174 @@
                     <span class="n">win</span> <span class="o">=</span> <span class="n">Windower</span><span class="p">(</span>
                         <span class="n">datetimeRef</span><span class="p">,</span>
                         <span class="n">timeData</span><span class="p">,</span>
-                        <span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
-                        <span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                        <span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">declevel</span><span class="p">),</span>
+                        <span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">declevel</span><span class="p">),</span>
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">win</span><span class="o">.</span><span class="n">numWindows</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
                         <span class="k">break</span>  <span class="c1"># do no more decimation</span>
 
-                    <span class="c1"># add some comments</span>
+                    <span class="c1"># print information and add some comments</span>
+                    <span class="n">projectText</span><span class="p">(</span>
+                        <span class="s2">&quot;Calculating spectra for decimation level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
+                    <span class="p">)</span>
                     <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
                         <span class="s2">&quot;Evaluation frequencies for this level </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                            <span class="n">listToString</span><span class="p">(</span><span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">iDec</span><span class="p">))</span>
+                            <span class="n">listToString</span><span class="p">(</span><span class="n">decParams</span><span class="o">.</span><span class="n">getEvalFrequenciesForLevel</span><span class="p">(</span><span class="n">declevel</span><span class="p">))</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
                     <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
                         <span class="s2">&quot;Windowing with window size </span><span class="si">{}</span><span class="s2"> samples and overlap </span><span class="si">{}</span><span class="s2"> samples&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                            <span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span> <span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
+                            <span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">declevel</span><span class="p">),</span>
+                            <span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">declevel</span><span class="p">),</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;applywindow&quot;</span><span class="p">]:</span>
+                        <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+                            <span class="s2">&quot;Performing fourier transform with window function </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;windowfunc&quot;</span><span class="p">]</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">timeData</span><span class="o">.</span><span class="n">addComment</span><span class="p">(</span>
+                            <span class="s2">&quot;Performing fourier transform with no window function&quot;</span>
+                        <span class="p">)</span>
 
-                    <span class="c1"># create the spectrum calculator and statistics calculators</span>
-                    <span class="n">specCalc</span> <span class="o">=</span> <span class="n">SpectrumCalculator</span><span class="p">(</span>
-                        <span class="n">sampleFreqDec</span><span class="p">,</span> <span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">iDec</span><span class="p">)</span>
-                    <span class="p">)</span>
-                    <span class="c1"># get ready a file to save the spectra</span>
+                    <span class="c1"># collect time data</span>
+                    <span class="n">timeDataList</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">iW</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">win</span><span class="o">.</span><span class="n">numWindows</span><span class="p">):</span>
+                        <span class="n">timeDataList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="n">iW</span><span class="p">))</span>
+
+                    <span class="c1"># open spectra file for saving</span>
                     <span class="n">specPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                         <span class="n">siteData</span><span class="o">.</span><span class="n">getMeasurementSpecPath</span><span class="p">(</span><span class="n">meas</span><span class="p">),</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
                     <span class="p">)</span>
                     <span class="n">specWrite</span> <span class="o">=</span> <span class="n">SpectrumWriter</span><span class="p">(</span><span class="n">specPath</span><span class="p">,</span> <span class="n">datetimeRef</span><span class="p">)</span>
                     <span class="n">specWrite</span><span class="o">.</span><span class="n">openBinaryForWriting</span><span class="p">(</span>
                         <span class="s2">&quot;spectra&quot;</span><span class="p">,</span>
-                        <span class="n">iDec</span><span class="p">,</span>
+                        <span class="n">declevel</span><span class="p">,</span>
                         <span class="n">sampleFreqDec</span><span class="p">,</span>
-                        <span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
-                        <span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">iDec</span><span class="p">),</span>
+                        <span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">declevel</span><span class="p">),</span>
+                        <span class="n">winParams</span><span class="o">.</span><span class="n">getOverlap</span><span class="p">(</span><span class="n">declevel</span><span class="p">),</span>
                         <span class="n">win</span><span class="o">.</span><span class="n">winOffset</span><span class="p">,</span>
                         <span class="n">win</span><span class="o">.</span><span class="n">numWindows</span><span class="p">,</span>
                         <span class="n">dataChans</span><span class="p">,</span>
                     <span class="p">)</span>
-
-                    <span class="c1"># loop though windows, calculate spectra and save</span>
+                    <span class="k">if</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">specDataList</span> <span class="o">=</span> <span class="n">multiSpectra</span><span class="p">(</span>
+                            <span class="n">options</span><span class="p">[</span><span class="s2">&quot;ncores&quot;</span><span class="p">],</span>
+                            <span class="n">timeDataList</span><span class="p">,</span>
+                            <span class="n">sampleFreqDec</span><span class="p">,</span>
+                            <span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">declevel</span><span class="p">),</span>
+                            <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">specDataList</span> <span class="o">=</span> <span class="n">calculateWindowSpectra</span><span class="p">(</span>
+                            <span class="n">timeDataList</span><span class="p">,</span>
+                            <span class="n">sampleFreqDec</span><span class="p">,</span>
+                            <span class="n">winParams</span><span class="o">.</span><span class="n">getWindowSize</span><span class="p">(</span><span class="n">declevel</span><span class="p">),</span>
+                            <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="c1"># write out to spectra file</span>
                     <span class="k">for</span> <span class="n">iW</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">win</span><span class="o">.</span><span class="n">numWindows</span><span class="p">):</span>
-                        <span class="c1"># get the window data</span>
-                        <span class="n">winData</span> <span class="o">=</span> <span class="n">win</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="n">iW</span><span class="p">)</span>
-                        <span class="c1"># calculate spectra</span>
-                        <span class="n">specData</span> <span class="o">=</span> <span class="n">specCalc</span><span class="o">.</span><span class="n">calcFourierCoeff</span><span class="p">(</span><span class="n">winData</span><span class="p">)</span>
-                        <span class="c1"># write out spectra</span>
-                        <span class="n">specWrite</span><span class="o">.</span><span class="n">writeBinary</span><span class="p">(</span><span class="n">specData</span><span class="p">)</span>
-
-                    <span class="c1"># close spectra file</span>
+                        <span class="n">specWrite</span><span class="o">.</span><span class="n">writeBinary</span><span class="p">(</span><span class="n">specDataList</span><span class="p">[</span><span class="n">iW</span><span class="p">])</span>
                     <span class="n">specWrite</span><span class="o">.</span><span class="n">writeCommentsFile</span><span class="p">(</span><span class="n">timeData</span><span class="o">.</span><span class="n">getComments</span><span class="p">())</span>
                     <span class="n">specWrite</span><span class="o">.</span><span class="n">closeFile</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="calculateWindowSpectra"><a class="viewcode-back" href="../../../api/resistics.project.spectra.html#resistics.project.spectra.calculateWindowSpectra">[docs]</a><span class="k">def</span> <span class="nf">calculateWindowSpectra</span><span class="p">(</span>
+    <span class="n">timeDataList</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TimeData</span><span class="p">],</span>
+    <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">windowSize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate spectra for a list of TimeData</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    timeDataList : List[TimeData]</span>
+<span class="sd">        A list of TimeData objects</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        The sampling frequency of the TimeData</span>
+<span class="sd">    windowSize : int</span>
+<span class="sd">        The number of samples in the window</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    specDataList : List[SpectrumData]</span>
+<span class="sd">        A list of spectra data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">resistics.spectra.calculator</span> <span class="k">import</span> <span class="n">SpectrumCalculator</span>
+
+    <span class="n">specCalc</span> <span class="o">=</span> <span class="n">SpectrumCalculator</span><span class="p">(</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">windowSize</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">numWindows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">timeDataList</span><span class="p">)</span>
+    <span class="n">specDataList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="c1"># loop though windows and calculate spectra</span>
+    <span class="k">for</span> <span class="n">iW</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numWindows</span><span class="p">):</span>
+        <span class="n">timeData</span> <span class="o">=</span> <span class="n">timeDataList</span><span class="p">[</span><span class="n">iW</span><span class="p">]</span>
+        <span class="n">specDataList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">specCalc</span><span class="o">.</span><span class="n">calcFourierCoeff</span><span class="p">(</span><span class="n">timeData</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">specDataList</span></div>
+
+
+<div class="viewcode-block" id="multiSpectra"><a class="viewcode-back" href="../../../api/resistics.project.spectra.html#resistics.project.spectra.multiSpectra">[docs]</a><span class="k">def</span> <span class="nf">multiSpectra</span><span class="p">(</span>
+    <span class="n">ncores</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">timeDataList</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TimeData</span><span class="p">],</span>
+    <span class="n">sampleFreq</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">windowSize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Multiprocessing of spectra</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ncores: int</span>
+<span class="sd">        The number of cores for multiprocessing</span>
+<span class="sd">    timeDataList : List[TimeData]</span>
+<span class="sd">        A list of TimeData objects</span>
+<span class="sd">    sampleFreq : float</span>
+<span class="sd">        The sampling frequency of the TimeData</span>
+<span class="sd">    windowSize : int</span>
+<span class="sd">        The number of samples in the window</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    specDataList : List[SpectrumData]</span>
+<span class="sd">        A list of spectra data    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+
+    <span class="c1"># separate time data into batches</span>
+    <span class="n">numWindows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">timeDataList</span><span class="p">)</span>
+    <span class="n">batchSize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">numWindows</span> <span class="o">/</span> <span class="n">ncores</span><span class="p">))</span>
+    <span class="n">batches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sizes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">iB</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ncores</span><span class="p">):</span>
+        <span class="n">batchStartWin</span> <span class="o">=</span> <span class="n">iB</span> <span class="o">*</span> <span class="n">batchSize</span>
+        <span class="k">if</span> <span class="n">batchStartWin</span> <span class="o">&gt;=</span> <span class="n">numWindows</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">batchEndWin</span> <span class="o">=</span> <span class="n">batchStartWin</span> <span class="o">+</span> <span class="n">batchSize</span>
+        <span class="k">if</span> <span class="n">batchEndWin</span> <span class="o">&gt;</span> <span class="n">numWindows</span><span class="p">:</span>
+            <span class="n">batchEndWin</span> <span class="o">=</span> <span class="n">numWindows</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">iW</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batchStartWin</span><span class="p">,</span> <span class="n">batchEndWin</span><span class="p">):</span>
+            <span class="n">batch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timeDataList</span><span class="p">[</span><span class="n">iW</span><span class="p">])</span>
+        <span class="n">batches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">sizes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)))</span>
+    <span class="c1"># set up tuples</span>
+    <span class="n">multiTuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">batch</span><span class="p">,</span> <span class="n">sampleFreq</span><span class="p">,</span> <span class="n">windowSize</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span> <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">]</span>
+    <span class="c1"># multiprocess</span>
+    <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Running spectra calculations on </span><span class="si">{}</span><span class="s2"> cores&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ncores</span><span class="p">))</span>
+    <span class="n">projectText</span><span class="p">(</span>
+        <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> windows being run in </span><span class="si">{}</span><span class="s2"> batches with sizes </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">numWindows</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">),</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">ncores</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">calculateWindowSpectra</span><span class="p">,</span> <span class="n">multiTuples</span><span class="p">)</span>
+    <span class="c1"># format the output into a single list</span>
+    <span class="n">specDataList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">outBatch</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+        <span class="n">specDataList</span> <span class="o">=</span> <span class="n">specDataList</span> <span class="o">+</span> <span class="n">outBatch</span>
+    <span class="k">return</span> <span class="n">specDataList</span></div>
 
 
 <div class="viewcode-block" id="viewSpectra"><a class="viewcode-back" href="../../../api/resistics.project.spectra.html#resistics.project.spectra.viewSpectra">[docs]</a><span class="k">def</span> <span class="nf">viewSpectra</span><span class="p">(</span>
@@ -445,7 +562,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    matplotlib.pyplot.figure or None</span>
-<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</span>
+<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed. If no data was found, then None is returned.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="k">import</span> <span class="n">savePlot</span><span class="p">,</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">colorbarMultiline</span>
 
@@ -461,6 +578,8 @@
 
     <span class="n">projectText</span><span class="p">(</span><span class="s2">&quot;Plotting spectra for measurement </span><span class="si">{}</span><span class="s2"> and site </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">meas</span><span class="p">,</span> <span class="n">site</span><span class="p">))</span>
     <span class="n">specReader</span> <span class="o">=</span> <span class="n">getSpecReader</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">specReader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># channels</span>
     <span class="n">dataChans</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getChannels</span><span class="p">()</span>
@@ -578,7 +697,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    matplotlib.pyplot.figure or None</span>
-<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</span>
+<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed. If no data was found, then None is returned.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="k">import</span> <span class="n">LogNorm</span>
 
@@ -597,6 +716,8 @@
         <span class="s2">&quot;Plotting spectra section for measurement </span><span class="si">{}</span><span class="s2"> and site </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">meas</span><span class="p">,</span> <span class="n">site</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">specReader</span> <span class="o">=</span> <span class="n">getSpecReader</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">specReader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># channels</span>
     <span class="n">dataChans</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getChannels</span><span class="p">()</span>
@@ -612,7 +733,7 @@
     <span class="k">if</span> <span class="n">numWindows</span> <span class="o">&gt;</span> <span class="mi">250</span><span class="p">:</span>
         <span class="n">windows</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numWindows</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">windows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+        <span class="n">windows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">numWindows</span><span class="p">)</span>
 
     <span class="c1"># create figure</span>
     <span class="n">plotfonts</span> <span class="o">=</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;plotoptions&quot;</span><span class="p">][</span><span class="s2">&quot;plotfonts&quot;</span><span class="p">]</span>
@@ -731,7 +852,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    matplotlib.pyplot.figure or None</span>
-<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed.</span>
+<span class="sd">        A matplotlib figure unless the plot is not shown and is saved, in which case None and the figure is closed. If no data was found, then None is returned.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">resistics.common.plot</span> <span class="k">import</span> <span class="n">savePlot</span><span class="p">,</span> <span class="n">plotOptionsSpec</span><span class="p">,</span> <span class="n">colorbarMultiline</span>
 
@@ -750,6 +871,8 @@
         <span class="s2">&quot;Plotting spectra stack for measurement </span><span class="si">{}</span><span class="s2"> and site </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">meas</span><span class="p">,</span> <span class="n">site</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">specReader</span> <span class="o">=</span> <span class="n">getSpecReader</span><span class="p">(</span><span class="n">projData</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">meas</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">specReader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># channels</span>
     <span class="n">dataChans</span> <span class="o">=</span> <span class="n">specReader</span><span class="o">.</span><span class="n">getChannels</span><span class="p">()</span>
@@ -764,6 +887,13 @@
 
     <span class="c1"># calculate num of windows to stack in each set</span>
     <span class="n">stackSize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">numWindows</span> <span class="o">/</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;numstacks&quot;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">stackSize</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">projectWarning</span><span class="p">(</span>
+            <span class="s2">&quot;Too few windows for number of stacks </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;numstacks&quot;</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">options</span><span class="p">[</span><span class="s2">&quot;numstacks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numWindows</span>
+        <span class="n">stackSize</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">projectWarning</span><span class="p">(</span><span class="s2">&quot;Number of stacks changed to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;numstacks&quot;</span><span class="p">]))</span>
 
     <span class="c1"># calculate number of rows - in case interested in coherences too</span>
     <span class="n">nrows</span> <span class="o">=</span> <span class="p">(</span>
@@ -846,7 +976,7 @@
                     <span class="n">stopTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">),</span>
                 <span class="p">),</span>
             <span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ampLim</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ampLim</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ampLim</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
@@ -915,7 +1045,7 @@
     <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.81</span><span class="p">])</span>
     <span class="c1"># legend</span>
     <span class="n">legax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.82</span><span class="p">,</span> <span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">],</span> <span class="n">in_layout</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="s2">&quot;False&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">legax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">])</span>
 
@@ -967,7 +1097,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.spectra.io module &mdash; resistics 0.0.6.dev3 documentation</title>
+  <title>resistics.spectra.io module &mdash; resistics 0.0.6rc1 documentation</title>
   
 
   
@@ -239,7 +239,7 @@ project -&gt; specData -&gt; site -&gt; datapath -&gt; spectra data files</p>
 <tr class="row-odd"><td><strong>__init__(datapath)</strong></td>
 <td>Initialise the SpectrumReader getReferenceTime() Get the reference time used for the spectrum calculation</td>
 </tr>
-<tr class="row-even"><td><strong>def getChannels()</strong></td>
+<tr class="row-even"><td><strong>getChannels()</strong></td>
 <td>Get the channels in the spectra data</td>
 </tr>
 <tr class="row-odd"><td><strong>getNumChannels()</strong></td>
@@ -257,7 +257,7 @@ project -&gt; specData -&gt; site -&gt; datapath -&gt; spectra data files</p>
 <tr class="row-odd"><td><strong>getWindowOverlap()</strong></td>
 <td>Get the window overlap size</td>
 </tr>
-<tr class="row-even"><td><strong>def getDataSize()</strong></td>
+<tr class="row-even"><td><strong>getDataSize()</strong></td>
 <td>Get the number of samples in a spectra window</td>
 </tr>
 <tr class="row-odd"><td><strong>getGlobalOffset()</strong></td>
@@ -540,6 +540,32 @@ project -&gt; specData -&gt; site -&gt; datapath -&gt; spectra data files</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="resistics.spectra.io.SpectrumReader.getSpectrumData">
+<code class="descname">getSpectrumData</code><span class="sig-paren">(</span><em>self, localIndex: int, data: Dict[str, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; resistics.spectra.data.SpectrumData<a class="reference internal" href="../_modules/resistics/spectra/io.html#SpectrumReader.getSpectrumData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.spectra.io.SpectrumReader.getSpectrumData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a spectrum data object from a data dictionary and the local index</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>localIndex</strong><span class="classifier">int</span></dt><dd><p>The local index of the spectra window</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">Dict[str, np.ndarray]</span></dt><dd><p>The data dictionary</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>SpectrumData</dt><dd><p>A SpectrumData object</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="resistics.spectra.io.SpectrumReader.getWindowOverlap">
 <code class="descname">getWindowOverlap</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/spectra/io.html#SpectrumReader.getWindowOverlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.spectra.io.SpectrumReader.getWindowOverlap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the size of the time data overlap in samples</p>
@@ -599,6 +625,7 @@ project -&gt; specData -&gt; site -&gt; datapath -&gt; spectra data files</p>
 <dt id="resistics.spectra.io.SpectrumReader.openBinaryForReading">
 <code class="descname">openBinaryForReading</code><span class="sig-paren">(</span><em>self</em>, <em>filename: str</em>, <em>fileInc: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/spectra/io.html#SpectrumReader.openBinaryForReading"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.spectra.io.SpectrumReader.openBinaryForReading" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open a binary data file for reading</p>
+<p>self.file is not set in this method because spectra data is read using memmap.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -661,6 +688,31 @@ project -&gt; specData -&gt; site -&gt; datapath -&gt; spectra data files</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>localIndex: int</strong></dt><dd><p>The local index</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.spectra.io.SpectrumReader.readBinaryBatchGlobal">
+<code class="descname">readBinaryBatchGlobal</code><span class="sig-paren">(</span><em>self, globalIndices: Union[List[int], NoneType] = None</em><span class="sig-paren">)</span> &#x2192; Union[List[resistics.spectra.data.SpectrumData], numpy.ndarray]<a class="reference internal" href="../_modules/resistics/spectra/io.html#SpectrumReader.readBinaryBatchGlobal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.spectra.io.SpectrumReader.readBinaryBatchGlobal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Batch read binary windows</p>
+<p>Batch reading binary windows allows the data for calculation to be split over multi processes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>globalIndices</strong><span class="classifier">List[int], None, optional</span></dt><dd><p>The global indices to batch read. By default, all windows will be returned if not specified</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt>List[SpectrumData], np.ndarray</dt><dd><p>An array or list of SpectrumData objects</p>
 </dd>
 </dl>
 </td>
@@ -1048,7 +1100,7 @@ project -&gt; specData -&gt; site -&gt; datapath -&gt; spectra data files</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6.dev3',
+            VERSION:'0.0.6rc1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
