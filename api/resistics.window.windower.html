@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.window.windower module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.window.windower module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.decimate package" href="resistics.decimate.html" />
@@ -198,15 +198,13 @@
 <span id="resistics-window-windower-module"></span><h1>resistics.window.windower module<a class="headerlink" href="#module-resistics.window.windower" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.window.windower.Windower">
-<em class="property">class </em><code class="descclassname">resistics.window.windower.</code><code class="descname">Windower</code><span class="sig-paren">(</span><em>refTime: datetime.datetime</em>, <em>timeData: resistics.time.data.TimeData</em>, <em>winSize: int</em>, <em>winOlap: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/windower.html#Windower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.window.windower.</code><code class="sig-name descname">Windower</code><span class="sig-paren">(</span><em class="sig-param">refTime: datetime.datetime</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em>, <em class="sig-param">winSize: int</em>, <em class="sig-param">winOlap: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/windower.html#Windower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.common.base.ResisticsBase</span></code></a></p>
 <p>Class for windowing time data with overlaps</p>
 <p>Given time data for a decimation level and a reference time, the windower calculates the number of windows and returns them.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>TimeData object to window</p>
 </dd>
 <dt><strong>numSamples</strong><span class="classifier">int</span></dt><dd><p>The number of samples in each window</p>
@@ -237,151 +235,133 @@
 <dt><strong>winActive</strong><span class="classifier">np.ndarray[bool]</span></dt><dd><p>Boolean flagging whether window is active or not</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="34%" />
-<col width="66%" />
+<col style="width: 34%" />
+<col style="width: 66%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>__init__(refTime, timeData, winSize, winOlap)</strong></td>
-<td>Initialise windower</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>__init__(refTime, timeData, winSize, winOlap)</strong></p></td>
+<td><p>Initialise windower</p></td>
 </tr>
-<tr class="row-even"><td><strong>getWindowActive(iW)</strong></td>
-<td>&#160;</td>
+<tr class="row-even"><td><p><strong>getWindowActive(iW)</strong></p></td>
+<td></td>
 </tr>
-<tr class="row-odd"><td><strong>getGlobalIndex(iW)</strong></td>
-<td>Return the global index (relative to reference time) given local window index</td>
+<tr class="row-odd"><td><p><strong>getGlobalIndex(iW)</strong></p></td>
+<td><p>Return the global index (relative to reference time) given local window index</p></td>
 </tr>
-<tr class="row-even"><td><strong>getData(iWindow)</strong></td>
-<td>Get timeData for local window iWindow</td>
+<tr class="row-even"><td><p><strong>getData(iWindow)</strong></p></td>
+<td><p>Get timeData for local window iWindow</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getDataGlobal(iGlobal)</strong></td>
-<td>Get timeData for glonal index iGlobal</td>
+<tr class="row-odd"><td><p><strong>getDataGlobal(iGlobal)</strong></p></td>
+<td><p>Get timeData for glonal index iGlobal</p></td>
 </tr>
-<tr class="row-even"><td><strong>initialiseWindows()</strong></td>
-<td>Calculate number of windows, local to global index mapping and local window offset from global</td>
+<tr class="row-even"><td><p><strong>initialiseWindows()</strong></p></td>
+<td><p>Calculate number of windows, local to global index mapping and local window offset from global</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printList()</strong></td>
-<td>Class status returned as list of strings</td>
+<tr class="row-odd"><td><p><strong>printList()</strong></p></td>
+<td><p>Class status returned as list of strings</p></td>
 </tr>
-<tr class="row-even"><td><strong>printWindowTimes()</strong></td>
-<td>Print window times</td>
+<tr class="row-even"><td><p><strong>printWindowTimes()</strong></p></td>
+<td><p>Print window times</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printWindowTimeList()</strong></td>
-<td>Window time information returned as List of strings</td>
+<tr class="row-odd"><td><p><strong>printWindowTimeList()</strong></p></td>
+<td><p>Window time information returned as List of strings</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.window.windower.Windower.calcWindowTimes">
-<code class="descname">calcWindowTimes</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.calcWindowTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.calcWindowTimes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calcWindowTimes</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.calcWindowTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.calcWindowTimes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate start and stop times for each window</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.windower.Windower.getData">
-<code class="descname">getData</code><span class="sig-paren">(</span><em>self</em>, <em>iWindow: int</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.getData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.getData" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getData</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">iWindow: int</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.getData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.getData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns time window data for local index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>iWindow</strong><span class="classifier">int</span></dt><dd><p>Local index of window</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>windowData</strong><span class="classifier">TimeData</span></dt><dd><p>TimeData object with the window data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.windower.Windower.getDataGlobal">
-<code class="descname">getDataGlobal</code><span class="sig-paren">(</span><em>self</em>, <em>iGlobal: int</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.getDataGlobal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.getDataGlobal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getDataGlobal</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">iGlobal: int</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.getDataGlobal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.getDataGlobal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns time window data for global index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>iGlobal</strong><span class="classifier">int</span></dt><dd><p>Global index of window</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>windowData</strong><span class="classifier">TimeData</span></dt><dd><p>TimeData object with the window data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.windower.Windower.getGlobalIndex">
-<code class="descname">getGlobalIndex</code><span class="sig-paren">(</span><em>self</em>, <em>iWindow: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.getGlobalIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.getGlobalIndex" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getGlobalIndex</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">iWindow: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.getGlobalIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.getGlobalIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns global index for local index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>iWindow</strong><span class="classifier">int</span></dt><dd><p>Local index of window</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>iGlobal</strong><span class="classifier">int</span></dt><dd><p>Global index</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.windower.Windower.getWindowActive">
-<code class="descname">getWindowActive</code><span class="sig-paren">(</span><em>self</em>, <em>iWindow: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.getWindowActive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.getWindowActive" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getWindowActive</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">iWindow: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.getWindowActive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.getWindowActive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns active status of local index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>iWindow</strong><span class="classifier">int</span></dt><dd><p>Local index of window</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>active</strong><span class="classifier">bool</span></dt><dd><p>True if active, false if not</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.windower.Windower.initialiseWindows">
-<code class="descname">initialiseWindows</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.initialiseWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.initialiseWindows" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialiseWindows</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.initialiseWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.initialiseWindows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate all the window information</p>
 <p>For timeData and referenceTime, initialiseWindows calculates the number of windows (after the reference time) and the global indices of the windows relative to the reference time
 Stores the offset between local indices and the global indices</p>
@@ -389,43 +369,35 @@ Stores the offset between local indices and the global indices</p>
 
 <dl class="method">
 <dt id="resistics.window.windower.Windower.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.printList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">list</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.windower.Windower.printWindowTimeList">
-<code class="descname">printWindowTimeList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.printWindowTimeList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.printWindowTimeList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printWindowTimeList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.printWindowTimeList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.printWindowTimeList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Window time information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">list</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.windower.Windower.printWindowTimes">
-<code class="descname">printWindowTimes</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.printWindowTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.printWindowTimes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printWindowTimes</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/windower.html#Windower.printWindowTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.windower.Windower.printWindowTimes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the times of the windows</p>
 </dd></dl>
 
@@ -475,7 +447,7 @@ Stores the offset between local indices and the global indices</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

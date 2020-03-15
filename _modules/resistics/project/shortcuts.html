@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.project.shortcuts &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.project.shortcuts &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 
@@ -258,6 +258,10 @@
     <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">winParams</span>
 
+    <span class="c1"># set window factor and overlap fraction</span>
+    <span class="n">winParams</span><span class="o">.</span><span class="n">windowFactor</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;windowfactor&quot;</span><span class="p">]</span>
+    <span class="n">winParams</span><span class="o">.</span><span class="n">overlapFraction</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;overlapfraction&quot;</span><span class="p">]</span>
+
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s2">&quot;customwindows&quot;</span><span class="p">]:</span>
         <span class="n">winParams</span><span class="o">.</span><span class="n">setWindowParameters</span><span class="p">(</span>
             <span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Window&quot;</span><span class="p">][</span><span class="s2">&quot;windowsizes&quot;</span><span class="p">],</span>
@@ -297,13 +301,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">specdir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">specdir</span> <span class="o">=</span> <span class="n">projData</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">configParams</span><span class="p">[</span><span class="s2">&quot;Spectra&quot;</span><span class="p">][</span><span class="s2">&quot;specdir&quot;</span><span class="p">]</span>
-        
+
     <span class="n">selector</span> <span class="o">=</span> <span class="n">WindowSelector</span><span class="p">(</span>
-        <span class="n">projData</span><span class="p">,</span>
-        <span class="n">decParams</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span>
-        <span class="n">decParams</span><span class="p">,</span>
-        <span class="n">winParams</span><span class="p">,</span>
-        <span class="n">specdir</span><span class="o">=</span><span class="n">specdir</span><span class="p">,</span>
+        <span class="n">projData</span><span class="p">,</span> <span class="n">decParams</span><span class="o">.</span><span class="n">sampleFreq</span><span class="p">,</span> <span class="n">decParams</span><span class="p">,</span> <span class="n">winParams</span><span class="p">,</span> <span class="n">specdir</span><span class="o">=</span><span class="n">specdir</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">selector</span></div>
 
@@ -390,7 +390,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

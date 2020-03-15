@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.regression.local &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.regression.local &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 
@@ -288,7 +288,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cm&quot;</span>
         <span class="c1"># smoothing options</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hanning&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">winSmooth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winSmooth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">9</span>
         <span class="c1"># output filename</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">postpend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="c1"># evaluation frequency data</span>
@@ -384,7 +384,6 @@
             <span class="n">global2local</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="c1"># process spectral batches</span>
             <span class="n">spectraBatches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winSelector</span><span class="o">.</span><span class="n">getSpecReaderBatches</span><span class="p">(</span><span class="n">declevel</span><span class="p">)</span>
-            <span class="n">spectraBatches</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
             <span class="n">numBatches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">spectraBatches</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">batchIdx</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spectraBatches</span><span class="p">):</span>
                 <span class="c1"># find the unmasked batched windows and add the data</span>
@@ -465,6 +464,7 @@
                 <span class="p">)</span>
                 <span class="n">out</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robustProcess</span><span class="p">(</span><span class="n">numSolveWindows</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
                 <span class="c1"># out, var = self.olsProcess(numSolveWindows, obs, reg)</span>
+                <span class="c1"># out, var = self.stackedProcess(evalFreqData[eIdx, localWinIndices])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">impedances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">variances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 
@@ -668,6 +668,9 @@
             <span class="p">)</span>
             <span class="c1"># out, resids, scale, weights = mmestimateModel(</span>
             <span class="c1">#     predictors2, observation2, intercept=self.intercept)</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
             <span class="c1"># now calculate out the varainces - have the solution out, have the weights</span>
             <span class="c1"># recalculate out the residuals with the final solution</span>
@@ -684,12 +687,14 @@
             <span class="n">varPred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">varPred</span><span class="p">)</span>  <span class="c1"># this is a pxp matrix</span>
             <span class="n">varOut</span> <span class="o">=</span> <span class="mf">1.91472</span> <span class="o">*</span> <span class="n">residsVar</span> <span class="o">*</span> <span class="n">varPred</span>
             <span class="n">varOut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">varOut</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>  <span class="c1"># this should be a real number</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
-                <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-                <span class="n">varOutput</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">varOut</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span>
-                <span class="n">varOutput</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">varOut</span>
+            <span class="c1"># if self.intercept:</span>
+            <span class="c1">#     output[i] = out[1:]</span>
+            <span class="c1">#     varOutput[i] = varOut[1:]</span>
+            <span class="c1"># else:</span>
+            <span class="c1">#     output[i] = out</span>
+            <span class="c1">#     varOutput[i] = varOut</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span>
+            <span class="n">varOutput</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">varOut</span>
 
         <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">varOutput</span></div>
 
@@ -726,11 +731,9 @@
             <span class="c1"># save the output</span>
             <span class="n">out</span><span class="p">,</span> <span class="n">resids</span><span class="p">,</span> <span class="n">squareResid</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">olsModel</span><span class="p">(</span>
                 <span class="n">predictors</span><span class="p">,</span> <span class="n">observation</span><span class="p">,</span> <span class="n">intercept</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">intercept</span>
-            <span class="p">)</span>
-            <span class="c1"># if self.intercept:</span>
-            <span class="c1"># 	output[i] = out[1:]</span>
-            <span class="c1"># else:</span>
-            <span class="c1"># 	output[i] = out</span>
+            <span class="p">)</span>            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
             <span class="c1"># now calculate out the varainces - have the solution out, have the weights</span>
             <span class="c1"># recalculate out the residuals with the final solution</span>
@@ -747,12 +750,14 @@
             <span class="n">varPred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">varPred</span><span class="p">)</span>  <span class="c1"># this is a pxp matrix</span>
             <span class="n">varOut</span> <span class="o">=</span> <span class="mf">1.91472</span> <span class="o">*</span> <span class="n">residsVar</span> <span class="o">*</span> <span class="n">varPred</span>
             <span class="n">varOut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">varOut</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>  <span class="c1"># this should be a real number</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">intercept</span><span class="p">:</span>
-                <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-                <span class="n">varOutput</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">varOut</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span>
-                <span class="n">varOutput</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">varOut</span>
+            <span class="c1"># if self.intercept:</span>
+            <span class="c1">#     output[i] = out[1:]</span>
+            <span class="c1">#     varOutput[i] = varOut[1:]</span>
+            <span class="c1"># else:</span>
+            <span class="c1">#     output[i] = out</span>
+            <span class="c1">#     varOutput[i] = varOut</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span>
+            <span class="n">varOutput</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">varOut</span>            
 
         <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">varOutput</span></div>
 
@@ -803,7 +808,7 @@
                 <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span>
-        <span class="k">return</span> <span class="n">output</span></div>
+        <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">output</span><span class="o">*</span><span class="mf">0.1</span></div>
 
 <div class="viewcode-block" id="LocalRegressor.writeTF"><a class="viewcode-back" href="../../../api/resistics.regression.local.html#resistics.regression.local.LocalRegressor.writeTF">[docs]</a>    <span class="k">def</span> <span class="nf">writeTF</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -921,7 +926,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

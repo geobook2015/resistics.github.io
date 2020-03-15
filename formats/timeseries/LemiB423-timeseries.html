@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Lemi B423 timeseries &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Lemi B423 timeseries &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Phoenix timeseries" href="Phoenix-timeseries.html" />
@@ -190,18 +190,18 @@
 <h1>Lemi B423 timeseries<a class="headerlink" href="#lemi-b423-timeseries" title="Permalink to this headline">¶</a></h1>
 <p>Lemi B423 files come in two varieties</p>
 <ul class="simple">
-<li><dl class="first docutils">
+<li><dl class="simple">
 <dt>Lemi B423 magnetotelluric files with five channels: E<sub>x</sub>, E<sub>y</sub>, H<sub>x</sub>, H<sub>y</sub>, H<sub>z</sub></dt><dd><ul>
-<li><a class="reference internal" href="#lemi-b423-mt-headers"><span class="std std-ref">Lemi B423 MT headers</span></a></li>
-<li><a class="reference internal" href="#lemi-b423-mt-data"><span class="std std-ref">Lemi B423 MT data</span></a></li>
+<li><p><a class="reference internal" href="#lemi-b423-mt-headers"><span class="std std-ref">Lemi B423 MT headers</span></a></p></li>
+<li><p><a class="reference internal" href="#lemi-b423-mt-data"><span class="std std-ref">Lemi B423 MT data</span></a></p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
+<li><dl class="simple">
 <dt>Lemi B423E telluric files with four channels: E<sub>1</sub>, E<sub>2</sub>, E<sub>3</sub>, E<sub>4</sub></dt><dd><ul>
-<li><a class="reference internal" href="#lemi-b423e-telluric-headers"><span class="std std-ref">Lemi B423E telluric headers</span></a></li>
-<li><a class="reference internal" href="#lemi-b423e-telluric-data"><span class="std std-ref">Lemi B423E telluric data</span></a></li>
+<li><p><a class="reference internal" href="#lemi-b423e-telluric-headers"><span class="std std-ref">Lemi B423E telluric headers</span></a></p></li>
+<li><p><a class="reference internal" href="#lemi-b423e-telluric-data"><span class="std std-ref">Lemi B423E telluric data</span></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -211,16 +211,16 @@
 <p>Whilst Lemi B423 and Lemi B423E  file formats are similar, they are not exactly the same and the process to deal with them varies from one to the other. Both will be detailed here.</p>
 <p>The first thing to note is Lemi B423 and Lemi B423E files do not come with header files. There are ASCII headers within the data, but these are incomplete in several ways versus the expectations resistics has of header files. Therefore, the first job when dealing with Lemi B423 and B423E data is to generate headers files. Fortunately, resistics has built in methods to do this, which are outlined in the individual sub-sections for <a class="reference internal" href="#lemi-b423-mt-headers"><span class="std std-ref">Lemi B423 MT headers</span></a> and <a class="reference internal" href="#lemi-b423e-telluric-headers"><span class="std std-ref">Lemi B423E telluric headers</span></a>.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">In the project environment, for resistics to recognise Lemi B423 data, header files with extension .h423 must be present. To recognise Lemi B423E, header files with extension .h423E must be present.</p>
+<p class="admonition-title">Note</p>
+<p>In the project environment, for resistics to recognise Lemi B423 data, header files with extension .h423 must be present. To recognise Lemi B423E, header files with extension .h423E must be present.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">A note about units. Unscaled Lemi data are integer counts. Additional scalings can be applied to give electric channels in microvolts and magnetic channels in millivolts but with the gain still applied (these are the ascii scalings in the Lemi data files). Getting physical data returns data in the resistics standard field units, which is electric channels in mV/km and magnetic channels in mV. To get magnetic channels in nT, they must be calibrated.</p>
+<p class="admonition-title">Note</p>
+<p>A note about units. Unscaled Lemi data are integer counts. Additional scalings can be applied to give electric channels in microvolts and magnetic channels in millivolts but with the gain still applied (these are the ascii scalings in the Lemi data files). Getting physical data returns data in the resistics standard field units, which is electric channels in mV/km and magnetic channels in mV. To get magnetic channels in nT, they must be calibrated.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">For a complete example of processing Lemi B423 data from generating headers to impedance tensor, please see <a class="reference internal" href="../../cookbook/processing-lemi-b423.html"><span class="doc">Processing Lemi B423</span></a>. An example of intersite processing with Lemi B423 and Lemi B423E data can be found in <a class="reference internal" href="../../advanced/intersite-transfer-function.html"><span class="doc">Intersite processing</span></a>.</p>
+<p class="admonition-title">Note</p>
+<p>For a complete example of processing Lemi B423 data from generating headers to impedance tensor, please see <a class="reference internal" href="../../cookbook/processing-lemi-b423.html"><span class="doc">Processing Lemi B423</span></a>. An example of intersite processing with Lemi B423 and Lemi B423E data can be found in <a class="reference internal" href="../../advanced/intersite-transfer-function.html"><span class="doc">Intersite processing</span></a>.</p>
 </div>
 <div class="section" id="lemi-b423-mt-headers">
 <h2>Lemi B423 MT headers<a class="headerlink" href="#lemi-b423-mt-headers" title="Permalink to this headline">¶</a></h2>
@@ -257,14 +257,14 @@
 </td></tr></table></div>
 <p>In <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.measB423Headers" title="resistics.time.reader_lemib423.measB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423Headers()</span></code></a>, the following should be defined:</p>
 <ul class="simple">
-<li>The path to the folder with the Lemi B423 data files.</li>
-<li>The sampling frequency in Hz of the data. In the above example, 500 Hz.</li>
-<li>hxSensor: the serial number of the H<sub>x</sub> coil for the purposes of future calibration. This defaults to 0 if not provided (and no calibration will be performed).</li>
-<li>hySensor: the serial number of the H<sub>y</sub> coil for the purposes of future calibration. This defaults to 0 if not provided (and no calibration will be performed)</li>
-<li>hZSensor: the serial number of the H<sub>z</sub> coil for the purposes of future calibration. This defaults to 0 if not provided (and no calibration will be performed)</li>
-<li>hGain: the internal gain on the magnetic channels. For example, 16.</li>
-<li>dx: the E<sub>x</sub> dipole length</li>
-<li>dy: the E<sub>y</sub> dipole length</li>
+<li><p>The path to the folder with the Lemi B423 data files.</p></li>
+<li><p>The sampling frequency in Hz of the data. In the above example, 500 Hz.</p></li>
+<li><p>hxSensor: the serial number of the H<sub>x</sub> coil for the purposes of future calibration. This defaults to 0 if not provided (and no calibration will be performed).</p></li>
+<li><p>hySensor: the serial number of the H<sub>y</sub> coil for the purposes of future calibration. This defaults to 0 if not provided (and no calibration will be performed)</p></li>
+<li><p>hZSensor: the serial number of the H<sub>z</sub> coil for the purposes of future calibration. This defaults to 0 if not provided (and no calibration will be performed)</p></li>
+<li><p>hGain: the internal gain on the magnetic channels. For example, 16.</p></li>
+<li><p>dx: the E<sub>x</sub> dipole length</p></li>
+<li><p>dy: the E<sub>y</sub> dipole length</p></li>
 </ul>
 <p>After running <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.measB423Headers" title="resistics.time.reader_lemib423.measB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">measB423Headers()</span></code></a> with the appropriate parameters, the recording folder will look like:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>lemi01
@@ -393,8 +393,8 @@ echopper = 0
 </pre></div>
 </td></tr></table></div>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">For many field surveys, a site includes multiple measurements using the same measurement parameters. For example, when a site is setup, the dipole lengths are unlikely to change as well as the sensor serial numbers. In this case, it is better to use the method <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.folderB423Headers" title="resistics.time.reader_lemib423.folderB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423Headers()</span></code></a>, which will write out headers for all measurements in a folder.</p>
+<p class="admonition-title">Important</p>
+<p>For many field surveys, a site includes multiple measurements using the same measurement parameters. For example, when a site is setup, the dipole lengths are unlikely to change as well as the sensor serial numbers. In this case, it is better to use the method <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.folderB423Headers" title="resistics.time.reader_lemib423.folderB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423Headers()</span></code></a>, which will write out headers for all measurements in a folder.</p>
 </div>
 <p>Batch header files for Lemi B423 data can be written out using the method <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.folderB423Headers" title="resistics.time.reader_lemib423.folderB423Headers"><code class="xref py py-meth docutils literal notranslate"><span class="pre">folderB423Headers()</span></code></a>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>63
@@ -513,8 +513,8 @@ echopper = 0
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Once the header files are generated, the measurement data can be added to a resistics project and processed just as any other dataset.</p>
+<p class="admonition-title">Note</p>
+<p>Once the header files are generated, the measurement data can be added to a resistics project and processed just as any other dataset.</p>
 </div>
 <p>Now the header files have been prepared, the data can be loaded. To do this, the <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423" title="resistics.time.reader_lemib423.TimeReaderLemiB423"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeReaderLemiB423</span></code></a> of module <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#module-resistics.time.reader_lemib423" title="resistics.time.reader_lemib423"><code class="xref py py-mod docutils literal notranslate"><span class="pre">reader_lemib423</span></code></a> is used as described in <a class="reference internal" href="#lemi-b423-mt-data"><span class="std std-ref">Lemi B423 MT data</span></a>.</p>
 </div>
@@ -628,8 +628,8 @@ echopper = 0
 </div>
 <p>There are two stages of scaling in Lemi files:</p>
 <ol class="arabic simple">
-<li>The first converts the integer counts to microvolts for electric channels and mV for magnetic channels with the internal gain still applied. To get this data, the scale keyword to <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> needs to be set to <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code>.</li>
-<li>The second scaling converts the microvolt electric channels to mV/km by also dividing by the diploe lengths in km. The gain on the magnetic channels is removed to give magnetic channels in mV. This is the resistics standard field units. The methods <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalData" title="resistics.time.reader.TimeReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> will return a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in field units.</li>
+<li><p>The first converts the integer counts to microvolts for electric channels and mV for magnetic channels with the internal gain still applied. To get this data, the scale keyword to <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> needs to be set to <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code>.</p></li>
+<li><p>The second scaling converts the microvolt electric channels to mV/km by also dividing by the diploe lengths in km. The gain on the magnetic channels is removed to give magnetic channels in mV. This is the resistics standard field units. The methods <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalData" title="resistics.time.reader.TimeReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> will return a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in field units.</p></li>
 </ol>
 <p>For example, to achieve scaling 1:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>27
@@ -800,12 +800,12 @@ Time series dataset written to E:\magnetotellurics\code\resisticsdata\formats\ti
 </td></tr></table></div>
 <p>To generate headers for a measurement, the following information needs to be provided:</p>
 <ul class="simple">
-<li>The path to the folder with the Lemi B423E data files.</li>
-<li>The sampling frequency in Hz of the data. In the above example, 500 Hz.</li>
-<li>dx: the E<sub>x</sub> dipole length</li>
-<li>dy: the E<sub>y</sub> dipole length</li>
-<li>ex: The channel which is E<sub>x</sub>. This is one of E<sub>1</sub>, E<sub>2</sub>, E<sub>3</sub> or E<sub>4</sub></li>
-<li>ey: The channel which is E<sub>y</sub>. This is one of E<sub>1</sub>, E<sub>2</sub>, E<sub>3</sub> or E<sub>4</sub></li>
+<li><p>The path to the folder with the Lemi B423E data files.</p></li>
+<li><p>The sampling frequency in Hz of the data. In the above example, 500 Hz.</p></li>
+<li><p>dx: the E<sub>x</sub> dipole length</p></li>
+<li><p>dy: the E<sub>y</sub> dipole length</p></li>
+<li><p>ex: The channel which is E<sub>x</sub>. This is one of E<sub>1</sub>, E<sub>2</sub>, E<sub>3</sub> or E<sub>4</sub></p></li>
+<li><p>ey: The channel which is E<sub>y</sub>. This is one of E<sub>1</sub>, E<sub>2</sub>, E<sub>3</sub> or E<sub>4</sub></p></li>
 </ul>
 <p>In this case, E<sub>1</sub> maps to E<sub>x</sub> and E<sub>2</sub> maps to E<sub>y</sub>. These channels will now be relabelled as E<sub>x</sub> and E<sub>y</sub>. Note that no electrodes were connected to either E<sub>3</sub> or E<sub>4</sub>. The channel data for E<sub>3</sub> and E<sub>4</sub> is meaningless.</p>
 <p>Before headers are generated, the measurement folder looks like this:</p>
@@ -984,16 +984,16 @@ echopper = 0
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Once the header files are generated, the measurement data can be added to a resistics project and processed just as any other dataset.</p>
+<p class="admonition-title">Note</p>
+<p>Once the header files are generated, the measurement data can be added to a resistics project and processed just as any other dataset.</p>
 </div>
 </div>
 <div class="section" id="lemi-b423e-telluric-data">
 <h2>Lemi B423E telluric data<a class="headerlink" href="#lemi-b423e-telluric-data" title="Permalink to this headline">¶</a></h2>
 <p>Now the headers have been generated, the data can be read as normal. Similar to Lemi B423 data, the raw unscaled data is in integer counts and there are two sets of scaling that can be applied.</p>
 <ol class="arabic simple">
-<li>The first converts the integer counts to microvolts for electric channels. To get this data, the scale keyword to <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> needs to be set to <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code>.</li>
-<li>The second scaling converts the microvolt electric channels to mV/km by also dividing by the diploe lengths in km. This is the resistics standard field units. The methods <a class="reference internal" href="../../api/resistics.time.reader_lemib423e.html#resistics.time.reader_lemib423e.TimeReaderLemiB423E.getPhysicalSamples" title="resistics.time.reader_lemib423e.TimeReaderLemiB423E.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalData" title="resistics.time.reader.TimeReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> will return a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in field units.</li>
+<li><p>The first converts the integer counts to microvolts for electric channels. To get this data, the scale keyword to <a class="reference internal" href="../../api/resistics.time.reader_lemib423.html#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples" title="resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> needs to be set to <code class="code python docutils literal notranslate"><span class="name builtin pseudo"><span class="pre">True</span></span></code>.</p></li>
+<li><p>The second scaling converts the microvolt electric channels to mV/km by also dividing by the diploe lengths in km. This is the resistics standard field units. The methods <a class="reference internal" href="../../api/resistics.time.reader_lemib423e.html#resistics.time.reader_lemib423e.TimeReaderLemiB423E.getPhysicalSamples" title="resistics.time.reader_lemib423e.TimeReaderLemiB423E.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalData" title="resistics.time.reader.TimeReader.getPhysicalData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalData()</span></code></a> will return a <a class="reference internal" href="../../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> object in field units.</p></li>
 </ol>
 <p>Plotting the integer counts can be achieved as follows:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>15
@@ -1366,7 +1366,7 @@ echopper = 0
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

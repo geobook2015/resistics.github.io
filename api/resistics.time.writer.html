@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.time.writer module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.time.writer module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.time.writer_ascii module" href="resistics.time.writer_ascii.html" />
@@ -211,15 +211,13 @@
 <span id="resistics-time-writer-module"></span><h1>resistics.time.writer module<a class="headerlink" href="#module-resistics.time.writer" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.time.writer.TimeWriter">
-<em class="property">class </em><code class="descclassname">resistics.time.writer.</code><code class="descname">TimeWriter</code><a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.time.writer.</code><code class="sig-name descname">TimeWriter</code><a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.common.base.ResisticsBase</span></code></a></p>
 <p>Base class for data writers</p>
 <p>All input readers provide headers in a common format</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>outPath</strong><span class="classifier">str</span></dt><dd><p>The path to write to</p>
 </dd>
 <dt><strong>extension: str</strong></dt><dd><p>The extension to give to the data files</p>
@@ -235,79 +233,75 @@
 <dt><strong>chanHeaders</strong><span class="classifier">List</span></dt><dd><p>Channel specific headers</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="44%" />
-<col width="56%" />
+<col style="width: 44%" />
+<col style="width: 56%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>__init__()</strong></td>
-<td>Initialise writer</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>__init__()</strong></p></td>
+<td><p>Initialise writer</p></td>
 </tr>
-<tr class="row-even"><td><strong>getOutPath()</strong></td>
-<td>Get the path to write out to</td>
+<tr class="row-even"><td><p><strong>getOutPath()</strong></p></td>
+<td><p>Get the path to write out to</p></td>
 </tr>
-<tr class="row-odd"><td><strong>setOutPath(path)</strong></td>
-<td>Set the path to write out to</td>
+<tr class="row-odd"><td><p><strong>setOutPath(path)</strong></p></td>
+<td><p>Set the path to write out to</p></td>
 </tr>
-<tr class="row-even"><td><strong>setExtension()</strong></td>
-<td>For subclasses to set their extension</td>
+<tr class="row-even"><td><p><strong>setExtension()</strong></p></td>
+<td><p>For subclasses to set their extension</p></td>
 </tr>
-<tr class="row-odd"><td><strong>setGlobalHeadersFromKeywords(headers, keywords)</strong></td>
-<td>Set the global headers</td>
+<tr class="row-odd"><td><p><strong>setGlobalHeadersFromKeywords(headers, keywords)</strong></p></td>
+<td><p>Set the global headers</p></td>
 </tr>
-<tr class="row-even"><td><strong>setChanHeadersFromKeywords(chanHeaders, keywords)</strong></td>
-<td>Set channel headers</td>
+<tr class="row-even"><td><p><strong>setChanHeadersFromKeywords(chanHeaders, keywords)</strong></p></td>
+<td><p>Set channel headers</p></td>
 </tr>
-<tr class="row-odd"><td><strong>calcStopDateTime(sampleFreq, numSamples, datetimeStart)</strong></td>
-<td>Calculate time series stop time</td>
+<tr class="row-odd"><td><p><strong>calcStopDateTime(sampleFreq, numSamples, datetimeStart)</strong></p></td>
+<td><p>Calculate time series stop time</p></td>
 </tr>
-<tr class="row-even"><td><strong>globalHeaderwords()</strong></td>
-<td>Get a list of the global headers of interest</td>
+<tr class="row-even"><td><p><strong>globalHeaderwords()</strong></p></td>
+<td><p>Get a list of the global headers of interest</p></td>
 </tr>
-<tr class="row-odd"><td><strong>chanHeaderwords()</strong></td>
-<td>Get a list of the channel headers of interest</td>
+<tr class="row-odd"><td><p><strong>chanHeaderwords()</strong></p></td>
+<td><p>Get a list of the channel headers of interest</p></td>
 </tr>
-<tr class="row-even"><td><strong>writeTemplateHeaderFiles(chans, chanFileMap, sampleFreq, numSamples, startDate)</strong></td>
-<td>Write out a set of template header files for a case in which ASCII data without headers is to be loaded in</td>
+<tr class="row-even"><td><p><strong>writeTemplateHeaderFiles(chans, chanFileMap, sampleFreq, numSamples, startDate)</strong></p></td>
+<td><p>Write out a set of template header files for a case in which ASCII data without headers is to be loaded in</p></td>
 </tr>
-<tr class="row-odd"><td><strong>writeDataset(reader, **kwargs)</strong></td>
-<td>Write an existing dataset as a different format</td>
+<tr class="row-odd"><td><p><strong>writeDataset(reader, **kwargs)</strong></p></td>
+<td><p>Write an existing dataset as a different format</p></td>
 </tr>
-<tr class="row-even"><td><strong>writeData(headers, chanHeaders, timeData, **kwargs)</strong></td>
-<td>Write data based on headers, channel headers and time series data</td>
+<tr class="row-even"><td><p><strong>writeData(headers, chanHeaders, timeData, **kwargs)</strong></p></td>
+<td><p>Write data based on headers, channel headers and time series data</p></td>
 </tr>
-<tr class="row-odd"><td><strong>write(headers, chanHeaders, chanMap, timeData, **kwargs)</strong></td>
-<td>Write out a dataset</td>
+<tr class="row-odd"><td><p><strong>write(headers, chanHeaders, chanMap, timeData, **kwargs)</strong></p></td>
+<td><p>Write out a dataset</p></td>
 </tr>
-<tr class="row-even"><td><strong>writeHeaders(headers, chans, chanMap, chanHeaders)</strong></td>
-<td>Write out headers</td>
+<tr class="row-even"><td><p><strong>writeHeaders(headers, chans, chanMap, chanHeaders)</strong></p></td>
+<td><p>Write out headers</p></td>
 </tr>
-<tr class="row-odd"><td><strong>writeComments(comments)</strong></td>
-<td>Write out comments</td>
+<tr class="row-odd"><td><p><strong>writeComments(comments)</strong></p></td>
+<td><p>Write out comments</p></td>
 </tr>
-<tr class="row-even"><td><strong>writeDataFiles(chans, timeData)</strong></td>
-<td>Write out time series data - not implemented in base class</td>
+<tr class="row-even"><td><p><strong>writeDataFiles(chans, timeData)</strong></p></td>
+<td><p>Write out time series data - not implemented in base class</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printList()</strong></td>
-<td>Class status returned as list of strings</td>
+<tr class="row-odd"><td><p><strong>printList()</strong></p></td>
+<td><p>Class status returned as list of strings</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.calcStopDateTime">
-<code class="descname">calcStopDateTime</code><span class="sig-paren">(</span><em>self</em>, <em>sampleFreq: float</em>, <em>numSamples: int</em>, <em>datetimeStart: datetime.datetime</em><span class="sig-paren">)</span> &#x2192; datetime.datetime<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.calcStopDateTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.calcStopDateTime" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calcStopDateTime</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">sampleFreq: float</em>, <em class="sig-param">numSamples: int</em>, <em class="sig-param">datetimeStart: datetime.datetime</em><span class="sig-paren">)</span> &#x2192; datetime.datetime<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.calcStopDateTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.calcStopDateTime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate time of last sample</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>Sampling frequency in Hz of the time series data</p>
 </dd>
 <dt><strong>numSamples</strong><span class="classifier">int</span></dt><dd><p>The number of samples in the time series data</p>
@@ -315,171 +309,139 @@
 <dt><strong>datetimeStart</strong><span class="classifier">datetime</span></dt><dd><p>The time of the first sample</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.chanHeaderwords">
-<code class="descname">chanHeaderwords</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.chanHeaderwords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.chanHeaderwords" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">chanHeaderwords</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.chanHeaderwords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.chanHeaderwords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of channel headerwords to write out</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[str]</dt><dd><p>A list of the global header words of interest for writing out</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.getOutPath">
-<code class="descname">getOutPath</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.getOutPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.getOutPath" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getOutPath</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.getOutPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.getOutPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the out path</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>str</strong></dt><dd><p>The outpath defining where data is written</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.globalHeaderwords">
-<code class="descname">globalHeaderwords</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.globalHeaderwords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.globalHeaderwords" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">globalHeaderwords</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.globalHeaderwords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.globalHeaderwords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of global headerwords to write out</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[str]</dt><dd><p>A list of the global header words of interest for writing out</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.printList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.setChanHeadersFromKeywords">
-<code class="descname">setChanHeadersFromKeywords</code><span class="sig-paren">(</span><em>self</em>, <em>chanHeaders: List</em>, <em>keywords: Dict</em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.setChanHeadersFromKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.setChanHeadersFromKeywords" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setChanHeadersFromKeywords</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">chanHeaders: List</em>, <em class="sig-param">keywords: Dict</em><span class="sig-paren">)</span> &#x2192; List<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.setChanHeadersFromKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.setChanHeadersFromKeywords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the channel headers</p>
 <p>Before writing out data, channel headers are set. The priority order is:</p>
 <ol class="arabic simple">
-<li>keywords[headername] if headername exists in keywords</li>
-<li>headers[headername] if headername exists in headers</li>
-<li>“” where the channel header is not defined in either keywords or headers</li>
+<li><p>keywords[headername] if headername exists in keywords</p></li>
+<li><p>headers[headername] if headername exists in headers</p></li>
+<li><p>“” where the channel header is not defined in either keywords or headers</p></li>
 </ol>
 <p>The reason keywords takes top priority is there may be instances where the headers defined in a reader may need to be altered due to processing of time data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>chanHeaders</strong><span class="classifier">List</span></dt><dd><p>List of channel headers</p>
 </dd>
 <dt><strong>keywords</strong><span class="classifier">Dict</span></dt><dd><p>A dictionary of header values to overwrite those in channel headers</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.setExtension">
-<code class="descname">setExtension</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.setExtension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.setExtension" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setExtension</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.setExtension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.setExtension" title="Permalink to this definition">¶</a></dt>
 <dd><p>For subclasses to set their own extension type</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.setGlobalHeadersFromKeywords">
-<code class="descname">setGlobalHeadersFromKeywords</code><span class="sig-paren">(</span><em>self</em>, <em>headers: Dict</em>, <em>keywords: Dict</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.setGlobalHeadersFromKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.setGlobalHeadersFromKeywords" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setGlobalHeadersFromKeywords</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">headers: Dict</em>, <em class="sig-param">keywords: Dict</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.setGlobalHeadersFromKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.setGlobalHeadersFromKeywords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the global headers</p>
 <p>Before writing out data, global headers are set. The priority order is:</p>
 <ol class="arabic simple">
-<li>keywords[headername] if headername exists in keywords</li>
-<li>headers[headername] if headername exists in headers</li>
-<li>“” where the header is not defined in either keywords or headers</li>
+<li><p>keywords[headername] if headername exists in keywords</p></li>
+<li><p>headers[headername] if headername exists in headers</p></li>
+<li><p>“” where the header is not defined in either keywords or headers</p></li>
 </ol>
 <p>The reason keywords takes top priority is there may be instances where the headers defined in a reader may need to be altered due to processing of time data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>headers</strong><span class="classifier">Dict</span></dt><dd><p>Dictionary of header values</p>
 </dd>
 <dt><strong>keywords</strong><span class="classifier">Dict</span></dt><dd><p>A dictionary of header values to overwrite those in headers</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.setOutPath">
-<code class="descname">setOutPath</code><span class="sig-paren">(</span><em>self</em>, <em>path: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.setOutPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.setOutPath" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setOutPath</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">path: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.setOutPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.setOutPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the out path</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>The new outpath defining where data is written</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.write">
-<code class="descname">write</code><span class="sig-paren">(</span><em>self</em>, <em>headers: Dict</em>, <em>chanHeaders: List</em>, <em>chanMap: Dict</em>, <em>timeData: resistics.time.data.TimeData</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">headers: Dict</em>, <em class="sig-param">chanHeaders: List</em>, <em class="sig-param">chanMap: Dict</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out the header file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>headers</strong><span class="classifier">Dict</span></dt><dd><p>Dictionary of headers</p>
 </dd>
 <dt><strong>chanHeaders</strong><span class="classifier">List</span></dt><dd><p>List of channel headers</p>
@@ -489,40 +451,32 @@
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>Time series data as TimeData object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.writeComments">
-<code class="descname">writeComments</code><span class="sig-paren">(</span><em>self, comments: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeComments" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">writeComments</code><span class="sig-paren">(</span><em class="sig-param">self, comments: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeComments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out a comments file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>comments</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings with data comments</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.writeData">
-<code class="descname">writeData</code><span class="sig-paren">(</span><em>self</em>, <em>headers</em>, <em>chanHeaders</em>, <em>timeData</em>, <em>physical: bool = True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeData" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">writeData</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">headers</em>, <em class="sig-param">chanHeaders</em>, <em class="sig-param">timeData</em>, <em class="sig-param">physical: bool = True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out time data</p>
 <p>This method requires the user to pass global headers and chan headers explicitly.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>headers</strong><span class="classifier">Dict</span></dt><dd><p>Dictionary of headers</p>
 </dd>
 <dt><strong>chanHeaders</strong><span class="classifier">List</span></dt><dd><p>List of channel headers</p>
@@ -532,48 +486,40 @@
 <dt><strong>physical</strong><span class="classifier">bool, optional</span></dt><dd><p>An optional flag designating whether the data is in field units (i.e. all scalings have been applied). This will result in the scaling_applied header being set to True. Default value for physical is True (i.e. data is assumed to be in field units).</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.writeDataFiles">
-<code class="descname">writeDataFiles</code><span class="sig-paren">(</span><em>self</em>, <em>chans</em>, <em>timeData</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeDataFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeDataFiles" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">writeDataFiles</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">chans</em>, <em class="sig-param">timeData</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeDataFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeDataFiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out data files</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.writeDataset">
-<code class="descname">writeDataset</code><span class="sig-paren">(</span><em>self</em>, <em>reader: resistics.time.reader.TimeReader</em>, <em>physical: bool = True</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeDataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeDataset" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">writeDataset</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">reader: resistics.time.reader.TimeReader</em>, <em class="sig-param">physical: bool = True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeDataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeDataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out a dataset by passing a data reader</p>
 <p>This method is intended to transform an existing dataset into internal format</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>reader</strong><span class="classifier">DataReader</span></dt><dd><p>A list of the global header words of interest for writing out</p>
 </dd>
 <dt><strong>physical</strong><span class="classifier">bool, optional</span></dt><dd><p>An optional flag designating whether to use physical samples or not. Default is true</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.writeHeaders">
-<code class="descname">writeHeaders</code><span class="sig-paren">(</span><em>self, headers: Dict[str, Any], chans: List[str], chanMap: Dict[str, int], chanHeaders: List[Dict], rename: bool = True, ext: str = 'hdr'</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">writeHeaders</code><span class="sig-paren">(</span><em class="sig-param">self, headers: Dict[str, Any], chans: List[str], chanMap: Dict[str, int], chanHeaders: List[Dict], rename: bool = True, ext: str = 'hdr'</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out the header file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>headers</strong><span class="classifier">Dict</span></dt><dd><p>Dictionary of headers</p>
 </dd>
 <dt><strong>chans</strong><span class="classifier">List[str]</span></dt><dd><p>Channels as a list of strings</p>
@@ -587,22 +533,18 @@
 <dt><strong>ext</strong><span class="classifier">str, optional</span></dt><dd><p>The extension for the headers. Default is hdr</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.writer.TimeWriter.writeTemplateHeaderFiles">
-<code class="descname">writeTemplateHeaderFiles</code><span class="sig-paren">(</span><em>self, chans: List[str], chanFileMap: Dict, sampleFreq: float, numSamples: int, startDate: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeTemplateHeaderFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeTemplateHeaderFiles" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">writeTemplateHeaderFiles</code><span class="sig-paren">(</span><em class="sig-param">self, chans: List[str], chanFileMap: Dict, sampleFreq: float, numSamples: int, startDate: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/writer.html#TimeWriter.writeTemplateHeaderFiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.writer.TimeWriter.writeTemplateHeaderFiles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write a set of blank headers</p>
 <p>Blank headers might be useful for reading in ascii files where no headers are existing. By giving a few header words, many options can be set</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>chans</strong><span class="classifier">List[str]</span></dt><dd><p>List of chans (e.g. Ex, Ey, Hx, Hy, Hz)</p>
 </dd>
 <dt><strong>chanFileMap</strong><span class="classifier">Dict[str, str]</span></dt><dd><p>Map from channel to file</p>
@@ -612,10 +554,8 @@
 <dt><strong>startdate</strong><span class="classifier">str</span></dt><dd><p>The start date of the recording in format %Y-%m-%d %H:%M:%S</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -664,7 +604,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

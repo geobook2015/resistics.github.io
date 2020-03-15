@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.time.reader_ats module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.time.reader_ats module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.time.reader_internal module" href="resistics.time.reader_internal.html" />
@@ -211,7 +211,7 @@
 <span id="resistics-time-reader-ats-module"></span><h1>resistics.time.reader_ats module<a class="headerlink" href="#module-resistics.time.reader_ats" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.time.reader_ats.TimeReaderATS">
-<em class="property">class </em><code class="descclassname">resistics.time.reader_ats.</code><code class="descname">TimeReaderATS</code><span class="sig-paren">(</span><em>dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ats.html#TimeReaderATS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ats.TimeReaderATS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.time.reader_ats.</code><code class="sig-name descname">TimeReaderATS</code><span class="sig-paren">(</span><em class="sig-param">dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ats.html#TimeReaderATS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ats.TimeReaderATS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.time.reader.html#resistics.time.reader.TimeReader" title="resistics.time.reader.TimeReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.time.reader.TimeReader</span></code></a></p>
 <p>Data reader for ATS formatted data</p>
 <p>For ATS files, header information is XML formatted. The end time in ATS header files is actually one sample past the time of the last sample. The dataReader handles this and gives an end time corresponding to the actual time of the last sample.</p>
@@ -227,35 +227,33 @@
 </div>
 <p>Finally, to get magnetic channels in nT, the magnetic channels need to be calibrated.</p>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="31%" />
-<col width="69%" />
+<col style="width: 31%" />
+<col style="width: 69%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>setParameters()</strong></td>
-<td>Set data format parameters</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>setParameters()</strong></p></td>
+<td><p>Set data format parameters</p></td>
 </tr>
-<tr class="row-even"><td><strong>dataHeaders()</strong></td>
-<td>Headers to read in</td>
+<tr class="row-even"><td><p><strong>dataHeaders()</strong></p></td>
+<td><p>Headers to read in</p></td>
 </tr>
-<tr class="row-odd"><td><strong>readHeaders()</strong></td>
-<td>Specific function for reading the headers for internal format</td>
+<tr class="row-odd"><td><p><strong>readHeaders()</strong></p></td>
+<td><p>Specific function for reading the headers for internal format</p></td>
 </tr>
-<tr class="row-even"><td><strong>lineToKeyAndValue(line)</strong></td>
-<td>Separate a line into key and value with = as a delimiter</td>
+<tr class="row-even"><td><p><strong>lineToKeyAndValue(line)</strong></p></td>
+<td><p>Separate a line into key and value with = as a delimiter</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.time.reader_ats.TimeReaderATS.dataHeaders">
-<code class="descname">dataHeaders</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ats.html#TimeReaderATS.dataHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ats.TimeReaderATS.dataHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">dataHeaders</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ats.html#TimeReaderATS.dataHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ats.TimeReaderATS.dataHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the data headers in the internal file format</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>recordingHeaders</strong><span class="classifier">List[str]</span></dt><dd><p>Headers with information about the recording</p>
 </dd>
 <dt><strong>globalHeaders</strong><span class="classifier">List[str]</span></dt><dd><p>Common headers with information about the recording</p>
@@ -265,22 +263,20 @@
 <dt><strong>channelHeadersOutput</strong><span class="classifier">List[str]</span></dt><dd><p>Channel recording headers</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_ats.TimeReaderATS.readHeader">
-<code class="descname">readHeader</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ats.html#TimeReaderATS.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ats.TimeReaderATS.readHeader" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">readHeader</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ats.html#TimeReaderATS.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ats.TimeReaderATS.readHeader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read time data header file for ATS format</p>
 <p>Headers for ATS files are XML formatted.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_ats.TimeReaderATS.setParameters">
-<code class="descname">setParameters</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_ats.html#TimeReaderATS.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ats.TimeReaderATS.setParameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setParameters</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_ats.html#TimeReaderATS.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ats.TimeReaderATS.setParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set data reader parameters for ATS files</p>
 </dd></dl>
 
@@ -330,7 +326,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

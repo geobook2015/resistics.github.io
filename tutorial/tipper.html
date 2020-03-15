@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Calculating the tipper &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Calculating the tipper &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Viewing spectra" href="viewing-spectra.html" />
@@ -193,8 +193,8 @@
 <p>By default, resistics does not calculate the components of the tipper. This is because resistics sets the default input channels as H<sub>x</sub> and H<sub>y</sub> and the default output channels as E<sub>x</sub> and E<sub>y</sub>.</p>
 <p>There are two options for calculating the tipper:</p>
 <ol class="arabic simple">
-<li>The first is to add H<sub>z</sub> as one of the output channels in the transfer function calculation</li>
-<li>The second is to set H<sub>z</sub> as the only output channel</li>
+<li><p>The first is to add H<sub>z</sub> as one of the output channels in the transfer function calculation</p></li>
+<li><p>The second is to set H<sub>z</sub> as the only output channel</p></li>
 </ol>
 <p>The first option sets up the following linear equations to be solved in the linear regression:</p>
 <div class="math notranslate nohighlight">
@@ -207,8 +207,8 @@ H_z &amp; = &amp; T_x H_x + T_y H_y
 \[H_z = T_x H_x + T_y H_y\]</div>
 <p>These will pribably both give slightly different solutions for the tipper components as the optimal solution for the robust regression will vary between them.</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Including H<sub>z</sub> as one of the output channels with E<sub>x</sub> and E<sub>y</sub> will likely give slightly different results for Z<sub>xy</sub>, Z<sub>xx</sub>, Z<sub>yx</sub> and Z<sub>yy</sub> than when the it is excluded. This is due to changing the nature of the robust regression.</p>
+<p class="admonition-title">Warning</p>
+<p>Including H<sub>z</sub> as one of the output channels with E<sub>x</sub> and E<sub>y</sub> will likely give slightly different results for Z<sub>xy</sub>, Z<sub>xx</sub>, Z<sub>yx</sub> and Z<sub>yy</sub> than when the it is excluded. This is due to changing the nature of the robust regression.</p>
 </div>
 <p>Continuing on from the example in the previous section, the spectra have already been calculated and it is possible to simply process the same spectra again, but this time using different input and output channels. However, to avoid overwriting the previously calculated transfer function, pass <code class="code python docutils literal notranslate"><span class="name"><span class="pre">postpend</span></span><span class="operator"><span class="pre">=</span></span><span class="literal string double"><span class="pre">”with_Hz”</span></span></code> to <a class="reference internal" href="../api/resistics.project.transfunc.html#resistics.project.transfunc.processProject" title="resistics.project.transfunc.processProject"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code></a>. The postpend is simply a string that is concantenated to the end of the transfer function data file.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -493,7 +493,7 @@ Var-HzHy
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

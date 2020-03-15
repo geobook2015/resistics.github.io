@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.mask.io module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.mask.io module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.regression package" href="resistics.regression.html" />
@@ -197,129 +197,109 @@
 <span id="resistics-mask-io-module"></span><h1>resistics.mask.io module<a class="headerlink" href="#module-resistics.mask.io" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.mask.io.MaskIO">
-<em class="property">class </em><code class="descclassname">resistics.mask.io.</code><code class="descname">MaskIO</code><span class="sig-paren">(</span><em>datapath: str = ''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.mask.io.</code><code class="sig-name descname">MaskIO</code><span class="sig-paren">(</span><em class="sig-param">datapath: str = ''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.common.base.ResisticsBase</span></code></a></p>
 <p>Class for reading and writing maskData</p>
 <p>Masks are referenced to sampling frequencies rather than particular measurements. The idea if that masks are calculated out for all the data and later, the data can be constrained either using date and time constraints or by using window masks based on statistics.</p>
 <p>Mask files are located in:
 project -&gt; maskData -&gt; site -&gt; sample frequency -&gt; specdir</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>datapath</strong><span class="classifier">str</span></dt><dd><p>Path to mask file directory</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="8%" />
-<col width="92%" />
+<col style="width: 8%" />
+<col style="width: 92%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>__init__(datapath)</strong></td>
-<td>Initialise the MaskIO object. read(maskName, sampleFreq) Read in maskName for sampleFreq from datapath write(maskData) Write out maskData object to datapath. getFileNames(makeName, sampleFreq) The filename for a maskFile given a maskName and sampling frequency</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>__init__(datapath)</strong></p></td>
+<td><p>Initialise the MaskIO object. read(maskName, sampleFreq) Read in maskName for sampleFreq from datapath write(maskData) Write out maskData object to datapath. getFileNames(makeName, sampleFreq) The filename for a maskFile given a maskName and sampling frequency</p></td>
 </tr>
-<tr class="row-even"><td><strong>printList()</strong></td>
-<td>Class status returned as list of strings</td>
+<tr class="row-even"><td><p><strong>printList()</strong></p></td>
+<td><p>Class status returned as list of strings</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.mask.io.MaskIO.getFileNames">
-<code class="descname">getFileNames</code><span class="sig-paren">(</span><em>self</em>, <em>maskName: str</em>, <em>sampleFreq: float</em><span class="sig-paren">)</span> &#x2192; Tuple[str, str]<a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO.getFileNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO.getFileNames" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getFileNames</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">maskName: str</em>, <em class="sig-param">sampleFreq: float</em><span class="sig-paren">)</span> &#x2192; Tuple[str, str]<a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO.getFileNames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO.getFileNames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the name of a mask file</p>
 <p>This method is here to give consistent file names for mask files.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>maskName</strong><span class="classifier">str</span></dt><dd><p>The name of the mask</p>
 </dd>
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency of the data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>infoFile</strong><span class="classifier">str</span></dt><dd><p>The name of the mask infoFile</p>
 </dd>
 <dt><strong>winFile</strong><span class="classifier">str</span></dt><dd><p>The name of the mask winFile</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.io.MaskIO.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO.printList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.io.MaskIO.read">
-<code class="descname">read</code><span class="sig-paren">(</span><em>self</em>, <em>maskName: str</em>, <em>sampleFreq: float</em><span class="sig-paren">)</span> &#x2192; resistics.mask.data.MaskData<a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO.read" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">maskName: str</em>, <em class="sig-param">sampleFreq: float</em><span class="sig-paren">)</span> &#x2192; resistics.mask.data.MaskData<a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read in maskData from a file defined by maskName and sampleFreq</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>maskName</strong><span class="classifier">MaskData</span></dt><dd><p>MaskData object</p>
 </dd>
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency of the data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>maskData</strong><span class="classifier">MaskData</span></dt><dd><p>The MaskData object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.io.MaskIO.write">
-<code class="descname">write</code><span class="sig-paren">(</span><em>self</em>, <em>maskData: resistics.mask.data.MaskData</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">maskData: resistics.mask.data.MaskData</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/io.html#MaskIO.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.io.MaskIO.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the maskData out to datapath</p>
 <p>Mask data is saved as a numpy binary object</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>maskData</strong><span class="classifier">MaskData</span></dt><dd><p>MaskData object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -368,7 +348,7 @@ project -&gt; maskData -&gt; site -&gt; sample frequency -&gt; specdir</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

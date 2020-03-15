@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>RSP Calibration &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>RSP Calibration &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="RSPX Calibration" href="rspx-calibration.html" />
@@ -188,54 +188,54 @@
 <p>RSP calibration files are ASCII files with metadata and calibration data.</p>
 <p>The units of RSP calibration files are interpreted to be:</p>
 <ul class="simple">
-<li>Frequency in Hz</li>
-<li>Magnitude in mV/nT</li>
-<li>Phase in degrees</li>
+<li><p>Frequency in Hz</p></li>
+<li><p>Magnitude in mV/nT</p></li>
+<li><p>Phase in degrees</p></li>
 </ul>
 <p>Resistics will automatically convert these units to:</p>
 <ul class="simple">
-<li>Frequency in Hz</li>
-<li>Magnitude in mV/nT (including any static gain)</li>
-<li>Phase in radians</li>
+<li><p>Frequency in Hz</p></li>
+<li><p>Magnitude in mV/nT (including any static gain)</p></li>
+<li><p>Phase in radians</p></li>
 </ul>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Remember that extension happens in the original units of the calibration data. For RSP data files, this is in mV/nT.</p>
+<p class="admonition-title">Note</p>
+<p>Remember that extension happens in the original units of the calibration data. For RSP data files, this is in mV/nT.</p>
 </div>
 <div class="section" id="naming-in-the-project-environment">
 <h2>Naming in the project environment<a class="headerlink" href="#naming-in-the-project-environment" title="Permalink to this headline">¶</a></h2>
 <p>When using the project environment, resistics automatically searches for calibration files in the calData folder.
 RSP files should be named according to the following specification:</p>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
+<p class="admonition-title">Important</p>
 <p>[*]TYPE-[SENSORNUM]_[BOARD]-ID-[SERIAL].RSP</p>
 <p>or</p>
 <p>[*]TYPE-[SENSORNUM]_BB-ID-[SERIAL].RSP</p>
 <p>where:</p>
 <ul class="simple">
-<li>SENSORNUM is the sensor number out of the sensor type written with three digits (i.e. leading zeros required if the sensor number is less than three digits)</li>
-<li>BOARD is either LF (chopper on) or HF (chopper off)</li>
-<li>SERIAL is the serial number written with six digits (i.e. leading zeros required if the serial number is less than six digits)</li>
-<li>[*] represents any general string.</li>
+<li><p>SENSORNUM is the sensor number out of the sensor type written with three digits (i.e. leading zeros required if the sensor number is less than three digits)</p></li>
+<li><p>BOARD is either LF (chopper on) or HF (chopper off)</p></li>
+<li><p>SERIAL is the serial number written with six digits (i.e. leading zeros required if the serial number is less than six digits)</p></li>
+<li><p>[*] represents any general string.</p></li>
 </ul>
-<p class="last">The BB files represent broadband calibration files that cover both chopper on and chopper off cases.</p>
+<p>The BB files represent broadband calibration files that cover both chopper on and chopper off cases.</p>
 </div>
 <p>As an example, consider an induction coil with,</p>
 <ul class="simple">
-<li>sensor type MFS06</li>
-<li>sensor serial number 307</li>
-<li>Chopper off</li>
+<li><p>sensor type MFS06</p></li>
+<li><p>sensor serial number 307</p></li>
+<li><p>Chopper off</p></li>
 </ul>
 <p>then,</p>
 <ul class="simple">
-<li>SENSORNUM = 006</li>
-<li>BOARD = HF</li>
-<li>SERIAL = 000307</li>
+<li><p>SENSORNUM = 006</p></li>
+<li><p>BOARD = HF</p></li>
+<li><p>SERIAL = 000307</p></li>
 </ul>
 <p>Therefore, the file could be named:</p>
 <ul class="simple">
-<li>Metronix_Coil—–TYPE-006_HF-ID-000307.RSP</li>
-<li>Metronix_Coil—–TYPE-006_BB-ID-000307.RSP</li>
+<li><p>Metronix_Coil—–TYPE-006_HF-ID-000307.RSP</p></li>
+<li><p>Metronix_Coil—–TYPE-006_BB-ID-000307.RSP</p></li>
 </ul>
 </div>
 <div class="section" id="example">
@@ -430,8 +430,8 @@ RSP files should be named according to the following specification:</p>
 </td></tr></table></div>
 <p>The internal ascii calibration format writes out values in the following units:</p>
 <ul class="simple">
-<li>Magnitude in mV/nT</li>
-<li>Phase in radians</li>
+<li><p>Magnitude in mV/nT</p></li>
+<li><p>Phase in radians</p></li>
 </ul>
 <p>This gives the file below:</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -532,8 +532,8 @@ CALIBRATION DATA
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">When writing out in internal format, the static gain is removed from the magnitude but recorded in the file. When reading in the internal format again, the static gain will be reapplied.</p>
+<p class="admonition-title">Note</p>
+<p>When writing out in internal format, the static gain is removed from the magnitude but recorded in the file. When reading in the internal format again, the static gain will be reapplied.</p>
 </div>
 <p>To read in the internal ASCII format calibration file, the parameters of <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO" title="resistics.calibrate.io.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> need to be reset using the <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO.refresh" title="resistics.calibrate.io.CalibrationIO.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a> method. This time, the fileformat needs to be set to “induction”.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>35
@@ -847,7 +847,7 @@ CALIBRATION DATA
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

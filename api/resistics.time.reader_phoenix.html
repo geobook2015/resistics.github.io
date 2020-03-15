@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.time.reader_phoenix module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.time.reader_phoenix module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.time.reader_spam module" href="resistics.time.reader_spam.html" />
@@ -211,7 +211,7 @@
 <span id="resistics-time-reader-phoenix-module"></span><h1>resistics.time.reader_phoenix module<a class="headerlink" href="#module-resistics.time.reader_phoenix" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix">
-<em class="property">class </em><code class="descclassname">resistics.time.reader_phoenix.</code><code class="descname">TimeReaderPhoenix</code><span class="sig-paren">(</span><em>dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.time.reader_phoenix.</code><code class="sig-name descname">TimeReaderPhoenix</code><span class="sig-paren">(</span><em class="sig-param">dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.time.reader.html#resistics.time.reader.TimeReader" title="resistics.time.reader.TimeReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.time.reader.TimeReader</span></code></a></p>
 <p>Data reader for Phoenix data</p>
 <p>The Phoenix data and recording format is different and does not nicely fit with the way resistics tries to model data.</p>
@@ -219,17 +219,15 @@
 <p>However, as resistics separates out data into continuous recordings, the consistent gaps for the higher frequencies will lead to lots of small data folders if converted to internal data format.</p>
 <p>This class returns the lowest frequency recording (the continuous one) when time series data is requested. However, higher frequencies can be converted to the internal data format using the methods available here.</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
+<p class="admonition-title">Warning</p>
 <p>The appropriate scaling for Phoenix data to return field units has not yet been verified.</p>
-<p class="last">It is not actually recommended to reformat the high frequency recordings as this will lead to potentially thousands of data folders. There is currently no straight-forward way to support the high-frequency Phoenix recordings.</p>
+<p>It is not actually recommended to reformat the high frequency recordings as this will lead to potentially thousands of data folders. There is currently no straight-forward way to support the high-frequency Phoenix recordings.</p>
 </div>
 <p class="rubric">Notes</p>
 <p>Phoenix data is stored in 3 bytes two’s-complement format.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>recChannels</strong><span class="classifier">Dict</span></dt><dd><p>Channels in each data file</p>
 </dd>
 <dt><strong>dtype</strong><span class="classifier">np.float32</span></dt><dd><p>The data type</p>
@@ -239,128 +237,120 @@
 <dt><strong>numDataFiles</strong><span class="classifier">int</span></dt><dd><p>The number of data files</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="44%" />
-<col width="56%" />
+<col style="width: 44%" />
+<col style="width: 56%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>setParameters()</strong></td>
-<td>Set data reader parameters for Phoenix files</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>setParameters()</strong></p></td>
+<td><p>Set data reader parameters for Phoenix files</p></td>
 </tr>
-<tr class="row-even"><td><strong>getSamplesRatesTS()</strong></td>
-<td>Get the sampling frequencies of the time series data</td>
+<tr class="row-even"><td><p><strong>getSamplesRatesTS()</strong></p></td>
+<td><p>Get the sampling frequencies of the time series data</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getNumberSamplesTS()</strong></td>
-<td>Get the number of samples for each time series file</td>
+<tr class="row-odd"><td><p><strong>getNumberSamplesTS()</strong></p></td>
+<td><p>Get the number of samples for each time series file</p></td>
 </tr>
-<tr class="row-even"><td><strong>getUnscaledSamples(**kwargs)</strong></td>
-<td>Get raw data from data file</td>
+<tr class="row-even"><td><p><strong>getUnscaledSamples(**kwargs)</strong></p></td>
+<td><p>Get raw data from data file</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getRecordsForSamples(startSample, endSample)</strong></td>
-<td>Get the records to read for a sample range</td>
+<tr class="row-odd"><td><p><strong>getRecordsForSamples(startSample, endSample)</strong></p></td>
+<td><p>Get the records to read for a sample range</p></td>
 </tr>
-<tr class="row-even"><td><strong>readTag(dataFile)</strong></td>
-<td>Read the tag from a data file</td>
+<tr class="row-even"><td><p><strong>readTag(dataFile)</strong></p></td>
+<td><p>Read the tag from a data file</p></td>
 </tr>
-<tr class="row-odd"><td><strong>readRecord(dataFile, numChans, numScans)</strong></td>
-<td>Read numScans from a record</td>
+<tr class="row-odd"><td><p><strong>readRecord(dataFile, numChans, numScans)</strong></p></td>
+<td><p>Read numScans from a record</p></td>
 </tr>
-<tr class="row-even"><td><strong>twosComplement(dataBytes)</strong></td>
-<td>Read the two’s complement data from the file</td>
+<tr class="row-even"><td><p><strong>twosComplement(dataBytes)</strong></p></td>
+<td><p>Read the two’s complement data from the file</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getPhysicalSamples(**kwargs)</strong></td>
-<td>Get data scaled to physical values</td>
+<tr class="row-odd"><td><p><strong>getPhysicalSamples(**kwargs)</strong></p></td>
+<td><p>Get data scaled to physical values</p></td>
 </tr>
-<tr class="row-even"><td><strong>chanDefaults()</strong></td>
-<td>Get defaults for channel headers</td>
+<tr class="row-even"><td><p><strong>chanDefaults()</strong></p></td>
+<td><p>Get defaults for channel headers</p></td>
 </tr>
-<tr class="row-odd"><td><strong>readHeader()</strong></td>
-<td>Read header file</td>
+<tr class="row-odd"><td><p><strong>readHeader()</strong></p></td>
+<td><p>Read header file</p></td>
 </tr>
-<tr class="row-even"><td><strong>readTable()</strong></td>
-<td>Read table file</td>
+<tr class="row-even"><td><p><strong>readTable()</strong></p></td>
+<td><p>Read table file</p></td>
 </tr>
-<tr class="row-odd"><td><strong>removeControl(inBytes)</strong></td>
-<td>Remove control characters from a byte string</td>
+<tr class="row-odd"><td><p><strong>removeControl(inBytes)</strong></p></td>
+<td><p>Remove control characters from a byte string</p></td>
 </tr>
-<tr class="row-even"><td><strong>headersFromTable(tableData)</strong></td>
-<td>Parse the information in the table file to get headers</td>
+<tr class="row-even"><td><p><strong>headersFromTable(tableData)</strong></p></td>
+<td><p>Parse the information in the table file to get headers</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getDates(tableData)</strong></td>
-<td>Get recording dates (start and end time)</td>
+<tr class="row-odd"><td><p><strong>getDates(tableData)</strong></p></td>
+<td><p>Get recording dates (start and end time)</p></td>
 </tr>
-<tr class="row-even"><td><strong>checkSamples()</strong></td>
-<td>Check the number of samples for all the timeseries (ts) files</td>
+<tr class="row-even"><td><p><strong>checkSamples()</strong></p></td>
+<td><p>Check the number of samples for all the timeseries (ts) files</p></td>
 </tr>
-<tr class="row-odd"><td><strong>reformatHigh(path, **kwargs)</strong></td>
-<td>Write out high frequency time series in internal format</td>
+<tr class="row-odd"><td><p><strong>reformatHigh(path, **kwargs)</strong></p></td>
+<td><p>Write out high frequency time series in internal format</p></td>
 </tr>
-<tr class="row-even"><td><strong>reformatContinuous(path)</strong></td>
-<td>Write out the continuous time series in internal format</td>
+<tr class="row-even"><td><p><strong>reformatContinuous(path)</strong></p></td>
+<td><p>Write out the continuous time series in internal format</p></td>
 </tr>
-<tr class="row-odd"><td><strong>reformat(path)</strong></td>
-<td>Write out all recorded time series to internal format</td>
+<tr class="row-odd"><td><p><strong>reformat(path)</strong></p></td>
+<td><p>Write out all recorded time series to internal format</p></td>
 </tr>
-<tr class="row-even"><td><strong>printDataFileList()</strong></td>
-<td>Information about the data files as a list of strings</td>
+<tr class="row-even"><td><p><strong>printDataFileList()</strong></p></td>
+<td><p>Information about the data files as a list of strings</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printDataFileInfo()</strong></td>
-<td>Print a list of the data files</td>
+<tr class="row-odd"><td><p><strong>printDataFileInfo()</strong></p></td>
+<td><p>Print a list of the data files</p></td>
 </tr>
-<tr class="row-even"><td><strong>printTableFileList()</strong></td>
-<td>Information about the table file as a list of strings</td>
+<tr class="row-even"><td><p><strong>printTableFileList()</strong></p></td>
+<td><p>Information about the table file as a list of strings</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printTableFileInfo()</strong></td>
-<td>Print table file info</td>
+<tr class="row-odd"><td><p><strong>printTableFileInfo()</strong></p></td>
+<td><p>Print table file info</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.chanDefaults">
-<code class="descname">chanDefaults</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.chanDefaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.chanDefaults" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">chanDefaults</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.chanDefaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.chanDefaults" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get defaults for channel headers</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>Dict[str, Any]</dt><dd><p>Dictionary of headers for channels and default values</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.checkSamples">
-<code class="descname">checkSamples</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.checkSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.checkSamples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">checkSamples</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.checkSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.checkSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check the number of samples for all the timeseries (ts) files</p>
 <p>Recall, the format is 3 bytes two’s complement per sample</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.getDates">
-<code class="descname">getDates</code><span class="sig-paren">(</span><em>self</em>, <em>tableData</em><span class="sig-paren">)</span> &#x2192; Tuple[str, str, str, str]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getDates" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getDates</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tableData</em><span class="sig-paren">)</span> &#x2192; Tuple[str, str, str, str]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getDates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get recording dates (start and end time)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>tableData</strong><span class="classifier">OrderedDictDict</span></dt><dd><p>Ordered dictionary with table data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>firstDate</strong><span class="classifier">str</span></dt><dd><p>Date of first sample as string</p>
 </dd>
 <dt><strong>firstTime</strong><span class="classifier">str</span></dt><dd><p>Time of first sample as string</p>
@@ -370,39 +360,31 @@
 <dt><strong>lastTime</strong><span class="classifier">str</span></dt><dd><p>Time of last sample as string</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.getNumberSamplesTS">
-<code class="descname">getNumberSamplesTS</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getNumberSamplesTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getNumberSamplesTS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getNumberSamplesTS</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getNumberSamplesTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getNumberSamplesTS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the number of samples for each time series file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>Dict</dt><dd><p>Dictionary with the time series file number as keys and their number of samples as values</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.getPhysicalSamples">
-<code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getPhysicalSamples</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data scaled to physical values</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>chans</strong><span class="classifier">List[str]</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
 <dt><strong>startSample</strong><span class="classifier">int</span></dt><dd><p>First sample to return</p>
@@ -416,74 +398,62 @@
 <dt><strong>remnans: bool</strong></dt><dd><p>Remove NanNs from the data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.getRecordsForSamples">
-<code class="descname">getRecordsForSamples</code><span class="sig-paren">(</span><em>self</em>, <em>startSample: int</em>, <em>endSample: int</em><span class="sig-paren">)</span> &#x2192; Tuple[List, List]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getRecordsForSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getRecordsForSamples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getRecordsForSamples</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">startSample: int</em>, <em class="sig-param">endSample: int</em><span class="sig-paren">)</span> &#x2192; Tuple[List, List]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getRecordsForSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getRecordsForSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the records to read for a sample range</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>startSample</strong><span class="classifier">int</span></dt><dd><p>The starting sample of the range</p>
 </dd>
 <dt><strong>endSample</strong><span class="classifier">int</span></dt><dd><p>The ending sample of the range</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>recordsToRead</strong><span class="classifier">List</span></dt><dd><p>The records to read from the time series data files</p>
 </dd>
 <dt><strong>samplesToRead</strong><span class="classifier">List</span></dt><dd><p>The samples to read from each record</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.getSamplesRatesTS">
-<code class="descname">getSamplesRatesTS</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getSamplesRatesTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getSamplesRatesTS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getSamplesRatesTS</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getSamplesRatesTS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getSamplesRatesTS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the sampling frequencies of the time series data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>Dict</dt><dd><p>Dictionary with the time series file number as keys and their sampling frequencies in Hz as values</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.getUnscaledSamples">
-<code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getUnscaledSamples</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw data from data file</p>
 <p>Only returns the continuous data. The continuous data is in 24 bit two’s complement (3 bytes) format and is read in using struct as this is not supported by numpy.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>chans</strong><span class="classifier">List[str], optional</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
 <dt><strong>startSample</strong><span class="classifier">int, optional</span></dt><dd><p>First sample to return</p>
@@ -491,108 +461,92 @@
 <dt><strong>endSample</strong><span class="classifier">int, optional</span></dt><dd><p>Last sample to return</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.headersFromTable">
-<code class="descname">headersFromTable</code><span class="sig-paren">(</span><em>self</em>, <em>tableData: Dict</em><span class="sig-paren">)</span> &#x2192; Tuple[Dict, List]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.headersFromTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.headersFromTable" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">headersFromTable</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tableData: Dict</em><span class="sig-paren">)</span> &#x2192; Tuple[Dict, List]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.headersFromTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.headersFromTable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Populate the headers from the table values</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>tableData</strong><span class="classifier">OrderedDictDict</span></dt><dd><p>Ordered dictionary with table data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>headers</strong><span class="classifier">Dict</span></dt><dd><p>Dictionary of general headers</p>
 </dd>
 <dt><strong>chanHeaders</strong><span class="classifier">Dict</span></dt><dd><p>List of channel headers</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.printDataFileInfo">
-<code class="descname">printDataFileInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.printDataFileInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.printDataFileInfo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printDataFileInfo</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.printDataFileInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.printDataFileInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print a list of the data files</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.printDataFileList">
-<code class="descname">printDataFileList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.printDataFileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.printDataFileList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printDataFileList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.printDataFileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.printDataFileList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Information about the data files as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[str]</dt><dd><p>List of information about the data files</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.printTableFileInfo">
-<code class="descname">printTableFileInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.printTableFileInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.printTableFileInfo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printTableFileInfo</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.printTableFileInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.printTableFileInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print table file info</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.printTableFileList">
-<code class="descname">printTableFileList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.printTableFileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.printTableFileList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printTableFileList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.printTableFileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.printTableFileList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Information about the table file as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[str]</dt><dd><p>List of information about table file content</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.readHeader">
-<code class="descname">readHeader</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.readHeader" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">readHeader</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.readHeader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read header file</p>
 <p>For phoenix data, the header file is the table file and it is binary formatted.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.readRecord">
-<code class="descname">readRecord</code><span class="sig-paren">(</span><em>self</em>, <em>dataFile</em>, <em>numChans</em>, <em>numScans</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.readRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.readRecord" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">readRecord</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">dataFile</em>, <em class="sig-param">numChans</em>, <em class="sig-param">numScans</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.readRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.readRecord" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read numScans from a record</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>dataFile</strong><span class="classifier">file handle</span></dt><dd><p>File handle of the data file</p>
 </dd>
 <dt><strong>numScans</strong><span class="classifier">List</span></dt><dd><p>Number of scans in the tag</p>
@@ -600,51 +554,43 @@
 <dt><strong>numChans</strong><span class="classifier">List</span></dt><dd><p>Number of channels in the tag</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">np.ndarray(int)</span></dt><dd><p>Record data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.readTable">
-<code class="descname">readTable</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.readTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.readTable" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">readTable</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.readTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.readTable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a header table</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>OrderedDict</dt><dd><p>An ordered dictionary of header table data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.readTag">
-<code class="descname">readTag</code><span class="sig-paren">(</span><em>self</em>, <em>dataFile</em><span class="sig-paren">)</span> &#x2192; Tuple[str]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.readTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.readTag" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">readTag</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">dataFile</em><span class="sig-paren">)</span> &#x2192; Tuple[str]<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.readTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.readTag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the tag from a data file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>dataFile</strong><span class="classifier">file handle</span></dt><dd><p>File handle of the data file</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>numScans</strong><span class="classifier">List</span></dt><dd><p>Number of scans in the tag</p>
 </dd>
 <dt><strong>numChans</strong><span class="classifier">List</span></dt><dd><p>Number of channels in the tag</p>
@@ -652,122 +598,100 @@
 <dt><strong>dateString</strong><span class="classifier">str</span></dt><dd><p>The dataString of the tag</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.reformat">
-<code class="descname">reformat</code><span class="sig-paren">(</span><em>self</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.reformat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.reformat" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reformat</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.reformat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.reformat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out all recorded time series to internal format</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to write out reformatted recordings</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.reformatContinuous">
-<code class="descname">reformatContinuous</code><span class="sig-paren">(</span><em>self</em>, <em>path: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.reformatContinuous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.reformatContinuous" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reformatContinuous</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">path: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.reformatContinuous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.reformatContinuous" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out the continuous time series in internal format</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to write out reformatted continuous recording</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.reformatHigh">
-<code class="descname">reformatHigh</code><span class="sig-paren">(</span><em>self</em>, <em>path: str</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.reformatHigh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.reformatHigh" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reformatHigh</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">path: str</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.reformatHigh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.reformatHigh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write out high frequency time series in internal format</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Directory to write out the reformatted time series</p>
 </dd>
 <dt><strong>ts</strong><span class="classifier">List[int], optional</span></dt><dd><p>A list of the high frequency ts files to reformat. By default, all of the higher frequency recordings are reformatted</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.removeControl">
-<code class="descname">removeControl</code><span class="sig-paren">(</span><em>self</em>, <em>inBytes: bytes</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.removeControl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.removeControl" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">removeControl</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">inBytes: bytes</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.removeControl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.removeControl" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove control characters from byte strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>inBytes</strong><span class="classifier">bytes</span></dt><dd><p>Bytes from which to remove control</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>str :</dt><dd><p>Decodes bytes object with control character removed</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.setParameters">
-<code class="descname">setParameters</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.setParameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setParameters</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.setParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set data reader parameters for Phoenix files</p>
 <p>Phoenix time series data is not contiguous in the file and is separated into records. There are multiple time series data files, one for the continuous recording and two others for the other frequencies. Therefore, there are a few other class variables defined here than in the parent DataReader class.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_phoenix.TimeReaderPhoenix.twosComplement">
-<code class="descname">twosComplement</code><span class="sig-paren">(</span><em>self</em>, <em>dataBytes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.twosComplement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.twosComplement" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">twosComplement</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">dataBytes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_phoenix.html#TimeReaderPhoenix.twosComplement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_phoenix.TimeReaderPhoenix.twosComplement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the two’s complement data from the file</p>
 <p>This parses two’s complement 24-bit integer, little endian, unsigned and signed. The method is to pad out 3 bytes out with a null byte and read as unsigned integer with little endian (&lt;).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>dataByes</strong><span class="classifier">bytes</span></dt><dd><p>The bytes to parse</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">np.ndarray(int)</span></dt><dd><p>Record data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -816,7 +740,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

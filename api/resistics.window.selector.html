@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.window.selector module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.window.selector module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.window.utils module" href="resistics.window.utils.html" />
@@ -198,7 +198,7 @@
 <span id="resistics-window-selector-module"></span><h1>resistics.window.selector module<a class="headerlink" href="#module-resistics.window.selector" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.window.selector.WindowSelector">
-<em class="property">class </em><code class="descclassname">resistics.window.selector.</code><code class="descname">WindowSelector</code><span class="sig-paren">(</span><em>projData: resistics.project.data.ProjectData</em>, <em>sampleFreq: float</em>, <em>decParams: resistics.decimate.parameters.DecimationParameters</em>, <em>winParams: resistics.window.parameters.WindowParameters</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.window.selector.</code><code class="sig-name descname">WindowSelector</code><span class="sig-paren">(</span><em class="sig-param">projData: resistics.project.data.ProjectData</em>, <em class="sig-param">sampleFreq: float</em>, <em class="sig-param">decParams: resistics.decimate.parameters.DecimationParameters</em>, <em class="sig-param">winParams: resistics.window.parameters.WindowParameters</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.common.base.ResisticsBase</span></code></a></p>
 <p>Select windows for further processing</p>
 <p>Finds windows for further processing. Given more than one site, WindowSelector will find the shared windows. For example, when processing with a remote reference, WindowSelector will find the shared global windows (i.e. referenced to the project reference time) of the local site and the remote site.</p>
@@ -207,11 +207,9 @@
 1. datetime constraints
 2. date constraints
 3. time constraints</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>projData</strong><span class="classifier">ProjectData</span></dt><dd><p>A ProjectData instance</p>
 </dd>
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>Sampling frequency of the data</p>
@@ -247,144 +245,136 @@
 <dt><strong>datetimeConstraints</strong><span class="classifier">Dict</span></dt><dd><p>Final combined date and time constraints. This is a list of constraints for each decimation level</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="39%" />
-<col width="61%" />
+<col style="width: 39%" />
+<col style="width: 61%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>__init__(decParams)</strong></td>
-<td>Initialise window selector with information about the decimation parameters</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>__init__(decParams)</strong></p></td>
+<td><p>Initialise window selector with information about the decimation parameters</p></td>
 </tr>
-<tr class="row-even"><td><strong>getSharedWindowsLevel(declevel)</strong></td>
-<td>Get the shared windows for a decimation level as a python set</td>
+<tr class="row-even"><td><p><strong>getSharedWindowsLevel(declevel)</strong></p></td>
+<td><p>Get the shared windows for a decimation level as a python set</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getNumSharedWindows(declevel)</strong></td>
-<td>Get the number of shared windows for a decimation level</td>
+<tr class="row-odd"><td><p><strong>getNumSharedWindows(declevel)</strong></p></td>
+<td><p>Get the number of shared windows for a decimation level</p></td>
 </tr>
-<tr class="row-even"><td><strong>getWindowsForFreq(declevel, eIdx)</strong></td>
-<td>Get the number of shared windows for a decimation level and evaluation frequency</td>
+<tr class="row-even"><td><p><strong>getWindowsForFreq(declevel, eIdx)</strong></p></td>
+<td><p>Get the number of shared windows for a decimation level and evaluation frequency</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getUnmaskedWindowsLevel(declevel)</strong></td>
-<td>Get unmasked windows for a decimation level</td>
+<tr class="row-odd"><td><p><strong>getUnmaskedWindowsLevel(declevel)</strong></p></td>
+<td><p>Get unmasked windows for a decimation level</p></td>
 </tr>
-<tr class="row-even"><td><strong>getDatetimeConstraints()</strong></td>
-<td>Get the datetime constraints</td>
+<tr class="row-even"><td><p><strong>getDatetimeConstraints()</strong></p></td>
+<td><p>Get the datetime constraints</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getLevelDatetimeConstraints(declevel)</strong></td>
-<td>Get the datetime constraints for a decimation level</td>
+<tr class="row-odd"><td><p><strong>getLevelDatetimeConstraints(declevel)</strong></p></td>
+<td><p>Get the datetime constraints for a decimation level</p></td>
 </tr>
-<tr class="row-even"><td><strong>getMasks()</strong></td>
-<td>Get a dictionary with masks to use for each site in the window selector</td>
+<tr class="row-even"><td><p><strong>getMasks()</strong></p></td>
+<td><p>Get a dictionary with masks to use for each site in the window selector</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getSpecReaderForWindow(site, declevel, iWin)</strong></td>
-<td>Get the spectrum reader for a window</td>
+<tr class="row-odd"><td><p><strong>getSpecReaderForWindow(site, declevel, iWin)</strong></p></td>
+<td><p>Get the spectrum reader for a window</p></td>
 </tr>
-<tr class="row-even"><td><strong>getDataSize(declevel)</strong></td>
-<td>Get the spectrum reader for a window</td>
+<tr class="row-even"><td><p><strong>getDataSize(declevel)</strong></p></td>
+<td><p>Get the spectrum reader for a window</p></td>
 </tr>
-<tr class="row-odd"><td><strong>setSites(sites)</strong></td>
-<td>Set the sites for which to find the shared windows</td>
+<tr class="row-odd"><td><p><strong>setSites(sites)</strong></p></td>
+<td><p>Set the sites for which to find the shared windows</p></td>
 </tr>
-<tr class="row-even"><td><strong>addDatetimeConstraint(start, stop)</strong></td>
-<td>Add a datetime constraint</td>
+<tr class="row-even"><td><p><strong>addDatetimeConstraint(start, stop)</strong></p></td>
+<td><p>Add a datetime constraint</p></td>
 </tr>
-<tr class="row-odd"><td><strong>addDateConstraint(dateC)</strong></td>
-<td>Add a date constraint</td>
+<tr class="row-odd"><td><p><strong>addDateConstraint(dateC)</strong></p></td>
+<td><p>Add a date constraint</p></td>
 </tr>
-<tr class="row-even"><td><strong>addTimeConstraint(start, stop)</strong></td>
-<td>Add a time constraint. This will recur on every day of recording</td>
+<tr class="row-even"><td><p><strong>addTimeConstraint(start, stop)</strong></p></td>
+<td><p>Add a time constraint. This will recur on every day of recording</p></td>
 </tr>
-<tr class="row-odd"><td><strong>addWindowMask(site, maskName)</strong></td>
-<td>Add a window mask</td>
+<tr class="row-odd"><td><p><strong>addWindowMask(site, maskName)</strong></p></td>
+<td><p>Add a window mask</p></td>
 </tr>
-<tr class="row-even"><td><strong>resetDatetimeConstraints()</strong></td>
-<td>Clear and reset all datetime constraints</td>
+<tr class="row-even"><td><p><strong>resetDatetimeConstraints()</strong></p></td>
+<td><p>Clear and reset all datetime constraints</p></td>
 </tr>
-<tr class="row-odd"><td><strong>resetMasks()</strong></td>
-<td>Clear and reset site masks</td>
+<tr class="row-odd"><td><p><strong>resetMasks()</strong></p></td>
+<td><p>Clear and reset site masks</p></td>
 </tr>
-<tr class="row-even"><td><strong>calcSharedWindows()</strong></td>
-<td>Calculate shared windows between sites</td>
+<tr class="row-even"><td><p><strong>calcSharedWindows()</strong></p></td>
+<td><p>Calculate shared windows between sites</p></td>
 </tr>
-<tr class="row-odd"><td><strong>calcGlobalIndices()</strong></td>
-<td>Find all the global indices for the sites</td>
+<tr class="row-odd"><td><p><strong>calcGlobalIndices()</strong></p></td>
+<td><p>Find all the global indices for the sites</p></td>
 </tr>
-<tr class="row-even"><td><strong>calcDatetimeConstraints()</strong></td>
-<td>Calculate overall datetime constraints</td>
+<tr class="row-even"><td><p><strong>calcDatetimeConstraints()</strong></p></td>
+<td><p>Calculate overall datetime constraints</p></td>
 </tr>
-<tr class="row-odd"><td><strong>calcSiteDates()</strong></td>
-<td>Calculate a list of days that all the sites were operating</td>
+<tr class="row-odd"><td><p><strong>calcSiteDates()</strong></p></td>
+<td><p>Calculate a list of days that all the sites were operating</p></td>
 </tr>
-<tr class="row-even"><td><strong>printList()</strong></td>
-<td>Class information as a list of strings</td>
+<tr class="row-even"><td><p><strong>printList()</strong></p></td>
+<td><p>Class information as a list of strings</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printSiteInfo()</strong></td>
-<td>Print out information about the sites included in the window selection</td>
+<tr class="row-odd"><td><p><strong>printSiteInfo()</strong></p></td>
+<td><p>Print out information about the sites included in the window selection</p></td>
 </tr>
-<tr class="row-even"><td><strong>printSiteInfoList(site)</strong></td>
-<td>Return site window information as a list of strings</td>
+<tr class="row-even"><td><p><strong>printSiteInfoList(site)</strong></p></td>
+<td><p>Return site window information as a list of strings</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printSharedWindows()</strong></td>
-<td>Print out the shared windows</td>
+<tr class="row-odd"><td><p><strong>printSharedWindows()</strong></p></td>
+<td><p>Print out the shared windows</p></td>
 </tr>
-<tr class="row-even"><td><strong>printSharedWindowsList()</strong></td>
-<td>Shared window information as a list of strings</td>
+<tr class="row-even"><td><p><strong>printSharedWindowsList()</strong></p></td>
+<td><p>Shared window information as a list of strings</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printDatetimeConstraints()</strong></td>
-<td>Print out the datetime constraints</td>
+<tr class="row-odd"><td><p><strong>printDatetimeConstraints()</strong></p></td>
+<td><p>Print out the datetime constraints</p></td>
 </tr>
-<tr class="row-even"><td><strong>printDatetimeConstraintsList()</strong></td>
-<td>Datetime constraint information as a list of strings</td>
+<tr class="row-even"><td><p><strong>printDatetimeConstraintsList()</strong></p></td>
+<td><p>Datetime constraint information as a list of strings</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printWindowMasks()</strong></td>
-<td>Print information about masks being used in the window selection</td>
+<tr class="row-odd"><td><p><strong>printWindowMasks()</strong></p></td>
+<td><p>Print information about masks being used in the window selection</p></td>
 </tr>
-<tr class="row-even"><td><strong>printWindowMasksList()</strong></td>
-<td>Window mask information as a list of strings</td>
+<tr class="row-even"><td><p><strong>printWindowMasksList()</strong></p></td>
+<td><p>Window mask information as a list of strings</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printWindowsForFrequency(listwindows=False):</strong></td>
-<td>Print information about the windows for each evaluation frequency</td>
+<tr class="row-odd"><td><p><strong>printWindowsForFrequency(listwindows=False):</strong></p></td>
+<td><p>Print information about the windows for each evaluation frequency</p></td>
 </tr>
-<tr class="row-even"><td><strong>printWindowsForFrequencyList(listwindows=False)</strong></td>
-<td>Information about windows for each evaluation frequency as a list of strings</td>
+<tr class="row-even"><td><p><strong>printWindowsForFrequencyList(listwindows=False)</strong></p></td>
+<td><p>Information about windows for each evaluation frequency as a list of strings</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.addDateConstraint">
-<code class="descname">addDateConstraint</code><span class="sig-paren">(</span><em>self, dateC: str, declevel: Union[List[int], int, NoneType] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.addDateConstraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.addDateConstraint" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addDateConstraint</code><span class="sig-paren">(</span><em class="sig-param">self, dateC: str, declevel: Union[List[int], int, NoneType] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.addDateConstraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.addDateConstraint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a date constraint</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>dateC</strong><span class="classifier">str</span></dt><dd><p>Datetime constraint in format %Y-%m-%d</p>
 </dd>
 <dt><strong>declevel</strong><span class="classifier">List[int], int, optional</span></dt><dd><p>The decimation level. If left as default, will be applied to all decimation levels.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.addDatetimeConstraint">
-<code class="descname">addDatetimeConstraint</code><span class="sig-paren">(</span><em>self, start: str, stop: str, declevel: Union[List[int], int, NoneType] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.addDatetimeConstraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.addDatetimeConstraint" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addDatetimeConstraint</code><span class="sig-paren">(</span><em class="sig-param">self, start: str, stop: str, declevel: Union[List[int], int, NoneType] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.addDatetimeConstraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.addDatetimeConstraint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add datetime constraints</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>start</strong><span class="classifier">str</span></dt><dd><p>Datetime constraint start in format %Y-%m-%d %H:%M:%S</p>
 </dd>
 <dt><strong>stop</strong><span class="classifier">str</span></dt><dd><p>Datetime constraint end in format %Y-%m-%d %H:%M:%S</p>
@@ -392,21 +382,17 @@
 <dt><strong>declevel</strong><span class="classifier">List[int], int, optional</span></dt><dd><p>The decimation level. If left as default, will be applied to all decimation levels.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.addTimeConstraint">
-<code class="descname">addTimeConstraint</code><span class="sig-paren">(</span><em>self, start: str, stop: str, declevel: Union[List[int], int, NoneType] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.addTimeConstraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.addTimeConstraint" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addTimeConstraint</code><span class="sig-paren">(</span><em class="sig-param">self, start: str, stop: str, declevel: Union[List[int], int, NoneType] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.addTimeConstraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.addTimeConstraint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a time constraint. This will recur on every day of recording.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>start</strong><span class="classifier">str</span></dt><dd><p>Time constraint start in format %H:%M:%S</p>
 </dd>
 <dt><strong>stop</strong><span class="classifier">str</span></dt><dd><p>Time constraint end in format %H:%M:%S</p>
@@ -414,36 +400,30 @@
 <dt><strong>declevel</strong><span class="classifier">List[int], int, optional</span></dt><dd><p>The decimation level. If left as default, will be applied to all decimation levels.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.addWindowMask">
-<code class="descname">addWindowMask</code><span class="sig-paren">(</span><em>self</em>, <em>site: str</em>, <em>maskName: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.addWindowMask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.addWindowMask" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addWindowMask</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">site: str</em>, <em class="sig-param">maskName: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.addWindowMask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.addWindowMask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a window mask</p>
 <p>This is a mask with values for each evaluation frequency.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>site</strong><span class="classifier">str</span></dt><dd><p>The site for which to search for a mask</p>
 </dd>
 <dt><strong>maskName</strong><span class="classifier">str</span></dt><dd><p>The name of the mask</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.calcDatetimeConstraints">
-<code class="descname">calcDatetimeConstraints</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.calcDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.calcDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calcDatetimeConstraints</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.calcDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.calcDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate overall datetime constraints</p>
 <p>Priority order for datetime constraints is: 
 1. datetime constraints
@@ -453,196 +433,162 @@
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.calcGlobalIndices">
-<code class="descname">calcGlobalIndices</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.calcGlobalIndices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.calcGlobalIndices" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calcGlobalIndices</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.calcGlobalIndices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.calcGlobalIndices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find all the global indices for the sites</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.calcSharedWindows">
-<code class="descname">calcSharedWindows</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.calcSharedWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.calcSharedWindows" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calcSharedWindows</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.calcSharedWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.calcSharedWindows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate shared windows between sites</p>
 <p>Calculates the shared windows between sites. Datetime constraints are applied. No masks are applied in this method. Masks are only applied when getting the windows for a particular evaluation frequency.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.calcSiteDates">
-<code class="descname">calcSiteDates</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[datetime.datetime]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.calcSiteDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.calcSiteDates" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calcSiteDates</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[datetime.datetime]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.calcSiteDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.calcSiteDates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a list of days that all the sites were operating</p>
 <p>This uses the siteStart and siteEnd datetimes, so does not take into account the start and end of actual time series measurements, which is taken into account later.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[datetime]</dt><dd><p>A list of dates all the sites were operating</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getDataSize">
-<code class="descname">getDataSize</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getDataSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getDataSize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getDataSize</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getDataSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getDataSize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the spectrum reader for a window</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>declevel</strong><span class="classifier">str</span></dt><dd><p>The decimation level</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>int</dt><dd><p>The data size (number of points in the spectrum) at the decimation level</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getDatetimeConstraints">
-<code class="descname">getDatetimeConstraints</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getDatetimeConstraints</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the datetime constraints</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>Dict</dt><dd><p>Dictionary of datetime constraints at all decimation levels</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getLevelDatetimeConstraints">
-<code class="descname">getLevelDatetimeConstraints</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int</em><span class="sig-paren">)</span> &#x2192; List[List[datetime.datetime]]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getLevelDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getLevelDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getLevelDatetimeConstraints</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int</em><span class="sig-paren">)</span> &#x2192; List[List[datetime.datetime]]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getLevelDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getLevelDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the datetime constraints for a decimation level</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[List[datetime]]</dt><dd><p>Returns a list of datetime constraints, where each is a 2 element list with a start and stop</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getMasks">
-<code class="descname">getMasks</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getMasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getMasks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getMasks</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getMasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getMasks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a dictionary with masks to use for each site in the window selector</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>Dict</dt><dd><p>Dictionary with masks to use for each site in the window selector</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getNumSharedWindows">
-<code class="descname">getNumSharedWindows</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getNumSharedWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getNumSharedWindows" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getNumSharedWindows</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getNumSharedWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getNumSharedWindows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the number of shared windows for a decimation level</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level (0 is the first level)</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>int</dt><dd><p>The number of shared windows for the decimation level</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getSharedWindowsLevel">
-<code class="descname">getSharedWindowsLevel</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int</em><span class="sig-paren">)</span> &#x2192; Set<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getSharedWindowsLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getSharedWindowsLevel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getSharedWindowsLevel</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int</em><span class="sig-paren">)</span> &#x2192; Set<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getSharedWindowsLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getSharedWindowsLevel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the shared windows for a decimation level</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level (0 is the first level)</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>set</dt><dd><p>The shared windows for the decimation level</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getSpecReaderBatches">
-<code class="descname">getSpecReaderBatches</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int</em><span class="sig-paren">)</span> &#x2192; Tuple[List, List]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getSpecReaderBatches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getSpecReaderBatches" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getSpecReaderBatches</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int</em><span class="sig-paren">)</span> &#x2192; Tuple[List, List]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getSpecReaderBatches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getSpecReaderBatches" title="Permalink to this definition">¶</a></dt>
 <dd><p>Batch the readers into wndow groups that can be read as required in a more efficient way</p>
 <p>First sorts all the site spectra files by global window range, putting them in ascending order. Loops over all the sites and constructs spectra batches to read in.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>batches</strong><span class="classifier">List[Dict[str, All]]</span></dt><dd><p>The list of batches</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getSpecReaderForWindow">
-<code class="descname">getSpecReaderForWindow</code><span class="sig-paren">(</span><em>self</em>, <em>site: str</em>, <em>declevel: int</em>, <em>iWin: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getSpecReaderForWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getSpecReaderForWindow" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getSpecReaderForWindow</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">site: str</em>, <em class="sig-param">declevel: int</em>, <em class="sig-param">iWin: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getSpecReaderForWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getSpecReaderForWindow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the spectrum reader for a window</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>site</strong><span class="classifier">str</span></dt><dd><p>The name of the site to get the spectrum reader for</p>
 </dd>
 <dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level</p>
@@ -650,261 +596,219 @@
 <dt><strong>iWin</strong><span class="classifier">int</span></dt><dd><p>The window index</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>specFile</strong><span class="classifier">str, bool</span></dt><dd><p>The name of the spectra file or False if the window is not found in any spectra file</p>
 </dd>
 <dt><strong>specReader</strong><span class="classifier">SpectrumReader, bool</span></dt><dd><p>The spectrum reader or False if the window is not found in any spectra file</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getUnmaskedWindowsLevel">
-<code class="descname">getUnmaskedWindowsLevel</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int</em><span class="sig-paren">)</span> &#x2192; Set<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getUnmaskedWindowsLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getUnmaskedWindowsLevel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getUnmaskedWindowsLevel</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int</em><span class="sig-paren">)</span> &#x2192; Set<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getUnmaskedWindowsLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getUnmaskedWindowsLevel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get unmasked windows for a decimation level</p>
 <p>Calculate the number of non masked windows for the decimation level. This should speed up processing when constraints are applied.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>set</dt><dd><p>Unmasked windows for the decimation level</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.getWindowsForFreq">
-<code class="descname">getWindowsForFreq</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int</em>, <em>eIdx: int</em><span class="sig-paren">)</span> &#x2192; Set<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getWindowsForFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getWindowsForFreq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getWindowsForFreq</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int</em>, <em class="sig-param">eIdx: int</em><span class="sig-paren">)</span> &#x2192; Set<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.getWindowsForFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.getWindowsForFreq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the number of shared windows for a decimation level and evaluation frequency</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level (0 is the first level)</p>
 </dd>
 <dt><strong>eIdx</strong><span class="classifier">int</span></dt><dd><p>The evaluation frequency index</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>set</dt><dd><p>The shared windows for evaluation frequency eIdx at decimation level declevel</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printDatetimeConstraints">
-<code class="descname">printDatetimeConstraints</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printDatetimeConstraints</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print out the datetime constraints</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printDatetimeConstraintsList">
-<code class="descname">printDatetimeConstraintsList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printDatetimeConstraintsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printDatetimeConstraintsList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printDatetimeConstraintsList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printDatetimeConstraintsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printDatetimeConstraintsList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Datetime constraint information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[str]</dt><dd><p>Datetime constraint information as a list of strings</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">list</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printSharedWindows">
-<code class="descname">printSharedWindows</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printSharedWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printSharedWindows" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printSharedWindows</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printSharedWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printSharedWindows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print out the shared windows</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printSharedWindowsList">
-<code class="descname">printSharedWindowsList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printSharedWindowsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printSharedWindowsList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printSharedWindowsList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printSharedWindowsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printSharedWindowsList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shared window information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[str]</dt><dd><p>Shared window information as a list of strings</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printSiteInfo">
-<code class="descname">printSiteInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printSiteInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printSiteInfo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printSiteInfo</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printSiteInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printSiteInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print out information about the sites</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printSiteInfoList">
-<code class="descname">printSiteInfoList</code><span class="sig-paren">(</span><em>self</em>, <em>site: str</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printSiteInfoList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printSiteInfoList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printSiteInfoList</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">site: str</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printSiteInfoList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printSiteInfoList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return site window information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>site</strong><span class="classifier">str</span></dt><dd><p>The site name</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>List[str]</dt><dd><p>Site window information as a list of strings</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printWindowMasks">
-<code class="descname">printWindowMasks</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printWindowMasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printWindowMasks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printWindowMasks</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printWindowMasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printWindowMasks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print mask information</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printWindowMasksList">
-<code class="descname">printWindowMasksList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printWindowMasksList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printWindowMasksList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printWindowMasksList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printWindowMasksList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printWindowMasksList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Window mask information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[str]</dt><dd><p>Window mask information as a list of strings</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printWindowsForFrequency">
-<code class="descname">printWindowsForFrequency</code><span class="sig-paren">(</span><em>self</em>, <em>listwindows=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printWindowsForFrequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printWindowsForFrequency" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printWindowsForFrequency</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">listwindows=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printWindowsForFrequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printWindowsForFrequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print information about the windows for each evaluation frequency</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>listwindows</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag to actually write out all the windows. Default is False as this takes up a lot of space in the terminal</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.printWindowsForFrequencyList">
-<code class="descname">printWindowsForFrequencyList</code><span class="sig-paren">(</span><em>self</em>, <em>listwindows=False</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printWindowsForFrequencyList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printWindowsForFrequencyList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printWindowsForFrequencyList</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">listwindows=False</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.printWindowsForFrequencyList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.printWindowsForFrequencyList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Information about windows for each evaluation frequency as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>listwindows</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag to actually write out all the windows. Default is False as this takes up a lot of space in the terminal</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>List[str]</dt><dd><p>Windows for evaluation frequency information as a list of strings</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.resetDatetimeConstraints">
-<code class="descname">resetDatetimeConstraints</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.resetDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.resetDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">resetDatetimeConstraints</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.resetDatetimeConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.resetDatetimeConstraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset datetime constraints</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.resetMasks">
-<code class="descname">resetMasks</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.resetMasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.resetMasks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">resetMasks</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.resetMasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.resetMasks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset masks</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.window.selector.WindowSelector.setSites">
-<code class="descname">setSites</code><span class="sig-paren">(</span><em>self, sites: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.setSites"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.setSites" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setSites</code><span class="sig-paren">(</span><em class="sig-param">self, sites: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/window/selector.html#WindowSelector.setSites"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.window.selector.WindowSelector.setSites" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the sites for which to find the shared windows</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>sites</strong><span class="classifier">List[str]</span></dt><dd><p>List of sites</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -953,7 +857,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

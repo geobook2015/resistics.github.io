@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.common.print &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.common.print &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 
@@ -185,7 +185,7 @@
 
 
 <div class="viewcode-block" id="breakPrint"><a class="viewcode-back" href="../../../api/resistics.common.print.html#resistics.common.print.breakPrint">[docs]</a><span class="k">def</span> <span class="nf">breakPrint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Prints a break in the termainal to make things easier to read&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Prints a break in the terminal to make things easier to read&quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------------------------&quot;</span><span class="p">)</span></div>
@@ -333,7 +333,7 @@
     <span class="k">return</span> <span class="n">outputStr</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="listToString"><a class="viewcode-back" href="../../../api/resistics.common.print.html#resistics.common.print.listToString">[docs]</a><span class="k">def</span> <span class="nf">listToString</span><span class="p">(</span><span class="n">lst</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span> <span class="n">floatlim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="listToString"><a class="viewcode-back" href="../../../api/resistics.common.print.html#resistics.common.print.listToString">[docs]</a><span class="k">def</span> <span class="nf">listToString</span><span class="p">(</span><span class="n">lst</span><span class="p">:</span> <span class="n">List</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Convert a list to a comma separated string</span>
 
 <span class="sd">    Parameters</span>
@@ -356,7 +356,10 @@
 <div class="viewcode-block" id="list2rangesFormatter"><a class="viewcode-back" href="../../../api/resistics.common.print.html#resistics.common.print.list2rangesFormatter">[docs]</a><span class="k">def</span> <span class="nf">list2rangesFormatter</span><span class="p">(</span>
     <span class="n">start</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">end</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">step</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A string for showing a range</span>
+    <span class="sd">&quot;&quot;&quot;A string for showing a range as shown below</span>
+
+<span class="sd">    1-5:1 represents 1,2,3,4,5</span>
+<span class="sd">    2-10:2 represents 2,4,6,8,10</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -377,6 +380,9 @@
 
 <div class="viewcode-block" id="list2ranges"><a class="viewcode-back" href="../../../api/resistics.common.print.html#resistics.common.print.list2ranges">[docs]</a><span class="k">def</span> <span class="nf">list2ranges</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">]):</span>
     <span class="sd">&quot;&quot;&quot;Convert a list of numbers to a list of ranges</span>
+
+<span class="sd">    For example, the list [1, 2, 3, 4, 6, 8, 10, 12, 15, 18, 21, 24, 26, 35, 40, 45]</span>
+<span class="sd">    becomes &quot;1-4:1,6-12:2,15-24:3,26,35-45:5&quot;</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -459,7 +465,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

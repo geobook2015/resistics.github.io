@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Masks &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Masks &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Processing with masks" href="mask-processing.html" />
@@ -192,9 +192,9 @@
 <p><a class="reference internal" href="statistics.html"><span class="doc">Statistics</span></a> give information about individual time windows. In resistics, masks are the way this information can be used.</p>
 <p>A mask is used to exclude time windows from the transfer function calculation. Mask data is stored under the maskData folder. Masks are not individual to a specific time series measurement. Instead they are indexed by:</p>
 <ol class="arabic simple">
-<li>The site</li>
-<li>The specdir</li>
-<li>The sampling frequency</li>
+<li><p>The site</p></li>
+<li><p>The specdir</p></li>
+<li><p>The sampling frequency</p></li>
 </ol>
 <p>For example:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exampleProject
@@ -285,8 +285,8 @@
 </div>
 <p>Mask data is made up of two files:</p>
 <ol class="arabic simple">
-<li>The info file: coh70_100_128_000.info</li>
-<li>The mask data file: coh70_100_128_000.npy</li>
+<li><p>The info file: coh70_100_128_000.info</p></li>
+<li><p>The mask data file: coh70_100_128_000.npy</p></li>
 </ol>
 <p>The info file holds information about the statistics and constraints used to generate the mask file. The mask data is simply numpy array data holding information about which time windows to exclude.</p>
 <p>The easiest way to understand masking is to step through an example. Begin, as usual, by loading the project.</p>
@@ -333,13 +333,13 @@
 </td></tr></table></div>
 <p>The naming of mask files is made up of two parts:</p>
 <ul class="simple">
-<li>The mask name</li>
-<li>The sampling frequency written to 3 decimal places and using a _ rather than . to indicate the decimal point (i.e. 128.000 becomes 128_000)</li>
+<li><p>The mask name</p></li>
+<li><p>The sampling frequency written to 3 decimal places and using a _ rather than . to indicate the decimal point (i.e. 128.000 becomes 128_000)</p></li>
 </ul>
 <p>Therefore, for the above example, the mask files will be:</p>
 <ul class="simple">
-<li>The info file: coh70_100_128_000.info</li>
-<li>The mask data file: coh70_100_128_000.npy</li>
+<li><p>The info file: coh70_100_128_000.info</p></li>
+<li><p>The mask data file: coh70_100_128_000.npy</p></li>
 </ul>
 <p>The <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a> parameters can be viewed by using the <a class="reference internal" href="../api/resistics.common.base.html#resistics.common.base.ResisticsBase.printInfo" title="resistics.common.base.ResisticsBase.printInfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printInfo()</span></code></a> method of the <a class="reference internal" href="../api/resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResisticsBase</span></code></a> parent class. The masking constraints can be printed to the terminal using the <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.printConstraints" title="resistics.mask.data.MaskData.printConstraints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">printConstraints()</span></code></a> method.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>17
@@ -351,9 +351,9 @@
 </td></tr></table></div>
 <p>So far, the following information has been defined:</p>
 <ul class="simple">
-<li>The sampling frequency</li>
-<li>The statistics to use for masking</li>
-<li>The constraints for the statistics</li>
+<li><p>The sampling frequency</p></li>
+<li><p>The statistics to use for masking</p></li>
+<li><p>The constraints for the statistics</p></li>
 </ul>
 <p>However, the windows to mask have not yet been calculated. This is achieved by using the <a class="reference internal" href="../api/resistics.project.mask.html#resistics.project.mask.calculateMask" title="resistics.project.mask.calculateMask"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateMask()</span></code></a> method of the project module <a class="reference internal" href="../api/resistics.project.mask.html#module-resistics.project.mask" title="resistics.project.mask"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mask</span></code></a>. This method runs through the pre-calculated statistic data for all data of the given sampling frequency in a site and finds and saves the windows which do not meet the constraints.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>21
@@ -486,15 +486,15 @@
 <p>Here, the constraints have masked many windows for evaluation frequencies 1024 Hz and 724.077344 Hz. This is almost certainly over-zealous for these two evaluation frequencies (but to better understand how over-zealous read further down).</p>
 <p>Up until now, all mask constraints have been specified globally (i.e. as applying to all evaluation frequencies). However, statistic constraints can be defined in a more targeted manner, at evaluation frequencies that are noisier than others. More targeted constraints can be specified using the listed methods.</p>
 <ol class="arabic simple">
-<li><a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.addConstraintLevel" title="resistics.mask.data.MaskData.addConstraintLevel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintLevel()</span></code></a> method of <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>, which allows setting constraints just for a specific decimation level.</li>
-<li><a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.addConstraintFreq" title="resistics.mask.data.MaskData.addConstraintFreq"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintFreq()</span></code></a> method of <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>, which allows setting constraints for a specific evaluation frequency.</li>
+<li><p><a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.addConstraintLevel" title="resistics.mask.data.MaskData.addConstraintLevel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintLevel()</span></code></a> method of <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>, which allows setting constraints just for a specific decimation level.</p></li>
+<li><p><a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData.addConstraintFreq" title="resistics.mask.data.MaskData.addConstraintFreq"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addConstraintFreq()</span></code></a> method of <a class="reference internal" href="../api/resistics.mask.data.html#resistics.mask.data.MaskData" title="resistics.mask.data.MaskData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskData</span></code></a>, which allows setting constraints for a specific evaluation frequency.</p></li>
 </ol>
 <p>Using the second option requires specification of decimation level and evaluation frequency. In resistics, these are generally specified using indices as shown in the <a class="reference internal" href="statistics.html"><span class="doc">Statistics</span></a> section.</p>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
+<p class="admonition-title">Important</p>
 <p>It is worth repeating here the meaning of the decimation level index and evaluation frequency index, which was previously covered in <a class="reference internal" href="statistics.html"><span class="doc">Statistics</span></a>.</p>
 <p>Consider the evaluation frequencies in this set up using 8 decimation levels and 5 evaluation frequencies per level with a data sampling frequency of 128 Hz:</p>
-<blockquote class="last">
+<blockquote>
 <div><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Decimation Level = 0: 32.00000000, 22.62741700, 16.00000000, 11.31370850, 8.00000000
 Decimation Level = 1: 5.65685425, 4.00000000, 2.82842712, 2.00000000, 1.41421356
 Decimation Level = 2: 1.00000000, 0.70710678, 0.50000000, 0.35355339, 0.25000000
@@ -508,9 +508,9 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <p>Decimation level numbering starts from 0 (and with 8 decimation levels, extends to 7). Evaluation frequency numbering begins from 0 (and with 5 evaluation frequencies per decimation level, extends to 4).</p>
 <p>The decimation and evaluation frequency indices can be best demonstrated using a few of examples:</p>
 <ul class="simple">
-<li>Evaluation frequency 32 Hz, decimation level = 0, evaluation frequency index = 0</li>
-<li>Evaluation frequency 1 Hz, decimation level = 2, evaluation frequency index = 0</li>
-<li>Evaluation frequency 0.35355339 Hz, decimation level = 2, evaluation frequency index = 3</li>
+<li><p>Evaluation frequency 32 Hz, decimation level = 0, evaluation frequency index = 0</p></li>
+<li><p>Evaluation frequency 1 Hz, decimation level = 2, evaluation frequency index = 0</p></li>
+<li><p>Evaluation frequency 0.35355339 Hz, decimation level = 2, evaluation frequency index = 3</p></li>
 </ul>
 <p>The main motivation behind this is the difficulty in manually specifying evaluation frequencies such as 0.35355339 Hz.</p>
 </div></blockquote>
@@ -784,8 +784,8 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 </pre></div>
 </td></tr></table></div>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">These plots can be quite intensive due to the number of time windows in the data. Therefore, it is usually best to save them rather than show them.</p>
+<p class="admonition-title">Warning</p>
+<p>These plots can be quite intensive due to the number of time windows in the data. Therefore, it is usually best to save them rather than show them.</p>
 </div>
 <p>The result plots are shown below.</p>
 <div class="align-center figure" id="id14">
@@ -1212,7 +1212,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

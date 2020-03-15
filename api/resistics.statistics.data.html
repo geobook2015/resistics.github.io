@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.statistics.data module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.statistics.data module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.statistics.io module" href="resistics.statistics.io.html" />
@@ -198,14 +198,12 @@
 <span id="resistics-statistics-data-module"></span><h1>resistics.statistics.data module<a class="headerlink" href="#module-resistics.statistics.data" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.statistics.data.StatisticData">
-<em class="property">class </em><code class="descclassname">resistics.statistics.data.</code><code class="descname">StatisticData</code><span class="sig-paren">(</span><em>statName: str</em>, <em>refTime: datetime.datetime</em>, <em>sampleFreq: float</em>, <em>winSize: int</em>, <em>winOlap: int</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.statistics.data.</code><code class="sig-name descname">StatisticData</code><span class="sig-paren">(</span><em class="sig-param">statName: str</em>, <em class="sig-param">refTime: datetime.datetime</em>, <em class="sig-param">sampleFreq: float</em>, <em class="sig-param">winSize: int</em>, <em class="sig-param">winOlap: int</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.common.base.ResisticsBase</span></code></a></p>
 <p>Class for holding information about a statistic</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>statName</strong><span class="classifier">str</span></dt><dd><p>The name of the statistic</p>
 </dd>
 <dt><strong>refTime</strong><span class="classifier">datetime.datetime</span></dt><dd><p>The reference time of the project</p>
@@ -221,6 +219,8 @@
 <dt><strong>winStats</strong><span class="classifier">List[str]</span></dt><dd><p>Values calculated for the statistic</p>
 </dd>
 <dt><strong>numStatsPerWindow</strong><span class="classifier">int</span></dt><dd><p>The number of statistics per window (length of winStats)</p>
+</dd>
+<dt><strong>stats</strong><span class="classifier">np.ndarray</span></dt><dd><p>The statistic data of size number of windows * number evaluation frequencies * number of window stats</p>
 </dd>
 <dt><strong>evalFreq</strong><span class="classifier">List, np.ndarray</span></dt><dd><p>The evaluation frequencies for the statistic data</p>
 </dd>
@@ -241,89 +241,88 @@
 <dt><strong>globalDatesStop</strong><span class="classifier">List, np.ndarray</span></dt><dd><p>Global window stop datetimes</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="34%" />
-<col width="66%" />
+<col style="width: 34%" />
+<col style="width: 66%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>__init__(sampleFreq, numLevels, evalFreq, kwargs)</strong></td>
-<td>Initialise maskData</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>__init__(sampleFreq, numLevels, evalFreq, kwargs)</strong></p></td>
+<td><p>Initialise maskData</p></td>
 </tr>
-<tr class="row-even"><td><strong>getStats(includewindows, maskwindows)</strong></td>
-<td>Get the statistics array and choose to either include some windows or mask some windows</td>
+<tr class="row-even"><td><p><strong>getStats(includewindows, maskwindows)</strong></p></td>
+<td><p>Get the statistics array and choose to either include some windows or mask some windows</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getMaskedWindows(maskwindows)</strong></td>
-<td>Return the local indices to use given a set of global indices to exclude</td>
+<tr class="row-odd"><td><p><strong>getUnmaskedIndices(maskwindows)</strong></p></td>
+<td><p>Return the local indices to use given a set of global indices to exclude</p></td>
 </tr>
-<tr class="row-even"><td><strong>getStatLocal(localIndex)</strong></td>
-<td>Get statistic values for a local window index</td>
+<tr class="row-even"><td><p><strong>getStatLocal(localIndex)</strong></p></td>
+<td><p>Get statistic values for a local window index</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getStatGlobal(globalIndex)</strong></td>
-<td>Get statistic values for a global window index</td>
+<tr class="row-odd"><td><p><strong>getStatGlobal(globalIndex)</strong></p></td>
+<td><p>Get statistic values for a global window index</p></td>
 </tr>
-<tr class="row-even"><td><strong>getGlobalIndex(localIndex)</strong></td>
-<td>Get the global window index for a local window index</td>
+<tr class="row-even"><td><p><strong>getGlobalIndex(localIndex)</strong></p></td>
+<td><p>Get the global window index for a local window index</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getGlobalDates()</strong></td>
-<td>Get the global index dates for all the windows</td>
+<tr class="row-odd"><td><p><strong>getLocalIndicesF(globalIndices)</strong></p></td>
+<td><p>Get local indices for an list or array of global indices</p></td>
 </tr>
-<tr class="row-even"><td><strong>setStatParams(numWindows, winStats, evalFreq)</strong></td>
-<td>Set the statistic parameters and prepare the data arrays</td>
+<tr class="row-even"><td><p><strong>getGlobalDates()</strong></p></td>
+<td><p>Get the global index dates for all the windows</p></td>
 </tr>
-<tr class="row-odd"><td><strong>addStat(localIndex, globalIndex, stat)</strong></td>
-<td>Add a statistic, providing the local index, the corresponding global index and the statististic values</td>
+<tr class="row-odd"><td><p><strong>setStatParams(numWindows, winStats, evalFreq)</strong></p></td>
+<td><p>Set the statistic parameters and prepare the data arrays</p></td>
 </tr>
-<tr class="row-even"><td><strong>getComments()</strong></td>
-<td>Get a deepcopy of the comments</td>
+<tr class="row-even"><td><p><strong>addStat(localIndex, globalIndex, stat)</strong></p></td>
+<td><p>Add a statistic, providing the local index, the corresponding global index and the statististic values</p></td>
 </tr>
-<tr class="row-odd"><td><strong>addComment(comment)</strong></td>
-<td>Add a comment to the comments</td>
+<tr class="row-odd"><td><p><strong>getComments()</strong></p></td>
+<td><p>Get a deepcopy of the comments</p></td>
 </tr>
-<tr class="row-even"><td><strong>view(eFreqI, **kwargs)</strong></td>
-<td>View statistic values for a evaluation frequency (time on x axis, statistic values on y axis)</td>
+<tr class="row-even"><td><p><strong>addComment(comment)</strong></p></td>
+<td><p>Add a comment to the comments</p></td>
 </tr>
-<tr class="row-odd"><td><strong>histogram(eFreqI, **kwargs)</strong></td>
-<td>View a histogram of the statistic values for each statistic component for a single evaluation frequency</td>
+<tr class="row-odd"><td><p><strong>view(eFreqI, **kwargs)</strong></p></td>
+<td><p>View statistic values for a evaluation frequency (time on x axis, statistic values on y axis)</p></td>
 </tr>
-<tr class="row-even"><td><strong>crossplot(eFreqI, **kwargs)</strong></td>
-<td>View a crossplot of the data</td>
+<tr class="row-even"><td><p><strong>histogram(eFreqI, **kwargs)</strong></p></td>
+<td><p>View a histogram of the statistic values for each statistic component for a single evaluation frequency</p></td>
 </tr>
-<tr class="row-odd"><td><strong>addColourbar(plot, cax, title, plotfonts)</strong></td>
-<td>Add a colourbar to a plot</td>
+<tr class="row-odd"><td><p><strong>crossplot(eFreqI, **kwargs)</strong></p></td>
+<td><p>View a crossplot of the data</p></td>
 </tr>
-<tr class="row-even"><td><strong>addColourbarDates(plot, cax, title, plotfonts)</strong></td>
-<td>Add a coloubar the represents dates to the plot</td>
+<tr class="row-even"><td><p><strong>addColourbar(plot, cax, title, plotfonts)</strong></p></td>
+<td><p>Add a colourbar to a plot</p></td>
 </tr>
-<tr class="row-odd"><td><strong>dateTicks(gIndices, dates, timeNum)</strong></td>
-<td>Deal with the dateTicks of the plot</td>
+<tr class="row-odd"><td><p><strong>addColourbarDates(plot, cax, title, plotfonts)</strong></p></td>
+<td><p>Add a coloubar the represents dates to the plot</p></td>
 </tr>
-<tr class="row-even"><td><strong>calcColourData(plotData, val, eFreqI, keywords)</strong></td>
-<td>Calculate colours</td>
+<tr class="row-even"><td><p><strong>dateTicks(gIndices, dates, timeNum)</strong></p></td>
+<td><p>Deal with the dateTicks of the plot</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getRowsCols(maxcols, numStats)</strong></td>
-<td>Get the number of rows and columns for a plot</td>
+<tr class="row-odd"><td><p><strong>calcColourData(plotData, val, eFreqI, keywords)</strong></p></td>
+<td><p>Calculate colours</p></td>
 </tr>
-<tr class="row-even"><td><strong>printList()</strong></td>
-<td>Class status returned as list of strings</td>
+<tr class="row-even"><td><p><strong>getRowsCols(maxcols, numStats)</strong></p></td>
+<td><p>Get the number of rows and columns for a plot</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>printList()</strong></p></td>
+<td><p>Class status returned as list of strings</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.addColourbar">
-<code class="descname">addColourbar</code><span class="sig-paren">(</span><em>self</em>, <em>plot: &lt;function plot at 0x00000277F4CCD510&gt;</em>, <em>cax</em>, <em>title: str</em>, <em>plotfonts: Dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.addColourbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.addColourbar" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addColourbar</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">plot: matplotlib.collections.PathCollection</em>, <em class="sig-param">cax</em>, <em class="sig-param">title: str</em>, <em class="sig-param">plotfonts: Dict</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.addColourbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.addColourbar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a colourbar to a plot</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>plot</strong><span class="classifier">plt.plot</span></dt><dd><p>Evaluation frequency index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>plot</strong><span class="classifier">matplotlib.collections.PathCollection</span></dt><dd><p>A plot e.g. a scatter graph</p>
 </dd>
 <dt><strong>cax :</strong></dt><dd><p>Colourbar axis</p>
 </dd>
@@ -332,22 +331,18 @@
 <dt><strong>plotfonts</strong><span class="classifier">Dict</span></dt><dd><p>A dictionary with font types as keys and sizes as values</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.addColourbarDates">
-<code class="descname">addColourbarDates</code><span class="sig-paren">(</span><em>self</em>, <em>plot: &lt;function plot at 0x00000277F4CCD510&gt;</em>, <em>cax</em>, <em>title: str</em>, <em>plotfonts: Dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.addColourbarDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.addColourbarDates" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addColourbarDates</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">plot: matplotlib.collections.PathCollection</em>, <em class="sig-param">cax</em>, <em class="sig-param">title: str</em>, <em class="sig-param">plotfonts: Dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.addColourbarDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.addColourbarDates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make the colourbar show dates for identifying window times where there is not date axis</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>plot</strong><span class="classifier">plt.plot</span></dt><dd><p>Evaluation frequency index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>plot</strong><span class="classifier">matplotlib.collections.PathCollection</span></dt><dd><p>A plot e.g. a scatter graph</p>
 </dd>
 <dt><strong>cax :</strong></dt><dd><p>Colourbar axis</p>
 </dd>
@@ -356,39 +351,31 @@
 <dt><strong>plotfonts</strong><span class="classifier">Dict</span></dt><dd><p>A dictionary with font types as keys and sizes as values</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.addComment">
-<code class="descname">addComment</code><span class="sig-paren">(</span><em>self</em>, <em>comment: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.addComment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.addComment" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addComment</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">comment: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.addComment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.addComment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a new comment</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>comment</strong><span class="classifier">float</span></dt><dd><p>A new comment</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.addStat">
-<code class="descname">addStat</code><span class="sig-paren">(</span><em>self</em>, <em>localIndex: int</em>, <em>globalIndex: int</em>, <em>stat</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.addStat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.addStat" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addStat</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">localIndex: int</em>, <em class="sig-param">globalIndex: int</em>, <em class="sig-param">stat</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.addStat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.addStat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add statistic values for a window for all evaluation frequencies</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>localIndex</strong><span class="classifier">int</span></dt><dd><p>Local index of the window</p>
 </dd>
 <dt><strong>globalIndex</strong><span class="classifier">int</span></dt><dd><p>Global index of the window</p>
@@ -396,31 +383,27 @@
 <dt><strong>stat</strong><span class="classifier">Dict</span></dt><dd><p>An dictionary of dictionaries. First set of key, values are evaluationFrequencies and dictionaries, second set of key, values are statistic names in winStats and their corresponding value for the window</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.calcColourData">
-<code class="descname">calcColourData</code><span class="sig-paren">(</span><em>self</em>, <em>plotData</em>, <em>val</em>, <em>eFreqI</em>, <em>keywords</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.calcColourData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.calcColourData" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calcColourData</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">plotData</em>, <em class="sig-param">val</em>, <em class="sig-param">eFreqI</em>, <em class="sig-param">keywords</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.calcColourData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.calcColourData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the colour data</p>
 <div class="admonition-todo admonition" id="id1">
-<p class="first admonition-title">Todo</p>
-<p class="last">Write more complete documentation</p>
+<p class="admonition-title">Todo</p>
+<p>Write more complete documentation</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.crossplot">
-<code class="descname">crossplot</code><span class="sig-paren">(</span><em>self</em>, <em>eFreqI: int</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.crossplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.crossplot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">crossplot</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">eFreqI: int</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.crossplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.crossplot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots crossplots of statistic components for evaluation frequency index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>eFreqI</strong><span class="classifier">int</span></dt><dd><p>Evaluation frequency index</p>
 </dd>
 <dt><strong>maskwindows</strong><span class="classifier">List, np.ndarray</span></dt><dd><p>Global windows to exclude</p>
@@ -444,16 +427,14 @@
 <dt><strong>legened</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag for adding a legend</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>plt.figure</dt><dd><p>Matplotlib figure object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>By default, the crossplots plotted are
 statistic component 1 vs statistic component 2
@@ -466,23 +447,21 @@ crossplots = [[component2, component3], [component1, component4]]</p>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.dateTicks">
-<code class="descname">dateTicks</code><span class="sig-paren">(</span><em>self</em>, <em>gIndices</em>, <em>dates</em>, <em>timeNum</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.dateTicks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.dateTicks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">dateTicks</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">gIndices</em>, <em class="sig-param">dates</em>, <em class="sig-param">timeNum</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.dateTicks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.dateTicks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format dateticks</p>
 <div class="admonition-todo admonition" id="id2">
-<p class="first admonition-title">Todo</p>
-<p class="last">Write more complete documentation</p>
+<p class="admonition-title">Todo</p>
+<p>Write more complete documentation</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.densityplot">
-<code class="descname">densityplot</code><span class="sig-paren">(</span><em>self</em>, <em>eFreqI: int</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.densityplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.densityplot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">densityplot</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">eFreqI: int</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.densityplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.densityplot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots density plots of statistic components for evaluation frequency index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>eFreqI</strong><span class="classifier">int</span></dt><dd><p>Evaluation frequency index</p>
 </dd>
 <dt><strong>maskwindows</strong><span class="classifier">List, np.ndarray</span></dt><dd><p>Global windows to exclude</p>
@@ -504,16 +483,14 @@ crossplots = [[component2, component3], [component1, component4]]</p>
 <dt><strong>legened</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag for adding a legend</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>plt.figure</dt><dd><p>Matplotlib figure object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>By default, the density plots plotted are
 statistic component 1 vs statistic component 2
@@ -526,192 +503,178 @@ crossplots = [[component2, component3], [component1, component4]]</p>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.getComments">
-<code class="descname">getComments</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getComments" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getComments</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getComments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getComments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a deepcopy of the comments</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[str]</dt><dd><p>Dataset comments as a list of strings</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.getGlobalDates">
-<code class="descname">getGlobalDates</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getGlobalDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getGlobalDates" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getGlobalDates</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getGlobalDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getGlobalDates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the global start dates and end dates for each window</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>np.ndarray</dt><dd><p>The global window start times</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.getGlobalIndex">
-<code class="descname">getGlobalIndex</code><span class="sig-paren">(</span><em>self</em>, <em>localIndex</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getGlobalIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getGlobalIndex" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getGlobalIndex</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">localIndex</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getGlobalIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getGlobalIndex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get global index for local index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>localIndex</strong><span class="classifier">int</span></dt><dd><p>Local index of the window</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>globalIndex</strong><span class="classifier">int</span></dt><dd><p>Global index for local index</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="resistics.statistics.data.StatisticData.getMaskedIndices">
-<code class="descname">getMaskedIndices</code><span class="sig-paren">(</span><em>self, maskWindows: Union[List, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[List, bool]<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getMaskedIndices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getMaskedIndices" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a list of global windows to mask, returns the set of indices to include in the plot</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>maskWindows</strong><span class="classifier">List, np.ndarray</span></dt><dd><p>Global indices of windows to mask</p>
+<dt id="resistics.statistics.data.StatisticData.getLocalIndices">
+<code class="sig-name descname">getLocalIndices</code><span class="sig-paren">(</span><em class="sig-param">self, globalIndices: Tuple[List[int], numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; List[int]<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getLocalIndices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getLocalIndices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a list or array of global indices to local indices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>globalIndices</strong><span class="classifier">List, np.ndarray</span></dt><dd><p>Global indices to convert into local indices</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt>List</dt><dd><p>List of indices to include</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>List</dt><dd><p>List of local indices</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.getRowsCols">
-<code class="descname">getRowsCols</code><span class="sig-paren">(</span><em>self</em>, <em>maxcols: int</em>, <em>numStats: int = 0</em><span class="sig-paren">)</span> &#x2192; Tuple[int, int]<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getRowsCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getRowsCols" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getRowsCols</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">maxcols: int</em>, <em class="sig-param">numStats: int = 0</em><span class="sig-paren">)</span> &#x2192; Tuple[int, int]<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getRowsCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getRowsCols" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the numbers of rows and columns for the plots</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>maxcols</strong><span class="classifier">int</span></dt><dd><p>The maximum number of columns</p>
 </dd>
 <dt><strong>numStats</strong><span class="classifier">int</span></dt><dd><p>The number of statistics to plot (in case this is not all of the winStats)</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.getStatGlobal">
-<code class="descname">getStatGlobal</code><span class="sig-paren">(</span><em>self</em>, <em>globalIndex: int</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getStatGlobal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getStatGlobal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getStatGlobal</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">globalIndex: int</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getStatGlobal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getStatGlobal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get statistics for a local window index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>globalIndex</strong><span class="classifier">int</span></dt><dd><p>Global index of the window</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">np.ndarray</span></dt><dd><p>Statistics for the local window</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.getStatLocal">
-<code class="descname">getStatLocal</code><span class="sig-paren">(</span><em>self</em>, <em>localIndex: int</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getStatLocal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getStatLocal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getStatLocal</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">localIndex: int</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getStatLocal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getStatLocal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get statistics for a local window index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>localIndex</strong><span class="classifier">int</span></dt><dd><p>Local index of the window</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">np.ndarray</span></dt><dd><p>Statistics for the local window</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.getStats">
-<code class="descname">getStats</code><span class="sig-paren">(</span><em>self</em>, <em>includewindows: Union[numpy.ndarray</em>, <em>List] = []</em>, <em>maskwindows: Union[numpy.ndarray</em>, <em>List] = []</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getStats" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getStats</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">includewindows: Union[numpy.ndarray</em>, <em class="sig-param">List</em>, <em class="sig-param">NoneType] = None</em>, <em class="sig-param">maskwindows: Union[numpy.ndarray</em>, <em class="sig-param">List</em>, <em class="sig-param">NoneType] = None</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getStats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get statistics when either selecting a set of indices or wanting to mask a set of indices</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>includewindows</strong><span class="classifier">List, np.ndarray, optional</span></dt><dd><p>Windows to get</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>includewindows</strong><span class="classifier">List, np.ndarray, optional</span></dt><dd><p>Windows to get. This should be a list of numpy array of global indices.</p>
 </dd>
-<dt><strong>maskwindows</strong><span class="classifier">List, np.ndarray, optional</span></dt><dd><p>Windows to exclude</p>
+<dt><strong>maskwindows</strong><span class="classifier">List, np.ndarray, optional</span></dt><dd><p>Windows to exclude. This is expected to be a list, set or numpy array of global indices.</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>np.ndarray</dt><dd><p>Statistics limited by the window selection options</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="resistics.statistics.data.StatisticData.getUnmaskedIndices">
+<code class="sig-name descname">getUnmaskedIndices</code><span class="sig-paren">(</span><em class="sig-param">self, maskWindows: Union[List, numpy.ndarray]</em><span class="sig-paren">)</span> &#x2192; Union[List, NoneType]<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.getUnmaskedIndices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.getUnmaskedIndices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of global windows to mask, returns the set of indices to include in the plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>maskWindows</strong><span class="classifier">List, np.ndarray</span></dt><dd><p>Global indices of windows to mask</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>List, None</dt><dd><p>List of indices to include. None if all windows should be included</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.histogram">
-<code class="descname">histogram</code><span class="sig-paren">(</span><em>self</em>, <em>eFreqI: int</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.histogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.histogram" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">histogram</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">eFreqI: int</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.histogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.histogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot statistics for evaluation frequency index</p>
 <p>Plots a histogram of each statistic with bins on the xaxis and count on the yaxis. Ideal for exploring the distribution of statistic values over the windows.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>eFreqI</strong><span class="classifier">int</span></dt><dd><p>Evaluation frequency index</p>
 </dd>
 <dt><strong>maskwindows</strong><span class="classifier">List, np.ndarray</span></dt><dd><p>Global windows to exclude</p>
@@ -729,51 +692,43 @@ crossplots = [[component2, component3], [component1, component4]]</p>
 <dt><strong>legened</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag for adding a legend</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>plt.figure</dt><dd><p>Matplotlib figure object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.initialiseFromKeywords">
-<code class="descname">initialiseFromKeywords</code><span class="sig-paren">(</span><em>self</em>, <em>keywords</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.initialiseFromKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.initialiseFromKeywords" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialiseFromKeywords</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">keywords</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.initialiseFromKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.initialiseFromKeywords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise object properties using the keywords</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.printList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.setStatParams">
-<code class="descname">setStatParams</code><span class="sig-paren">(</span><em>self, numWindows: int, winStats: List[str], evalFreq, dtype: Any = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.setStatParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.setStatParams" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setStatParams</code><span class="sig-paren">(</span><em class="sig-param">self, numWindows: int, winStats: List[str], evalFreq, dtype: Any = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.setStatParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.setStatParams" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the statistic parameters</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>numWindows</strong><span class="classifier">int</span></dt><dd><p>Number of windows for which the statistic has been or will be calculated</p>
 </dd>
 <dt><strong>winStats</strong><span class="classifier">int</span></dt><dd><p>The parameters in the statistic</p>
@@ -783,22 +738,18 @@ crossplots = [[component2, component3], [component1, component4]]</p>
 <dt><strong>dtype</strong><span class="classifier">str, optional</span></dt><dd><p>The datatype of the statistic values</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.statistics.data.StatisticData.view">
-<code class="descname">view</code><span class="sig-paren">(</span><em>self</em>, <em>eFreqI: int</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.view" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">view</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">eFreqI: int</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/statistics/data.html#StatisticData.view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.statistics.data.StatisticData.view" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot statistics for evaluation frequency index</p>
 <p>Plots a simple scatter of each statistic with datetime on the xaxis (datetime of the window start dates). Number of subplots is equal to numStaStatPerWindow.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>eFreqI</strong><span class="classifier">int</span></dt><dd><p>Evaluation frequency index</p>
 </dd>
 <dt><strong>maskwindows</strong><span class="classifier">List, np.ndarray</span></dt><dd><p>Global windows to exclude</p>
@@ -820,16 +771,14 @@ crossplots = [[component2, component3], [component1, component4]]</p>
 <dt><strong>legened</strong><span class="classifier">bool</span></dt><dd><p>Boolean flag for adding a legend</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>plt.figure</dt><dd><p>Matplotlib figure object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -878,7 +827,7 @@ crossplots = [[component2, component3], [component1, component4]]</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

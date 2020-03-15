@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.decimate.decimator module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.decimate.decimator module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.decimate.evalfreqs module" href="resistics.decimate.evalfreqs.html" />
@@ -197,15 +197,13 @@
 <span id="resistics-decimate-decimator-module"></span><h1>resistics.decimate.decimator module<a class="headerlink" href="#module-resistics.decimate.decimator" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.decimate.decimator.Decimator">
-<em class="property">class </em><code class="descclassname">resistics.decimate.decimator.</code><code class="descname">Decimator</code><span class="sig-paren">(</span><em>timeData: resistics.time.data.TimeData</em>, <em>decParams: resistics.decimate.parameters.DecimationParameters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/decimate/decimator.html#Decimator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.decimate.decimator.Decimator" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.decimate.decimator.</code><code class="sig-name descname">Decimator</code><span class="sig-paren">(</span><em class="sig-param">timeData: resistics.time.data.TimeData</em>, <em class="sig-param">decParams: resistics.decimate.parameters.DecimationParameters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/decimate/decimator.html#Decimator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.decimate.decimator.Decimator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.common.base.ResisticsBase</span></code></a></p>
 <p>Decimate time data</p>
 <p>Decimates time data by factors until the minimum number of required samples is reached. When a downsample factor is too large, downsampling is performed in multiple steps to maintain accuracy of result.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>timeData object to decimate</p>
 </dd>
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>Sampling frequency of time data in Hz</p>
@@ -223,93 +221,79 @@
 <dt><strong>maxDownSampleFactor</strong><span class="classifier">int</span></dt><dd><p>Max allowable downsampling in one go. Downsampling becomes less accurate at large downsample factors</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="32%" />
-<col width="68%" />
+<col style="width: 32%" />
+<col style="width: 68%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>__init__(timeData, decParams)</strong></td>
-<td>Initialise Decimator with a TimeData object and DecimationParams object</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>__init__(timeData, decParams)</strong></p></td>
+<td><p>Initialise Decimator with a TimeData object and DecimationParams object</p></td>
 </tr>
-<tr class="row-even"><td><strong>incrementLevel()</strong></td>
-<td>Downsample the timeData to the next decimation level</td>
+<tr class="row-even"><td><p><strong>incrementLevel()</strong></p></td>
+<td><p>Downsample the timeData to the next decimation level</p></td>
 </tr>
-<tr class="row-odd"><td><strong>downsample(downsampleFactor)</strong></td>
-<td>Do the downsampling</td>
+<tr class="row-odd"><td><p><strong>downsample(downsampleFactor)</strong></p></td>
+<td><p>Do the downsampling</p></td>
 </tr>
-<tr class="row-even"><td><strong>printList()</strong></td>
-<td>Class status returned as list of strings</td>
+<tr class="row-even"><td><p><strong>printList()</strong></p></td>
+<td><p>Class status returned as list of strings</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.decimate.decimator.Decimator.downsample">
-<code class="descname">downsample</code><span class="sig-paren">(</span><em>self</em>, <em>downsampleFactor: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/decimate/decimator.html#Decimator.downsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.decimate.decimator.Decimator.downsample" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">downsample</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">downsampleFactor: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/decimate/decimator.html#Decimator.downsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.decimate.decimator.Decimator.downsample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Downsample time data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>downsampleFactor</strong><span class="classifier">int</span></dt><dd><p>Downsampling factor</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">bool</span></dt><dd><p>True if downsampling completed successfully. False otherwise</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>When the downsampling causes number of simples to fall below minSamples, downsampling is not performed. The function returns False in this situation</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.decimate.decimator.Decimator.incrementLevel">
-<code class="descname">incrementLevel</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/decimate/decimator.html#Decimator.incrementLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.decimate.decimator.Decimator.incrementLevel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">incrementLevel</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/resistics/decimate/decimator.html#Decimator.incrementLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.decimate.decimator.Decimator.incrementLevel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Downsample to the next decimation level</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">bool</span></dt><dd><p>True if downsampling completed successfully. False otherwise</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>When the downsampling factor is too large, downsampling is performed in multiple steps. Downsampling will become increasingly inaccurate using the scipy routine when factor is too large</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.decimate.decimator.Decimator.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/decimate/decimator.html#Decimator.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.decimate.decimator.Decimator.printList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/decimate/decimator.html#Decimator.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.decimate.decimator.Decimator.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">list</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -358,7 +342,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

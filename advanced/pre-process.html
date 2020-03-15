@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pre-processing timeseries data &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Pre-processing timeseries data &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Remote reference processing" href="remote-reference.html" />
@@ -183,20 +183,20 @@
 <p>There are scenarios in which time series data must be pre-processed and saved before transfer function calculation. Pre-processing is predominantly performed in the project environment using the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. There are several pre-processing options available in <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method, including:</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="#data-resampling"><span class="std std-ref">Data resampling</span></a></li>
-<li><a class="reference internal" href="#polarity-reversal"><span class="std std-ref">Polarity reversal</span></a></li>
-<li><a class="reference internal" href="#scaling"><span class="std std-ref">Scaling</span></a></li>
-<li><a class="reference internal" href="#calibration"><span class="std std-ref">Calibration</span></a></li>
-<li><a class="reference internal" href="#low-band-and-high-pass-filtering"><span class="std std-ref">Low, band and high pass filtering</span></a></li>
-<li><a class="reference internal" href="#notch-filter"><span class="std std-ref">Notch filter</span></a></li>
-<li><a class="reference internal" href="#data-normalisation"><span class="std std-ref">Data normalisation</span></a></li>
-<li><a class="reference internal" href="#interpolation-to-second"><span class="std std-ref">Interpolation to second</span></a></li>
+<li><p><a class="reference internal" href="#data-resampling"><span class="std std-ref">Data resampling</span></a></p></li>
+<li><p><a class="reference internal" href="#polarity-reversal"><span class="std std-ref">Polarity reversal</span></a></p></li>
+<li><p><a class="reference internal" href="#scaling"><span class="std std-ref">Scaling</span></a></p></li>
+<li><p><a class="reference internal" href="#calibration"><span class="std std-ref">Calibration</span></a></p></li>
+<li><p><a class="reference internal" href="#low-band-and-high-pass-filtering"><span class="std std-ref">Low, band and high pass filtering</span></a></p></li>
+<li><p><a class="reference internal" href="#notch-filter"><span class="std std-ref">Notch filter</span></a></p></li>
+<li><p><a class="reference internal" href="#data-normalisation"><span class="std std-ref">Data normalisation</span></a></p></li>
+<li><p><a class="reference internal" href="#interpolation-to-second"><span class="std std-ref">Interpolation to second</span></a></p></li>
 </ul>
 </div></blockquote>
 <p>Another preprocessing method of use, but not available within the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method is gap filling. This can help increase the number of windows at long periods.</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="#gap-filling"><span class="std std-ref">Gap filling</span></a></li>
+<li><p><a class="reference internal" href="#gap-filling"><span class="std std-ref">Gap filling</span></a></p></li>
 </ul>
 </div></blockquote>
 <p>In addition, there are lower levels APIs for performing these actions for advanced users. Please see the <a class="reference internal" href="../modules.html"><span class="doc">API doc</span></a> for more information or check the <a class="reference internal" href="../cookbook.html"><span class="doc">Cookbook</span></a>.</p>
@@ -223,8 +223,8 @@
 <p>Resampling time series data might be required to ensure matching sampling rates between different datasets, for example a local site and a reference site. This can be achieved through the resampling option in <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method which can save the data either to the same site or to a new site altogether.</p>
 <p>Below is an exampling of downsampling a 4096 Hz dataset to 1024 Hz. The output will be saved to a new site named “site1_resample”. If the site does not already exist, it will be created. The name of the measurement in the new site will be:</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">prepend + meas_[start_time] + postpend
+<p class="admonition-title">Note</p>
+<p>prepend + meas_[start_time] + postpend
 give an example</p>
 </div>
 <p>As the measurement is being written out to a new site, prepend is being set “” (an empty string). By default, postpend is an empty string.</p>
@@ -432,9 +432,9 @@ give an example</p>
 <h2>Low, band and high pass filtering<a class="headerlink" href="#low-band-and-high-pass-filtering" title="Permalink to this headline">¶</a></h2>
 <p>Time series data can be low, band and high pass filtered as required. This normally useful for viewing but can be useful for exporting or other purposes. Filter options can be specified in Hz using the <em>filter</em> keyword to the <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.preProcess" title="resistics.project.time.preProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preProcess()</span></code></a> method. The keyword expects a dictionary with various filter options such as:</p>
 <ul class="simple">
-<li>lpfilt : low pass filtering</li>
-<li>hpfilt : high pass filtering</li>
-<li>bpfilt : band pass filtering</li>
+<li><p>lpfilt : low pass filtering</p></li>
+<li><p>hpfilt : high pass filtering</p></li>
+<li><p>bpfilt : band pass filtering</p></li>
 </ul>
 <p>Examples of each are provided below.</p>
 <p>Low pass filtering using the lpfilt option to filter 4096 Hz to 32 Hz (without impacting the sampling rate).</p>
@@ -1627,7 +1627,7 @@ Time series dataset written to E:\magnetotellurics\code\resisticsdata\advanced\p
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.statistics.data &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.statistics.data &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 
@@ -179,6 +179,7 @@
     <span class="n">AutoDateFormatter</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="k">import</span> <span class="n">Figure</span>
+<span class="kn">from</span> <span class="nn">matplotlib.collections</span> <span class="k">import</span> <span class="n">PathCollection</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="c1"># import from package</span>
@@ -214,6 +215,8 @@
 <span class="sd">        Values calculated for the statistic</span>
 <span class="sd">    numStatsPerWindow : int</span>
 <span class="sd">        The number of statistics per window (length of winStats)</span>
+<span class="sd">    stats : np.ndarray</span>
+<span class="sd">        The statistic data of size number of windows * number evaluation frequencies * number of window stats        </span>
 <span class="sd">    evalFreq : List, np.ndarray</span>
 <span class="sd">        The evaluation frequencies for the statistic data</span>
 <span class="sd">    freq2index : Dict</span>
@@ -239,7 +242,7 @@
 <span class="sd">        Initialise maskData</span>
 <span class="sd">    getStats(includewindows, maskwindows)</span>
 <span class="sd">        Get the statistics array and choose to either include some windows or mask some windows</span>
-<span class="sd">    getMaskedWindows(maskwindows)</span>
+<span class="sd">    getUnmaskedIndices(maskwindows)</span>
 <span class="sd">        Return the local indices to use given a set of global indices to exclude</span>
 <span class="sd">    getStatLocal(localIndex)</span>
 <span class="sd">        Get statistic values for a local window index</span>
@@ -247,6 +250,8 @@
 <span class="sd">        Get statistic values for a global window index</span>
 <span class="sd">    getGlobalIndex(localIndex)</span>
 <span class="sd">        Get the global window index for a local window index</span>
+<span class="sd">    getLocalIndicesF(globalIndices)</span>
+<span class="sd">        Get local indices for an list or array of global indices</span>
 <span class="sd">    getGlobalDates()</span>
 <span class="sd">        Get the global index dates for all the windows</span>
 <span class="sd">    setStatParams(numWindows, winStats, evalFreq)</span>
@@ -353,35 +358,35 @@
 
 <div class="viewcode-block" id="StatisticData.getStats"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.getStats">[docs]</a>    <span class="k">def</span> <span class="nf">getStats</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">includewindows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
-        <span class="n">maskwindows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">includewindows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">maskwindows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get statistics when either selecting a set of indices or wanting to mask a set of indices</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        includewindows : List, np.ndarray, optional</span>
-<span class="sd">            Windows to get</span>
+<span class="sd">            Windows to get. This should be a list of numpy array of global indices.</span>
 <span class="sd">        maskwindows : List, np.ndarray, optional</span>
-<span class="sd">            Windows to exclude</span>
+<span class="sd">            Windows to exclude. This is expected to be a list, set or numpy array of global indices.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        np.ndarray</span>
 <span class="sd">            Statistics limited by the window selection options</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">includewindows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">includewindows</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">includewindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLocalIndices</span><span class="p">(</span><span class="n">includewindows</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">includewindows</span><span class="p">,</span> <span class="p">:]</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">maskwindows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">includewindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskwindows</span><span class="p">)</span>
-            <span class="c1"># if this is false, then want to return all the statistics</span>
-            <span class="k">if</span> <span class="n">includewindows</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">maskwindows</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">maskwindows</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">includewindows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnmaskedIndices</span><span class="p">(</span><span class="n">maskwindows</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">includewindows</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">includewindows</span><span class="p">,</span> <span class="p">:]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span></div>
 
-<div class="viewcode-block" id="StatisticData.getMaskedIndices"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.getMaskedIndices">[docs]</a>    <span class="k">def</span> <span class="nf">getMaskedIndices</span><span class="p">(</span>
+<div class="viewcode-block" id="StatisticData.getUnmaskedIndices"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.getUnmaskedIndices">[docs]</a>    <span class="k">def</span> <span class="nf">getUnmaskedIndices</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">maskWindows</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Given a list of global windows to mask, returns the set of indices to include in the plot</span>
 
 <span class="sd">        Parameters</span>
@@ -391,18 +396,14 @@
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        List</span>
-<span class="sd">            List of indices to include</span>
+<span class="sd">        List, None</span>
+<span class="sd">            List of indices to include. None if all windows should be included</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">includeWindows</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">includeWindows</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">:</span>
+        <span class="n">includewindows</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">includewindows</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">numWindows</span><span class="p">:</span>
             <span class="c1"># nothing to mask</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">win</span> <span class="ow">in</span> <span class="n">includeWindows</span><span class="p">:</span>
-            <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">global2localMap</span><span class="p">[</span><span class="n">win</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">indices</span></div>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLocalIndices</span><span class="p">(</span><span class="n">includewindows</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StatisticData.getStatLocal"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.getStatLocal">[docs]</a>    <span class="k">def</span> <span class="nf">getStatLocal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">localIndex</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get statistics for a local window index</span>
@@ -455,6 +456,26 @@
 <span class="sd">            Global index for local index</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">globalIndices</span><span class="p">[</span><span class="n">localIndex</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="StatisticData.getLocalIndices"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.getLocalIndices">[docs]</a>    <span class="k">def</span> <span class="nf">getLocalIndices</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">globalIndices</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Converts a list or array of global indices to local indices</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        globalIndices : List, np.ndarray</span>
+<span class="sd">            Global indices to convert into local indices</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List</span>
+<span class="sd">            List of local indices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">win</span> <span class="ow">in</span> <span class="n">globalIndices</span><span class="p">:</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">global2localMap</span><span class="p">[</span><span class="n">win</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">indices</span></div>
 
 <div class="viewcode-block" id="StatisticData.getGlobalDates"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.getGlobalDates">[docs]</a>    <span class="k">def</span> <span class="nf">getGlobalDates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get the global start dates and end dates for each window</span>
@@ -586,7 +607,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># get windows to plot and global dates</span>
         <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;maskwindows&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;maskwindows&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">[]</span>
-        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnmaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
         <span class="n">globalDates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getGlobalDates</span><span class="p">()</span>
         <span class="n">eFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">eFreqI</span><span class="p">]</span>
 
@@ -614,7 +635,7 @@
             <span class="c1"># limit the data by plotIndices if not False</span>
             <span class="n">plotData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">idx</span><span class="p">])</span>
             <span class="n">plotDates</span> <span class="o">=</span> <span class="n">globalDates</span>
-            <span class="k">if</span> <span class="n">plotIndices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plotIndices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">plotData</span> <span class="o">=</span> <span class="n">plotData</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
                 <span class="n">plotDates</span> <span class="o">=</span> <span class="n">plotDates</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
 
@@ -717,7 +738,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># deal with maskwindows, which are global indices</span>
         <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;maskwindows&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;maskwindows&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">[]</span>
-        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnmaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
         <span class="n">eFreq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">eFreqI</span><span class="p">]</span>
 
         <span class="c1"># plot options</span>
@@ -744,7 +765,7 @@
 
             <span class="c1"># data</span>
             <span class="n">plotData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">idx</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">plotIndices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plotIndices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">plotData</span> <span class="o">=</span> <span class="n">plotData</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
             <span class="c1"># remove infinities and nans</span>
             <span class="n">plotData</span> <span class="o">=</span> <span class="n">plotData</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">plotData</span><span class="p">)]</span>
@@ -822,7 +843,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># deal with maskwindows, which are global indices</span>
         <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;maskwindows&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;maskwindows&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">[]</span>
-        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnmaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
 
         <span class="c1"># figure out the crossplots</span>
         <span class="k">if</span> <span class="s2">&quot;crossplots&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -866,7 +887,7 @@
             <span class="n">plotData1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">plotI1</span><span class="p">])</span>
             <span class="n">plotI2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">plotData2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">plotI2</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">plotIndices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plotIndices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">plotData1</span> <span class="o">=</span> <span class="n">plotData1</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
                 <span class="n">plotData2</span> <span class="o">=</span> <span class="n">plotData2</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
                 <span class="n">colourdata</span> <span class="o">=</span> <span class="n">colourdata</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
@@ -963,7 +984,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># deal with maskwindows, which are global indices</span>
         <span class="n">maskWindows</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;maskwindows&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;maskwindows&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">[]</span>
-        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
+        <span class="n">plotIndices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getUnmaskedIndices</span><span class="p">(</span><span class="n">maskWindows</span><span class="p">)</span>
 
         <span class="c1"># figure out the crossplots</span>
         <span class="k">if</span> <span class="s2">&quot;crossplots&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -1002,7 +1023,7 @@
             <span class="n">plotData1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">plotI1</span><span class="p">])</span>
             <span class="n">plotI2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">winStats</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cplot</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">plotData2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[:,</span> <span class="n">eFreqI</span><span class="p">,</span> <span class="n">plotI2</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">plotIndices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plotIndices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">plotData1</span> <span class="o">=</span> <span class="n">plotData1</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
                 <span class="n">plotData2</span> <span class="o">=</span> <span class="n">plotData2</span><span class="p">[</span><span class="n">plotIndices</span><span class="p">]</span>
 
@@ -1051,13 +1072,15 @@
 
         <span class="k">return</span> <span class="n">fig</span></div>
 
-<div class="viewcode-block" id="StatisticData.addColourbar"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.addColourbar">[docs]</a>    <span class="k">def</span> <span class="nf">addColourbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="StatisticData.addColourbar"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.addColourbar">[docs]</a>    <span class="k">def</span> <span class="nf">addColourbar</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">PathCollection</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">:</span> <span class="n">Dict</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Add a colourbar to a plot</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        plot : plt.plot</span>
-<span class="sd">            Evaluation frequency index</span>
+<span class="sd">        plot : matplotlib.collections.PathCollection</span>
+<span class="sd">            A plot e.g. a scatter graph</span>
 <span class="sd">        cax : </span>
 <span class="sd">            Colourbar axis</span>
 <span class="sd">        title : str</span>
@@ -1068,13 +1091,13 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">)</span>
         <span class="n">cax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">plotfonts</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="StatisticData.addColourbarDates"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.addColourbarDates">[docs]</a>    <span class="k">def</span> <span class="nf">addColourbarDates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+<div class="viewcode-block" id="StatisticData.addColourbarDates"><a class="viewcode-back" href="../../../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.addColourbarDates">[docs]</a>    <span class="k">def</span> <span class="nf">addColourbarDates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">PathCollection</span><span class="p">,</span> <span class="n">cax</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plotfonts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Make the colourbar show dates for identifying window times where there is not date axis</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        plot : plt.plot</span>
-<span class="sd">            Evaluation frequency index</span>
+<span class="sd">        plot : matplotlib.collections.PathCollection</span>
+<span class="sd">            A plot e.g. a scatter graph</span>
 <span class="sd">        cax : </span>
 <span class="sd">            Colourbar axis</span>
 <span class="sd">        title : str</span>
@@ -1204,7 +1227,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

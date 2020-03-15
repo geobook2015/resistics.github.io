@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.time.reader_internal module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.time.reader_internal module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.time.reader_lemib423 module" href="resistics.time.reader_lemib423.html" />
@@ -211,43 +211,41 @@
 <span id="resistics-time-reader-internal-module"></span><h1>resistics.time.reader_internal module<a class="headerlink" href="#module-resistics.time.reader_internal" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.time.reader_internal.TimeReaderInternal">
-<em class="property">class </em><code class="descclassname">resistics.time.reader_internal.</code><code class="descname">TimeReaderInternal</code><span class="sig-paren">(</span><em>dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_internal.html#TimeReaderInternal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_internal.TimeReaderInternal" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.time.reader_internal.</code><code class="sig-name descname">TimeReaderInternal</code><span class="sig-paren">(</span><em class="sig-param">dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_internal.html#TimeReaderInternal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_internal.TimeReaderInternal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.time.reader.html#resistics.time.reader.TimeReader" title="resistics.time.reader.TimeReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.time.reader.TimeReader</span></code></a></p>
 <p>Data reader for internal formatted data</p>
 <p>Internal formatted data is straightforward. Header information is read in from a global header file and header files for each channel, all of them ascii formatted file. Each channel has its own data file written out using numpy’s binary write function and with a .dat extension.</p>
 <p>As raw data is not usually in the internal data format, to avoid any problems, the following workflow is suggested:</p>
 <ul class="simple">
-<li>Get physical data from the raw data files (ATS, SPAM, Phoenix)</li>
-<li>Perform any pre-processing required</li>
-<li>Save as internal format, ensuring to set the scaling_applied channel header for every channel to True. This will avoid any further scaling when the data is read in again.</li>
+<li><p>Get physical data from the raw data files (ATS, SPAM, Phoenix)</p></li>
+<li><p>Perform any pre-processing required</p></li>
+<li><p>Save as internal format, ensuring to set the scaling_applied channel header for every channel to True. This will avoid any further scaling when the data is read in again.</p></li>
 </ul>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="31%" />
-<col width="69%" />
+<col style="width: 31%" />
+<col style="width: 69%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>dataHeaders()</strong></td>
-<td>Headers to read in</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>dataHeaders()</strong></p></td>
+<td><p>Headers to read in</p></td>
 </tr>
-<tr class="row-even"><td><strong>readHeaders()</strong></td>
-<td>Specific function for reading the headers for internal format</td>
+<tr class="row-even"><td><p><strong>readHeaders()</strong></p></td>
+<td><p>Specific function for reading the headers for internal format</p></td>
 </tr>
-<tr class="row-odd"><td><strong>lineToKeyAndValue(line)</strong></td>
-<td>Separate a line into key and value with = as a delimiter</td>
+<tr class="row-odd"><td><p><strong>lineToKeyAndValue(line)</strong></p></td>
+<td><p>Separate a line into key and value with = as a delimiter</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.time.reader_internal.TimeReaderInternal.dataHeaders">
-<code class="descname">dataHeaders</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str], List[str], List[str]]<a class="reference internal" href="../_modules/resistics/time/reader_internal.html#TimeReaderInternal.dataHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_internal.TimeReaderInternal.dataHeaders" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">dataHeaders</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[str], List[str], List[str]]<a class="reference internal" href="../_modules/resistics/time/reader_internal.html#TimeReaderInternal.dataHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_internal.TimeReaderInternal.dataHeaders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the data headers in the internal file format</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>recordingHeaders</strong><span class="classifier">List[str]</span></dt><dd><p>Headers with information about the recording</p>
 </dd>
 <dt><strong>globalHeaders</strong><span class="classifier">List[str]</span></dt><dd><p>Common headers with information about the recording</p>
@@ -257,15 +255,13 @@
 <dt><strong>channelHeadersOutput</strong><span class="classifier">List[str]</span></dt><dd><p>Channel recording headers</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_internal.TimeReaderInternal.readHeader">
-<code class="descname">readHeader</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_internal.html#TimeReaderInternal.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_internal.TimeReaderInternal.readHeader" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">readHeader</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_internal.html#TimeReaderInternal.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_internal.TimeReaderInternal.readHeader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read time data header file for internal format</p>
 </dd></dl>
 
@@ -315,7 +311,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Multiprocessing &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Multiprocessing &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Next steps" href="next-steps.html" />
@@ -191,19 +191,19 @@
 <h1>Multiprocessing<a class="headerlink" href="#multiprocessing" title="Permalink to this headline">¶</a></h1>
 <p>Processing magnetotelluric field surveys can be demanding if there many sites and long recordings. To help speed up processing, resistics supports multiprocessor computation using the python multiprocessing module (<a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html">read more here</a>). Multiprocessing can be used in the following processing steps:</p>
 <ul class="simple">
-<li>Spectra calculation</li>
-<li>Statistic calculation</li>
-<li>Transfer function estimation (robust regression)</li>
+<li><p>Spectra calculation</p></li>
+<li><p>Statistic calculation</p></li>
+<li><p>Transfer function estimation (robust regression)</p></li>
 </ul>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">For Windows users, multiprocessing requires scripts using resistics and multiprocessing to be protected using <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">if</span></span> <span class="name variable magic"><span class="pre">__name__</span></span> <span class="operator"><span class="pre">==</span></span> <span class="literal string single"><span class="pre">‘__main__’</span></span></code>. For a more detailed explanation of why, please see the <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#multiprocessing-programming">offical python documentation</a>. What this means is illustrated in the below <a class="reference internal" href="#example"><span class="std std-ref">example</span></a>.</p>
+<p class="admonition-title">Important</p>
+<p>For Windows users, multiprocessing requires scripts using resistics and multiprocessing to be protected using <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">if</span></span> <span class="name variable magic"><span class="pre">__name__</span></span> <span class="operator"><span class="pre">==</span></span> <span class="literal string single"><span class="pre">‘__main__’</span></span></code>. For a more detailed explanation of why, please see the <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#multiprocessing-programming">offical python documentation</a>. What this means is illustrated in the below <a class="reference internal" href="#example"><span class="std std-ref">example</span></a>.</p>
 </div>
 <p>Multiprocessing is activated by specifying the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">ncores</span></span></code> keyword in the following methods:</p>
 <ul class="simple">
-<li><a class="reference internal" href="../api/resistics.project.spectra.html#resistics.project.spectra.calculateSpectra" title="resistics.project.spectra.calculateSpectra"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateSpectra()</span></code></a></li>
-<li><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.calculateStatistics" title="resistics.project.statistics.calculateStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateStatistics()</span></code></a></li>
-<li><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">processSite()</span></code></li>
+<li><p><a class="reference internal" href="../api/resistics.project.spectra.html#resistics.project.spectra.calculateSpectra" title="resistics.project.spectra.calculateSpectra"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateSpectra()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.calculateStatistics" title="resistics.project.statistics.calculateStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateStatistics()</span></code></a></p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">processProject()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">processSite()</span></code></p></li>
 </ul>
 <p>The optional argument <code class="code python docutils literal notranslate"><span class="name"><span class="pre">ncores</span></span></code> is expected to be an integer. It is recommend to use less cores than cores available on the system. This will leave spare processing power for system tasks and for interaction with the system.</p>
 <p>Alternatively and probably more usefully, the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">ncores</span></span></code> options can be set in configuration files, where it can be either a subparameter or a global parameter.</p>
@@ -230,9 +230,9 @@ remotestats = &quot;RR_coherenceEqn&quot;, &quot;RR_transferFunction&quot;
 <p>By setting a global <code class="code python docutils literal notranslate"><span class="name"><span class="pre">ncores</span></span></code> option, any methods that support multiprocessing will use it on the globally specified number of cores.</p>
 <p>Another option is to define <code class="code python docutils literal notranslate"><span class="name"><span class="pre">ncores</span></span></code> separately for individual tasks. The <code class="code python docutils literal notranslate"><span class="name"><span class="pre">ncores</span></span></code> option can be supplied to the following sections separately.</p>
 <ul class="simple">
-<li>Spectra</li>
-<li>Statistics</li>
-<li>Solver</li>
+<li><p>Spectra</p></li>
+<li><p>Statistics</p></li>
+<li><p>Solver</p></li>
 </ul>
 <p>The following configuration specifies different cores for each section.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -357,8 +357,8 @@ remotestats = &quot;RR_coherenceEqn&quot;, &quot;RR_transferFunction&quot;
 </pre></div>
 </td></tr></table></div>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This script was run on the Windows platform. Note the use of <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">if</span></span> <span class="name variable magic"><span class="pre">__name__</span></span> <span class="operator"><span class="pre">==</span></span> <span class="literal string single"><span class="pre">‘__main__’</span></span></code> to ensure no multiprocessing issues are encountered. Forgetting this part would cause many processes to be spawned which will consume system resources.</p>
+<p class="admonition-title">Warning</p>
+<p>This script was run on the Windows platform. Note the use of <code class="code python docutils literal notranslate"><span class="keyword"><span class="pre">if</span></span> <span class="name variable magic"><span class="pre">__name__</span></span> <span class="operator"><span class="pre">==</span></span> <span class="literal string single"><span class="pre">‘__main__’</span></span></code> to ensure no multiprocessing issues are encountered. Forgetting this part would cause many processes to be spawned which will consume system resources.</p>
 </div>
 <p>The impedance tensor estimates are shown below with and without masking.</p>
 <div class="align-center figure" id="id1">
@@ -495,7 +495,7 @@ remotestats = &quot;RR_coherenceEqn&quot;, &quot;RR_transferFunction&quot;
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

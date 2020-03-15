@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog / backlog &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Changelog / backlog &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Bibliography" href="bibliography.html" />
@@ -175,60 +175,75 @@
 <div class="section" id="backlog">
 <h2>Backlog<a class="headerlink" href="#backlog" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Improved robust regression</li>
-<li>Improved estimation of the regression uncertainty to feed into inversion</li>
-<li>Full support of Phoenix data and calibration files</li>
-<li>Support for miniseed data format</li>
-<li>More parameters in transfunc data (induction arrows etc), rotation</li>
-<li>Support for SPAM XTRX header files</li>
-<li>Investigating how the statistics can be best combined</li>
-<li>Addition of signal processing methods to denoise in time domain</li>
-<li>Possible denoising in frequency domain</li>
-<li>Extraction of more meaningful window features</li>
-<li>Supporting the use of custom statistics</li>
+<li><p>Improved statistic handling, possibly with option to export to pandas and easier gathering of statistics for many recordings</p></li>
+<li><p>Improved masking, more types of masking and custom masking</p></li>
+<li><p>Improved robust regression and integrating this with the configuration options</p></li>
+<li><p>Improved estimation of the regression uncertainty to feed into inversion</p></li>
+<li><p>Full support of Phoenix data and calibration files</p></li>
+<li><p>Support for miniseed data format</p></li>
+<li><p>More parameters in transfunc data (induction arrows etc), rotation</p></li>
+<li><p>Support for SPAM XTRX header files</p></li>
+<li><p>Investigating how the statistics can be best combined</p></li>
+<li><p>Addition of signal processing methods to denoise in time domain</p></li>
+<li><p>Possible denoising in frequency domain</p></li>
+<li><p>Extraction of more meaningful window features</p></li>
+<li><p>Supporting the use of custom statistics</p></li>
 </ul>
 </div>
 <div class="section" id="changelog">
 <h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="resistics-0-0-6">
+<h3>Resistics 0.0.6<a class="headerlink" href="#resistics-0-0-6" title="Permalink to this headline">¶</a></h3>
+<p><em>March 15, 2020</em></p>
+<ul class="simple">
+<li><p><strong>Added:</strong> None.</p></li>
+<li><p><strong>Changed:</strong> The way windows are defined when selecting statistics from statistic data. Currently, the statistic data is in raw arrays. In future, might be best to be able to export as Pandas dataframe to allow people to use statistics easier.</p></li>
+<li><p><strong>Deprecated:</strong> None.</p></li>
+<li><p><strong>Removed:</strong> None.</p></li>
+<li><p><strong>Fixed:</strong> Change the way data is selected in StatisticData to fix <a class="reference external" href="https://github.com/resistics/resistics/issues/5">Issue #5</a>. The was due to injudicious use to bools and Lists for truth checking. Now increasing the use of None in the code where no results are found.</p></li>
+<li><p><strong>Fixed:</strong> Fixed issue where some window parameters are not passed from configuration file into WindowParameters. For more information, see <a class="reference external" href="https://github.com/resistics/resistics/issues/4">Issue #4</a>.</p></li>
+<li><p><strong>Fixed:</strong> Fixed bug in SpectrumReader when requesting 0 windows from batch reader. This can happen when selecting windows shared across multiple sites and a recording at one site has not shared windows with another site. In this case, 0 windows will be requested from this recording and it would previously fail. See <a class="reference external" href="https://github.com/resistics/resistics/issues/3">Issue #3</a>.</p></li>
+</ul>
+</div>
 <div class="section" id="resistics-0-0-6rc1">
 <h3>Resistics 0.0.6rc1<a class="headerlink" href="#resistics-0-0-6rc1" title="Permalink to this headline">¶</a></h3>
 <p><em>Nov 11, 2019</em></p>
 <ul class="simple">
-<li><strong>Added:</strong> Multiprocessing added for spectra calculations, statistic calculations and transfer function estimation (predominantly the power spectra calculations).</li>
-<li><strong>Added:</strong> Multiprocessing documentation.</li>
-<li><strong>Added:</strong> Spectra batches in WindowSelector allowing batches of overlapping spectra data to be pre-read for processing. This speeds up transfer function estimation by reducing disk reads.</li>
-<li><strong>Changed:</strong> Speed up transfer function estimation by using WindowSelector spectra batches.</li>
-<li><strong>Changed:</strong> Statistics and spectra readers return None when no file is found rather than False.</li>
-<li><strong>Deprecated:</strong> None.</li>
-<li><strong>Removed:</strong> None.</li>
-<li><strong>Fixed:</strong> None.</li>
+<li><p><strong>Added:</strong> Multiprocessing added for spectra calculations, statistic calculations and transfer function estimation (predominantly the power spectra calculations).</p></li>
+<li><p><strong>Added:</strong> Multiprocessing documentation.</p></li>
+<li><p><strong>Added:</strong> Spectra batches in WindowSelector allowing batches of overlapping spectra data to be pre-read for processing. This speeds up transfer function estimation by reducing disk reads.</p></li>
+<li><p><strong>Changed:</strong> Speed up transfer function estimation by using WindowSelector spectra batches.</p></li>
+<li><p><strong>Changed:</strong> Statistics and spectra readers return None when no file is found rather than False.</p></li>
+<li><p><strong>Deprecated:</strong> None.</p></li>
+<li><p><strong>Removed:</strong> None.</p></li>
+<li><p><strong>Fixed:</strong> None.</p></li>
 </ul>
 </div>
 <div class="section" id="resistics-0-0-6-dev3">
 <h3>Resistics 0.0.6.dev3<a class="headerlink" href="#resistics-0-0-6-dev3" title="Permalink to this headline">¶</a></h3>
 <p><em>Oct 13, 2019</em></p>
 <ul class="simple">
-<li><strong>Added:</strong> Modules common, config, time, spectra, statistics, mask, transfunc, calibration, window, decimate, regression, project, site as part of a restructure of the resistics code base to give more meaningful imports.</li>
-<li><strong>Added:</strong> Statistic documentation in the features section</li>
-<li><strong>Changed:</strong> Tutorial changed to reflect new code structure.</li>
-<li><strong>Changed:</strong> Advanced examples to reflect new code structure.</li>
-<li><strong>Changed:</strong> Time series and calibration format examples changed to reflect new code structure.</li>
-<li><strong>Changed:</strong> Cookbook changed to reflect new code structure.</li>
-<li><strong>Deprecated:</strong> All functionality remains but has been re-organised.</li>
-<li><strong>Removed:</strong> Modules ioHandlers, dataObjects, calculators and utilities all removed as part of a restructure of resistics to give more meaningful imports and to simplify the organisation of functionality.</li>
-<li><strong>Fixed:</strong> Fixed a bug in resistics.project.transfunc.processSite and resistics.project.shortcuts.getWindowSelector which ignores user supplied specdir option.</li>
+<li><p><strong>Added:</strong> Modules common, config, time, spectra, statistics, mask, transfunc, calibration, window, decimate, regression, project, site as part of a restructure of the resistics code base to give more meaningful imports.</p></li>
+<li><p><strong>Added:</strong> Statistic documentation in the features section</p></li>
+<li><p><strong>Changed:</strong> Tutorial changed to reflect new code structure.</p></li>
+<li><p><strong>Changed:</strong> Advanced examples to reflect new code structure.</p></li>
+<li><p><strong>Changed:</strong> Time series and calibration format examples changed to reflect new code structure.</p></li>
+<li><p><strong>Changed:</strong> Cookbook changed to reflect new code structure.</p></li>
+<li><p><strong>Deprecated:</strong> All functionality remains but has been re-organised.</p></li>
+<li><p><strong>Removed:</strong> Modules ioHandlers, dataObjects, calculators and utilities all removed as part of a restructure of resistics to give more meaningful imports and to simplify the organisation of functionality.</p></li>
+<li><p><strong>Fixed:</strong> Fixed a bug in resistics.project.transfunc.processSite and resistics.project.shortcuts.getWindowSelector which ignores user supplied specdir option.</p></li>
 </ul>
 </div>
 <div class="section" id="resistics-0-0-6-dev2">
 <h3>Resistics 0.0.6.dev2<a class="headerlink" href="#resistics-0-0-6-dev2" title="Permalink to this headline">¶</a></h3>
 <p><em>Sep 29, 2019</em></p>
 <ul class="simple">
-<li><strong>Added:</strong> Modules to read in Lemi B423 and B423E data and documenation to show usage.</li>
-<li><strong>Added:</strong> Documentation for advanced methods include remote reference, pre-processing and intersite processing.</li>
-<li><strong>Changed:</strong> None</li>
-<li><strong>Deprecated:</strong> None</li>
-<li><strong>Removed:</strong> None</li>
-<li><strong>Fixed:</strong> Fixed a bug in resistics.ioHandlers.spectrumWriter.SpectrumWriter with a mismatch between channel ordering in the info file and channel ordering in the data. This could lead to incorrect usage of channel data in transfer function calculations if the data had been written out in resistics internal format.</li>
+<li><p><strong>Added:</strong> Modules to read in Lemi B423 and B423E data and documenation to show usage.</p></li>
+<li><p><strong>Added:</strong> Documentation for advanced methods include remote reference, pre-processing and intersite processing.</p></li>
+<li><p><strong>Changed:</strong> None</p></li>
+<li><p><strong>Deprecated:</strong> None</p></li>
+<li><p><strong>Removed:</strong> None</p></li>
+<li><p><strong>Fixed:</strong> Fixed a bug in resistics.ioHandlers.spectrumWriter.SpectrumWriter with a mismatch between channel ordering in the info file and channel ordering in the data. This could lead to incorrect usage of channel data in transfer function calculations if the data had been written out in resistics internal format.</p></li>
 </ul>
 </div>
 </div>
@@ -276,7 +291,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

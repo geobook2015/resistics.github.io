@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.time.reader_ascii module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.time.reader_ascii module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.time.reader_ats module" href="resistics.time.reader_ats.html" />
@@ -211,38 +211,36 @@
 <span id="resistics-time-reader-ascii-module"></span><h1>resistics.time.reader_ascii module<a class="headerlink" href="#module-resistics.time.reader_ascii" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.time.reader_ascii.TimeReaderAscii">
-<em class="property">class </em><code class="descclassname">resistics.time.reader_ascii.</code><code class="descname">TimeReaderAscii</code><span class="sig-paren">(</span><em>dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ascii.html#TimeReaderAscii"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ascii.TimeReaderAscii" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.time.reader_ascii.</code><code class="sig-name descname">TimeReaderAscii</code><span class="sig-paren">(</span><em class="sig-param">dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ascii.html#TimeReaderAscii"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ascii.TimeReaderAscii" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.time.reader_internal.html#resistics.time.reader_internal.TimeReaderInternal" title="resistics.time.reader_internal.TimeReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.time.reader_internal.TimeReaderInternal</span></code></a></p>
 <p>Data reader for ascii formatted data</p>
 <p>The ASCII data reader reads ascii data files and internally formatted header files. No further scaling is applied to the data values in either getUnscaledSamples or getPhysicalSamples. All the data is assumed to be in the correct units.</p>
 <p>In fact, if the data does not have to be calibrated, the units could be anything as long as they are internally consistent.</p>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="17%" />
-<col width="83%" />
+<col style="width: 17%" />
+<col style="width: 83%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>setParameters()</strong></td>
-<td>Set data format parameters</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>setParameters()</strong></p></td>
+<td><p>Set data format parameters</p></td>
 </tr>
-<tr class="row-even"><td><strong>getUnscaledSamples()</strong></td>
-<td>Get the raw unscaled samples from an ascii file</td>
+<tr class="row-even"><td><p><strong>getUnscaledSamples()</strong></p></td>
+<td><p>Get the raw unscaled samples from an ascii file</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getPhysicalSamples()</strong></td>
-<td>Get data in field units. Note: no further scaling is applied in this function, ascii data is assumed to be in field units</td>
+<tr class="row-odd"><td><p><strong>getPhysicalSamples()</strong></p></td>
+<td><p>Get data in field units. Note: no further scaling is applied in this function, ascii data is assumed to be in field units</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.time.reader_ascii.TimeReaderAscii.getPhysicalSamples">
-<code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ascii.html#TimeReaderAscii.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ascii.TimeReaderAscii.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getPhysicalSamples</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_ascii.html#TimeReaderAscii.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ascii.TimeReaderAscii.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get ascii data scaled to physical values</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>chans</strong><span class="classifier">List[str]</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
 <dt><strong>startSample</strong><span class="classifier">int</span></dt><dd><p>First sample to return</p>
@@ -256,32 +254,28 @@
 <dt><strong>remnans: bool</strong></dt><dd><p>Remove NanNs from the data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">No scaling happens in getPhysicalSamples. Ascii data is assumed to be properly scaled to mV for magnetic channels and mV/km for electric channels (i.e. field units)</p>
+<p class="admonition-title">Warning</p>
+<p>No scaling happens in getPhysicalSamples. Ascii data is assumed to be properly scaled to mV for magnetic channels and mV/km for electric channels (i.e. field units)</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_ascii.TimeReaderAscii.getUnscaledSamples">
-<code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/time/reader_ascii.html#TimeReaderAscii.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ascii.TimeReaderAscii.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getUnscaledSamples</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/time/reader_ascii.html#TimeReaderAscii.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ascii.TimeReaderAscii.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw data from ascii data file</p>
 <p>This function simply reads the lines which match the samples to be read</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>chans</strong><span class="classifier">List[str], optional</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
 <dt><strong>startSample</strong><span class="classifier">int, optional</span></dt><dd><p>First sample to return</p>
@@ -289,21 +283,19 @@
 <dt><strong>endSample</strong><span class="classifier">int, optional</span></dt><dd><p>Last sample to return</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_ascii.TimeReaderAscii.setParameters">
-<code class="descname">setParameters</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_ascii.html#TimeReaderAscii.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ascii.TimeReaderAscii.setParameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setParameters</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_ascii.html#TimeReaderAscii.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_ascii.TimeReaderAscii.setParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set data reader parameters</p>
 <p>This will vary for the different data formats. By default, setup for the internal data format.</p>
 </dd></dl>
@@ -354,7 +346,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

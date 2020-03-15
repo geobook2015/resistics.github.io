@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.project.preprocess module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.project.preprocess module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.project.shortcuts module" href="resistics.project.shortcuts.html" />
@@ -204,15 +204,13 @@
 <span id="resistics-project-preprocess-module"></span><h1>resistics.project.preprocess module<a class="headerlink" href="#module-resistics.project.preprocess" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="resistics.project.preprocess.applyCalibrationOptions">
-<code class="descclassname">resistics.project.preprocess.</code><code class="descname">applyCalibrationOptions</code><span class="sig-paren">(</span><em>options: Dict</em>, <em>cal: resistics.calibrate.calibrator.Calibrator</em>, <em>timeData: resistics.time.data.TimeData</em>, <em>reader: resistics.time.reader.TimeReader</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyCalibrationOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyCalibrationOptions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.project.preprocess.</code><code class="sig-name descname">applyCalibrationOptions</code><span class="sig-paren">(</span><em class="sig-param">options: Dict</em>, <em class="sig-param">cal: resistics.calibrate.calibrator.Calibrator</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em>, <em class="sig-param">reader: resistics.time.reader.TimeReader</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyCalibrationOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyCalibrationOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calibrate time data with user options</p>
 <p>To calibrate, specify
 options[“calibrate”] = True</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>options</strong><span class="classifier">Dict</span></dt><dd><p>User specified options for calibrating</p>
 </dd>
 <dt><strong>cal</strong><span class="classifier">Calibrator</span></dt><dd><p>A calibrator instance</p>
@@ -222,21 +220,19 @@ options[“calibrate”] = True</p>
 <dt><strong>reader: DataReader</strong></dt><dd><p>A data reader object for the data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Calibrated time data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.project.preprocess.applyFilterOptions">
-<code class="descclassname">resistics.project.preprocess.</code><code class="descname">applyFilterOptions</code><span class="sig-paren">(</span><em>options: Dict</em>, <em>timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyFilterOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyFilterOptions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.project.preprocess.</code><code class="sig-name descname">applyFilterOptions</code><span class="sig-paren">(</span><em class="sig-param">options: Dict</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyFilterOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyFilterOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Filter time data</p>
 <p>To low pass filter, specify
 options[“filter”][“lpfilt”] = high cutoff frequency 
@@ -244,193 +240,165 @@ To high pass filter, specify
 options[“filter”][“hpfilt”] = low cutoff frequency
 To bandass filter, specify
 options[“filter”][“bpfilt”] = [low cutoff frequency, high cutoff frequency]</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>options</strong><span class="classifier">Dict</span></dt><dd><p>User specified options for filtering</p>
 </dd>
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>Time data to filter</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Filtered time data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.project.preprocess.applyInterpolationOptions">
-<code class="descclassname">resistics.project.preprocess.</code><code class="descname">applyInterpolationOptions</code><span class="sig-paren">(</span><em>options: Dict</em>, <em>timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyInterpolationOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyInterpolationOptions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.project.preprocess.</code><code class="sig-name descname">applyInterpolationOptions</code><span class="sig-paren">(</span><em class="sig-param">options: Dict</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyInterpolationOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyInterpolationOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Interpolate time data</p>
 <p>Interpolate time data to make sure all the data starts on a full second. This is best to do before resampling.</p>
 <p>To interpolate, options[“interp”] needs to be set to True</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>options</strong><span class="classifier">Dict</span></dt><dd><p>Interpolation options in a dictionary</p>
 </dd>
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>Time data object</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Interpolated time data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>This will fail with longer sample periods (i.e. greater than a second)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.project.preprocess.applyNormaliseOptions">
-<code class="descclassname">resistics.project.preprocess.</code><code class="descname">applyNormaliseOptions</code><span class="sig-paren">(</span><em>options: Dict</em>, <em>timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyNormaliseOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyNormaliseOptions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.project.preprocess.</code><code class="sig-name descname">applyNormaliseOptions</code><span class="sig-paren">(</span><em class="sig-param">options: Dict</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyNormaliseOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyNormaliseOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normalise time data</p>
 <p>To normalise, options[“normalise”] needs to be set to True</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>options</strong><span class="classifier">Dict</span></dt><dd><p>User specified options for normalising</p>
 </dd>
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>Time data to filter</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Normalised time data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.project.preprocess.applyNotchOptions">
-<code class="descclassname">resistics.project.preprocess.</code><code class="descname">applyNotchOptions</code><span class="sig-paren">(</span><em>options: Dict</em>, <em>timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyNotchOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyNotchOptions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.project.preprocess.</code><code class="sig-name descname">applyNotchOptions</code><span class="sig-paren">(</span><em class="sig-param">options: Dict</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyNotchOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyNotchOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Notch filter time data</p>
 <p>To notch filter, options[“notch”] needs to be a list of frequencies to filter out. For example, to notch filter at 16.6Hz, this would be:
 options[“notch”] = [16.6]
 For two frequencies, for example 16.6Hz and 50Hz, then:
 options[“notch”] = [16.6, 50]</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>options</strong><span class="classifier">Dict</span></dt><dd><p>User specified options for notching</p>
 </dd>
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>Time data to filter</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Notch filtered time data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.project.preprocess.applyPolarisationReversalOptions">
-<code class="descclassname">resistics.project.preprocess.</code><code class="descname">applyPolarisationReversalOptions</code><span class="sig-paren">(</span><em>options: Dict</em>, <em>timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyPolarisationReversalOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyPolarisationReversalOptions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.project.preprocess.</code><code class="sig-name descname">applyPolarisationReversalOptions</code><span class="sig-paren">(</span><em class="sig-param">options: Dict</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyPolarisationReversalOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyPolarisationReversalOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Polarity reverse time data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>options</strong><span class="classifier">Dict[str, bool]</span></dt><dd><p>User specified options for polarity reversal</p>
 </dd>
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>Time data to polarity reverse</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Polarity reversed time data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.project.preprocess.applyResampleOptions">
-<code class="descclassname">resistics.project.preprocess.</code><code class="descname">applyResampleOptions</code><span class="sig-paren">(</span><em>options: Dict</em>, <em>timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyResampleOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyResampleOptions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.project.preprocess.</code><code class="sig-name descname">applyResampleOptions</code><span class="sig-paren">(</span><em class="sig-param">options: Dict</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyResampleOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyResampleOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resample time data</p>
 <p>The resampling options in the options dictionary should be specified as:
 options[“resample”][frequency to resample from] = frequency to resample to</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>options</strong><span class="classifier">Dict</span></dt><dd><p>Interpolation options in a dictionary</p>
 </dd>
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>Time data object</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Resampled time data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.project.preprocess.applyScaleOptions">
-<code class="descclassname">resistics.project.preprocess.</code><code class="descname">applyScaleOptions</code><span class="sig-paren">(</span><em>options: Dict</em>, <em>timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyScaleOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyScaleOptions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.project.preprocess.</code><code class="sig-name descname">applyScaleOptions</code><span class="sig-paren">(</span><em class="sig-param">options: Dict</em>, <em class="sig-param">timeData: resistics.time.data.TimeData</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/project/preprocess.html#applyScaleOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.project.preprocess.applyScaleOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Scale the time data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>options</strong><span class="classifier">Dict</span></dt><dd><p>User specified options for scaling</p>
 </dd>
 <dt><strong>timeData</strong><span class="classifier">TimeData</span></dt><dd><p>Time data to polarity reverse</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Polarity reversed time data</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -477,7 +445,7 @@ options[“resample”][frequency to resample from] = frequency to resample to</
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

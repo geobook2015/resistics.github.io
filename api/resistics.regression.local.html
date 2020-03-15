@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.regression.local module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.regression.local module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.regression.remote module" href="resistics.regression.remote.html" />
@@ -198,15 +198,13 @@
 <span id="resistics-regression-local-module"></span><h1>resistics.regression.local module<a class="headerlink" href="#module-resistics.regression.local" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.regression.local.LocalRegressor">
-<em class="property">class </em><code class="descclassname">resistics.regression.local.</code><code class="descname">LocalRegressor</code><span class="sig-paren">(</span><em>winSelector: resistics.window.selector.WindowSelector</em>, <em>outpath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.regression.local.</code><code class="sig-name descname">LocalRegressor</code><span class="sig-paren">(</span><em class="sig-param">winSelector: resistics.window.selector.WindowSelector</em>, <em class="sig-param">outpath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.common.base.ResisticsBase</span></code></a></p>
 <p>Performs single site (or intersite) transfer function calculations</p>
 <p>By default, the LocalRegression is setup to calculate the impedance tensor using Hx, Hy as input channels and Ex, Ey as output channels. To calculate the Tipper, the appropriate input and output channels have to be set.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>winSelector</strong><span class="classifier">WindowSelector</span></dt><dd><p>A window selector object which defines which windows to use in the linear model</p>
 </dd>
 <dt><strong>decParams</strong><span class="classifier">DecimationParameters</span></dt><dd><p>DecimationParameters object with information about the decimation scheme</p>
@@ -246,115 +244,103 @@
 <dt><strong>impedances</strong><span class="classifier">List</span></dt><dd></dd>
 <dt><strong>variances</strong><span class="classifier">List</span></dt><dd></dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="36%" />
-<col width="64%" />
+<col style="width: 36%" />
+<col style="width: 64%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>__init__(proj, winSelector, outpath)</strong></td>
-<td>Initialise with a Project instance and MaskData instance</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>__init__(proj, winSelector, outpath)</strong></p></td>
+<td><p>Initialise with a Project instance and MaskData instance</p></td>
 </tr>
-<tr class="row-even"><td><strong>setInput(inSite, inChannels)</strong></td>
-<td>Set the input site and channels</td>
+<tr class="row-even"><td><p><strong>setInput(inSite, inChannels)</strong></p></td>
+<td><p>Set the input site and channels</p></td>
 </tr>
-<tr class="row-odd"><td><strong>setOutput(outSite, outChannels)</strong></td>
-<td>Set the output site and channels</td>
+<tr class="row-odd"><td><p><strong>setOutput(outSite, outChannels)</strong></p></td>
+<td><p>Set the output site and channels</p></td>
 </tr>
-<tr class="row-even"><td><strong>process()</strong></td>
-<td>Process the spectra to calculate the transfer function</td>
+<tr class="row-even"><td><p><strong>process()</strong></p></td>
+<td><p>Process the spectra to calculate the transfer function</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getWindowSmooth()</strong></td>
-<td>Get the window smooth length</td>
+<tr class="row-odd"><td><p><strong>getWindowSmooth()</strong></p></td>
+<td><p>Get the window smooth length</p></td>
 </tr>
-<tr class="row-even"><td><strong>checkForBadValues(numWindows, data)</strong></td>
-<td>Check the spectral data for bad values that might cause an error</td>
+<tr class="row-even"><td><p><strong>checkForBadValues(numWindows, data)</strong></p></td>
+<td><p>Check the spectral data for bad values that might cause an error</p></td>
 </tr>
-<tr class="row-odd"><td><strong>prepareLinearEqn(data)</strong></td>
-<td>Prepare regressors and observations for regression from cross-power data</td>
+<tr class="row-odd"><td><p><strong>prepareLinearEqn(data)</strong></p></td>
+<td><p>Prepare regressors and observations for regression from cross-power data</p></td>
 </tr>
-<tr class="row-even"><td><strong>robustProcess(numWindows, obs, reg)</strong></td>
-<td>Robust regression processing</td>
+<tr class="row-even"><td><p><strong>robustProcess(numWindows, obs, reg)</strong></p></td>
+<td><p>Robust regression processing</p></td>
 </tr>
-<tr class="row-odd"><td><strong>olsProcess(numWindows, obs, reg)</strong></td>
-<td>Ordinary least squares processing</td>
+<tr class="row-odd"><td><p><strong>olsProcess(numWindows, obs, reg)</strong></p></td>
+<td><p>Ordinary least squares processing</p></td>
 </tr>
-<tr class="row-even"><td><strong>stackedProcess(data)</strong></td>
-<td>Stacked processing</td>
+<tr class="row-even"><td><p><strong>stackedProcess(data)</strong></p></td>
+<td><p>Stacked processing</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printList()</strong></td>
-<td>Class status returned as list of strings</td>
+<tr class="row-odd"><td><p><strong>printList()</strong></p></td>
+<td><p>Class status returned as list of strings</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.checkForBadValues">
-<code class="descname">checkForBadValues</code><span class="sig-paren">(</span><em>self</em>, <em>numWindows: int</em>, <em>data: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.checkForBadValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.checkForBadValues" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">checkForBadValues</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">numWindows: int</em>, <em class="sig-param">data: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.checkForBadValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.checkForBadValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check data for bad values and remove</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>numWindows</strong><span class="classifier">int</span></dt><dd><p>The number of windows</p>
 </dd>
 <dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>Cross-spectra data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>numGoodWindows</strong><span class="classifier">int</span></dt><dd><p>The number of good windows</p>
 </dd>
 <dt><strong>goodData</strong><span class="classifier">np.ndarray</span></dt><dd><p>The cross-spectra data with bad windows removed</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.getWindowSmooth">
-<code class="descname">getWindowSmooth</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.getWindowSmooth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.getWindowSmooth" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getWindowSmooth</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.getWindowSmooth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.getWindowSmooth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Window smoothing length</p>
 <p>Power spectra data is smoothed. This returns the size of the smoothing window.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>datasize</strong><span class="classifier">int</span></dt><dd><p>The size of the data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>smoothLen</strong><span class="classifier">int</span></dt><dd><p>Smoothing size</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.olsProcess">
-<code class="descname">olsProcess</code><span class="sig-paren">(</span><em>self</em>, <em>numWindows: int</em>, <em>obs: numpy.ndarray</em>, <em>reg: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, numpy.ndarray]<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.olsProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.olsProcess" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">olsProcess</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">numWindows: int</em>, <em class="sig-param">obs: numpy.ndarray</em>, <em class="sig-param">reg: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray, numpy.ndarray]<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.olsProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.olsProcess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ordinary least squares regression processing</p>
 <p>Perform ordinary least regression processing using observations and regressors for a single evaluation frequency.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>numWindows</strong><span class="classifier">int</span></dt><dd><p>The number of windows</p>
 </dd>
 <dt><strong>obs</strong><span class="classifier">np.ndarray</span></dt><dd><p>The observations</p>
@@ -362,23 +348,21 @@
 <dt><strong>reg</strong><span class="classifier">np.ndarray</span></dt><dd><p>The regressors</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>output</strong><span class="classifier">np.ndarray</span></dt><dd><p>The solution to the regression problem</p>
 </dd>
 <dt><strong>varOutput</strong><span class="classifier">np.ndarray</span></dt><dd><p>The variance</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.prepareLinearEqn">
-<code class="descname">prepareLinearEqn</code><span class="sig-paren">(</span><em>self</em>, <em>data: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.prepareLinearEqn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.prepareLinearEqn" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">prepareLinearEqn</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">data: numpy.ndarray</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.prepareLinearEqn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.prepareLinearEqn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare data as a linear equation for the robust regression</p>
 <p>This prepares the data for the following type of solution,</p>
 <div class="math notranslate nohighlight">
@@ -388,9 +372,9 @@
 The shapes of the arrays are as follows:</p>
 <blockquote>
 <div><ul class="simple">
-<li>y is (number of output channels, number of observations)</li>
-<li>A is (number of output channels, number of observations, number of input channels)</li>
-<li>x is (number of output channels, number of input channels)</li>
+<li><p>y is (number of output channels, number of observations)</p></li>
+<li><p>A is (number of output channels, number of observations, number of input channels)</p></li>
+<li><p>x is (number of output channels, number of input channels)</p></li>
 </ul>
 </div></blockquote>
 <p>Consider the impedance tensor,</p>
@@ -399,17 +383,15 @@ The shapes of the arrays are as follows:</p>
 E_x &amp; = &amp; Z_{xx} H_x + Z_{xy} H_y \\
 E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y 
 \end{eqnarray}  </div><p>Here, there are two input channels, <span class="math notranslate nohighlight">\(H_x\)</span>, <span class="math notranslate nohighlight">\(H_y\)</span> and two output channels <span class="math notranslate nohighlight">\(E_x\)</span> and <span class="math notranslate nohighlight">\(E_y\)</span>. In total, there are four components of the unknown impedance tensor, <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span> (number of input channels * number of output channels). The number of observations is the number of windows multiplied by the number of channels used for cross-power spectra.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>Cross-power spectral data at evaluation frequencies</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>numWindows</strong><span class="classifier">int</span></dt><dd><p>The number of windows included in the regression (after bad value removal)</p>
 </dd>
 <dt><strong>obs</strong><span class="classifier">np.ndarray</span></dt><dd><p>Observations array</p>
@@ -417,50 +399,43 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 <dt><strong>reg</strong><span class="classifier">np.ndarray</span></dt><dd><p>Regressors array</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.printList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>list</dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.process">
-<code class="descname">process</code><span class="sig-paren">(</span><em>self</em>, <em>ncores: int = 0</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.process" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">ncores: int = 0</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.process" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process spectra data</p>
 <p>The processing sequence for each decimation level is as below:</p>
 <ol class="arabic">
-<li><p class="first">Get shared (unmasked) windows for all relevant sites (inSite and outSite)</p>
-</li>
-<li><p class="first">For shared unmasked windows</p>
+<li><p>Get shared (unmasked) windows for all relevant sites (inSite and outSite)</p></li>
+<li><p>For shared unmasked windows</p>
 <blockquote>
 <div><ul class="simple">
-<li>Calculate out the cross-power spectra.</li>
-<li>Interpolate calculated cross-power data to the evaluation frequencies for the decimation level.</li>
+<li><p>Calculate out the cross-power spectra.</p></li>
+<li><p>Interpolate calculated cross-power data to the evaluation frequencies for the decimation level.</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p class="first">For each evaluation frequency</p>
+<li><p>For each evaluation frequency</p>
 <blockquote>
 <div><ul class="simple">
-<li>Do the robust processing to calculate the transfer function at that evaluation frequency.</li>
+<li><p>Do the robust processing to calculate the transfer function at that evaluation frequency.</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -470,14 +445,12 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.robustProcess">
-<code class="descname">robustProcess</code><span class="sig-paren">(</span><em>self</em>, <em>numWindows: int</em>, <em>obs: numpy.ndarray</em>, <em>reg: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray]<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.robustProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.robustProcess" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">robustProcess</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">numWindows: int</em>, <em class="sig-param">obs: numpy.ndarray</em>, <em class="sig-param">reg: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray]<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.robustProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.robustProcess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Robust regression processing</p>
 <p>Perform robust regression processing using observations and regressors for a single evaluation frequency.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>numWindows</strong><span class="classifier">int</span></dt><dd><p>The number of windows</p>
 </dd>
 <dt><strong>obs</strong><span class="classifier">np.ndarray</span></dt><dd><p>The observations</p>
@@ -485,95 +458,79 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 <dt><strong>reg</strong><span class="classifier">np.ndarray</span></dt><dd><p>The regressors</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>output</strong><span class="classifier">np.ndarray</span></dt><dd><p>The solution to the regression problem</p>
 </dd>
 <dt><strong>varOutput</strong><span class="classifier">np.ndarray</span></dt><dd><p>The variance</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.setInput">
-<code class="descname">setInput</code><span class="sig-paren">(</span><em>self, inSite: str, inChannels: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.setInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.setInput" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setInput</code><span class="sig-paren">(</span><em class="sig-param">self, inSite: str, inChannels: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.setInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.setInput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set information about input site and channels</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>inSite</strong><span class="classifier">str</span></dt><dd><p>Site to use for input channel data</p>
 </dd>
 <dt><strong>inChannels</strong><span class="classifier">List[str]</span></dt><dd><p>Channels to use as the input in the linear system</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.setOutput">
-<code class="descname">setOutput</code><span class="sig-paren">(</span><em>self, outSite: str, outChannels: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.setOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.setOutput" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setOutput</code><span class="sig-paren">(</span><em class="sig-param">self, outSite: str, outChannels: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.setOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.setOutput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set information about output site and channels</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>inSite</strong><span class="classifier">str</span></dt><dd><p>Site to use for output channel data</p>
 </dd>
 <dt><strong>inChannels</strong><span class="classifier">List[str]</span></dt><dd><p>Channels to use as the output in the linear system</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.stackedProcess">
-<code class="descname">stackedProcess</code><span class="sig-paren">(</span><em>self</em>, <em>data: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.stackedProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.stackedProcess" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">stackedProcess</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">data: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.stackedProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.stackedProcess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ordinary least squares processing after stacking</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>Cross-spectra data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>output</strong><span class="classifier">np.ndarray</span></dt><dd><p>The solution to the regression problem</p>
 </dd>
 <dt><strong>varOutput</strong><span class="classifier">np.ndarray</span></dt><dd><p>The variance</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.local.LocalRegressor.writeTF">
-<code class="descname">writeTF</code><span class="sig-paren">(</span><em>self</em>, <em>specdir: str</em>, <em>postpend: str</em>, <em>freq</em>, <em>data: numpy.ndarray</em>, <em>variances: numpy.ndarray</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.writeTF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.writeTF" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">writeTF</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">specdir: str</em>, <em class="sig-param">postpend: str</em>, <em class="sig-param">freq</em>, <em class="sig-param">data: numpy.ndarray</em>, <em class="sig-param">variances: numpy.ndarray</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/local.html#LocalRegressor.writeTF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.local.LocalRegressor.writeTF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the transfer function file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>specdir</strong><span class="classifier">str</span></dt><dd><p>The spectra data being used for the transfer function estimate</p>
 </dd>
 <dt><strong>postpend</strong><span class="classifier">str</span></dt><dd><p>The optional postpend to the transfer function file</p>
@@ -587,10 +544,8 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 <dt><strong>remotechans</strong><span class="classifier">List[str], optional</span></dt><dd><p>Optionally add the remote channels if there is a remote site</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -639,7 +594,7 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Processing ASCII data &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Processing ASCII data &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Processing Lemi B423 data" href="processing-lemi-b423.html" />
@@ -183,20 +183,20 @@
 <p>The following is an example of processing long-period ASCII data from a magnotelluric observatory, recorded by a LEMI device and sampled at 0.5 Hz.</p>
 <p>There are five data files, one for each channel:</p>
 <ul class="simple">
-<li>bxnT.ascii</li>
-<li>bynT.ascii</li>
-<li>bznT.ascii</li>
-<li>exmuVm.ascii</li>
-<li>eymuVm.ascii</li>
+<li><p>bxnT.ascii</p></li>
+<li><p>bynT.ascii</p></li>
+<li><p>bznT.ascii</p></li>
+<li><p>exmuVm.ascii</p></li>
+<li><p>eymuVm.ascii</p></li>
 </ul>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The data files can be downloaded from <a class="reference external" href="https://1drv.ms/f/s!ApKs8ZhVotKMgR6lVt3iI4cR6QUg">here</a> for those interested in following along.</p>
+<p class="admonition-title">Note</p>
+<p>The data files can be downloaded from <a class="reference external" href="https://1drv.ms/f/s!ApKs8ZhVotKMgR6lVt3iI4cR6QUg">here</a> for those interested in following along.</p>
 </div>
 <p>The units of the data are the following:</p>
 <ul class="simple">
-<li>Magnetic fields are in nT, which is the unit required by resistics (after calibration).</li>
-<li>Electric fields are in microvolts per metre, which is the equivalent of mV/km, again the unit required by resistics.</li>
+<li><p>Magnetic fields are in nT, which is the unit required by resistics (after calibration).</p></li>
+<li><p>Electric fields are in microvolts per metre, which is the equivalent of mV/km, again the unit required by resistics.</p></li>
 </ul>
 <p>To begin, a new project and site is created.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -280,12 +280,12 @@
 </td></tr></table></div>
 <p>The <a class="reference internal" href="../api/resistics.time.writer.html#resistics.time.writer.TimeWriter.writeTemplateHeaderFiles" title="resistics.time.writer.TimeWriter.writeTemplateHeaderFiles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">writeTemplateHeaderFiles()</span></code></a> creates dummy header files for the ASCII data allowing resistics to read it in appropriately. The dummy files it creates are:</p>
 <ul class="simple">
-<li>chan_00.hdr</li>
-<li>chan_01.hdr</li>
-<li>chan_02.hdr</li>
-<li>chan_03.hdr</li>
-<li>chan_04.hdr</li>
-<li>global.hdr</li>
+<li><p>chan_00.hdr</p></li>
+<li><p>chan_01.hdr</p></li>
+<li><p>chan_02.hdr</p></li>
+<li><p>chan_03.hdr</p></li>
+<li><p>chan_04.hdr</p></li>
+<li><p>global.hdr</p></li>
 </ul>
 <p>The measurement directory should now look like this:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>asciiProject
@@ -313,8 +313,8 @@
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">For a more in depth look at what is being done here, refer to <a class="reference internal" href="../formats/timeseries/ascii-timeseries.html"><span class="doc">ASCII time series</span></a>, which uses the same files to demonstrate ASCII data support in resistics.</p>
+<p class="admonition-title">Note</p>
+<p>For a more in depth look at what is being done here, refer to <a class="reference internal" href="../formats/timeseries/ascii-timeseries.html"><span class="doc">ASCII time series</span></a>, which uses the same files to demonstrate ASCII data support in resistics.</p>
 </div>
 <p>The time series is now ready to be read in. In the below code block, the project and site timelines are plotted, giving two images, and then the time series is visualised.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -478,8 +478,8 @@
 </div>
 <p>Looking at the phase estimates, the phase for the ExHy component is in the wrong quadrant. This is generally due to a different polarity convention, which can be fixed by performing a polarity reversal, which is shown below.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">A polarity reversal sounds impressive but is simply a multiplication by -1. This does not change impedance tensor magnitude (therefore the apparent resistivity) but will have an impact on the phase.</p>
+<p class="admonition-title">Note</p>
+<p>A polarity reversal sounds impressive but is simply a multiplication by -1. This does not change impedance tensor magnitude (therefore the apparent resistivity) but will have an impact on the phase.</p>
 </div>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>70
 71
@@ -563,8 +563,8 @@ minoverlapsize = 32
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">As the new configuration file includes new windowing parameters, a new set of spectra will be calculated out. The <strong>specdir</strong> option in the configuration deals with this.</p>
+<p class="admonition-title">Note</p>
+<p>As the new configuration file includes new windowing parameters, a new set of spectra will be calculated out. The <strong>specdir</strong> option in the configuration deals with this.</p>
 </div>
 <p>The first task it to view the time series data with a polarity reversal. This can be done by specifying the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">polreverse</span></span></code> keyword for <a class="reference internal" href="../api/resistics.project.time.html#resistics.project.time.viewTime" title="resistics.project.time.viewTime"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewTime()</span></code></a> as demonstrated below.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 8
@@ -1364,7 +1364,7 @@ minoverlapsize = 32
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

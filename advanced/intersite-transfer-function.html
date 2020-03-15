@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Intersite transfer functions &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Intersite transfer functions &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Cookbook" href="../cookbook.html" />
@@ -183,25 +183,25 @@
 <p>Intesite transfer functions use input channels from one site and output channels from another. In magnetotellurics, the input sites are usually magnetic and the output electric. In field surveys intended for intersite transfer functions, there are often many sites that record electric channels only.</p>
 <p>In the following example, the data used will be:</p>
 <ul class="simple">
-<li>Data from a Lemi B423 MT station. This data is used in the <a class="reference internal" href="../cookbook/processing-lemi-b423.html"><span class="doc">Processing Lemi B423 data</span></a> example.</li>
-<li>Data from a Lemi B423 telluric station recording only electric channels.</li>
+<li><p>Data from a Lemi B423 MT station. This data is used in the <a class="reference internal" href="../cookbook/processing-lemi-b423.html"><span class="doc">Processing Lemi B423 data</span></a> example.</p></li>
+<li><p>Data from a Lemi B423 telluric station recording only electric channels.</p></li>
 </ul>
 <p>And from the perspective of the magnetotelluric transfer function:</p>
 <ul class="simple">
-<li>The telluric site is the output site as the electric channels are the output of the standard magnetotelluric impedance tensor formulation.</li>
-<li>The magnetotelluric site is the input site as the magnetic channels are the input of the standard magnetotelluric impedance tensor formulation.</li>
+<li><p>The telluric site is the output site as the electric channels are the output of the standard magnetotelluric impedance tensor formulation.</p></li>
+<li><p>The magnetotelluric site is the input site as the magnetic channels are the input of the standard magnetotelluric impedance tensor formulation.</p></li>
 </ul>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">It is recommend to read the <a class="reference internal" href="../cookbook/processing-lemi-b423.html"><span class="doc">Processing Lemi B423 data</span></a> example in the cookbook before following this tutorial to understand more about Lemi B423 data.</p>
+<p class="admonition-title">Note</p>
+<p>It is recommend to read the <a class="reference internal" href="../cookbook/processing-lemi-b423.html"><span class="doc">Processing Lemi B423 data</span></a> example in the cookbook before following this tutorial to understand more about Lemi B423 data.</p>
 </div>
 <p>The steps that will be followed are:</p>
 <ol class="arabic simple">
-<li>Create the project and organise the data (magnetotelluric, telluric and calibration)</li>
-<li>Create the Lemi B423 headers and B423E headers</li>
-<li>Define the configuration to use (based on the results in <a class="reference internal" href="../cookbook/processing-lemi-b423.html"><span class="doc">Processing Lemi B423 data</span></a>)</li>
-<li>Calculate spectra (and statistics for the MT site)</li>
-<li>Process to estimate the intersite impedance tensor</li>
+<li><p>Create the project and organise the data (magnetotelluric, telluric and calibration)</p></li>
+<li><p>Create the Lemi B423 headers and B423E headers</p></li>
+<li><p>Define the configuration to use (based on the results in <a class="reference internal" href="../cookbook/processing-lemi-b423.html"><span class="doc">Processing Lemi B423 data</span></a>)</p></li>
+<li><p>Calculate spectra (and statistics for the MT site)</p></li>
+<li><p>Process to estimate the intersite impedance tensor</p></li>
 </ol>
 <p>Begin by creating the project,</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
@@ -446,8 +446,8 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 </td></tr></table></div>
 <p>Now, statistics can be calculated for the magnetotelluric site.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">There are no useful statistics at this moment for telluric sites nor are there intersite statistics.</p>
+<p class="admonition-title">Note</p>
+<p>There are no useful statistics at this moment for telluric sites nor are there intersite statistics.</p>
 </div>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>53
 54
@@ -516,8 +516,8 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
 </td></tr></table></div>
 <p>The important call in this section of code is the call to <a class="reference internal" href="../api/resistics.project.transfunc.html#resistics.project.transfunc.processSite" title="resistics.project.transfunc.processSite"><code class="xref py py-meth docutils literal notranslate"><span class="pre">processSite()</span></code></a>. In this call, we have set the output site as “site2_te” or the telluric site. The optional input of inputsite has been set to the magnetotellruic site, site1_mt. The result of this is:</p>
 <ul class="simple">
-<li>electric channel data will be taken from site2_te or the telluric site</li>
-<li>magnetic channel data will be take from site1_mt or the magnetotelluric site</li>
+<li><p>electric channel data will be taken from site2_te or the telluric site</p></li>
+<li><p>magnetic channel data will be take from site1_mt or the magnetotelluric site</p></li>
 </ul>
 <p>The resultant intersite transfer function is shown below.</p>
 <div class="align-center figure" id="id3">
@@ -955,7 +955,7 @@ stats = &quot;coherence&quot;, &quot;transferFunction&quot;,
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

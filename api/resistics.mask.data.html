@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.mask.data module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.mask.data module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.mask.io module" href="resistics.mask.io.html" />
@@ -197,14 +197,12 @@
 <span id="resistics-mask-data-module"></span><h1>resistics.mask.data module<a class="headerlink" href="#module-resistics.mask.data" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.mask.data.MaskData">
-<em class="property">class </em><code class="descclassname">resistics.mask.data.</code><code class="descname">MaskData</code><span class="sig-paren">(</span><em>sampleFreq: float</em>, <em>numLevels: int</em>, <em>evalFreq</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.mask.data.</code><code class="sig-name descname">MaskData</code><span class="sig-paren">(</span><em class="sig-param">sampleFreq: float</em>, <em class="sig-param">numLevels: int</em>, <em class="sig-param">evalFreq</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.common.base.html#resistics.common.base.ResisticsBase" title="resistics.common.base.ResisticsBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.common.base.ResisticsBase</span></code></a></p>
 <p>Class for holding information about window masking</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>maskName</strong><span class="classifier">str</span></dt><dd><p>The name of the mask</p>
 </dd>
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency of the data in Hz</p>
@@ -222,67 +220,63 @@
 <dt><strong>stats</strong><span class="classifier">List</span></dt><dd><p>Statistics to use in the masking</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="27%" />
-<col width="73%" />
+<col style="width: 27%" />
+<col style="width: 73%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>__init__(sampleFreq, numLevels, evalFreq, kwargs)</strong></td>
-<td>Initialise maskData</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>__init__(sampleFreq, numLevels, evalFreq, kwargs)</strong></p></td>
+<td><p>Initialise maskData</p></td>
 </tr>
-<tr class="row-even"><td><strong>setStats(stats)</strong></td>
-<td>Set the statistics used in the MaskData</td>
+<tr class="row-even"><td><p><strong>setStats(stats)</strong></p></td>
+<td><p>Set the statistics used in the MaskData</p></td>
 </tr>
-<tr class="row-odd"><td><strong>addConstraint(stat, constraint, insideOut)</strong></td>
-<td>Add constraints for statistic stat for all evaluation frequencies</td>
+<tr class="row-odd"><td><p><strong>addConstraint(stat, constraint, insideOut)</strong></p></td>
+<td><p>Add constraints for statistic stat for all evaluation frequencies</p></td>
 </tr>
-<tr class="row-even"><td><strong>addConstraintLevel(stat, constraint, level, insideOut)</strong></td>
-<td>Add constraints for statistic stat for all evaluation frequencies for a single decimation level</td>
+<tr class="row-even"><td><p><strong>addConstraintLevel(stat, constraint, level, insideOut)</strong></p></td>
+<td><p>Add constraints for statistic stat for all evaluation frequencies for a single decimation level</p></td>
 </tr>
-<tr class="row-odd"><td><strong>addConstraintFreq(stat, constraint, level, eIdx, insideOut)</strong></td>
-<td>Add a constraint for statistic stat for a particular evaluation frequency</td>
+<tr class="row-odd"><td><p><strong>addConstraintFreq(stat, constraint, level, eIdx, insideOut)</strong></p></td>
+<td><p>Add a constraint for statistic stat for a particular evaluation frequency</p></td>
 </tr>
-<tr class="row-even"><td><strong>getConstraintFreq(level, eIdx, stat = “”)</strong></td>
-<td>Get the constraints for a evaluation frequency provided by the level and the evaluation frequency index and optional request constraints only for a particular statistic</td>
+<tr class="row-even"><td><p><strong>getConstraintFreq(level, eIdx, stat = “”)</strong></p></td>
+<td><p>Get the constraints for a evaluation frequency provided by the level and the evaluation frequency index and optional request constraints only for a particular statistic</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getMaskWindowsFreq(level, eIdx)</strong></td>
-<td>Get a set of the masked windows for an evaluation frequency identified by decimation level and evaluation frequency index</td>
+<tr class="row-odd"><td><p><strong>getMaskWindowsFreq(level, eIdx)</strong></p></td>
+<td><p>Get a set of the masked windows for an evaluation frequency identified by decimation level and evaluation frequency index</p></td>
 </tr>
-<tr class="row-even"><td><strong>prepareDicts()</strong></td>
-<td>Prepare the storage dictionaries given a new set of statistics</td>
+<tr class="row-even"><td><p><strong>prepareDicts()</strong></p></td>
+<td><p>Prepare the storage dictionaries given a new set of statistics</p></td>
 </tr>
-<tr class="row-odd"><td><strong>resetMaskWindows()</strong></td>
-<td>Clear the masked windows</td>
+<tr class="row-odd"><td><p><strong>resetMaskWindows()</strong></p></td>
+<td><p>Clear the masked windows</p></td>
 </tr>
-<tr class="row-even"><td><strong>view(level)</strong></td>
-<td>View the masked windows at a particular decimation level</td>
+<tr class="row-even"><td><p><strong>view(level)</strong></p></td>
+<td><p>View the masked windows at a particular decimation level</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printList()</strong></td>
-<td>Class status returned as list of strings</td>
+<tr class="row-odd"><td><p><strong>printList()</strong></p></td>
+<td><p>Class status returned as list of strings</p></td>
 </tr>
-<tr class="row-even"><td><strong>printConstraints()</strong></td>
-<td>Print constraint information to the console</td>
+<tr class="row-even"><td><p><strong>printConstraints()</strong></p></td>
+<td><p>Print constraint information to the console</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printConstraintsList()</strong></td>
-<td>Return constraint information as a list of strings</td>
+<tr class="row-odd"><td><p><strong>printConstraintsList()</strong></p></td>
+<td><p>Return constraint information as a list of strings</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.addConstraint">
-<code class="descname">addConstraint</code><span class="sig-paren">(</span><em>self, stat: str, constraint: Dict[str, List], insideOut: List[str] = []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.addConstraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.addConstraint" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addConstraint</code><span class="sig-paren">(</span><em class="sig-param">self, stat: str, constraint: Dict[str, List], insideOut: List[str] = []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.addConstraint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.addConstraint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a constraint for all levels and evaluation frequencies</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic to be constrained</p>
 </dd>
 <dt><strong>constraint</strong><span class="classifier">Dict</span></dt><dd><p>The constraint parameter specified as {“statistic component”: [valueMin, valueMax]}</p>
@@ -290,21 +284,17 @@
 <dt><strong>insideOut</strong><span class="classifier">List[str], optional with default as range specified is range to include</span></dt><dd><p>The constraints for which the range specified in the constraint is the range to exclude rather than include</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.addConstraintFreq">
-<code class="descname">addConstraintFreq</code><span class="sig-paren">(</span><em>self, stat: str, constraint: Dict[str, List], declevel: int, eIdx: int, insideOut: List[str] = []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.addConstraintFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.addConstraintFreq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addConstraintFreq</code><span class="sig-paren">(</span><em class="sig-param">self, stat: str, constraint: Dict[str, List], declevel: int, eIdx: int, insideOut: List[str] = []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.addConstraintFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.addConstraintFreq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a constraint for an evaluation frequency</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic to be constrained</p>
 </dd>
 <dt><strong>constraint</strong><span class="classifier">Dict</span></dt><dd><p>The constraint parameter specified as {“statistic component”: [valueMin, valueMax]}</p>
@@ -316,21 +306,17 @@
 <dt><strong>insideOut</strong><span class="classifier">List[str], optional with default as range specified is range to include</span></dt><dd><p>The constraints for which the range specified in the constraint is the range to exclude rather than include</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.addConstraintLevel">
-<code class="descname">addConstraintLevel</code><span class="sig-paren">(</span><em>self, stat: str, constraint: Dict[str, List], declevel: int, insideOut: List[str] = []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.addConstraintLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.addConstraintLevel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addConstraintLevel</code><span class="sig-paren">(</span><em class="sig-param">self, stat: str, constraint: Dict[str, List], declevel: int, insideOut: List[str] = []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.addConstraintLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.addConstraintLevel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a constraint for a whole decimation level</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic to be constrained</p>
 </dd>
 <dt><strong>constraint</strong><span class="classifier">Dict</span></dt><dd><p>The constraint parameter specified as {“statistic component”: [valueMin, valueMax]}</p>
@@ -340,21 +326,17 @@
 <dt><strong>insideOut</strong><span class="classifier">List[str], optional with default as range specified is range to include</span></dt><dd><p>The constraints for which the range specified in the constraint is the range to exclude rather than include</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.getConstraintFreq">
-<code class="descname">getConstraintFreq</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int</em>, <em>eIdx: int</em>, <em>stat: str = ''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.getConstraintFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.getConstraintFreq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getConstraintFreq</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int</em>, <em class="sig-param">eIdx: int</em>, <em class="sig-param">stat: str = ''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.getConstraintFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.getConstraintFreq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get constraints for an evaluation frequency</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level</p>
 </dd>
 <dt><strong>eIdx</strong><span class="classifier">int</span></dt><dd><p>Evaluation Frequency index</p>
@@ -362,125 +344,105 @@
 <dt><strong>stat</strong><span class="classifier">str</span></dt><dd><p>The statistic for which to return the constraints</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">list</span></dt><dd><p>Constraints for the evaluation frequency</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.getMaskWindowsFreq">
-<code class="descname">getMaskWindowsFreq</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int</em>, <em>eIdx: int</em><span class="sig-paren">)</span> &#x2192; Set[int]<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.getMaskWindowsFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.getMaskWindowsFreq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getMaskWindowsFreq</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int</em>, <em class="sig-param">eIdx: int</em><span class="sig-paren">)</span> &#x2192; Set[int]<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.getMaskWindowsFreq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.getMaskWindowsFreq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a set of the masked windows (used by WindowSelector)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>declevel</strong><span class="classifier">int</span></dt><dd><p>The decimation level</p>
 </dd>
 <dt><strong>eIdx</strong><span class="classifier">int</span></dt><dd><p>Evaluation Frequency index</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">Set[int]</span></dt><dd><p>A set with the indices of the masked windows</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.prepareDicts">
-<code class="descname">prepareDicts</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.prepareDicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.prepareDicts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">prepareDicts</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.prepareDicts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.prepareDicts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare dictionaries for storing masking information</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.printConstraints">
-<code class="descname">printConstraints</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.printConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.printConstraints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printConstraints</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.printConstraints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.printConstraints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print information about the constraints</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.printConstraintsList">
-<code class="descname">printConstraintsList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.printConstraintsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.printConstraintsList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printConstraintsList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.printConstraintsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.printConstraintsList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constraint information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.printList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">List[str]</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.resetMaskWindows">
-<code class="descname">resetMaskWindows</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.resetMaskWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.resetMaskWindows" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">resetMaskWindows</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.resetMaskWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.resetMaskWindows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset/Clear the masked windows</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.setStats">
-<code class="descname">setStats</code><span class="sig-paren">(</span><em>self</em>, <em>stats</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.setStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.setStats" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setStats</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stats</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.setStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.setStats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the statistics to use for the constraints</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>stats</strong><span class="classifier">List[str]</span></dt><dd><p>A list of statistics for which constraints will be provided</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.mask.data.MaskData.view">
-<code class="descname">view</code><span class="sig-paren">(</span><em>self</em>, <em>declevel: int = 0</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.view" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">view</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">declevel: int = 0</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; matplotlib.figure.Figure<a class="reference internal" href="../_modules/resistics/mask/data.html#MaskData.view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.mask.data.MaskData.view" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produces a 2-D plot with all the masked windows along the bottom for a decimation level</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>declevel</strong><span class="classifier">int, optional</span></dt><dd><p>The decimation level. Default is 0.</p>
 </dd>
 <dt><strong>fig</strong><span class="classifier">matplotlib.pyplot.figure, optional</span></dt><dd><p>A figure object</p>
@@ -488,10 +450,8 @@
 <dt><strong>plotfonts</strong><span class="classifier">Dict, optional</span></dt><dd><p>A dictionary of plot fonts</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -540,7 +500,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

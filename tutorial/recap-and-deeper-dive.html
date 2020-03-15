@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Recap and deeper dive &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Recap and deeper dive &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Date and time constraints" href="date-time-constraints.html" />
@@ -217,32 +217,32 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 <p>This equations are solved at a set of frequencies called the <strong>evaluation frequencies</strong>. These are normally chosen on a log scale.</p>
 <p>So theoretically, a magnetotelluric processing system could do the following:</p>
 <ol class="arabic simple">
-<li>Transform full electric and magnetic field time series measurements to frequency domain</li>
-<li>Calculate cross-power spectra</li>
-<li>Select a set of evaluation frequencies</li>
-<li>For each evaluation frequency, perform linear regression to solve for <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span></li>
+<li><p>Transform full electric and magnetic field time series measurements to frequency domain</p></li>
+<li><p>Calculate cross-power spectra</p></li>
+<li><p>Select a set of evaluation frequencies</p></li>
+<li><p>For each evaluation frequency, perform linear regression to solve for <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span></p></li>
 </ol>
 <p>However, the impedance tensor estimates can be improved by providing more equations or by stacking cross-power spectra, especially in the presence of electromagnetic noise. This is usually done by windowing the time series, in which case the processing flow looks like this:</p>
 <ol class="arabic simple">
-<li>Choose window parameters (window size and overlap size between windows)</li>
-<li>Transform each window into frequency domain (calculate spectra)</li>
-<li>Calculate cross-power spectra at a set of evaluation frequencies</li>
-<li>Stack the cross-power spectra for the different windows</li>
-<li>For each evaluation frequency, perform linear regression to solve for <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span></li>
+<li><p>Choose window parameters (window size and overlap size between windows)</p></li>
+<li><p>Transform each window into frequency domain (calculate spectra)</p></li>
+<li><p>Calculate cross-power spectra at a set of evaluation frequencies</p></li>
+<li><p>Stack the cross-power spectra for the different windows</p></li>
+<li><p>For each evaluation frequency, perform linear regression to solve for <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span></p></li>
 </ol>
 <p>There are other variants on this and stacking strategies. It is not necessary for stacking to be performed and instead cross-powers from a set of randomly selected windows can be used. Further, linear regression can be replaced by robust regression.</p>
 <p>For the purposes of calculating out the longer period evaluation frequencies, the time data is usually decimated before the process is repeated. Explicitly, this means:</p>
 <ul>
-<li><p class="first">For decimation level in number of decimation levels</p>
+<li><p>For decimation level in number of decimation levels</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li>Decimate time series by the decimation factor</li>
-<li>Choose window parameters for decimation level</li>
-<li>Select evaluation frequencies for decimation level</li>
-<li>Transform each window into frequency domain (calculate spectra)</li>
-<li>Calculate cross-power spectra at the evaluation frequencies</li>
-<li>Stack the cross-power spectra for the different windows</li>
-<li>For each evaluation frequency, perform linear regression to solve for <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span></li>
+<li><p>Decimate time series by the decimation factor</p></li>
+<li><p>Choose window parameters for decimation level</p></li>
+<li><p>Select evaluation frequencies for decimation level</p></li>
+<li><p>Transform each window into frequency domain (calculate spectra)</p></li>
+<li><p>Calculate cross-power spectra at the evaluation frequencies</p></li>
+<li><p>Stack the cross-power spectra for the different windows</p></li>
+<li><p>For each evaluation frequency, perform linear regression to solve for <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span></p></li>
 </ol>
 </div></blockquote>
 </li>
@@ -415,11 +415,11 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 <p>The <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> class is a key component of resistics. Before processing time windows (and their respective spectra) to calculate transfer function estimates, the windows to use have to be selected. The <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> class is the how windows are selected.</p>
 <p>Below are a few scenarios under which windows might have to be selected:</p>
 <ol class="arabic simple">
-<li>Single site processing, use all the data</li>
-<li>Single site processing with masks and/or date and time constraints</li>
-<li>Remote reference processing with two sites with masks and/or date and time constraints</li>
-<li>Intersite processing with two sites</li>
-<li>Intersite processing with a remote reference as a third site</li>
+<li><p>Single site processing, use all the data</p></li>
+<li><p>Single site processing with masks and/or date and time constraints</p></li>
+<li><p>Remote reference processing with two sites with masks and/or date and time constraints</p></li>
+<li><p>Intersite processing with two sites</p></li>
+<li><p>Intersite processing with a remote reference as a third site</p></li>
 </ol>
 <p>Let’s compare 1 and 2 as simple examples. The others will be introduced in the <a class="reference internal" href="../advanced.html"><span class="doc">Advanced</span></a> section.</p>
 <p>Begin by getting a <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> instance. In this case, the 128 Hz data is being used.</p>
@@ -614,8 +614,8 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 </td></tr></table></div>
 <p>The <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector" title="resistics.window.selector.WindowSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">WindowSelector</span></code></a> has functionality to limit windows using date and time constraints. Date and time constraints can be provided using the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.addDateConstraint" title="resistics.window.selector.WindowSelector.addDateConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDateConstraint()</span></code></a>, <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.addTimeConstraint" title="resistics.window.selector.WindowSelector.addTimeConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addTimeConstraint()</span></code></a> and <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.addDatetimeConstraint" title="resistics.window.selector.WindowSelector.addDatetimeConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDatetimeConstraint()</span></code></a> methods.</p>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">Providing a date or time constraint means that only windows which are inside these date/time constraints will be selected. Any windows which are outside the date/time constraint will be discarded.</p>
+<p class="admonition-title">Important</p>
+<p>Providing a date or time constraint means that only windows which are inside these date/time constraints will be selected. Any windows which are outside the date/time constraint will be discarded.</p>
 </div>
 <p>Below is an example of providing a date constraint using the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.addDateConstraint" title="resistics.window.selector.WindowSelector.addDateConstraint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">addDateConstraint()</span></code></a> method. After running the <a class="reference internal" href="../api/resistics.window.selector.html#resistics.window.selector.WindowSelector.calcSharedWindows" title="resistics.window.selector.WindowSelector.calcSharedWindows"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calcSharedWindows()</span></code></a> method, only time windows within this date/time constraint will be selected.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>34
@@ -1054,8 +1054,8 @@ E_{y}(\omega) &amp; = &amp; Z_{yx}(\omega) H_{x}(\omega) + Z_{yy}(\omega) H_{y}(
 </td></tr></table></div>
 <p>However, there has been no change in the number of shared windows, despite the application of the masks. This is because:</p>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">Recall that statistics are calculated for each evaluation frequency. Therefore masks are applied on an evaluation frequency basis rather than decimation level.</p>
+<p class="admonition-title">Important</p>
+<p>Recall that statistics are calculated for each evaluation frequency. Therefore masks are applied on an evaluation frequency basis rather than decimation level.</p>
 </div>
 <p>The loop below can demonstrate the effect of masks on the number of windows for each evaluation frequency.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>53
@@ -1178,8 +1178,8 @@ Decimation level = 7, evaluation frequency = 0.000, number of windows = 0
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">To see how to use date and time constraints in the processing of magnetotelluric data, see  <a class="reference internal" href="date-time-constraints.html"><span class="doc">Date and time constraints</span></a>.</p>
+<p class="admonition-title">Note</p>
+<p>To see how to use date and time constraints in the processing of magnetotelluric data, see  <a class="reference internal" href="date-time-constraints.html"><span class="doc">Date and time constraints</span></a>.</p>
 </div>
 </div>
 <div class="section" id="complete-example-script">
@@ -1371,7 +1371,7 @@ Decimation level = 7, evaluation frequency = 0.000, number of windows = 0
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

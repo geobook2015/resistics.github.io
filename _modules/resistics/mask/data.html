@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.mask.data &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.mask.data &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 
@@ -285,8 +285,8 @@
 <span class="sd">        insideOut : List[str], optional with default as range specified is range to include</span>
 <span class="sd">            The constraints for which the range specified in the constraint is the range to exclude rather than include</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">ilevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">addConstraintLevel</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">constraint</span><span class="p">,</span> <span class="n">ilevel</span><span class="p">,</span> <span class="n">insideOut</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addConstraintLevel</span><span class="p">(</span><span class="n">stat</span><span class="p">,</span> <span class="n">constraint</span><span class="p">,</span> <span class="n">declevel</span><span class="p">,</span> <span class="n">insideOut</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MaskData.addConstraintLevel"><a class="viewcode-back" href="../../../api/resistics.mask.data.html#resistics.mask.data.MaskData.addConstraintLevel">[docs]</a>    <span class="k">def</span> <span class="nf">addConstraintLevel</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -384,8 +384,8 @@
 
 <div class="viewcode-block" id="MaskData.prepareDicts"><a class="viewcode-back" href="../../../api/resistics.mask.data.html#resistics.mask.data.MaskData.prepareDicts">[docs]</a>    <span class="k">def</span> <span class="nf">prepareDicts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Prepare dictionaries for storing masking information&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">ilevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">ilevel</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">declevel</span><span class="p">]:</span>
                 <span class="c1"># empty set for maskWindows to start off with</span>
                 <span class="c1"># i.e. remove none</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -397,8 +397,8 @@
 
 <div class="viewcode-block" id="MaskData.resetMaskWindows"><a class="viewcode-back" href="../../../api/resistics.mask.data.html#resistics.mask.data.MaskData.resetMaskWindows">[docs]</a>    <span class="k">def</span> <span class="nf">resetMaskWindows</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Reset/Clear the masked windows&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">ilevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">ilevel</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">declevel</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">numLevels</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">evalFreq</span><span class="p">[</span><span class="n">declevel</span><span class="p">]:</span>
                 <span class="c1"># empty set for maskWindows to start off with</span>
                 <span class="c1"># i.e. remove none</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span></div>
@@ -598,7 +598,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

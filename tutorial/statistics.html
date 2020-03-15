@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Statistics &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Statistics &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Masks" href="masks.html" />
@@ -205,8 +205,8 @@
 </td></tr></table></div>
 <p>The next step is to get a list of the resistics built in statistics. These come in two flavours:</p>
 <ul class="simple">
-<li>Statistics that are calculated for a single site</li>
-<li>Statistics that incorporate a remote reference site</li>
+<li><p>Statistics that are calculated for a single site</p></li>
+<li><p>Statistics that incorporate a remote reference site</p></li>
 </ul>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 7
  8
@@ -218,8 +218,8 @@
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">For statistics that incorporate a remote reference, please see <a class="reference internal" href="../advanced/remote-reference-statistics.html"><span class="doc">Remote reference statistics</span></a>.</p>
+<p class="admonition-title">Note</p>
+<p>For statistics that incorporate a remote reference, please see <a class="reference internal" href="../advanced/remote-reference-statistics.html"><span class="doc">Remote reference statistics</span></a>.</p>
 </div>
 <p>Statistics are calculated using the <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.calculateStatistics" title="resistics.project.statistics.calculateStatistics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">calculateStatistics()</span></code></a> method of the project <a class="reference internal" href="../api/resistics.project.statistics.html#module-resistics.project.statistics" title="resistics.project.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a> module. By default, this does not calculate all available statistics but by passing the <strong>stats</strong> keyword, the statistics to calculate can be specified.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>12
@@ -233,12 +233,12 @@
 </td></tr></table></div>
 <p>The single site statistics which are calculated by default are coherence and transfer function values. There are two ways to manually specify the statistics to calculate. These are:</p>
 <ul class="simple">
-<li>By providing the <strong>stats</strong> keyword with a list of statistics as above</li>
-<li>By defining the statistics to use in a configuration file</li>
+<li><p>By providing the <strong>stats</strong> keyword with a list of statistics as above</p></li>
+<li><p>By defining the statistics to use in a configuration file</p></li>
 </ul>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Calculating statistics is quite demanding on compute. If the time series data quality is generally good, it is sufficient to calculate out only window coherence or window coherence and impedance tensor. In more complex situations, some of the other statistics may add value. For more on the different statistics available on what they mean, please see <a class="reference internal" href="../features/statistics.html"><span class="doc">Statistics</span></a> and <a class="reference internal" href="../features/remote-statistics.html"><span class="doc">Remote statistics</span></a>.</p>
+<p class="admonition-title">Note</p>
+<p>Calculating statistics is quite demanding on compute. If the time series data quality is generally good, it is sufficient to calculate out only window coherence or window coherence and impedance tensor. In more complex situations, some of the other statistics may add value. For more on the different statistics available on what they mean, please see <a class="reference internal" href="../features/statistics.html"><span class="doc">Statistics</span></a> and <a class="reference internal" href="../features/remote-statistics.html"><span class="doc">Remote statistics</span></a>.</p>
 </div>
 <p>Once calculated, statistics are stored in the following location:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>exampleProject
@@ -325,10 +325,10 @@
 </div>
 <p>Every statistic is indexed by:</p>
 <ol class="arabic simple">
-<li>The site</li>
-<li>The time series measurement directory</li>
-<li>The spectra directory</li>
-<li>The name of the statistic</li>
+<li><p>The site</p></li>
+<li><p>The time series measurement directory</p></li>
+<li><p>The spectra directory</p></li>
+<li><p>The name of the statistic</p></li>
 </ol>
 <p>When statistics are written out, they are written out with a comments file detailing the processing sequence of the data. An example comments file is shown below:</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -442,10 +442,10 @@ Statistic data for statistic coherence written to E:\magnetotellurics\code\resis
 <p>The <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.getStatisticData" title="resistics.project.statistics.getStatisticData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getStatisticData()</span></code></a> method returns a <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData" title="resistics.statistics.data.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a> object. Statistic data is another data object similar to <a class="reference internal" href="../api/resistics.project.data.html#resistics.project.data.ProjectData" title="resistics.project.data.ProjectData"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectData</span></code></a>, <a class="reference internal" href="../api/resistics.site.data.html#resistics.site.data.SiteData" title="resistics.site.data.SiteData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SiteData</span></code></a>, <a class="reference internal" href="../api/resistics.time.data.html#resistics.time.data.TimeData" title="resistics.time.data.TimeData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeData</span></code></a> or <a class="reference internal" href="../api/resistics.spectra.data.html#resistics.spectra.data.SpectrumData" title="resistics.spectra.data.SpectrumData"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpectrumData</span></code></a>.</p>
 <p>There are multiple view methods in <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData" title="resistics.statistics.data.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a>. These are:</p>
 <ul class="simple">
-<li><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.view" title="resistics.statistics.data.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a>, which plots the statistic value against time</li>
-<li><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.histogram" title="resistics.statistics.data.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a>, which plots a histogram of the statistic</li>
-<li><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.crossplot" title="resistics.statistics.data.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a>, which plots crossplots of the statistic components</li>
-<li><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.densityplot" title="resistics.statistics.data.StatisticData.densityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">densityplot()</span></code></a>, which plots 2-D histograms (density plots) of the statistic components</li>
+<li><p><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.view" title="resistics.statistics.data.StatisticData.view"><code class="xref py py-meth docutils literal notranslate"><span class="pre">view()</span></code></a>, which plots the statistic value against time</p></li>
+<li><p><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.histogram" title="resistics.statistics.data.StatisticData.histogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">histogram()</span></code></a>, which plots a histogram of the statistic</p></li>
+<li><p><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.crossplot" title="resistics.statistics.data.StatisticData.crossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">crossplot()</span></code></a>, which plots crossplots of the statistic components</p></li>
+<li><p><a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData.densityplot" title="resistics.statistics.data.StatisticData.densityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">densityplot()</span></code></a>, which plots 2-D histograms (density plots) of the statistic components</p></li>
 </ul>
 <p>Examples of using these methods to view statistic values and variation are shown below:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>30
@@ -594,9 +594,9 @@ Statistic data for statistic coherence written to E:\magnetotellurics\code\resis
 </div>
 <p>In all of these cases, a 0 is being passed to the plotting methods. This 0 is the evaluation frequency index for that decimation level. Changing it will plot a different evaluation frequency.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>The evaluation frequency index starts from 0 and goes to the number of evaluation frequencies per decimation level - 1. So if there are 7 evaluation frequencies per decimation level, the evaluation frequency indices will be 0, 1, 2, 3, 4, 5, 6.</p>
-<p class="last">Evaluation frequency and decimation level indices will be covered in more detail further down.</p>
+<p>Evaluation frequency and decimation level indices will be covered in more detail further down.</p>
 </div>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>85
 86
@@ -613,15 +613,15 @@ Statistic data for statistic coherence written to E:\magnetotellurics\code\resis
 <h2>Statistics across time series measurements<a class="headerlink" href="#statistics-across-time-series-measurements" title="Permalink to this headline">¶</a></h2>
 <p>The above examples were reading in statistic data for a single measurement. However, in many cases, the statistics over all the time series measurements of a certain sampling frequency in a site are of more interest. In order to plot and view these, the methods available in the <a class="reference internal" href="../api/resistics.project.html#module-resistics.project" title="resistics.project"><code class="xref py py-mod docutils literal notranslate"><span class="pre">project</span></code></a> <a class="reference internal" href="../api/resistics.project.statistics.html#module-resistics.project.statistics" title="resistics.project.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a> module will be more useful. The project module <a class="reference internal" href="../api/resistics.project.statistics.html#module-resistics.project.statistics" title="resistics.project.statistics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statistics</span></code></a> has four plotting methods:</p>
 <ul class="simple">
-<li><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic" title="resistics.project.statistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a></li>
-<li><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticHistogram" title="resistics.project.statistics.viewStatisticHistogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticHistogram()</span></code></a></li>
-<li><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticCrossplot" title="resistics.project.statistics.viewStatisticCrossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticCrossplot()</span></code></a></li>
-<li><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticDensityplot" title="resistics.project.statistics.viewStatisticDensityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticDensityplot()</span></code></a></li>
+<li><p><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic" title="resistics.project.statistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticHistogram" title="resistics.project.statistics.viewStatisticHistogram"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticHistogram()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticCrossplot" title="resistics.project.statistics.viewStatisticCrossplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticCrossplot()</span></code></a></p></li>
+<li><p><a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatisticDensityplot" title="resistics.project.statistics.viewStatisticDensityplot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatisticDensityplot()</span></code></a></p></li>
 </ul>
 <p>These do much the same as the methods available in the class <a class="reference internal" href="../api/resistics.statistics.data.html#resistics.statistics.data.StatisticData" title="resistics.statistics.data.StatisticData"><code class="xref py py-class docutils literal notranslate"><span class="pre">StatisticData</span></code></a>, however, they will bring together all the statistics in a site for measurements of a given sampling frequency.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">For the tutorial project, there is only a single measurement at 128 Hz and a single measurement at 4096 Hz, meaning that this is not the best example of the functionality. For more interesting examples, please see <a class="reference internal" href="../cookbook/statistic-plotting.html"><span class="doc">Statistic plotting</span></a> in the cookbook.</p>
+<p class="admonition-title">Note</p>
+<p>For the tutorial project, there is only a single measurement at 128 Hz and a single measurement at 4096 Hz, meaning that this is not the best example of the functionality. For more interesting examples, please see <a class="reference internal" href="../cookbook/statistic-plotting.html"><span class="doc">Statistic plotting</span></a> in the cookbook.</p>
 </div>
 <p>For example, statistic value variation across time can be plotted using <a class="reference internal" href="../api/resistics.project.statistics.html#resistics.project.statistics.viewStatistic" title="resistics.project.statistics.viewStatistic"><code class="xref py py-meth docutils literal notranslate"><span class="pre">viewStatistic()</span></code></a>:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 88
@@ -682,10 +682,10 @@ Statistic data for statistic coherence written to E:\magnetotellurics\code\resis
 </div>
 <p>Recall, statistic values are calculated on an evaluation frequency basis. Currently, 32 Hz has been plotted, but other evaluation frequencies can be plotted by using the <code class="code python docutils literal notranslate"><span class="name"><span class="pre">declevel</span></span></code> and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">eFreqI</span></span></code> keywords`.</p>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
+<p class="admonition-title">Important</p>
 <p>The meaning of <code class="code python docutils literal notranslate"><span class="name"><span class="pre">declevel</span></span></code> (decimation level index) and <code class="code python docutils literal notranslate"><span class="name"><span class="pre">eFreqI</span></span></code> (evaluation frequency index) are best demonstrated with an example.</p>
 <p>Consider the evaluation frequencies in this set up using 8 decimation levels and 5 evaluation frequencies per level with a data sampling frequency of 128 Hz:</p>
-<blockquote class="last">
+<blockquote>
 <div><div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Decimation Level = 0: 32.00000000, 22.62741700, 16.00000000, 11.31370850, 8.00000000
 Decimation Level = 1: 5.65685425, 4.00000000, 2.82842712, 2.00000000, 1.41421356
 Decimation Level = 2: 1.00000000, 0.70710678, 0.50000000, 0.35355339, 0.25000000
@@ -699,9 +699,9 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
 <p>Decimation level numbering starts from 0 (and with 8 decimation levels, extends to 7). Evaluation frequency numbering begins from 0 (and with 5 evaluation frequencies per decimation level, extends to 4).</p>
 <p>The decimation and evaluation frequency indices can be best demonstrated using a few of examples:</p>
 <ul class="simple">
-<li>Evaluation frequency 32 Hz, decimation level = 0, evaluation frequency index = 0</li>
-<li>Evaluation frequency 1 Hz, decimation level = 2, evaluation frequency index = 0</li>
-<li>Evaluation frequency 0.35355339 Hz, decimation level = 2, evaluation frequency index = 3</li>
+<li><p>Evaluation frequency 32 Hz, decimation level = 0, evaluation frequency index = 0</p></li>
+<li><p>Evaluation frequency 1 Hz, decimation level = 2, evaluation frequency index = 0</p></li>
+<li><p>Evaluation frequency 0.35355339 Hz, decimation level = 2, evaluation frequency index = 3</p></li>
 </ul>
 <p>The main motivation behind this is the difficulty in manually specifying evaluation frequencies such as 0.35355339 Hz.</p>
 </div></blockquote>
@@ -1099,7 +1099,7 @@ Decimation Level = 7: 0.00017263, 0.00012207, 0.00008632, 0.00006104, 0.00004316
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

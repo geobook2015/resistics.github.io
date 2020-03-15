@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Metronix Calibration &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Metronix Calibration &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="RSP Calibration" href="rsp-calibration.html" />
@@ -188,39 +188,39 @@
 <p>Metronix calibration files are ASCII files with some metadata and calibration information for when the induction coil is operating with either the pre-amplifier chopper on or chopper off.</p>
 <p>The units of metronix calibration files are interpreted to be:</p>
 <ul class="simple">
-<li>Frequency in Hz</li>
-<li>Magnitude in V/(nT*Hz)</li>
-<li>Phase in degrees</li>
+<li><p>Frequency in Hz</p></li>
+<li><p>Magnitude in V/(nT*Hz)</p></li>
+<li><p>Phase in degrees</p></li>
 </ul>
 <p>Resistics will automatically convert these units to:</p>
 <ul class="simple">
-<li>Frequency in Hz</li>
-<li>Magnitude in mV/nT (including any static gain)</li>
-<li>Phase in radians</li>
+<li><p>Frequency in Hz</p></li>
+<li><p>Magnitude in mV/nT (including any static gain)</p></li>
+<li><p>Phase in radians</p></li>
 </ul>
 <div class="section" id="naming-in-the-project-environment">
 <h2>Naming in the project environment<a class="headerlink" href="#naming-in-the-project-environment" title="Permalink to this headline">¶</a></h2>
 <p>When using the project environment, resistics automatically searches for calibration files in the calData folder.
 Metronix files should be named according to the following specification:</p>
 <div class="admonition important">
-<p class="first admonition-title">Important</p>
+<p class="admonition-title">Important</p>
 <p>[*][SENSOR][SERIAL].TXT</p>
 <p>where,</p>
-<ul class="last simple">
-<li>SENSOR is the sensor type</li>
-<li>SERIAL is the serial number</li>
-<li>[*] represents any general string</li>
+<ul class="simple">
+<li><p>SENSOR is the sensor type</p></li>
+<li><p>SERIAL is the serial number</p></li>
+<li><p>[*] represents any general string</p></li>
 </ul>
 </div>
 <p>As an example, consider an induction coil with:</p>
 <ul class="simple">
-<li>sensor type MFS06</li>
-<li>sensor serial number 365</li>
+<li><p>sensor type MFS06</p></li>
+<li><p>sensor serial number 365</p></li>
 </ul>
 <p>Then the file could be named:</p>
 <ul class="simple">
-<li>MFS06365.TXT</li>
-<li>Or could have any leading text such as: cal_MFS06365.TXT</li>
+<li><p>MFS06365.TXT</p></li>
+<li><p>Or could have any leading text such as: cal_MFS06365.TXT</p></li>
 </ul>
 </div>
 <div class="section" id="example">
@@ -379,8 +379,8 @@ Metronix files should be named according to the following specification:</p>
 <p class="caption"><span class="caption-text">Viewing the chopper off calibration data, extended and original</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Remember that extension happens in the original units of the calibration data. For Metronix data files, this is in V/(nT*Hz). Then the data is converted to mV/nT. The fact that the original data is a frequency density gives the slopes in the magnitude extension.</p>
+<p class="admonition-title">Note</p>
+<p>Remember that extension happens in the original units of the calibration data. For Metronix data files, this is in V/(nT*Hz). Then the data is converted to mV/nT. The fact that the original data is a frequency density gives the slopes in the magnitude extension.</p>
 </div>
 <p>The chopper on data in the Metronix calibration file can be read by specifying <code class="code python docutils literal notranslate"><span class="name"><span class="pre">chopper</span></span><span class="operator"><span class="pre">=</span></span><span class="name builtin pseudo"><span class="pre">True</span></span></code> to <a class="reference internal" href="../../api/resistics.calibrate.io.html#resistics.calibrate.io.CalibrationIO" title="resistics.calibrate.io.CalibrationIO"><code class="xref py py-class docutils literal notranslate"><span class="pre">CalibrationIO</span></code></a> as shown below.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>32
@@ -503,8 +503,8 @@ CALIBRATION DATA
 </td></tr></table></div>
 <p>The internal ascii calibration format writes out values in the following units:</p>
 <ul class="simple">
-<li>Magnitude in mV/nT (without static gain applied)</li>
-<li>Phase in radians</li>
+<li><p>Magnitude in mV/nT (without static gain applied)</p></li>
+<li><p>Phase in radians</p></li>
 </ul>
 <p>The magnitude is written out without static gain applied, though the static gain value is written out in the internally formatted calibration file. When this file is read in again, the static gain will be applied once more.</p>
 <p>Chopper is True as the calibration data written out was for chopper on. There is no sensor information as Metronix calibration files do not include information about the sensor.</p>
@@ -868,7 +868,7 @@ Chopper Off
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

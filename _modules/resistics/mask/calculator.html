@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.mask.calculator &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.mask.calculator &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 
@@ -272,23 +272,26 @@
                         <span class="c1"># now loop over evaluation frequencies</span>
                         <span class="k">for</span> <span class="n">eIdx</span><span class="p">,</span> <span class="n">eFreq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evalFreqs</span><span class="p">[</span><span class="n">iDec</span><span class="p">]):</span>
                             <span class="n">constraintCheck</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="n">constraintCheckInsideOut</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="n">insideOutFlag</span> <span class="o">=</span> <span class="kc">False</span>
                             <span class="n">freqVal</span> <span class="o">=</span> <span class="n">winVals</span><span class="p">[</span><span class="n">eIdx</span><span class="p">]</span>
                             <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">]:</span>
                                 <span class="n">index</span> <span class="o">=</span> <span class="n">winStats</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">component</span><span class="p">)</span>
                                 <span class="n">componentVal</span> <span class="o">=</span> <span class="n">freqVal</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-                                <span class="n">test</span> <span class="o">=</span> <span class="p">(</span>
-                                    <span class="n">componentVal</span>
-                                    <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">][</span>
-                                        <span class="mi">0</span>
-                                    <span class="p">]</span>
-                                    <span class="ow">and</span> <span class="n">componentVal</span>
-                                    <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">][</span>
-                                        <span class="mi">1</span>
-                                    <span class="p">]</span>
-                                <span class="p">)</span>
+                                <span class="n">lowerLimit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                                <span class="n">upperLimit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                                <span class="n">test</span> <span class="o">=</span> <span class="p">(</span><span class="n">componentVal</span> <span class="o">&gt;</span> <span class="n">lowerLimit</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">componentVal</span> <span class="o">&lt;</span> <span class="n">upperLimit</span><span class="p">)</span> 
+
                                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">insideOut</span><span class="p">[</span><span class="n">eFreq</span><span class="p">][</span><span class="n">stat</span><span class="p">][</span><span class="n">component</span><span class="p">]:</span>
                                     <span class="n">test</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">test</span>
-                                <span class="n">constraintCheck</span> <span class="o">=</span> <span class="n">constraintCheck</span> <span class="ow">and</span> <span class="n">test</span>
+                                    <span class="n">constraintCheckInsideOut</span> <span class="o">=</span> <span class="n">constraintCheckInsideOut</span> <span class="ow">or</span> <span class="n">test</span>
+                                    <span class="n">insideOutFlag</span> <span class="o">=</span> <span class="kc">True</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">constraintCheck</span> <span class="o">=</span> <span class="n">constraintCheck</span> <span class="ow">and</span> <span class="n">test</span>
+        
+                            <span class="k">if</span> <span class="n">insideOutFlag</span><span class="p">:</span>
+                                <span class="n">constraintCheck</span> <span class="o">=</span> <span class="n">constraintCheck</span> <span class="ow">and</span> <span class="n">constraintCheckInsideOut</span>
+                            
                             <span class="k">if</span> <span class="ow">not</span> <span class="n">constraintCheck</span><span class="p">:</span>
                                 <span class="c1"># if the stat fails, add it - this is a list of windows to exclude</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">maskData</span><span class="o">.</span><span class="n">maskWindows</span><span class="p">[</span><span class="n">eFreq</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
@@ -343,7 +346,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

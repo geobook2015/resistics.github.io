@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Internal binary format &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>Internal binary format &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Interpolation to second" href="interpolation-to-second.html" />
@@ -190,14 +190,14 @@
 <h1>Internal binary format<a class="headerlink" href="#internal-binary-format" title="Permalink to this headline">¶</a></h1>
 <p>A fair question to ask is why introduce another data format rather than use a pre-existing data format. The downsides of writing out in a pre-existing data format were the following:</p>
 <ul class="simple">
-<li>Incorrect implementation</li>
-<li>No control of specification</li>
-<li>Makes the data no more portable</li>
+<li><p>Incorrect implementation</p></li>
+<li><p>No control of specification</p></li>
+<li><p>Makes the data no more portable</p></li>
 </ul>
 <p>The internal format was chosen to achieve two main goals:</p>
 <ul class="simple">
-<li>A binary format that allows easy portability</li>
-<li>Headers written out in ascii that can be quickly checked</li>
+<li><p>A binary format that allows easy portability</p></li>
+<li><p>Headers written out in ascii that can be quickly checked</p></li>
 </ul>
 <p>Therefore, numpy save was chosen as the method of writing the data. This means that the data is portable and can be opened by anyone with Python and the numpy package.</p>
 <p>Internal format data folders tend to look like:</p>
@@ -283,16 +283,16 @@ echopper = 0
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>In order for resistics to recognise an internal formatted data folder, the following have to be present:</p>
-<ul class="last simple">
-<li>Header files with extension .hdr (global and one for each channel)</li>
-<li>Data files with extension .dat</li>
+<ul class="simple">
+<li><p>Header files with extension .hdr (global and one for each channel)</p></li>
+<li><p>Data files with extension .dat</p></li>
 </ul>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">In most cases, internally formatted data is written out from data already in field units. If the channel header scaling_applied is True, no scaling will be applied in either <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getUnscaledSamples" title="resistics.time.reader.TimeReader.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalSamples" title="resistics.time.reader.TimeReader.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a>. However, if scaling_applied is False, then <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalSamples" title="resistics.time.reader.TimeReader.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> will scale the data using the ts_lsb header and divide electric channels by the electrode spacing in km.</p>
+<p class="admonition-title">Note</p>
+<p>In most cases, internally formatted data is written out from data already in field units. If the channel header scaling_applied is True, no scaling will be applied in either <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getUnscaledSamples" title="resistics.time.reader.TimeReader.getUnscaledSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getUnscaledSamples()</span></code></a> or <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalSamples" title="resistics.time.reader.TimeReader.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a>. However, if scaling_applied is False, then <a class="reference internal" href="../../api/resistics.time.reader.html#resistics.time.reader.TimeReader.getPhysicalSamples" title="resistics.time.reader.TimeReader.getPhysicalSamples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">getPhysicalSamples()</span></code></a> will scale the data using the ts_lsb header and divide electric channels by the electrode spacing in km.</p>
 </div>
 <p>Internally formatted binary data is usually written out with comments in a separate file. An example comments file for internally formatted data is given below.</p>
 <div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -712,7 +712,7 @@ Time series dataset written to E:\magnetotellurics\code\resisticsdata\formats\ti
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

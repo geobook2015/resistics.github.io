@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.time.reader_lemib423 module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.time.reader_lemib423 module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.time.reader_lemib423e module" href="resistics.time.reader_lemib423e.html" />
@@ -211,26 +211,24 @@
 <span id="resistics-time-reader-lemib423-module"></span><h1>resistics.time.reader_lemib423 module<a class="headerlink" href="#module-resistics.time.reader_lemib423" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423">
-<em class="property">class </em><code class="descclassname">resistics.time.reader_lemib423.</code><code class="descname">TimeReaderLemiB423</code><span class="sig-paren">(</span><em>dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.time.reader_lemib423.</code><code class="sig-name descname">TimeReaderLemiB423</code><span class="sig-paren">(</span><em class="sig-param">dataPath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.time.reader_internal.html#resistics.time.reader_internal.TimeReaderInternal" title="resistics.time.reader_internal.TimeReaderInternal"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.time.reader_internal.TimeReaderInternal</span></code></a></p>
 <p>Data reader for Lemi B423 data</p>
 <p>Lemi B423 data has the following characteristics:</p>
 <ul class="simple">
-<li>1024 bytes of ASCII headers in the data file with basic scaling information</li>
-<li>There is no separate header file for Lemi B423 data. No information for number of samples, sampling rate etc</li>
-<li>Header files need to be constructed before Lemi B423 data can be read in by resistics. There are helper methods to do this</li>
-<li>Lemi B423 raw measurement data is signed long integer format</li>
-<li>Getting unscaled samples returns data with unit count for both the electric and magnetic fields.</li>
-<li>Scalings specified in B423 files convert electric channels to uV (microvolt) and magnetic channels to millivolts with internal gain still applied</li>
-<li>Getting physical samples converts the electric channels to mV/km by dividing the uV by 1000 and then dividing by the dipole length in km</li>
-<li>For the magnetic channels, the gain is removed to give the magnetic measurements in mV. Calibrating these will give measurements in nT</li>
+<li><p>1024 bytes of ASCII headers in the data file with basic scaling information</p></li>
+<li><p>There is no separate header file for Lemi B423 data. No information for number of samples, sampling rate etc</p></li>
+<li><p>Header files need to be constructed before Lemi B423 data can be read in by resistics. There are helper methods to do this</p></li>
+<li><p>Lemi B423 raw measurement data is signed long integer format</p></li>
+<li><p>Getting unscaled samples returns data with unit count for both the electric and magnetic fields.</p></li>
+<li><p>Scalings specified in B423 files convert electric channels to uV (microvolt) and magnetic channels to millivolts with internal gain still applied</p></li>
+<li><p>Getting physical samples converts the electric channels to mV/km by dividing the uV by 1000 and then dividing by the dipole length in km</p></li>
+<li><p>For the magnetic channels, the gain is removed to give the magnetic measurements in mV. Calibrating these will give measurements in nT</p></li>
 </ul>
 <p>In situations where a Lemi B423 dataset is recorded in multiple files, it is required that the recording is continuous.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl>
 <dt><strong>dtype</strong><span class="classifier"><a href="#id1"><span class="problematic" id="id2">np.int_</span></a></span></dt><dd><p>The data type, a long integer</p>
 </dd>
 <dt><strong>recordByteSize</strong><span class="classifier">int</span></dt><dd><p>The size of a record in bytes</p>
@@ -240,90 +238,82 @@
 <dt><strong>numDataFiles</strong><span class="classifier">int</span></dt><dd><p>The number of data files</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="37%" />
-<col width="63%" />
+<col style="width: 37%" />
+<col style="width: 63%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>setParameters()</strong></td>
-<td>Set parameters specific to a data format</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>setParameters()</strong></p></td>
+<td><p>Set parameters specific to a data format</p></td>
 </tr>
-<tr class="row-even"><td><strong>getUnscaledSamples(**kwargs)</strong></td>
-<td>Get raw, unscaled data</td>
+<tr class="row-even"><td><p><strong>getUnscaledSamples(**kwargs)</strong></p></td>
+<td><p>Get raw, unscaled data</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getDataFilesForSamples(startSample, endSample)</strong></td>
-<td>Get the data files that contribute to the request data</td>
+<tr class="row-odd"><td><p><strong>getDataFilesForSamples(startSample, endSample)</strong></p></td>
+<td><p>Get the data files that contribute to the request data</p></td>
 </tr>
-<tr class="row-even"><td><strong>readRecords(bts, numRecords)</strong></td>
-<td>Read the data records from a provided bytes object</td>
+<tr class="row-even"><td><p><strong>readRecords(bts, numRecords)</strong></p></td>
+<td><p>Read the data records from a provided bytes object</p></td>
 </tr>
-<tr class="row-odd"><td><strong>getPhysicalSamples(**kwargs)</strong></td>
-<td>Get data in physical units</td>
+<tr class="row-odd"><td><p><strong>getPhysicalSamples(**kwargs)</strong></p></td>
+<td><p>Get data in physical units</p></td>
 </tr>
-<tr class="row-even"><td><strong>def readHeader()</strong></td>
-<td>Read the B423 measurement file headers</td>
+<tr class="row-even"><td><p><strong>def readHeader()</strong></p></td>
+<td><p>Read the B423 measurement file headers</p></td>
 </tr>
-<tr class="row-odd"><td><strong>readMeasParams(sampleFreq)</strong></td>
-<td>Calculate out the a B423 parameters including start and end date and number of samples</td>
+<tr class="row-odd"><td><p><strong>readMeasParams(sampleFreq)</strong></p></td>
+<td><p>Calculate out the a B423 parameters including start and end date and number of samples</p></td>
 </tr>
-<tr class="row-even"><td><strong>getScalars(paramsDict)</strong></td>
-<td>Get the scalars for each channel as given in the data files</td>
+<tr class="row-even"><td><p><strong>getScalars(paramsDict)</strong></p></td>
+<td><p>Get the scalars for each channel as given in the data files</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printDataFileList()</strong></td>
-<td>Get data file information as a list of strings</td>
+<tr class="row-odd"><td><p><strong>printDataFileList()</strong></p></td>
+<td><p>Get data file information as a list of strings</p></td>
 </tr>
-<tr class="row-even"><td><strong>printDataFiles()</strong></td>
-<td>Print data file information to terminal</td>
+<tr class="row-even"><td><p><strong>printDataFiles()</strong></p></td>
+<td><p>Print data file information to terminal</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.getDataFilesForSamples">
-<code class="descname">getDataFilesForSamples</code><span class="sig-paren">(</span><em>self</em>, <em>startSample: int</em>, <em>endSample: int</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[List[int]], List[float]]<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.getDataFilesForSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.getDataFilesForSamples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getDataFilesForSamples</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">startSample: int</em>, <em class="sig-param">endSample: int</em><span class="sig-paren">)</span> &#x2192; Tuple[List[str], List[List[int]], List[float]]<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.getDataFilesForSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.getDataFilesForSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the data files that have to be read to cover the sample range</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>startSample</strong><span class="classifier">int</span></dt><dd><p>Starting sample of the sample range</p>
 </dd>
 <dt><strong>endSamples</strong><span class="classifier">int</span></dt><dd><p>Ending sample of the sample range</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>dataFilesToRead</dt><dd><p>Time data object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples">
-<code class="descname">getPhysicalSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getPhysicalSamples</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.getPhysicalSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.getPhysicalSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data scaled to physical values</p>
 <p>resistics uses field units, meaning physical samples will return the following:</p>
 <ul class="simple">
-<li>Electrical channels in mV/km</li>
-<li>Magnetic channels in mV</li>
-<li>To get magnetic fields in nT, calibration needs to be performed</li>
+<li><p>Electrical channels in mV/km</p></li>
+<li><p>Magnetic channels in mV</p></li>
+<li><p>To get magnetic fields in nT, calibration needs to be performed</p></li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>chans</strong><span class="classifier">List[str]</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
 <dt><strong>startSample</strong><span class="classifier">int</span></dt><dd><p>First sample to return</p>
@@ -337,69 +327,61 @@
 <dt><strong>remnans: bool</strong></dt><dd><p>Remove NanNs from the data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>Once Lemi B423 data is scaled (which optionally happens in getUnscaledSamples), the magnetic channels is in mV with gain applied and the electric channels is uV (microvolts). Therefore:</p>
 <ul class="simple">
-<li>Electric channels need to divided by 1000 along with dipole length division in km (east-west spacing and north-south spacing) to return mV/km.</li>
-<li>Magnetic channels need to be divided by the internal gain value which should be set in the headers</li>
+<li><p>Electric channels need to divided by 1000 along with dipole length division in km (east-west spacing and north-south spacing) to return mV/km.</p></li>
+<li><p>Magnetic channels need to be divided by the internal gain value which should be set in the headers</p></li>
 </ul>
 <p>To get magnetic fields in nT, they have to be calibrated.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.getScalars">
-<code class="descname">getScalars</code><span class="sig-paren">(</span><em>self</em>, <em>paramsDict: Dict</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.getScalars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.getScalars" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getScalars</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">paramsDict: Dict</em><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.getScalars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.getScalars" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the scalars from a parameter dictionary</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>paramsDict</strong><span class="classifier">Dict</span></dt><dd><p>The parameter dictionary for a data file usually read from the headers in the file</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>Dict</dt><dd><p>Dictionary with channels as keys and scalings as values</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples">
-<code class="descname">getUnscaledSamples</code><span class="sig-paren">(</span><em>self</em>, <em>**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getUnscaledSamples</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; resistics.time.data.TimeData<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.getUnscaledSamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.getUnscaledSamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw data from data file, returned in mV</p>
 <p>Lemi B423 data always has five channels, in order Hx, Hy, Hz, Ex, Ey. The raw data is integer counts. Therefore, getting unscaled samples returns raw counts for the measurement. There are additional scalings which can be applied using the scale optional argument. Lemi B423 is recorded in multiple files. It has not been verified whether it is possible for each individual file to have different scaling.</p>
 <p>Without the scale option, the data is returned in:</p>
 <ul class="simple">
-<li>Counts for both magnetic and electric channels (reading long integers)</li>
+<li><p>Counts for both magnetic and electric channels (reading long integers)</p></li>
 </ul>
 <p>With the scaling option, the data is returned in:</p>
 <ul class="simple">
-<li>microvolts for the electric channels</li>
-<li>millivolts for the magnetic with the gain applied</li>
+<li><p>microvolts for the electric channels</p></li>
+<li><p>millivolts for the magnetic with the gain applied</p></li>
 </ul>
 <p>Applying the scaling does not appear to remove the internal gain of the Lemi. This will be removed when getting physical samples and the appropriate value must be set in the headers.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>chans</strong><span class="classifier">List[str], optional</span></dt><dd><p>List of channels to return if not all are required</p>
 </dd>
 <dt><strong>startSample</strong><span class="classifier">int, optional</span></dt><dd><p>First sample to return</p>
@@ -409,95 +391,81 @@
 <dt><strong>scale</strong><span class="classifier">bool, optional</span></dt><dd><p>Boolean flag for applying the gain scaling</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>TimeData</dt><dd><p>Time data object</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.printDataFileInfo">
-<code class="descname">printDataFileInfo</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.printDataFileInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.printDataFileInfo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printDataFileInfo</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.printDataFileInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.printDataFileInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print a list of the data files</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.printDataFileList">
-<code class="descname">printDataFileList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.printDataFileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.printDataFileList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printDataFileList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.printDataFileList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.printDataFileList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Information about the data files as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>List[str]</dt><dd><p>List of information about the data files</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.readHeader">
-<code class="descname">readHeader</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.readHeader" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">readHeader</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.readHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.readHeader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the B423 measurement file headers</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.readMeasParams">
-<code class="descname">readMeasParams</code><span class="sig-paren">(</span><em>self</em>, <em>sampleFreq: float = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.readMeasParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.readMeasParams" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">readMeasParams</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">sampleFreq: float = None</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.readMeasParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.readMeasParams" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the recording parameters for each of the subfiles</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency in Hz</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.readRecords">
-<code class="descname">readRecords</code><span class="sig-paren">(</span><em>self</em>, <em>bts: bytes</em>, <em>numRecords: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.readRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.readRecords" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">readRecords</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">bts: bytes</em>, <em class="sig-param">numRecords: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.readRecords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.readRecords" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a number of B423 records from bytes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>bts</strong><span class="classifier">bytes</span></dt><dd><p>The bytes to be read</p>
 </dd>
 <dt><strong>numRecords</strong><span class="classifier">int</span></dt><dd><p>The number of records to read. Size of bytes should be numRecords * recordByteSize</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>Array holding the data. The data repeats in channel blocks e.g. [Hx, Hy, Hx, Ex, Ey][Hx, Hy, Hx, Ex, Ey]</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.time.reader_lemib423.TimeReaderLemiB423.setParameters">
-<code class="descname">setParameters</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.setParameters" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setParameters</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#TimeReaderLemiB423.setParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.TimeReaderLemiB423.setParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set some data reader parameters for reading Lemi B423 data</p>
 </dd></dl>
 
@@ -505,13 +473,11 @@
 
 <dl class="function">
 <dt id="resistics.time.reader_lemib423.folderB423Headers">
-<code class="descclassname">resistics.time.reader_lemib423.</code><code class="descname">folderB423Headers</code><span class="sig-paren">(</span><em>folderpath: str</em>, <em>sampleFreq: float</em>, <em>hxSensor: int = 0</em>, <em>hySensor: int = 0</em>, <em>hzSensor: int = 0</em>, <em>hGain: int = 1</em>, <em>dx: float = 1</em>, <em>dy: float = 1</em>, <em>folders: List = []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#folderB423Headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.folderB423Headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.time.reader_lemib423.</code><code class="sig-name descname">folderB423Headers</code><span class="sig-paren">(</span><em class="sig-param">folderpath: str</em>, <em class="sig-param">sampleFreq: float</em>, <em class="sig-param">hxSensor: int = 0</em>, <em class="sig-param">hySensor: int = 0</em>, <em class="sig-param">hzSensor: int = 0</em>, <em class="sig-param">hGain: int = 1</em>, <em class="sig-param">dx: float = 1</em>, <em class="sig-param">dy: float = 1</em>, <em class="sig-param">folders: List = []</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#folderB423Headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.folderB423Headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct B423 headers for subfolders of a folder</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>folderpath</strong><span class="classifier">str</span></dt><dd><p>The path to the folder</p>
 </dd>
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency of the data</p>
@@ -531,21 +497,17 @@
 <dt><strong>folder</strong><span class="classifier">List, optional</span></dt><dd><p>An optional list of subfolders</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.time.reader_lemib423.measB423Headers">
-<code class="descclassname">resistics.time.reader_lemib423.</code><code class="descname">measB423Headers</code><span class="sig-paren">(</span><em>datapath: str</em>, <em>sampleFreq: float</em>, <em>hxSensor: int = 0</em>, <em>hySensor: int = 0</em>, <em>hzSensor: int = 0</em>, <em>hGain: int = 1</em>, <em>dx: float = 1</em>, <em>dy: float = 1</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#measB423Headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.measB423Headers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.time.reader_lemib423.</code><code class="sig-name descname">measB423Headers</code><span class="sig-paren">(</span><em class="sig-param">datapath: str</em>, <em class="sig-param">sampleFreq: float</em>, <em class="sig-param">hxSensor: int = 0</em>, <em class="sig-param">hySensor: int = 0</em>, <em class="sig-param">hzSensor: int = 0</em>, <em class="sig-param">hGain: int = 1</em>, <em class="sig-param">dx: float = 1</em>, <em class="sig-param">dy: float = 1</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#measB423Headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.measB423Headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a single B423 measurement directory and construct headers</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>datapath</strong><span class="classifier">str</span></dt><dd><p>The path to the measurement</p>
 </dd>
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency of the data</p>
@@ -563,45 +525,37 @@
 <dt><strong>dy</strong><span class="classifier">float, optional</span></dt><dd><p>Distance between y electrodes</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.time.reader_lemib423.readB423Header">
-<code class="descclassname">resistics.time.reader_lemib423.</code><code class="descname">readB423Header</code><span class="sig-paren">(</span><em>hdrStr: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#readB423Header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.readB423Header" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.time.reader_lemib423.</code><code class="sig-name descname">readB423Header</code><span class="sig-paren">(</span><em class="sig-param">hdrStr: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#readB423Header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.readB423Header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read B423 header for a single Lemi B423 file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>hdrStr</strong><span class="classifier">str</span></dt><dd><p>The headers as a string</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt>dict</dt><dd><p>A dictionary of header values</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="resistics.time.reader_lemib423.readB423Params">
-<code class="descclassname">resistics.time.reader_lemib423.</code><code class="descname">readB423Params</code><span class="sig-paren">(</span><em>dataFile: str</em>, <em>sampleFreq: float</em>, <em>dataByteOffset: int</em>, <em>recordByteSize: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#readB423Params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.readB423Params" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">resistics.time.reader_lemib423.</code><code class="sig-name descname">readB423Params</code><span class="sig-paren">(</span><em class="sig-param">dataFile: str</em>, <em class="sig-param">sampleFreq: float</em>, <em class="sig-param">dataByteOffset: int</em>, <em class="sig-param">recordByteSize: int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/time/reader_lemib423.html#readB423Params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.time.reader_lemib423.readB423Params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the parameters of the B423 data file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>dataFile</strong><span class="classifier">str</span></dt><dd><p>The data file as a string</p>
 </dd>
 <dt><strong>sampleFreq</strong><span class="classifier">float</span></dt><dd><p>The sampling frequency in Hz</p>
@@ -611,9 +565,9 @@
 <dt><strong>recordByteSize</strong><span class="classifier">int</span></dt><dd><p>The size in bytes of a record</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>headers</strong><span class="classifier">dict</span></dt><dd><p>The header values as a dictionary</p>
 </dd>
 <dt><strong>firstDatetime</strong><span class="classifier">datetime</span></dt><dd><p>The time of the first sample in the data file</p>
@@ -623,10 +577,8 @@
 <dt><strong>numSamples</strong><span class="classifier">int</span></dt><dd><p>The number of samples in the data file given the sampling frequency</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -673,7 +625,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

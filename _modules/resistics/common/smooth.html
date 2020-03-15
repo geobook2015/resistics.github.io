@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.common.smooth &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.common.smooth &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 
@@ -173,7 +173,7 @@
 <span class="kn">from</span> <span class="nn">resistics.common.math</span> <span class="k">import</span> <span class="n">intdiv</span>
 
 
-<div class="viewcode-block" id="smooth1d"><a class="viewcode-back" href="../../../api/resistics.common.smooth.html#resistics.common.smooth.smooth1d">[docs]</a><span class="k">def</span> <span class="nf">smooth1d</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">winLen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hanning&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="smooth1d"><a class="viewcode-back" href="../../../api/resistics.common.smooth.html#resistics.common.smooth.smooth1d">[docs]</a><span class="k">def</span> <span class="nf">smooth1d</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">winLen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hann&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Smooth in 1 dimension</span>
 
 <span class="sd">    Parameters</span>
@@ -183,7 +183,7 @@
 <span class="sd">    winLen : int</span>
 <span class="sd">        The number of samples to smooth across</span>
 <span class="sd">    window : str</span>
-<span class="sd">        The window function</span>
+<span class="sd">        The window function. Default is &quot;hann&quot;.</span>
 <span class="sd">	</span>
 <span class="sd">    Notes</span>
 <span class="sd">    ----- </span>
@@ -215,7 +215,7 @@
     <span class="k">return</span> <span class="n">y</span><span class="p">[</span><span class="n">off</span> <span class="p">:</span> <span class="n">off</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="smooth2d"><a class="viewcode-back" href="../../../api/resistics.common.smooth.html#resistics.common.smooth.smooth2d">[docs]</a><span class="k">def</span> <span class="nf">smooth2d</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">winLen</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">window</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hanning&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="smooth2d"><a class="viewcode-back" href="../../../api/resistics.common.smooth.html#resistics.common.smooth.smooth2d">[docs]</a><span class="k">def</span> <span class="nf">smooth2d</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">winLen</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">window</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hann&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Smooth in 2-D</span>
 
 <span class="sd">    This smooths in a window and across windows too</span>
@@ -227,10 +227,13 @@
 <span class="sd">    winLen : List[int]</span>
 <span class="sd">        A two element list with winLen[0] being smoothing across windows and winLen[1] the smoothing within a window</span>
 <span class="sd">    window : str</span>
-<span class="sd">        The window function to use</span>
+<span class="sd">        The window function to use. Default is hann.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">hanning</span><span class="p">(</span><span class="n">winLen</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">8</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="n">winLen</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">w1</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">&quot;signal.&quot;</span> <span class="o">+</span> <span class="n">window</span> <span class="o">+</span> <span class="s2">&quot;(winLen[0])&quot;</span><span class="p">)</span>
+    <span class="n">w2</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s2">&quot;signal.&quot;</span> <span class="o">+</span> <span class="n">window</span> <span class="o">+</span> <span class="s2">&quot;(winLen[1])&quot;</span><span class="p">)</span>
+    <span class="c1"># calculate the 2d smoothing kernel</span>
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">)</span>
     <span class="c1"># pad to help the boundaries</span>
     <span class="n">padded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">((</span><span class="n">winLen</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">winLen</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">winLen</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">winLen</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">)</span>
     <span class="c1"># 2d smoothing</span>
@@ -272,7 +275,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

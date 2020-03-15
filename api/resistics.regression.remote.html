@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>resistics.regression.remote module &mdash; resistics 0.0.6rc1 documentation</title>
+  <title>resistics.regression.remote module &mdash; resistics 0.0.6 documentation</title>
   
 
   
@@ -29,7 +29,7 @@
   
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="resistics.regression.robust module" href="resistics.regression.robust.html" />
@@ -198,15 +198,13 @@
 <span id="resistics-regression-remote-module"></span><h1>resistics.regression.remote module<a class="headerlink" href="#module-resistics.regression.remote" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="resistics.regression.remote.RemoteRegressor">
-<em class="property">class </em><code class="descclassname">resistics.regression.remote.</code><code class="descname">RemoteRegressor</code><span class="sig-paren">(</span><em>winSelector</em>, <em>outpath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">resistics.regression.remote.</code><code class="sig-name descname">RemoteRegressor</code><span class="sig-paren">(</span><em class="sig-param">winSelector</em>, <em class="sig-param">outpath: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="resistics.regression.local.html#resistics.regression.local.LocalRegressor" title="resistics.regression.local.LocalRegressor"><code class="xref py py-class docutils literal notranslate"><span class="pre">resistics.regression.local.LocalRegressor</span></code></a></p>
 <p>Perform remote reference processing of magnetotelluric data</p>
 <p>Remote reference processing uses a different equation for spectral power than the single site processor. The equation that the processor uses is:</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>winSelector</strong><span class="classifier">WindowSelector</span></dt><dd><p>A window selector object which defines which windows to use in the linear model</p>
 </dd>
 <dt><strong>decParams</strong><span class="classifier">DecimationParameters</span></dt><dd><p>DecimationParameters object with information about the decimation scheme</p>
@@ -248,74 +246,66 @@
 <dt><strong>impedances</strong><span class="classifier">List</span></dt><dd></dd>
 <dt><strong>variances</strong><span class="classifier">List</span></dt><dd></dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="docutils align-default">
+<table class="docutils align-default">
 <colgroup>
-<col width="36%" />
-<col width="64%" />
+<col style="width: 36%" />
+<col style="width: 64%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><strong>__init__(winSelector, outpath)</strong></td>
-<td>Initialise the remote reference processor</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>__init__(winSelector, outpath)</strong></p></td>
+<td><p>Initialise the remote reference processor</p></td>
 </tr>
-<tr class="row-even"><td><strong>setRemote(remoteSite, remoteChannels)</strong></td>
-<td>Set the remote site and channels</td>
+<tr class="row-even"><td><p><strong>setRemote(remoteSite, remoteChannels)</strong></p></td>
+<td><p>Set the remote site and channels</p></td>
 </tr>
-<tr class="row-odd"><td><strong>process()</strong></td>
-<td>Perform the remote reference processing</td>
+<tr class="row-odd"><td><p><strong>process()</strong></p></td>
+<td><p>Perform the remote reference processing</p></td>
 </tr>
-<tr class="row-even"><td><strong>checkRemote()</strong></td>
-<td>Ensure remote reference site and channels are properly defined</td>
+<tr class="row-even"><td><p><strong>checkRemote()</strong></p></td>
+<td><p>Ensure remote reference site and channels are properly defined</p></td>
 </tr>
-<tr class="row-odd"><td><strong>prepareLinearEqn(data)</strong></td>
-<td>Prepare regressors and observations for regression from cross-power data</td>
+<tr class="row-odd"><td><p><strong>prepareLinearEqn(data)</strong></p></td>
+<td><p>Prepare regressors and observations for regression from cross-power data</p></td>
 </tr>
-<tr class="row-even"><td><strong>robustProcess(numWindows, obs, reg)</strong></td>
-<td>Robust regression processing</td>
+<tr class="row-even"><td><p><strong>robustProcess(numWindows, obs, reg)</strong></p></td>
+<td><p>Robust regression processing</p></td>
 </tr>
-<tr class="row-odd"><td><strong>olsProcess(numWindows, obs, reg)</strong></td>
-<td>Ordinary least squares processing</td>
+<tr class="row-odd"><td><p><strong>olsProcess(numWindows, obs, reg)</strong></p></td>
+<td><p>Ordinary least squares processing</p></td>
 </tr>
-<tr class="row-even"><td><strong>stackedProcess(data)</strong></td>
-<td>Stacked processing</td>
+<tr class="row-even"><td><p><strong>stackedProcess(data)</strong></p></td>
+<td><p>Stacked processing</p></td>
 </tr>
-<tr class="row-odd"><td><strong>printList()</strong></td>
-<td>Class status returned as list of strings</td>
+<tr class="row-odd"><td><p><strong>printList()</strong></p></td>
+<td><p>Class status returned as list of strings</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="resistics.regression.remote.RemoteRegressor.checkRemote">
-<code class="descname">checkRemote</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.checkRemote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.checkRemote" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">checkRemote</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.checkRemote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.checkRemote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check that the remote channels are the same as the input channels</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt>bool</dt><dd><p>Check outcome</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.remote.RemoteRegressor.olsProcess">
-<code class="descname">olsProcess</code><span class="sig-paren">(</span><em>self</em>, <em>numWindows: int</em>, <em>obs: numpy.ndarray</em>, <em>reg: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.olsProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.olsProcess" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">olsProcess</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">numWindows: int</em>, <em class="sig-param">obs: numpy.ndarray</em>, <em class="sig-param">reg: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.olsProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.olsProcess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ordinary least squares regression processing</p>
 <p>Perform ordinary least regression processing using observations and regressors for a single evaluation frequency.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>numWindows</strong><span class="classifier">int</span></dt><dd><p>The number of windows</p>
 </dd>
 <dt><strong>obs</strong><span class="classifier">np.ndarray</span></dt><dd><p>The observations</p>
@@ -323,23 +313,21 @@
 <dt><strong>reg</strong><span class="classifier">np.ndarray</span></dt><dd><p>The regressors</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>output</strong><span class="classifier">np.ndarray</span></dt><dd><p>The solution to the regression problem</p>
 </dd>
 <dt><strong>varOutput</strong><span class="classifier">np.ndarray</span></dt><dd><p>The variance</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.remote.RemoteRegressor.prepareLinearEqn">
-<code class="descname">prepareLinearEqn</code><span class="sig-paren">(</span><em>self</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.prepareLinearEqn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.prepareLinearEqn" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">prepareLinearEqn</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.prepareLinearEqn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.prepareLinearEqn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare data as a linear equation for the robust regression</p>
 <p>This prepares the data for the following type of solution,</p>
 <div class="math notranslate nohighlight">
@@ -349,9 +337,9 @@
 The shapes of the arrays are as follows:</p>
 <blockquote>
 <div><ul class="simple">
-<li>y is (number of output channels, number of observations)</li>
-<li>A is (number of output channels, number of observations, number of input channels)</li>
-<li>x is (number of output channels, number of input channels)</li>
+<li><p>y is (number of output channels, number of observations)</p></li>
+<li><p>A is (number of output channels, number of observations, number of input channels)</p></li>
+<li><p>x is (number of output channels, number of input channels)</p></li>
 </ul>
 </div></blockquote>
 <p>Consider the impedance tensor,</p>
@@ -360,17 +348,15 @@ The shapes of the arrays are as follows:</p>
 E_x &amp; = &amp; Z_{xx} H_x + Z_{xy} H_y \\
 E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y 
 \end{eqnarray}  </div><p>Here, there are two input channels, <span class="math notranslate nohighlight">\(H_x\)</span>, <span class="math notranslate nohighlight">\(H_y\)</span> and two output channels <span class="math notranslate nohighlight">\(E_x\)</span> and <span class="math notranslate nohighlight">\(E_y\)</span>. In total, there are four components of the unknown impedance tensor, <span class="math notranslate nohighlight">\(Z_{xx}\)</span>, <span class="math notranslate nohighlight">\(Z_{xy}\)</span>, <span class="math notranslate nohighlight">\(Z_{yx}\)</span>, <span class="math notranslate nohighlight">\(Z_{yy}\)</span> (number of input channels * number of output channels). The number of observations is the number of windows multiplied by the number of channels used for cross-power spectra.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>Cross-power spectral data at evaluation frequencies</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>numWindows</strong><span class="classifier">int</span></dt><dd><p>The number of windows included in the regression (after bad value removal)</p>
 </dd>
 <dt><strong>obs</strong><span class="classifier">np.ndarray</span></dt><dd><p>Observations array</p>
@@ -378,50 +364,43 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 <dt><strong>reg</strong><span class="classifier">np.ndarray</span></dt><dd><p>Regressors array</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.remote.RemoteRegressor.printList">
-<code class="descname">printList</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.printList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">printList</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.printList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class information as a list of strings</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>out</strong><span class="classifier">list</span></dt><dd><p>List of strings with information</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.remote.RemoteRegressor.process">
-<code class="descname">process</code><span class="sig-paren">(</span><em>self</em>, <em>ncores: int = 0</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.process" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">ncores: int = 0</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.process" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process spectra data</p>
 <p>The processing sequence for each decimation level is as below:</p>
 <ol class="arabic">
-<li><p class="first">Get shared (unmasked) windows for all relevant sites (inSite and outSite)</p>
-</li>
-<li><p class="first">For shared unmasked windows</p>
+<li><p>Get shared (unmasked) windows for all relevant sites (inSite and outSite)</p></li>
+<li><p>For shared unmasked windows</p>
 <blockquote>
 <div><ul class="simple">
-<li>Calculate out the cross-power spectra.</li>
-<li>Interpolate calculated cross-power data to the evaluation frequencies for the decimation level.</li>
+<li><p>Calculate out the cross-power spectra.</p></li>
+<li><p>Interpolate calculated cross-power data to the evaluation frequencies for the decimation level.</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p class="first">For each evaluation frequency</p>
+<li><p>For each evaluation frequency</p>
 <blockquote>
 <div><ul class="simple">
-<li>Do the robust processing to calculate the transfer function at that evaluation frequency.</li>
+<li><p>Do the robust processing to calculate the transfer function at that evaluation frequency.</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -431,14 +410,12 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 
 <dl class="method">
 <dt id="resistics.regression.remote.RemoteRegressor.robustProcess">
-<code class="descname">robustProcess</code><span class="sig-paren">(</span><em>self</em>, <em>numWindows: int</em>, <em>obs: numpy.ndarray</em>, <em>reg: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray]<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.robustProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.robustProcess" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">robustProcess</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">numWindows: int</em>, <em class="sig-param">obs: numpy.ndarray</em>, <em class="sig-param">reg: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; Tuple[numpy.ndarray]<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.robustProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.robustProcess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Robust regression processing</p>
 <p>Perform robust regression processing using observations and regressors for a single evaluation frequency.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>numWindows</strong><span class="classifier">int</span></dt><dd><p>The number of windows</p>
 </dd>
 <dt><strong>obs</strong><span class="classifier">np.ndarray</span></dt><dd><p>The observations</p>
@@ -446,64 +423,54 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
 <dt><strong>reg</strong><span class="classifier">np.ndarray</span></dt><dd><p>The regressors</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>output</strong><span class="classifier">np.ndarray</span></dt><dd><p>The solution to the regression problem</p>
 </dd>
 <dt><strong>varOutput</strong><span class="classifier">np.ndarray</span></dt><dd><p>The variance</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.remote.RemoteRegressor.setRemote">
-<code class="descname">setRemote</code><span class="sig-paren">(</span><em>self, remoteSite: str, remoteChannels: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.setRemote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.setRemote" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setRemote</code><span class="sig-paren">(</span><em class="sig-param">self, remoteSite: str, remoteChannels: List[str]</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.setRemote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.setRemote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set information about input site and channels</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>remoteSite</strong><span class="classifier">str</span></dt><dd><p>Site to use for input channel data</p>
 </dd>
 <dt><strong>remoteChannels</strong><span class="classifier">List[str]</span></dt><dd><p>Channels to use as the remote reference in the linear system</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="resistics.regression.remote.RemoteRegressor.stackedProcess">
-<code class="descname">stackedProcess</code><span class="sig-paren">(</span><em>self</em>, <em>data: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.stackedProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.stackedProcess" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">stackedProcess</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">data: numpy.ndarray</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/resistics/regression/remote.html#RemoteRegressor.stackedProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#resistics.regression.remote.RemoteRegressor.stackedProcess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ordinary least squares processing after stacking</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>data</strong><span class="classifier">np.ndarray</span></dt><dd><p>Cross-spectra data</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
 <dt><strong>output</strong><span class="classifier">np.ndarray</span></dt><dd><p>The solution to the regression problem</p>
 </dd>
 <dt><strong>varOutput</strong><span class="classifier">np.ndarray</span></dt><dd><p>The variance</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -552,7 +519,7 @@ E_y &amp; = &amp; Z_{yx} H_x + Z_{yy} H_y
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.0.6rc1',
+            VERSION:'0.0.6',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
